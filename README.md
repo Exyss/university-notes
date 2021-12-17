@@ -6,6 +6,8 @@ In quanto aperto sostenitore della politica __non-proprietaria__ (per più info 
 
 Questi appunti, sebben dettagliati, __non__ vogliono costituire un _dogma_ o un _manuale d'uso_ contenente le chiavi all'ottenere una laurea in breve tempo, per tanto, in caso di incorrettezze, migliorie o richieste, chiunque si senta libero di __contattarmi in privato__.
 
+NB: visto che il visualizzatore dei PDF di GitHub non è proprio ottimale, consiglio il download diretto dei documenti.
+
 ## Tabella dei Contenuti
 
 <details>

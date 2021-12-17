@@ -14,8 +14,8 @@ Questi appunti, sebben dettagliati, __non__ vogliono costituire un _dogma_ o un 
 | Corso | Status | Disponibilità |
 | ----- | :----: | :----: |
 | [Calcolo Differenziale](./Primo%20Anno/Calcolo%20Differenziale/) | In corso (10%) |  |
-| [Progettazione di Sistemi Digitali](./Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali/) | Completi (100%) | &check; |
-| [Metodi Matematici per l'Informatica](./Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica/) | In corso (50%) | &check; |
+| [Progettazione di Sistemi Digitali](./Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf/) | Completi (100%) | &check; |
+| [Metodi Matematici per l'Informatica](./Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf/) | In corso (50%) | &check; |
 | [Fondamenti di Programmazione](./Primo%20Anno/Fondamenti%20di%20Programmazione/) | Non disponibili |  |
 
 </details>

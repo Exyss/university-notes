@@ -10,20 +10,29 @@ NB: visto che il visualizzatore dei PDF di GitHub non è proprio ottimale, consi
 
 ## Tabella dei Contenuti
 
+#### Legenda
+
+- __Completi__ : Corso completo e appunti completi
+- __In sincrono__: Corso non completo ma appunti aggiornati all'ultima lezione
+- __In corso__: Corso non completo e appunti non aggiornati all'ultima lezione
+- __Non pertinenti__: Appunti per il corso difficili da scrivere (spesso non necessari)
+- __Non disponibili__: Appunti non ancora creati
+
 <details>
 <summary>Primo Anno - Primo Semestre - A.A. 2021-22</summary>
 
-| Corso | Status | Disponibilità |
-| ----- | :----: | :----: |
-| [Calcolo Differenziale](./Primo%20Anno/Calcolo%20Differenziale/) | In corso (10%) |  |
-| [Progettazione di Sistemi Digitali](./Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf/) | Completi (100%) | &check; |
-| [Metodi Matematici per l'Informatica](./Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf/) | In corso (50%) | &check; |
-| [Fondamenti di Programmazione](./Primo%20Anno/Fondamenti%20di%20Programmazione/) | Non disponibili |  |
+| Corso | Status | Aggiornati al | Disponibilità |
+| ----- | ------ | :-----------: | :-------------: |
+| [Calcolo Differenziale](./Primo%20Anno/Calcolo%20Differenziale/) | In corso (cartacei) | xx/xx/xxxx |  |
+| [Progettazione di Sistemi Digitali](./Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf/) | Completi | 17/12/2021 |  &check; |
+| [Metodi Matematici per l'Informatica](./Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf/) | In sincrono | 22/12/2021 | &check; |
+| [Fondamenti di Programmazione](./Primo%20Anno/Fondamenti%20di%20Programmazione/) | Non pertinenti | xx/xx/xxxx | | 
 
 </details>
 
 <details>
 <summary>Primo Anno - Secondo Semestre - A.A. 2021-22</summary>
+Ancora niente qui!
 </details>
 
 ## Licenza d'uso

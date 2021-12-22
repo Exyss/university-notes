@@ -2,7 +2,7 @@
 
 Appunti personali raccolti durante il mio percorso di laurea in Informatica all'Università "Sapienza" di Roma (anni accademici 2021-24).
 
-In quanto aperto sostenitore della politica __non-proprietaria__ (per più info guardare [qui](https://en.wikipedia.org/wiki/Copyleft) e della __diffusione aperta__ della conoscienza in ogni sua forma, gli appunti sono disponibili pubblicamente ed utilizzabili da chiunque. La __ridistribuzione__ è autorizzata, tuttavia gradirei se avvenisse tramite reindirizzamento a questo link, in modo da poterne ricevere il credito in quanto autore (anche solo una citazione andrebbe bene :) ).
+In quanto aperto sostenitore della politica __non-proprietaria__ (per più info guardare [qui](https://en.wikipedia.org/wiki/Copyleft)) e della __diffusione aperta__ della conoscienza in ogni sua forma, gli appunti sono disponibili pubblicamente ed utilizzabili da chiunque. La __ridistribuzione__ è autorizzata, tuttavia gradirei se avvenisse tramite reindirizzamento a questo link, in modo da poterne ricevere il credito in quanto autore (anche solo una citazione andrebbe bene :) ).
 
 Questi appunti, sebben dettagliati, __non__ vogliono costituire un _dogma_ o un _manuale d'uso_ contenente le chiavi all'ottenere una laurea in breve tempo, per tanto, in caso di incorrettezze, migliorie o richieste, chiunque si senta libero di __contattarmi in privato__.
 

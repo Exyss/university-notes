@@ -30,7 +30,7 @@ NB: visto che il visualizzatore dei PDF di GitHub non è proprio ottimale, consi
 | [Calcolo Differenziale](./Primo%20Anno/Calcolo%20Differenziale.pdf) | Definizioni + Teoremi | 23/01/2022 | &check; |
 | [Progettazione di Sistemi Digitali](./Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 17/12/2021 |  &check; |
 | [Metodi Matematici per l'Informatica](./Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi + Esercizi | 25/12/2021 | &check; |
-| Fondamenti di Programmazione | Non pertinenti | xx/xx/xxxx | | 
+| Fondamenti di Programmazione | Non pertinenti | --/--/---- | | 
 
 </details>
 

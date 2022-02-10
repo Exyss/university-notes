@@ -4,13 +4,20 @@
 
 Appunti personali raccolti durante il mio percorso di laurea in Informatica all'Università "Sapienza" di Roma (anni accademici 2021-24).
 
-In quanto aperto sostenitore della politica __non-proprietaria__ (per più info guardare [qui](https://en.wikipedia.org/wiki/Copyleft)) e della __diffusione aperta__ della conoscienza in ogni sua forma, gli appunti sono disponibili pubblicamente ed utilizzabili da chiunque. La __ridistribuzione__ è autorizzata, tuttavia gradirei se avvenisse tramite reindirizzamento a questo link, in modo da poterne ricevere il credito in quanto autore (anche solo una citazione andrebbe bene :) ).
+In quanto aperto sostenitore della politica __non-proprietaria__ (per più info guardare [qui](https://en.wikipedia.org/wiki/Copyleft)) e della __diffusione aperta__ della conoscienza in ogni sua forma, gli appunti sono disponibili pubblicamente ed utilizzabili da chiunque. La __ridistribuzione__ è autorizzata, tuttavia gradirei se avvenisse tramite reindirizzamento a questo link, in modo da poterne ricevere il credito in quanto autore (anche solo una breve citazione va bene).
+
+***NB: visto che il visualizzatore dei PDF di GitHub non è proprio ottimale, consiglio il download diretto dei documenti.***
+
+#### Disclaimer
 
 Questi appunti, sebben dettagliati, __non__ vogliono costituire un _dogma_ o un _manuale d'uso_ contenente le chiavi all'ottenere una laurea in breve tempo, per tanto, in caso di incorrettezze, migliorie o richieste, chiunque si senta libero di [__contattarmi in privato__](https://t.me/Exyss).
 
-NB: visto che il visualizzatore dei PDF di GitHub non è proprio ottimale, consiglio il download diretto dei documenti.
 
-## Tabella dei Contenuti
+#### Donazioni
+
+Nonostante non sia **per nulla necessario** (ci tengo a precisare nuovamente che gli appunti sono disponibili pubblicamente per **motivi non redditizi**), mi è stato chiesto da molti di aprire un donation box per ricevere piccole cifre come ringraziamento. Nel caso in cui a qualcuno faccia piacere sostenere il progetto o anche solo offrirmi un drink, eventuali donazioni possono essere effettuate a [questo link](https://www.paypal.me/exysss) (grazie mille del contributo).
+
+## Appunti
 
 ### Legenda
 
@@ -19,8 +26,6 @@ NB: visto che il visualizzatore dei PDF di GitHub non è proprio ottimale, consi
 - __In corso__: Corso non completo e appunti non aggiornati all'ultima lezione
 - __Non pertinenti__: Appunti per il corso difficili da scrivere (spesso non necessari)
 - __Non disponibili__: Appunti non ancora creati
-
-### Appunti
 
 <details open>
 <summary>Primo Anno - Primo Semestre - A.A. 2021-22</summary>
@@ -36,7 +41,15 @@ NB: visto che il visualizzatore dei PDF di GitHub non è proprio ottimale, consi
 
 <details>
 <summary>Primo Anno - Secondo Semestre - A.A. 2021-22</summary>
-Ancora niente qui!
+
+Questo semestre non è ancora iniziato, pertanto gli appunti non sono ancora disponibili.
+
+| Corso | Status | Aggiornati al | Disponibilità |
+| ----- | :----: | :-----------: | :-------------: |
+| Calcolo Integrale | ? | --/--/---- |  |
+| Architettura degli Elaboratori | ? | --/--/---- |   |
+| Introduzione agli Algoritmi | ? | --/--/---- |  |
+| Metodologie di Programmazione | ? | --/--/---- | | 
 </details>
 
 ## Licenza d'uso

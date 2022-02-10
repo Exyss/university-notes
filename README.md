@@ -8,12 +8,12 @@ In quanto aperto sostenitore della politica __non-proprietaria__ (per più info 
 
 ***NB: visto che il visualizzatore dei PDF di GitHub non è proprio ottimale, consiglio il download diretto dei documenti.***
 
-#### Disclaimer
+### Disclaimer
 
 Questi appunti, sebben dettagliati, __non__ vogliono costituire un _dogma_ o un _manuale d'uso_ contenente le chiavi all'ottenere una laurea in breve tempo, per tanto, in caso di incorrettezze, migliorie o richieste, chiunque si senta libero di [__contattarmi in privato__](https://t.me/Exyss).
 
 
-#### Donazioni
+### Donazioni
 
 Nonostante non sia **per nulla necessario** (ci tengo a precisare nuovamente che gli appunti sono disponibili pubblicamente per **motivi non redditizi**), mi è stato chiesto da molti di aprire un donation box per ricevere piccole cifre come ringraziamento. Nel caso in cui a qualcuno faccia piacere sostenere il progetto o anche solo offrirmi un drink, eventuali donazioni possono essere effettuate a [questo link](https://www.paypal.me/exysss) (grazie mille del contributo).
 

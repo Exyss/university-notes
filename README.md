@@ -43,16 +43,16 @@ __________
 
 </details>
 
-<details>
+<details open>
 <summary>Primo Anno - Secondo Semestre - A.A. 2021-22</summary>
 
 Questo semestre non è ancora iniziato, pertanto gli appunti non sono ancora disponibili.
 
 | Corso | Status | Aggiornati al | Disponibilità |
 | ----- | :----: | :-----------: | :-------------: |
-| Calcolo Integrale | ? | --/--/---- |  |
+| [Calcolo Integrale](./Primo%20Anno/Calcolo%20Integrale.pdf) | In sincrono | 23/02/2022 | &check; |
 | Architettura degli Elaboratori | ? | --/--/---- |   |
-| Introduzione agli Algoritmi | ? | --/--/---- |  |
+| [Introduzione agli Algoritmi](./Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | In sincrono | 23/02/2022 | &check; |
 | Metodologie di Programmazione | ? | --/--/---- | | 
 </details>
 

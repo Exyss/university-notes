@@ -50,7 +50,7 @@ Questo semestre non è ancora iniziato, pertanto gli appunti non sono ancora dis
 
 | Corso | Status | Aggiornati al | Disponibilità |
 | ----- | :----: | :-----------: | :-------------: |
-| [Calcolo Integrale](./Primo%20Anno/Calcolo%20Integrale.pdf) | In corso | 23/02/2022 | &check; |
+| [Calcolo Integrale](./Primo%20Anno/Calcolo%20Integrale.pdf) | In sincrono | 27/02/2022 | &check; |
 | Architettura degli Elaboratori | ? | --/--/---- |   |
 | [Introduzione agli Algoritmi](./Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | In sincrono | 25/02/2022 | &check; |
 | Metodologie di Programmazione | ? | --/--/---- | | 

@@ -50,7 +50,7 @@ __________
 | ----- | :----: | :-----------: | :-------------: |
 | [Calcolo Integrale](./Primo%20Anno/Calcolo%20Integrale.pdf) | In sincrono | 11/03/2022 | &check; |
 | Architettura degli Elaboratori | ? | --/--/---- |   |
-| [Introduzione agli Algoritmi](./Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | In corso | 13/03/2022 | &check; |
+| [Introduzione agli Algoritmi](./Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | In sincrono | 16/03/2022 | &check; |
 | Metodologie di Programmazione | ? | --/--/---- | | 
 </details>
 

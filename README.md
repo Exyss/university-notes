@@ -48,7 +48,7 @@ __________
 
 | Corso | Status | Aggiornati al | Disponibilità |
 | ----- | :----: | :-----------: | :-------------: |
-| [Calcolo Integrale](./Primo%20Anno/Calcolo%20Integrale.pdf) | In sincrono | 17/03/2022 | &check; |
+| [Calcolo Integrale](./Primo%20Anno/Calcolo%20Integrale.pdf) | In sincrono | 29/03/2022 | &check; |
 | [Architettura degli Elaboratori](./Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Arretrati | 28/03/2022 | &check; |
 | [Introduzione agli Algoritmi](./Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | In sincrono | 27/03/2022 | &check; |
 | Metodologie di Programmazione | ? | --/--/---- | | 

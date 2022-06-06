@@ -36,9 +36,9 @@ __________
 
 | Corso | Status | Aggiornati al | Disponibilità |
 | ----- | :----: | :-----------: | :-------------: |
-| [Calcolo Differenziale](./Primo%20Anno/Calcolo%20Differenziale.pdf) | Definizioni + Teoremi | 10/02/2022 | &check; |
-| [Progettazione di Sistemi Digitali](./Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 10/02/2022 |  &check; |
-| [Metodi Matematici per l'Informatica](./Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi + Esercizi | 11/02/2022 | &check; |
+| [Calcolo Differenziale](../../Primo%20Anno/Calcolo%20Differenziale.pdf) | Definizioni + Teoremi | 10/02/2022 | &check; |
+| [Progettazione di Sistemi Digitali](../../Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 10/02/2022 |  &check; |
+| [Metodi Matematici per l'Informatica](../../Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi + Esercizi | 11/02/2022 | &check; |
 | Fondamenti di Programmazione | Non pertinenti | --/--/---- | | 
 
 </details>
@@ -49,8 +49,8 @@ __________
 | Corso | Status | Aggiornati al | Disponibilità |
 | ----- | :----: | :-----------: | :-------------: |
 | [Calcolo Integrale](../../raw/main/Primo%20Anno/Calcolo%20Integrale.pdf) | Completi | 28/05/2022 | &check; |
-| [Architettura degli Elaboratori](./Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Arretrati | 31/03/2022 | &check; |
-| [Introduzione agli Algoritmi](./Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 06/06/2022 | &check; |
+| [Architettura degli Elaboratori](../../Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Arretrati | 31/03/2022 | &check; |
+| [Introduzione agli Algoritmi](../../Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 06/06/2022 | &check; |
 | Metodologie di Programmazione | ? | --/--/---- | | 
 </details>
 

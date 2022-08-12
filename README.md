@@ -49,7 +49,7 @@ __________
 | Corso | Status | Aggiornati al | Disponibilità |
 | ----- | :----: | :-----------: | :-------------: |
 | [Calcolo Integrale](../../raw/main/Primo%20Anno/Calcolo%20Integrale.pdf) | Completi | 28/05/2022 | &check; |
-| [Architettura degli Elaboratori](../../raw/main/Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Arretrati | 10/08/2022 | &check; |
+| [Architettura degli Elaboratori](../../raw/main/Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Arretrati | 12/08/2022 | &check; |
 | [Introduzione agli Algoritmi](../../raw/main/Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 06/06/2022 | &check; |
 | [Metodologie di Programmazione](../../raw/main/Primo%20Anno/Metodologie%20di%20Programmazione.pdf) | Definizioni | 15/06/2022 | &check; | 
 </details>

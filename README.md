@@ -1,63 +1,69 @@
-# Laurea in Informatica - Appunti Universitari
+<a href="https://github.com/Exyss"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/></a>
+<a href="https://t.me/Exyss"><img src="https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white"/></a>
+<a href="https://ko-fi.com/exyss"><img src="https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white"/></a>
+ 	
+# Appunti Universitari - Laurea in Informatica
 
-[___Clicca qui per andare direttamente agli appunti___](#Appunti)
+### Introduzione
 
-Appunti personali raccolti durante il mio percorso di laurea in Informatica all'Università "Sapienza" di Roma (anni accademici 2021-24).
+Appunti e riassunti personali (ormai veri e propri libri) raccolti a partire dal 2021 durante il mio _eccentrico percorso accademico_ in ambito del corso di laurea in Informatica offerto dall'Università di Roma "Sapienza".
 
-In quanto aperto sostenitore della politica __non-proprietaria__ (per più info guardare [qui](https://en.wikipedia.org/wiki/Copyleft)) e della __diffusione aperta__ della conoscienza in ogni sua forma, gli appunti sono disponibili pubblicamente ed utilizzabili da chiunque. La __ridistribuzione__ è autorizzata, tuttavia gradirei se avvenisse tramite reindirizzamento a questo link, in modo da poterne ricevere il credito in quanto autore (anche solo una breve citazione va bene).
+Perché condividerli? Il motivo è semplice: in quanto aperto sostenitore del [Copyleft](https://en.wikipedia.org/wiki/Copyleft) e della diffusione aperta della conoscienza in ogni sua forma, ho deciso di renderli pubblici ed utilizzabili da chiunque.
 
-***NB: visto che il visualizzatore dei PDF di GitHub non è proprio ottimale, consiglio il download diretto dei documenti.***
+> O forse si tratta di puro egocentrismo e narcisismo, chissà.
+
+Ovviamente, sebben molto dettagliati e contenenti tutto il materiale necessario a poter superare gli esami proposti, tali appunti non costituiscono uno strumento alternativo allo studio tramite libri e tramite lezioni frontali. Per tanto, in caso di incorrettezze, migliorie o richieste, chiunque si senta libero di [__contattarmi__](https://t.me/Exyss) in privato.
 
 ____________
 
-### Disclaimer
+### 📣 Donazioni e Ripetizioni
 
-Questi appunti, sebben dettagliati, __non__ vogliono costituire un _dogma_ o un _manuale d'uso_ contenente le chiavi all'ottenere una laurea in breve tempo, per tanto, in caso di incorrettezze, migliorie o richieste, chiunque si senta libero di [__contattarmi in privato__](https://t.me/Exyss).
+Nonostante non sia per nulla necessario, mi è stato chiesto da alcuni di aprire un [__donation box 💸__](https://ko-fi.com/exyss) per ricevere piccole cifre come ringraziamento o anche solo per offrirmi un drink.
 
+Inoltre, nel caso in cui qualche studente sia interessato a ricevere delle __ripetizioni 📑__, si senta libero di contattarmi.
 
-### Donazioni
-
-Nonostante non sia **per nulla necessario** (ci tengo a precisare nuovamente che gli appunti sono disponibili pubblicamente per **motivi non redditizi**), mi è stato chiesto da molti di aprire un donation box per ricevere piccole cifre come ringraziamento. Nel caso in cui a qualcuno faccia piacere sostenere il progetto o anche solo offrirmi un drink, eventuali donazioni possono essere effettuate a [questo link](https://www.paypal.me/exysss) (grazie mille del contributo).
+> Ringrazio chiunque nel corso degli anni abbia usufruito di uno dei due servizi 💞
 
 __________
 
-## Appunti
-
-### Legenda
-
-- __Completi__ : Corso completo e appunti completi
-- __In sincrono__: Corso non completo ma appunti aggiornati all'ultima lezione
-- __In corso__: Corso non completo e appunti non aggiornati all'ultima lezione
-- __Non pertinenti__: Appunti per il corso difficili da scrivere (spesso non necessari)
-- __Non disponibili__: Appunti non ancora creati
+## 📖 Appunti
 
 <details open>
 <summary>Primo Anno - Primo Semestre - A.A. 2021-22</summary>
 
-| Corso | Status | Aggiornati al | Disponibilità |
-| ----- | :----: | :-----------: | :-------------: |
-| [Calcolo Differenziale](../../raw/main/Primo%20Anno/Calcolo%20Differenziale.pdf) | Definizioni + Teoremi | 10/02/2022 | &check; |
-| [Progettazione di Sistemi Digitali](../../raw/main/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 10/02/2022 |  &check; |
-| [Metodi Matematici per l'Informatica](../../raw/main/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi + Esercizi | 11/02/2022 | &check; |
-| Fondamenti di Programmazione | Non pertinenti | --/--/---- | | 
-
+| Corso | Status | Aggiornati al |
+| ----- | :----: | :-----------: |
+| [Calcolo Differenziale](../../raw/main/Primo%20Anno/Calcolo%20Differenziale.pdf) | Definizioni + Teoremi | 10/02/2022 |
+| [Progettazione di Sistemi Digitali](../../raw/main/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 10/02/2022 |
+| [Metodi Matematici per l'Informatica](../../raw/main/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi + Esercizi | 11/02/2022 |
+| Fondamenti di Programmazione | Non disponibili | --/--/---- |
 </details>
 
 <details open>
 <summary>Primo Anno - Secondo Semestre - A.A. 2021-22</summary>
 
-| Corso | Status | Aggiornati al | Disponibilità |
-| ----- | :----: | :-----------: | :-------------: |
-| [Calcolo Integrale](../../raw/main/Primo%20Anno/Calcolo%20Integrale.pdf) | Completi | 28/05/2022 | &check; |
-| [Architettura degli Elaboratori](../../raw/main/Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Arretrati | 03/09/2022 | &check; |
-| [Introduzione agli Algoritmi](../../raw/main/Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 06/06/2022 | &check; |
-| [Metodologie di Programmazione](../../raw/main/Primo%20Anno/Metodologie%20di%20Programmazione.pdf) | Definizioni | 15/06/2022 | &check; | 
+| Corso | Status | Aggiornati al |
+| ----- | :----: | :-----------: |
+| [Calcolo Integrale](../../raw/main/Primo%20Anno/Calcolo%20Integrale.pdf) | Completi | 28/05/2022 |
+| [Architettura degli Elaboratori](../../raw/main/Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Arretrati | 03/09/2022 |
+| [Introduzione agli Algoritmi](../../raw/main/Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 06/06/2022 |
+| [Metodologie di Programmazione](../../raw/main/Primo%20Anno/Metodologie%20di%20Programmazione.pdf) | Definizioni | 15/06/2022 |
+</details>
+
+<details open>
+<summary>Secondo Anno - Primo Semestre - A.A. 2022-23</summary>
+
+| Corso | Status | Aggiornati al |
+| ----- | :----: | :-----------: |
+| Algebra | - | --/--/---- |
+| Calcolo delle Probabilità | - | --/--/---- |
+| Sistemi Operativi I | - | --/--/---- |
+| Basi di Dati I | - | --/--/---- |
 </details>
 
 ________
 
-## Licenza d'uso
+## ⚠️ License
 
-Even thought this is not about software, these documents are distribuited through the same standards as the GNU General Public License v3.0. This project is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.
-
-You can read more details on the GNU General Public License in the [LICENSE](./LICENSE) copy given along with this repository.
+These documents are distributed under the [GNU Free Documentation License](https://www.gnu.org/licenses/#FDL), a form of copyleft intended for use on a manual, textbook or other document to assure everyone the effective freedom to **copy** and **redistribute** it, with or **without modifications**, either commercially or non-commercially.
+You can read more details on the GNU FDL in the [LICENSE](./LICENSE) copy given along with this repository.

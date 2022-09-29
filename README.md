@@ -55,7 +55,7 @@ __________
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Algebra](|../../raw/main/Secondo%20Anno/Algebra.pdf) | In sincrono | 29/09/2022 |
+| [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | In sincrono | 29/09/2022 |
 | [Calcolo delle Probabilità](../../raw/main/Secondo%20Anno/Calcolo%20delle%20Probabilità.pdf) | - | --/--/---- |
 | [Sistemi Operativi I](../../raw/main/Secondo%20Anno/Sistemi%20Operativi.pdf) | - | --/--/---- |
 | [Basi di Dati I](../../raw/main/Secondo%20/Basi%20di%20Dati.pdf) | - | --/--/---- |

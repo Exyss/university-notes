@@ -34,8 +34,8 @@ __________
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
 | [Calcolo Differenziale](../../raw/main/Primo%20Anno/Calcolo%20Differenziale.pdf) | Definizioni + Teoremi | 10/02/2022 |
-| [Progettazione di Sistemi Digitali](../../raw/main/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 10/02/2022 |
-| [Metodi Matematici per l'Informatica](../../raw/main/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi + Esercizi | 11/02/2022 |
+| [Progettazione di Sistemi Digitali](../../raw/main/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 15/10/2022 |
+| [Metodi Matematici per l'Informatica](../../raw/main/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi + Esercizi | 15/10/2022 |
 | Fondamenti di Programmazione | Non disponibili | --/--/---- |
 </details>
 

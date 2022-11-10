@@ -18,11 +18,11 @@ ____________
 
 ### 📣 Donazioni e Ripetizioni
 
-Nonostante non sia per nulla necessario, mi è stato chiesto da alcuni di aprire un [__donation box 💸__](https://ko-fi.com/exyss) per ricevere piccole cifre come ringraziamento o anche solo per offrirmi un drink.
+Nonostante non sia per nulla necessario, mi è stato chiesto da alcuni di aprire un [__donation box__](https://ko-fi.com/exyss) per ricevere piccole cifre come ringraziamento o anche solo per offrirmi un drink.
 
-Inoltre, nel caso in cui qualche studente sia interessato a ricevere delle __ripetizioni 📑__, si senta libero di contattarmi.
+Inoltre, nel caso in cui qualche studente sia interessato a ricevere delle __ripetizioni__, si senta libero di contattarmi.
 
-> Ringrazio chiunque nel corso degli anni abbia usufruito di uno dei due servizi 💞
+> Ringrazio chiunque nel corso degli anni abbia usufruito di uno dei due servizi 
 
 __________
 
@@ -55,7 +55,7 @@ __________
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | In sincrono | 06/11/22 |
+| [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | In sincrono | 10/11/22 |
 | [Calcolo delle Probabilità](../../raw/main/Secondo%20Anno/Calcolo%20delle%20Probabilità.pdf) | In sincrono | 27/10/2022 |
 | [Sistemi Operativi I](../../raw/main/Secondo%20Anno/Sistemi%20Operativi.pdf) | - | --/--/---- |
 | [Basi di Dati I](../../raw/main/Secondo%20Anno/Basi%20di%20Dati.pdf) | - | --/--/---- |

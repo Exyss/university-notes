@@ -34,7 +34,7 @@ __________
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
 | [Calcolo Differenziale](../../raw/main/Primo%20Anno/Calcolo%20Differenziale.pdf) | Definizioni + Teoremi | 10/02/2022 |
-| [Progettazione di Sistemi Digitali](../../raw/main/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 15/10/2022 |
+| [Progettazione di Sistemi Digitali](../../raw/main/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 02/01/2023 |
 | [Metodi Matematici per l'Informatica](../../raw/main/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi + Esercizi | 15/10/2022 |
 | Fondamenti di Programmazione | Non disponibili | --/--/---- |
 </details>
@@ -55,7 +55,7 @@ __________
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | Completi | 26/12/22 |
+| [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | Completi | 02/01/2023 |
 | [Calcolo delle Probabilità](../../raw/main/Secondo%20Anno/Calcolo%20delle%20Probabilità.pdf) | Completi | 19/12/2022 |
 | [Sistemi Operativi I](../../raw/main/Secondo%20Anno/Sistemi%20Operativi.pdf) | In fase di recupero | --/--/---- |
 | [Basi di Dati I](../../raw/main/Secondo%20Anno/Basi%20di%20Dati.pdf) | Arretrati | 30/12/2022 |

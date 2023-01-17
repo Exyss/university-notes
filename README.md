@@ -8,7 +8,7 @@
 
 Appunti e riassunti personali (ormai veri e propri libri) raccolti a partire dal 2021 durante il mio _eccentrico percorso accademico_ in ambito del corso di laurea in Informatica offerto dall'Università di Roma "Sapienza".
 
-Perché condividerli? Il motivo è semplice: in quanto aperto sostenitore del [Copyleft](https://en.wikipedia.org/wiki/Copyleft) e della diffusione aperta della conoscienza in ogni sua forma, ho deciso di renderli pubblici ed utilizzabili da chiunque.
+Perché condividerli? Il motivo è semplice: in quanto aperto sostenitore del [Copyleft](https://en.wikipedia.org/wiki/Copyleft) e della diffusione aperta della conoscenza in ogni sua forma, ho deciso di renderli pubblici ed utilizzabili da chiunque.
 
 > O forse si tratta di puro egocentrismo e narcisismo, chissà.
 

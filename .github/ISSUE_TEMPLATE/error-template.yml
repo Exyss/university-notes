@@ -1,0 +1,35 @@
+name: "Segnalazione errore"
+description: "Segnala un errore o un semplice typo"
+title: "[Error] TITOLO_ISSUE"
+labels: Error
+body:
+  - type: input
+    id: name
+    attributes:
+      label: "Nome del file da correggere"
+      placeholder: "es: Reti di elaboratori"
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: "Numero della pagina da correggere"
+      placeholder: "es: Pagina 34"
+    validations:
+      required: true
+  - type: textarea
+    id: desc
+    attributes:
+      label: "Descrizione dell'errore ed eventuale correzione proposta"
+      placeholder: "es: Il testo dice X, Y, Z mentre dovrebbe essere A, B, C"
+      value: 
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: "Screenshot dell'errore"
+      placeholder: "È sufficiente usare CTRL+V per incollare l'immagine"
+      value: 
+    validations:
+      required: false

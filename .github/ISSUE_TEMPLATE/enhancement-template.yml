@@ -1,0 +1,35 @@
+name: "Proposta miglioria"
+description: "Proponi una possibile miglioria"
+title: "[Enhancement] TITOLO_ISSUE"
+labels: Enhancement
+body:
+  - type: input
+    id: name
+    attributes:
+      label: "Nome del file da migliorare"
+      placeholder: "es: Reti di elaboratori"
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: "Numero della pagina da migliorare"
+      placeholder: "es: Pagina 34"
+    validations:
+      required: true
+  - type: textarea
+    id: desc
+    attributes:
+      label: "Descrizione dell'eventuale miglioria proposta"
+      placeholder: "es: Il testo dice X, Y, Z ma sarebbe più chiaro/corretto se fosse A, B, C"
+      value: 
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: "Screenshot"
+      placeholder: "È sufficiente usare CTRL+V per incollare l'immagine"
+      value: 
+    validations:
+      required: false

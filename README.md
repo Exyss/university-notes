@@ -73,7 +73,7 @@ __________
 | [Reti di Elaboratori](../../raw/main/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 12/09/2023 |
 | [Sistemi Operativi II](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 12/09/2023 |
 | [Basi di Dati II](../../raw/main/Secondo%20Anno/Basi%20di%20Dati%20II.pdf) | Quasi completi | 26/06/2023 |
-| [Progetti svolti - Basi di Dati II](../../blob/main/Secondo%20Anno/Progetti%20BD2/README.md) | Analisi + Progettazione | 30/08/2023 |
+| [Progetti svolti - Basi di Dati II](../../blob/main/Secondo%20Anno/Progetti%20BD2/README.md) | Analisi + Progettazione | 11/09/2023 |
 </details>
 ________
 

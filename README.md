@@ -58,7 +58,7 @@ __________
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | Completi | 12/09/2023 |
+| [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | Completi | 25/09/2023 |
 | [Calcolo delle Probabilità](../../raw/main/Secondo%20Anno/Calcolo%20delle%20Probabilità.pdf) | Completi | 12/09/2023 |
 | [Sistemi Operativi I](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 12/09/2023 |
 | [Basi di Dati I](../../raw/main/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 16/09/2023 |

@@ -32,48 +32,47 @@ __________
 ## 📖 Appunti
 
 <details>
-<summary>Primo Anno - Primo Semestre - A.A. 2021-22</summary>
+<summary>Primo Anno - A.A. 2021-22</summary>
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
 | [Calcolo Differenziale](../../raw/main/Primo%20Anno/Calcolo%20Differenziale.pdf) | Definizioni + Teoremi | 05/03/2023 |
-| [Progettazione di Sistemi Digitali](../../raw/main/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 09/09/2023 |
-| [Metodi Matematici per l'Informatica](../../raw/main/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi | 05/03/2023 |
-| Fondamenti di Programmazione | Non disponibili | --/--/---- |
-</details>
-
-<details>
-<summary>Primo Anno - Secondo Semestre - A.A. 2021-22</summary>
-
-| Corso | Status | Aggiornati al |
-| ----- | :----: | :-----------: |
 | [Calcolo Integrale](../../raw/main/Primo%20Anno/Calcolo%20Integrale.pdf) | Completi | 30/05/2023 |
-| [Architettura degli Elaboratori](../../raw/main/Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Completi | 09/07/2023 |
-| [Introduzione agli Algoritmi](../../raw/main/Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 04/06/2023 |
+| Fondamenti di Programmazione | - | - |
+| [Metodi Matematici per l'Informatica](../../raw/main/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi | 05/03/2023 |
 | [Metodologie di Programmazione](../../raw/main/Primo%20Anno/Metodologie%20di%20Programmazione.pdf) | Definizioni | 05/03/2023 |
+| [Introduzione agli Algoritmi](../../raw/main/Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 04/06/2023 |
+| [Progettazione di Sistemi Digitali](../../raw/main/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 09/09/2023 |
+| [Architettura degli Elaboratori](../../raw/main/Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Completi | 09/07/2023 |
 </details>
 
 <details>
-<summary>Secondo Anno - Primo Semestre - A.A. 2022-23</summary>
+<summary>Secondo Anno - A.A. 2022-23</summary>
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
 | [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | Completi | 25/09/2023 |
 | [Calcolo delle Probabilità](../../raw/main/Secondo%20Anno/Calcolo%20delle%20Probabilità.pdf) | Completi | 12/09/2023 |
+| [Progettazione di Algoritmi](../../raw/main/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 16/09/2023 |
+| [Reti di Elaboratori](../../raw/main/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 16/09/2023 |
 | [Sistemi Operativi I](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 12/09/2023 |
+| [Sistemi Operativi II](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 12/09/2023 |
 | [Basi di Dati I](../../raw/main/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 16/09/2023 |
+| [Basi di Dati II](../../raw/main/Secondo%20Anno/Basi%20di%20Dati%20II.pdf) | Quasi completi | 26/06/2023 |
+| [Progetti svolti - Basi di Dati II](../../blob/main/Secondo%20Anno/Progetti%20BD2/README.md) | Completi | 11/09/2023 |
 </details>
 
 <details>
-<summary>Secondo Anno - Secondo Semestre - A.A. 2022-23</summary>
+<summary>Terzo Anno - A.A. 2023-24</summary>
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Progettazione di Algoritmi](../../raw/main/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 16/09/2023 |
-| [Reti di Elaboratori](../../raw/main/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 16/09/2023 |
-| [Sistemi Operativi II](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 12/09/2023 |
-| [Basi di Dati II](../../raw/main/Secondo%20Anno/Basi%20di%20Dati%20II.pdf) | Quasi completi | 26/06/2023 |
-| [Progetti svolti - Basi di Dati II](../../blob/main/Secondo%20Anno/Progetti%20BD2/README.md) | Analisi + Progettazione | 11/09/2023 |
+| [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilit%C3%A0%20e%20Complessit%C3%A0.pdf) | In corso | 29/09/2023 |
+| [Ingegneria del Software di Elaboratori](#) | - | - |
+| [Linguaggi di Programmazione](#) | - | - |
+| [Cybersecurity](#) | - | - |
+| [Matematica Discreta](#) | - | - |
+| [Modelli e Ottimizzazione](#) | - | - |
 </details>
 ________
 

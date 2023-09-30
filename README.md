@@ -68,8 +68,8 @@ __________
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
 | [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilit%C3%A0%20e%20Complessit%C3%A0.pdf) | In corso | 30/09/2023 |
+| [Linguaggi di Programmazione](../../raw/main/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | In corso | 30/09/2023 |
 | [Ingegneria del Software di Elaboratori](#) | - | - |
-| [Linguaggi di Programmazione](#) | - | 30/09/2023 |
 | [Cybersecurity](#) | - | - |
 | [Matematica Discreta](#) | - | - |
 | [Modelli e Ottimizzazione](#) | - | - |

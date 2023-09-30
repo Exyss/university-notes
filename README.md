@@ -51,7 +51,7 @@ __________
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | Completi | 25/09/2023 |
+| [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | Completi | 30/09/2023 |
 | [Calcolo delle Probabilità](../../raw/main/Secondo%20Anno/Calcolo%20delle%20Probabilità.pdf) | Completi | 12/09/2023 |
 | [Progettazione di Algoritmi](../../raw/main/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 16/09/2023 |
 | [Reti di Elaboratori](../../raw/main/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 16/09/2023 |
@@ -67,7 +67,7 @@ __________
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilit%C3%A0%20e%20Complessit%C3%A0.pdf) | In corso | 29/09/2023 |
+| [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilit%C3%A0%20e%20Complessit%C3%A0.pdf) | In corso | 30/09/2023 |
 | [Ingegneria del Software di Elaboratori](#) | - | - |
 | [Linguaggi di Programmazione](#) | - | - |
 | [Cybersecurity](#) | - | - |

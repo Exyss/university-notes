@@ -57,7 +57,7 @@ __________
 | [Reti di Elaboratori](../../raw/main/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 16/09/2023 |
 | [Sistemi Operativi I](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 12/09/2023 |
 | [Sistemi Operativi II](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 12/09/2023 |
-| [Basi di Dati I](../../raw/main/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 13/10/2023 |
+| [Basi di Dati I](../../raw/main/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 19/10/2023 |
 | [Basi di Dati II](../../raw/main/Secondo%20Anno/Basi%20di%20Dati%20II.pdf) | Quasi completi | 26/06/2023 |
 | [Progetti svolti - Basi di Dati II](../../blob/main/Secondo%20Anno/Progetti%20BD2/README.md) | Completi | 11/09/2023 |
 </details>
@@ -67,9 +67,9 @@ __________
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilit%C3%A0%20e%20Complessit%C3%A0.pdf) | In corso | 15/10/2023 |
+| [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilit%C3%A0%20e%20Complessit%C3%A0.pdf) | In corso | 19/10/2023 |
 | [Ingegneria del Software](#) | - | - |
-| [Linguaggi di Programmazione](../../raw/main/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | In corso | 17/10/2023 |
+| [Linguaggi di Programmazione](../../raw/main/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | In corso | 19/10/2023 |
 | [Cybersecurity](#) | - | - |
 | [Programmazione di Sistemi Embedded e Multicore](#) | - | - |
 | [Matematica Discreta](#) | - | - |

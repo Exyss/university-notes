@@ -55,7 +55,7 @@ __________
 | [Calcolo delle Probabilità](../../raw/main/Secondo%20Anno/Calcolo%20delle%20Probabilità.pdf) | Completi | 12/09/2023 |
 | [Progettazione di Algoritmi](../../raw/main/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 16/09/2023 |
 | [Reti di Elaboratori](../../raw/main/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 16/09/2023 |
-| [Sistemi Operativi I](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 27/11/2023 |
+| [Sistemi Operativi I](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 08/12/2023 |
 | [Sistemi Operativi II](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 12/09/2023 |
 | [Basi di Dati I](../../raw/main/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 19/10/2023 |
 | [Basi di Dati II](../../raw/main/Secondo%20Anno/Basi%20di%20Dati%20II.pdf) | Quasi completi | 26/06/2023 |
@@ -69,7 +69,7 @@ __________
 | ----- | :----: | :-----------: |
 | [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilit%C3%A0%20e%20Complessit%C3%A0.pdf) | In corso | 08/12/2023 |
 | [Linguaggi di Programmazione](../../raw/main/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | In corso | 08/12/2023 |
-| [Programmazione di Sistemi Embedded e Multicore](../../raw/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Embedded%20e%20Multicore.pdf) | In corso | 05/12/2023 |
+| [Programmazione di Sistemi Embedded e Multicore](../../raw/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Embedded%20e%20Multicore.pdf) | In corso | 08/12/2023 |
 | [Ingegneria del Software](#) | - | - |
 | [Cybersecurity](#) | - | - |
 | [Matematica Discreta](#) | - | - |

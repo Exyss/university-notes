@@ -70,7 +70,7 @@ __________
 | [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilit%C3%A0%20e%20Complessit%C3%A0.pdf) | Completi | 12/01/2024 |
 | [Linguaggi di Programmazione](../../raw/main/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 12/12/2023 |
 | [Programmazione di Sistemi Embedded e Multicore](../../raw/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Embedded%20e%20Multicore.pdf) | In corso | 08/12/2023 |
-| [Cybersecurity (English course)](../../raw/main/Terzo%20Anno/Cybersecurity.pdf) | In progress  | 12/01/2024 |
+| [Cybersecurity (English course)](../../raw/main/Terzo%20Anno/Cybersecurity.pdf) | In progress  | 13/01/2024 |
 | [Ingegneria del Software](#) | - | - |
 | [Matematica Discreta](#) | - | - |
 | [Metodi Numerici per l'Informatica](#) | - | - |

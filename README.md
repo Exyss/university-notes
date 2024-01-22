@@ -67,7 +67,7 @@ __________
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilit%C3%A0%20e%20Complessit%C3%A0.pdf) | Completi | 19/01/2024 |
+| [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilit%C3%A0%20e%20Complessit%C3%A0.pdf) | Completi | 22/01/2024 |
 | [Linguaggi di Programmazione](../../raw/main/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 19/01/2024 |
 | [Programmazione di Sistemi Embedded e Multicore](../../raw/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Embedded%20e%20Multicore.pdf) | In corso | 08/12/2023 |
 | [Cybersecurity (English course)](../../raw/main/Terzo%20Anno/Cybersecurity.pdf) | Completi  | 16/01/2024 |

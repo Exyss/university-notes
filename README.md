@@ -71,8 +71,8 @@ __________
 | [Linguaggi di Programmazione](../../raw/main/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 20/02/2024 |
 | [Programmazione di Sistemi Multicore](../../raw/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore.pdf) | In corso | 29/02/2024 |
 | [Cybersecurity](../../raw/main/Terzo%20Anno/Cybersecurity.pdf) | Completi  | 29/02/2024 |
-| [Optimization](../../raw/main/Terzo%20Anno/Optimization.pdf) | - | - |
-| [Discrete Mathematics](../../raw/main/Terzo%20Anno/Discrete%20Mathematics.pdf) | - | - |
+| [Optimization](../../raw/main/Terzo%20Anno/Optimization.pdf) | - | 29/02/2024 |
+| [Discrete Mathematics](../../raw/main/Terzo%20Anno/Discrete%20Mathematics.pdf) | - | 29/02/2024 |
 </details>
 ________
 

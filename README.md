@@ -13,7 +13,7 @@ Perché condividerli? In quanto aperto sostenitore del [Copyleft](https://en.wik
 
 > O forse si tratta di puro egocentrismo e narcisismo, chissà
 
-Ovviamente, sebben molto dettagliati e contenenti tutto il materiale necessario a poter studiare gli argomenti richiesti dai vari corsi e dai loro esami, essi non costituiscono dogma, dunque si consiglia  di affiancarli ad uno studio tramite i libri proposti dai professori e le lezioni frontali di quest'ultimi.
+Ovviamente, sebbene molto dettagliati e contenenti tutto il materiale necessario a poter studiare gli argomenti richiesti dai vari corsi e dai loro esami, essi non costituiscono dogma, dunque si consiglia  di affiancarli ad uno studio tramite i libri proposti dai professori e le lezioni frontali di quest'ultimi.
 
 Per tanto, in caso di incorrettezze, migliorie o richieste, chiunque si senta libero di __segnalare 🚩__ tramite il sistema di [Issues](https://github.com/Exyss/university-notes/issues) fornito da GitHub stesso (in alto a sinistra) o di [contattarmi 💬](https://t.me/Exyss) direttamente in privato. Gli appunti sono in continuo aggiornamento, pertanto, previa segnalazione, si prega di controllare se le modifiche siano già state apportate nella versione più recente.
 
@@ -53,7 +53,7 @@ __________
 | ----- | :----: | :-----------: |
 | [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | Completi | 12/02/2024 |
 | [Calcolo delle Probabilità](../../raw/main/Secondo%20Anno/Calcolo%20delle%20Probabilità.pdf) | Completi | 12/09/2023 |
-| [Progettazione di Algoritmi](../../raw/main/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 24/02/2024 |
+| [Progettazione di Algoritmi](../../raw/main/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 29/02/2024 |
 | [Reti di Elaboratori](../../raw/main/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 16/09/2023 |
 | [Sistemi Operativi I](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 24/02/2024 |
 | [Sistemi Operativi II](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 12/09/2023 |
@@ -69,11 +69,10 @@ __________
 | ----- | :----: | :-----------: |
 | [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilit%C3%A0%20e%20Complessit%C3%A0.pdf) | Completi | 24/02/2024 |
 | [Linguaggi di Programmazione](../../raw/main/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 20/02/2024 |
-| [Programmazione di Sistemi Embedded e Multicore](../../raw/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Embedded%20e%20Multicore.pdf) | In corso | 08/12/2023 |
-| [Cybersecurity (English course)](../../raw/main/Terzo%20Anno/Cybersecurity.pdf) | Completi  | 16/01/2024 |
-| [Ingegneria del Software](#) | - | - |
-| [Matematica Discreta](#) | - | - |
-| [Metodi Numerici per l'Informatica](#) | - | - |
+| [Programmazione di Sistemi Multicore](../../raw/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore.pdf) | In corso | 29/02/2024 |
+| [Cybersecurity](../../raw/main/Terzo%20Anno/Cybersecurity.pdf) | Completi  | 29/02/2024 |
+| [Optimization](../../raw/main/Terzo%20Anno/Optimization.pdf) | - | - |
+| [Discrete Mathematics](../../raw/main/Terzo%20Anno/Discrete%20Mathematics.pdf) | - | - |
 </details>
 ________
 

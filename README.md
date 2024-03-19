@@ -43,7 +43,7 @@ __________
 | [Metodologie di Programmazione](../../raw/main/Primo%20Anno/Metodologie%20di%20Programmazione.pdf) | Definizioni | 05/03/2023 |
 | [Introduzione agli Algoritmi](../../raw/main/Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 03/03/2024 |
 | [Progettazione di Sistemi Digitali](../../raw/main/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 03/03/2024 |
-| [Architettura degli Elaboratori](../../raw/main/Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Completi | 03/03/2024 |
+| [Architettura degli Elaboratori](../../raw/main/Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Completi | 19/03/2024 |
 </details>
 
 <details>
@@ -71,8 +71,8 @@ __________
 | [Linguaggi di Programmazione](../../raw/main/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 03/03/2024 |
 | [Programmazione di Sistemi Multicore](../../raw/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore.pdf) | In corso | 03/03/2024 |
 | [Cybersecurity](../../raw/main/Terzo%20Anno/Cybersecurity.pdf) | Completed  | 03/03/2024 |
-| [Optimization](../../raw/main/Terzo%20Anno/Optimization.pdf) | In progress | 06/03/2024 |
-| [Discrete Mathematics](../../raw/main/Terzo%20Anno/Discrete%20Mathematics.pdf) | In progress | 06/03/2024 |
+| [Optimization](../../raw/main/Terzo%20Anno/Optimization.pdf) | In progress | 19/03/2024 |
+| [Discrete Mathematics](../../raw/main/Terzo%20Anno/Discrete%20Mathematics.pdf) | In progress | 19/03/2024 |
 </details>
 ________
 

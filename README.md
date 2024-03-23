@@ -51,7 +51,7 @@ __________
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | Completi | 03/03/2024 |
+| [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | Completi | 23/03/2024 |
 | [Calcolo delle Probabilità](../../raw/main/Secondo%20Anno/Calcolo%20delle%20Probabilità.pdf) | Completi | 03/03/2024 |
 | [Progettazione di Algoritmi](../../raw/main/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 03/03/2024 |
 | [Reti di Elaboratori](../../raw/main/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 03/03/2024 |
@@ -71,7 +71,7 @@ __________
 | [Linguaggi di Programmazione](../../raw/main/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 03/03/2024 |
 | [Programmazione di Sistemi Multicore](../../raw/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore.pdf) | In corso | 03/03/2024 |
 | [Cybersecurity](../../raw/main/Terzo%20Anno/Cybersecurity.pdf) | Completed  | 03/03/2024 |
-| [Optimization](../../raw/main/Terzo%20Anno/Optimization.pdf) | In progress | 21/03/2024 |
+| [Optimization](../../raw/main/Terzo%20Anno/Optimization.pdf) | In progress | 23/03/2024 |
 | [Discrete Mathematics](../../raw/main/Terzo%20Anno/Discrete%20Mathematics.pdf) | In progress | 19/03/2024 |
 </details>
 ________

@@ -58,8 +58,8 @@ __________
 | [Sistemi Operativi I](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 03/03/2024 |
 | [Sistemi Operativi II](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 25/03/2024 |
 | [Basi di Dati I](../../raw/main/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 03/03/2024 |
-| Basi di Dati II* | - | - |
 | [Progetti svolti - Basi di Dati II](../../blob/main/Secondo%20Anno/Progetti%20BD2/README.md) | Completi | 11/09/2023 |
+| Basi di Dati II* | - | - |
 </details>
 
 <details>
@@ -71,7 +71,7 @@ __________
 | [Linguaggi di Programmazione](../../raw/main/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 03/03/2024 |
 | [Programmazione di Sistemi Multicore](../../raw/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore.pdf) | Incompleti | 03/03/2024 |
 | [Cybersecurity](../../raw/main/Terzo%20Anno/Cybersecurity.pdf) | Completed  | 03/03/2024 |
-| [Optimization](../../raw/main/Terzo%20Anno/Optimization.pdf) | In progress | 28/03/2024 |
+| [Optimization](../../raw/main/Terzo%20Anno/Optimization.pdf) | In progress | 29/03/2024 |
 | Ingegneria del Software* | - | - |
 | Discrete Mathematics** | - | - |
 </details>

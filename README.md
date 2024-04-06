@@ -67,11 +67,11 @@ __________
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilit%C3%A0%20e%20Complessit%C3%A0.pdf) | Completi | 03/03/2024 |
+| [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilit%C3%A0%20e%20Complessit%C3%A0.pdf) | Completi | 07/04/2024 |
 | [Linguaggi di Programmazione](../../raw/main/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 03/03/2024 |
 | [Programmazione di Sistemi Multicore](../../raw/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore.pdf) | Incompleti | 03/03/2024 |
 | [Cybersecurity](../../raw/main/Terzo%20Anno/Cybersecurity.pdf) | Completed  | 03/03/2024 |
-| [Optimization](../../raw/main/Terzo%20Anno/Optimization.pdf) | In progress | 03/04/2024 |
+| [Optimization](../../raw/main/Terzo%20Anno/Optimization.pdf) | In progress | 07/04/2024 |
 | Ingegneria del Software* | - | - |
 | Discrete Mathematics** | - | - |
 </details>

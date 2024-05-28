@@ -21,7 +21,7 @@ I progetti proposti in seguito sono stati ordinati in base a:
 | 4  | [My Precious](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/My%20Precious.pdf) | Completo e Valutato | 07/09/2023 |
 | 5  | [RistoBook](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/RistoBook.pdf) | Completo | 07/09/2023 |
 | 6  | [AllenaMondo](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/AllenaMondo.pdf) | Completo | 07/09/2023 |
-| 8  | [Slimmy](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/Slimmy.pdf) | Completo | 07/09/2023 |
+| 7  | [Slimmy](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/Slimmy.pdf) | Completo | 07/09/2023 |
 | 8  | [TravelPlan](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/TravelPlan.pdf) | Completo e Valutato | 07/09/2023 |
 | 9  | [EasyToll](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/EasyToll.pdf) | Completo | 07/09/2023 |
 | 10 | [SafeOnTheBeach](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/SafeOnTheBeach.pdf) | Completo | 07/09/2023 |

@@ -1,6 +1,8 @@
 # Progetti svolti - Basi di Dati II
 
-> __DISCLAIMER ⚠️__: i progetti proposti in seguito non costituiscono verità rivelata dall'Arcangelo Gabriele. Per tanto, potrebbero contenere errore e/o soluzioni poco ottimali. Inoltre, ci tengo a ricordare che, trattandosi di un corso di analisi progettuale, la soluzione proposta non è l'unica possibile. Ricade dunque sul lettore la capacità di giudizio della correttezza o dell'equivalenza delle proprie soluzioni rispetto a quelle proposte.
+> __DISCLAIMER ⚠️__: i progetti proposti fanno uso degli Entity-Relationship Diagrams su cui il corso si basava fino all'anno accademico 2023/2024, mentre attualmente vengono utilizzati gli UML Class Diagram. Sebbene i due siano estremamente simili, vi sono alcune discordanze tra di loro, in particolare l'inversione di posizione dei vincoli di molteplicità agli estremi delle relationship. Nonostante ciò, il rimanente delle fasi di analisi e progettazione delle soluzioni proposte risulta inaffetta da tale cambiamento. Per tanto, una volta comprese le differenze tra ER e Classi UML, le soluzioni risultano normalmente fruibili.  
+
+> __DISCLAIMER ⚠️__: i progetti proposti in seguito non costituiscono verità rivelata dall'Arcangelo Gabriele. Trattandosi di un corso di analisi progettuale, la soluzione proposta non è l'unica possibile. Ricade dunque sul lettore la capacità di giudizio della correttezza o dell'equivalenza delle proprie soluzioni rispetto a quelle proposte.
  -------
  
 I progetti proposti in seguito sono stati ordinati in base a:
@@ -26,4 +28,4 @@ I progetti proposti in seguito sono stati ordinati in base a:
 | 9  | [EasyToll](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/EasyToll.pdf) | Completo | 07/09/2023 |
 | 10 | [SafeOnTheBeach](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/SafeOnTheBeach.pdf) | Completo | 07/09/2023 |
 | 11 | [Città Verde](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/Citt%C3%A0%20Verde.pdf) | Completo e Valutato | 07/09/2023 |
-| 12 | [CozyRooms](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/CozyRooms.pdf) | Mio esame (30) | 11/09/2023 |
+| 12 | [CozyRooms](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/CozyRooms.pdf) | Mio esame (30L) | 11/09/2023 |

@@ -1,17 +1,18 @@
-<a href="https://github.com/Exyss"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/></a>
-<a href="https://t.me/Exyss"><img src="https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white"/></a>
-<a href="https://ko-fi.com/exyss"><img src="https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white"/></a>
-<a href="https://www.latex-project.org/"><img src="https://img.shields.io/badge/LaTeX-47A141?style=for-the-badge&logo=LaTeX&logoColor=white"/></a>
-
-# Appunti Universitari - Laurea in Informatica
+<div align="center">
+  <h1 align="center">University lecture notes</h1>
+  <a href="https://github.com/Exyss"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/></a>
+  <a href="https://t.me/Exyss"><img src="https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white"/></a>
+  <a href="https://ko-fi.com/exyss"><img src="https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white"/></a>
+  <a href="https://www.latex-project.org/"><img src="https://img.shields.io/badge/LaTeX-47A141?style=for-the-badge&logo=LaTeX&logoColor=white"/></a>
+</div>
 
 ### ℹ️ Informazioni
 
-Appunti e riassunti personali (ormai veri e propri libri) raccolti a partire dal 2021 durante il mio _eccentrico_ percorso accademico in ambito del corso di laurea in Informatica offerto dall'Università degli Studi di Roma "La Sapienza".
+Appunti e riassunti personali (ormai veri e propri libri) raccolti a partire dal 2021 durante i miei percorsi di laurea triennale in Informatica e laurea magistrale in Computer Science offerti dall'Università degli Studi di Roma "Sapienza".
 
 Perché condividerli? In quanto aperto sostenitore del [Copyleft](https://en.wikipedia.org/wiki/Copyleft) e della diffusione aperta della conoscenza in ogni sua possibile forma, ho deciso di renderli pubblici ed utilizzabili da chiunque.
 
-> O forse si tratta di puro egocentrismo e narcisismo, chissà
+> O forse si tratta di puro narcisismo ed egomania, chissà
 
 Ovviamente, sebbene molto dettagliati e contenenti tutto il materiale necessario a poter studiare gli argomenti richiesti dai vari corsi e dai loro esami, essi non costituiscono dogma, dunque si consiglia  di affiancarli ad uno studio tramite i libri proposti dai professori e le lezioni frontali di quest'ultimi.
 
@@ -19,7 +20,7 @@ Per tanto, in caso di incorrettezze, migliorie o richieste, chiunque si senta li
 
 ____________
 
-### 📣 Donazioni e Ripetizioni
+### 📣 Donazioni
 
 Se hai trovato utili gli appunti forniti e vuoi offrirmi un drink, puoi effettuare una donazione tramite [Ko-Fi ☕](https://ko-fi.com/exyss)
 
@@ -36,8 +37,9 @@ Disclaimers ⚠️
 - I corsi contrassegnati con [ !! ] sono stati rimossi in quanto il corso sia radicalmente cambiato e vengono consigliate risorse affidabili e recenti prodotte da altri studenti.
 - Il corso contrassegnato con [ !!! ] è sprovvisto di appunti in quanto il materiale teorico inerente alla prima parte del corso risulta già presente negli appunti del corso *Algebra*, mentre per la seconda parte del corso l'esercitazione pratica risulta l'unica forma di studio valida per apprendere i concetti richiesti.
 
+<div align="center">
 <details>
-<summary>Primo Anno - A.A. 2021-22</summary>
+<summary>Primo Anno Laurea Triennale - A.A. 2021-22</summary>
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
@@ -50,25 +52,29 @@ Disclaimers ⚠️
 | Fondamenti di Programmazione [ ! ] | - | - |
 | [Metodologie di Programmazione](https://github.com/ajhxia/UNI/raw/main/Primo%20Anno/Metodologie%20di%20Programmazione/Teoria/Metodologie_di_Programmazione.pdf) [ !! ]| Scritti da [@ajhxia](https://github.com/ajhxia) | - |
 </details>
+</div>
 
+<div align="center">
 <details>
-<summary>Secondo Anno - A.A. 2022-23</summary>
+<summary>Secondo Anno Laurea Triennale - A.A. 2022-23</summary>
 
-| Corso | Status | Aggiornati al |
-| ----- | :----: | :-----------: |
-| [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | Completi | 28/07/2024 |
-| [Calcolo delle Probabilità](../../raw/main/Secondo%20Anno/Calcolo%20delle%20Probabilità.pdf) | Completi | 03/03/2024 |
-| [Progettazione di Algoritmi](../../raw/main/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 18/05/2024 |
-| [Reti di Elaboratori](../../raw/main/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 30/05/2024 |
-| [Sistemi Operativi I](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 03/03/2024 |
-| [Sistemi Operativi II](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 28/07/2024 |
-| [Basi di Dati I](../../raw/main/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 03/03/2024 |
-| [Progetti svolti - Basi di Dati II](../../blob/main/Secondo%20Anno/Progetti%20BD2/README.md) | Completi | 11/09/2023 |
-| [Basi di Dati II](https://github.com/CasuFrost/University_notes/raw/main/Secondo%20Anno/Secondo%20Semestre/Basi%20di%20Dati%202/Latex%20source%20file/Basi%20di%20Dati%20modulo%202.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | - |
+  | Corso | Status | Aggiornati al |
+  | ----- | :----: | :-----------: |
+  | [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | Completi | 28/07/2024 |
+  | [Calcolo delle Probabilità](../../raw/main/Secondo%20Anno/Calcolo%20delle%20Probabilità.pdf) | Completi | 03/03/2024 |
+  | [Progettazione di Algoritmi](../../raw/main/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 18/05/2024 |
+  | [Reti di Elaboratori](../../raw/main/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 30/05/2024 |
+  | [Sistemi Operativi I](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 03/03/2024 |
+  | [Sistemi Operativi II](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 28/07/2024 |
+  | [Basi di Dati I](../../raw/main/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 03/03/2024 |
+  | [Progetti svolti - Basi di Dati II](../../blob/main/Secondo%20Anno/Progetti%20BD2/README.md) | Completi | 11/09/2023 |
+  | [Basi di Dati II](https://github.com/CasuFrost/University_notes/raw/main/Secondo%20Anno/Secondo%20Semestre/Basi%20di%20Dati%202/Latex%20source%20file/Basi%20di%20Dati%20modulo%202.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | - |
 </details>
+</div>
 
+<div align="center">
 <details>
-<summary>Terzo Anno - A.A. 2023-24</summary>
+<summary>Terzo Anno Laurea Triennale - A.A. 2023-24</summary>
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
@@ -80,7 +86,25 @@ Disclaimers ⚠️
 | Ingegneria del Software [ ! ] | - | - |
 | Discrete Mathematics [ !!! ] | - | - |
 </details>
+</div>
 
+
+<div align="center">
+<details>
+<summary>Primo Anno Laurea Magistrale - A.A. 2024-25</summary>
+
+| Corso | Status | Aggiornati al |
+| ----- | :----: | :-----------: |
+| Advanced Algorithms | - | - |
+| Network Algorithms | - | - |
+| Computational Complexity | - | - |
+| Graph Theory | - | - |
+| Mathematical Logic for Computer Science | - | - |
+| Autonomous Networking | - | - |
+| Machine Learning | - | - |
+| Natural Language Processing | - | - |
+</details>
+</div>
 
 ________
 

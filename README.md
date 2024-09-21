@@ -39,7 +39,7 @@ Disclaimers ⚠️
 
 <div align="center">
 <details>
-<summary>Primo Anno Laurea Triennale - A.A. 2021-22</summary>
+<summary>Laurea Triennale - Anno I - A.A. 2021-22</summary>
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
@@ -56,13 +56,13 @@ Disclaimers ⚠️
 
 <div align="center">
 <details>
-<summary>Secondo Anno Laurea Triennale - A.A. 2022-23</summary>
+<summary> Laurea Triennale - Anno II - A.A. 2022-23</summary>
 
   | Corso | Status | Aggiornati al |
   | ----- | :----: | :-----------: |
   | [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | Completi | 18/09/2024 |
   | [Calcolo delle Probabilità](../../raw/main/Secondo%20Anno/Calcolo%20delle%20Probabilità.pdf) | Completi | 18/09/2024 |
-  | [Progettazione di Algoritmi](../../raw/main/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 18/09/2024 |
+  | [Progettazione di Algoritmi](../../raw/main/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 21/09/2024 |
   | [Reti di Elaboratori](../../raw/main/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 18/09/2024 |
   | [Sistemi Operativi I](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 18/09/2024 |
   | [Sistemi Operativi II](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 18/09/2024 |
@@ -74,7 +74,7 @@ Disclaimers ⚠️
 
 <div align="center">
 <details>
-<summary>Terzo Anno Laurea Triennale - A.A. 2023-24</summary>
+<summary>Laurea Triennale - Anno III - A.A. 2023-24</summary>
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
@@ -91,18 +91,23 @@ Disclaimers ⚠️
 
 <div align="center">
 <details>
-<summary>Laurea Magistrale - A.A. 2024-25</summary>
+<summary>Laurea Magistrale - A.A. 2024-25 and 2025-26</summary>
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| Autonomous Networking | - | - |
-| Computational Complexity | - | - |
-| Fundaments of Data Science | - | - |
-| Network Algorithms | - | - |
+| [Autonomous Networking](../../raw/main/Magistrale/Autonomous%20Networking.pdf) | - | - |
+| [Computational Complexity](../../raw/main/Magistrale/Computational%20Complexity.pdf) | - | - |
+| [Network Algorithms](../../raw/main/Magistrale/Network%20Algorithms.pdf) | - | - |
 | Advanced Algorithms | - | - |
+| Cryptography | - | - |
 | Graph Theory | - | - |
+| Games and Equilibria | - | - |
 | Mathematical Logic for Computer Science | - | - |
+| Interactive Graphics | - | - |
+| [Foundations of Data Science](../../raw/main/Magistral/Foundations%20of%20Data%20Science.pdf) | - | - |
 | Natural Language Processing | - | - |
+| Advanced Machine Learning | - | - |
+| Deep Learning and Applied Artificial Intelligence | - | - |
 </details>
 </div>
 

@@ -96,15 +96,15 @@ Disclaimers ⚠️
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
 | [Autonomous Networking](../../raw/main/Magistrale/Autonomous%20Networking.pdf) | - | - |
-| [Computational Complexity](../../raw/main/Magistrale/Computational%20Complexity.pdf) | - | - |
-| [Network Algorithms](../../raw/main/Magistrale/Network%20Algorithms.pdf) | - | - |
+| [Computational Complexity](../../raw/main/Magistrale/Computational%20Complexity.pdf) | - | 21/09/2024 |
+| [Network Algorithms](../../raw/main/Magistrale/Network%20Algorithms.pdf) | - | 21/09/2024 |
 | Advanced Algorithms | - | - |
 | Cryptography | - | - |
 | Graph Theory | - | - |
 | Games and Equilibria | - | - |
 | Mathematical Logic for Computer Science | - | - |
 | Interactive Graphics | - | - |
-| [Foundations of Data Science](../../raw/main/Magistral/Foundations%20of%20Data%20Science.pdf) | - | - |
+| [Foundations of Data Science](../../raw/main/Magistral/Foundations%20of%20Data%20Science.pdf) | - | 21/09/2024 |
 | Natural Language Processing | - | - |
 | Advanced Machine Learning | - | - |
 | Deep Learning and Applied Artificial Intelligence | - | - |

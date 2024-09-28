@@ -43,7 +43,7 @@ Disclaimers ⚠️
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Calcolo Differenziale](../../raw/main/Primo%20Anno/Calcolo%20Differenziale.pdf) | Completi | 18/09/2024 |
+| [Calcolo Differenziale](../../raw/main/Primo%20Anno/Calcolo%20Differenziale.pdf) | Completi | 28/09/2024 |
 | [Calcolo Integrale](../../raw/main/Primo%20Anno/Calcolo%20Integrale.pdf) | Completi | 18/09/2024 |
 | [Metodi Matematici per l'Informatica](../../raw/main/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi | 18/09/2024 |
 | [Introduzione agli Algoritmi](../../raw/main/Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 18/09/2024 |
@@ -96,7 +96,7 @@ Disclaimers ⚠️
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
 | [Autonomous Networking](../../raw/main/Magistrale/Autonomous%20Networking.pdf) | - | - |
-| [Computational Complexity](../../raw/main/Magistrale/Computational%20Complexity.pdf) | - | 21/09/2024 |
+| [Computational Complexity](../../raw/main/Magistrale/Computational%20Complexity.pdf) | - | 28/09/2024 |
 | [Network Algorithms](../../raw/main/Magistrale/Network%20Algorithms.pdf) | - | 26/09/2024 |
 | Advanced Algorithms | - | - |
 | Cryptography | - | - |

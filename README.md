@@ -78,7 +78,7 @@ Disclaimers ⚠️
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilit%C3%A0%20e%20Complessit%C3%A0.pdf) | Completi | 26/09/2024 |
+| [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilit%C3%A0%20e%20Complessit%C3%A0.pdf) | Completi | 02/10/2024 |
 | [Linguaggi di Programmazione](../../raw/main/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 18/09/2024 |
 | [Programmazione di Sistemi Multicore](../../raw/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore.pdf) | Incompleti | 18/09/2024 |
 | [Cybersecurity](../../raw/main/Terzo%20Anno/Cybersecurity.pdf) | Completed  | 18/09/2024 |
@@ -96,7 +96,7 @@ Disclaimers ⚠️
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
 | [Autonomous Networking](../../raw/main/Magistrale/Autonomous%20Networking.pdf) | - | - |
-| [Computational Complexity](../../raw/main/Magistrale/Computational%20Complexity.pdf) | - | 28/09/2024 |
+| [Computational Complexity](../../raw/main/Magistrale/Computational%20Complexity.pdf) | - | 02/10/2024 |
 | [Network Algorithms](../../raw/main/Magistrale/Network%20Algorithms.pdf) | - | 26/09/2024 |
 | Advanced Algorithms | - | - |
 | Cryptography | - | - |

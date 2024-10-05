@@ -96,7 +96,7 @@ Disclaimers ⚠️
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
 | [Autonomous Networking](../../raw/main/Magistrale/Autonomous%20Networking.pdf) | - | - |
-| [Computational Complexity](../../raw/main/Magistrale/Computational%20Complexity.pdf) | - | 02/10/2024 |
+| [Computational Complexity](../../raw/main/Magistrale/Computational%20Complexity.pdf) | - | 05/10/2024 |
 | [Network Algorithms](../../raw/main/Magistrale/Network%20Algorithms.pdf) | - | 26/09/2024 |
 | Advanced Algorithms | - | - |
 | Cryptography | - | - |

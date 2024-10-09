@@ -82,7 +82,7 @@ Disclaimers ⚠️
 | [Linguaggi di Programmazione](../../raw/main/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 18/09/2024 |
 | [Programmazione di Sistemi Multicore](../../raw/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore.pdf) | Incompleti | 18/09/2024 |
 | [Cybersecurity](../../raw/main/Terzo%20Anno/Cybersecurity.pdf) | Completed  | 09/10/2024 |
-| [Optimization](../../raw/main/Terzo%20Anno/Optimization.pdf) | Completed | 18/09/2024 |
+| [Optimization](../../raw/main/Terzo%20Anno/Optimization.pdf) | Completed | 09/10/2024 |
 | Ingegneria del Software [ ! ] | - | - |
 | Discrete Mathematics [ !!! ] | - | - |
 </details>

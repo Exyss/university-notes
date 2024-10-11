@@ -99,14 +99,14 @@ Disclaimers ⚠️
 | [Network Algorithms](https://github.com/aflaag-notes/network-algs) | Scritti da [@aflaag](https://github.com/aflaag) | 09/10/2024 |
 | Computer Network Performance| - | - |
 | Internet of Things | - | - |
-| [Computational Complexity](../../raw/main/Magistrale/Computational%20Complexity.pdf) | In corso | 09/10/2024 |
+| [Computational Complexity](../../raw/main/Magistrale/Computational%20Complexity.pdf) | In corso | 11/10/2024 |
 | Advanced Algorithms | - | - |
 | Cryptography | - | - |
 | Graph Theory | - | - |
 | Mathematical Logic for Computer Science | - | - |
 | Games and Equilibria | - | - |
 | [Models of Computation](https://github.com/aflaag-notes/moc) | Scritti da [@aflaag](https://github.com/aflaag) | - |
-| [Machine Learning](../../raw/main/Magistrale/Machine%20Learning.pdf) | In corso | - |
+| [Machine Learning](../../raw/main/Magistrale/Machine%20Learning.pdf) | In corso | 11/10/2024 |
 | Natural Language Processing | - | - |
 | Deep Learning and Applied Artificial Intelligence | - | - |
 </details>

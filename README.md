@@ -106,7 +106,7 @@ Disclaimers ⚠️
 | Mathematical Logic for Computer Science | - | - |
 | Games and Equilibria | - | - |
 | [Models of Computation](https://github.com/aflaag-notes/moc) | Scritti da [@aflaag](https://github.com/aflaag) | - |
-| [Machine Learning](../../raw/main/Magistrale/Machine%20Learning.pdf) | In corso | 11/10/2024 |
+| [Machine Learning](../../raw/main/Magistrale/Machine%20Learning.pdf) | In corso | 12/10/2024 |
 | Natural Language Processing | - | - |
 | Deep Learning and Applied Artificial Intelligence | - | - |
 </details>

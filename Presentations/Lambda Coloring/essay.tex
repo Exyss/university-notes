@@ -1,0 +1,60 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[affil-it]{authblk}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\usepackage[
+  backend=bibtex,
+  style=alphabetic,
+  sorting=anyt,
+  minnames=3,
+  minalphanames=3
+]{biblatex}
+
+\hypersetup{
+    colorlinks=true,
+    citecolor=blue,
+    linkcolor=black,
+    urlcolor=blue,
+    pdftitle={Approximation of Lambda-coloring in graphs},
+}
+
+\newtheorem{definition}{Definition}
+\newtheorem{problem}{Problem}
+\newtheorem{claim}{Claim}
+
+\definecolor{sapRed}{HTML}{6f0a19}
+\definecolor{sapBlue}{HTML}{006778}
+
+\newcommand{\curlyquotes}[1]{\textquotedblleft #1\textquotedblright}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\abk}[1]{\left\langle#1\right\rangle}
+
+\addbibresource{./references.bib}
+
+\begin{document}
+
+    \title{Approximations for $\lambda$-coloring in graphs}
+    \author{Simone Bianco}
+    \affil{Sapienza Università di Roma, Italy}
+    \date{\today}
+
+    \maketitle
+
+    \abstract{This essay is based on the article written by \textcite{main_article}. The contents of in the article are discussed in a more in-depth way, showing graphical examples and providing access to a non-expert reader.}
+
+    \tableofcontents
+    \newpage
+
+    \section{Introduction}
+
+    \printbibliography
+
+\end{document}

@@ -247,11 +247,15 @@
         \caption{Example of a set cover problem instance}
     \end{figure}
     
-    Similarly to what we deed for the ST problem, the decision version of the set coverage problem would ask to decide if there is a set cover of at most $k$ subsets. Even though we can indeed convert the set cover problem to a \textit{terminal coverage} instance, we need still have some issues: any trivial Karp reduction, i.e. a poly-time reduction, from SC to ST has some counter-examples for which the minimal cover is mapped to a graph that contains cycles, which isn't a tree. 
+    Similarly to what we deed for the ST problem, the decision version of the set coverage problem would ask to decide if there is a set cover of at most $k$ subsets. Even though we can indeed convert the set cover problem to a \textit{terminal coverage} instance, we need still have some issues: there is no trivial connection between the input value $k$ of the SC instance and the output value $k'$ of the ST instance.
     
-    To force this constraint, we need a stronger variant of the set coverage problem, that being the \textit{exact cover} (XC) problem. This variant of the problem has one additional condition: the subsets inside the minimal cover must be pairwise disjoint, meaning that each element of $U$ lie only inside one of the subsets. In other words, we're asked to find a partition using the subsets of the given collection. Indeed, this variant of the problem fixes the previous issue, but there still is something to fix: we don't know how many edges the resulting Steiner tree must have. To fix this final issue, we use another stronger variant of the exact cover problem: the \textit{exact cover by 3-sets} (X3C) problem.
-
-    This new problem has a third constraint: the universe set has $3q$ elements for some integer $q > 0$ and each of the subsets inside the collection has $3$ elements. The decision version of this problem, defined as follows, is $\mathsf{NP}$-Complete, where the hardness is obtained through a reduction from the 3D Matching problem.
+    To fix this final issue, we use a stronger variant of the exact cover problem: the \textit{exact cover by 3-sets} (X3C) problem. This new problem has a two additional constraints:
+    \begin{enumerate}
+        \item The sub-collection must be pairwise disjoint.
+        \item the universe set has $3q$ elements for some integer $q > 0$ and each of the subsets inside the collection has $3$ elements.
+    \end{enumerate}
+    
+    We notice that since $\abs{U} = 3q$, any exact cover will be made of exactly $q$ subsets, meaning that the optimization version of the problem becomes a simple search problem. The decision version of this problem, defined as follows, is $\mathsf{NP}$-Complete, where the hardness is obtained through a reduction from the 3D Matching problem.
 
     \begin{definition}
         Given a set $U = \{x_1, \ldots, x_{3q}\}$ and a collection of subsets $\mathcal{C} = \{C_1, \ldots, C_m\}$ such that $C_i \subseteq U$ and $\abs{C_i} = 3$, determine if there is a sub-collection $\mathcal{C}^* \subseteq  \mathcal{C}$ that is a partition of $U$.

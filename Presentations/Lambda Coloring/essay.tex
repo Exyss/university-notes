@@ -95,7 +95,7 @@
 
     \section{Graphs of treewidth $k$}
 
-    In graph theory, the \textit{treewidth} of an undirected graph is an integer number which specifies, informally, \curlyquotes{how far} the graph is from being a \curlyquotes{tree}. Formally, the treewidth is defined in terms of \textit{tree decomposition}.
+    In graph theory, the \textit{treewidth} of an undirected graph is an integer number which specifies, informally, \curlyquotes{how far} the graph is from being a \curlyquotes{tree}. The treewidth is defined in terms of \textit{tree decomposition}.
 
     \begin{definition}
       A tree decomposition of a graph $G$ is a tree $T$ with nodes $V(T) = \{X_1, \ldots, X_t\}$ where $X_i \subseteq V(G)$ for any $i$ that satisfies the following properties:
@@ -106,7 +106,7 @@
       \end{enumerate}
     \end{definition}
 
-    The \textit{width} of a tree decomposition is the size of its largest set $X_i$ minus one. The \textit{treewidth} of a graph $G$ is the minimum width among all possible tree decompositions of $G$. In this context, the minus one factor in the width measure is considered in order to make any standard tree have treewidth 1.
+    The \textit{width} of a tree decomposition is the size of its largest set $X_i$ minus one. The \textit{treewidth} of a graph $G$, written as $\mathrm{tw}(G)$, is the minimum width among all possible tree decompositions of $G$. In this context, the minus one factor in the width measure is considered in order to make any standard tree have treewidth 1.
 
     \begin{figure}[H]
 		\centering
@@ -148,7 +148,7 @@
 			\begin{tabular}{c}
 				\begin{tikzpicture}[node distance=1.5cm]
 					\node[rectangle, rounded corners, draw, minimum width=40] (1)[] {$1,2,8$};
-					\node[rectangle, rounded corners, draw, minimum width=40] (2)[below right of = 1] {$2,5,8$};
+					\node[rectangle, rounded corners, draw, minimum width=40] (2)[below right of = 1] {$2,6,8$};
 					\node[rectangle, rounded corners, draw, minimum width=40] (3)[below left of = 2] {$6,7,8$};
 					\node[rectangle, rounded corners, draw, minimum width=40] (4)[right of = 2, xshift = 22.5] {$2,4,6$};
 					\node[rectangle, rounded corners, draw, minimum width=40] (5)[above right of = 4] {$2,3,4$};
@@ -181,11 +181,29 @@
 		Any graph $H$ that is a subgraph of a $k$-tree is called a partial $k$-tree. 
 	\end{definition}
 	
-	We notice that $k$-trees are exactly the maximal graphs with a treewidth of $k$ -- hence their name -- where \curlyquotes{maximal} means that no more edges can be added without increasing their treewidth. In fact, it can be shown that a graph is a partial $k$-tree if and only if its treewidth is at most $k$ \cite{k_trees_treewidth}, from which we derive the following.
+	We notice that $k$-trees are exactly the maximal graphs with a treewidth of $k$ -- hence their name -- where \curlyquotes{maximal} means that no more edges can be added without increasing their treewidth. In fact, it can be shown that a graph is a partial $k$-tree if and only if its treewidth is at most $k$ \cite{k_trees_treewidth}. To show this result, we first state the following trivial lemma.
 
-	\begin{lemma}
+	\begin{theorem}{}
+		A graph $G$ is a partial $k$-tree if and only if $\mathrm{tw}(G) \leq k$
+	\end{theorem}
+
+	\begin{proof}
+		$\Rightarrow)$ Let $G = (V,E)$ be a partial $k$-tree and let $H = (V,E')$ be the $k$-tree that contains $G$ as a subgraph. Clearly, we have that $\mathrm{tw}(G) \leq \mathrm{tw}(H)$. We will show that $\mathrm{tw}(H) \leq k$. We proceed by induction on the number of vertices of $H$.
+		
+		If $H$ has $k+1$ vertices then $\mathrm{tw}(H) = k$ since a single node with all the vertices is a tree decomposition of $H$ of width $k$. Assume now that $H$ has more than $k+1$ vertices. By definition of $k$-tree, there is a node $v \in V$ such that $H[V-\{v\}$ is a $k$-tree and $v \cup N_H(v)$ induce a $(k+1)$-clique $K$ in $H$. By inductive hypothesis, the induced subgraph $H[V-\{v\}]$ has a tree decomposition $T = (\{X_1, \ldots, X_t\},F)$ of width at most $k$.
+		
+		Since $K-\{v\}$ is a $k$ clique in $H[V-\{v\}]$, by the previous lemma there must be a set $X_i$ such that $K-\{v\} \subseteq X_i$. Let $X_{t+1} = K$ and let $T' = (\{X_1, \ldots, X_t, X_{t+1}\}, F \cup \{i,t+1\})$. Then, since $\abs{K}-1 = k$, $T'$ is a tree decomposition of $G$ with width at most $k$.
+
+		$\Leftarrow)$ Again, we proceed by induction. Let $G = (V,E)$. If $G$ has $k+1$ vertices then the $k$-tree $K_{k+1}$ trivially contains $G$.
+		
+		Assume now that now that $G$ has more than $k+1$ vertices. Let $T = (\{X_1, \ldots, X_t\},F)$ be a tree decomposition of $G$ of width at most $k$. Let $X_\ell$ be a leaf node of $T$ and let $X_i$ be its only neighbor in $T$. We can assume that $X_\ell \not\subseteq X_i$ since otherwise by removing $X_\ell$ from $T$ we still get a tree decomposition of $G$ with width at most $k$. Moreover, this assumption also allows us to assume that $X_\ell - X_i = \{v\}$: if not, $X_\ell$ can be divided into several tree nodes such that the resulting new leaf node satisfies this requirement.
+
+		Since $X_\ell$ is a leaf node and $X_\ell - X_i = \{v\}$, every adjacent vertex of $v$ must be inside $X_\ell$ and $X_i$. Moreover, since $\abs{X_\ell} \leq k+1$, $v$ has at most $k$ such neighbors. By inductive hypothesis, $G[V-\{v\}]$ is a partial $k$ tree. Let $H$ be the $k$-tree that contains $G[V-\{v\}]$. By construction of $H$, $X_i$ must be a $k$-clique, hence by adding $v$ to $H$ and by connecting it to all the vertices in $X_i$, we get a $k$-tree that contains $G$.
+	\end{proof}
+
+	\begin{corollary}
 		A graph $G$ has treewidth $k$ if and only if $k$ is the smallest value for which $G$ is a partial $k$-tree.
-	\end{lemma}
+	\end{corollary}
 
 	For instance, since in \Cref{treewidth_2} we have a graph of treewidth $2$, we know that it must be a partial $2$-tree, meaning that we can construct a $2$-tree that contains it. In fact, this graph is actually a full $2$-tree and not only a partial one.
 

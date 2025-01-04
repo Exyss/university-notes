@@ -47,7 +47,7 @@ Disclaimers ⚠️
 | [Calcolo Integrale](../../raw/main/Primo%20Anno/Calcolo%20Integrale.pdf) | Completi | 09/10/2024 |
 | [Metodi Matematici per l'Informatica](../../raw/main/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi | 18/09/2024 |
 | [Introduzione agli Algoritmi](../../raw/main/Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 18/09/2024 |
-| [Progettazione di Sistemi Digitali](../../raw/main/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 18/09/2024 |
+| [Progettazione di Sistemi Digitali](../../raw/main/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 04/01/2025 |
 | [Architettura degli Elaboratori](../../raw/main/Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Completi | 18/09/2024 |
 | Fondamenti di Programmazione [ ! ] | - | - |
 | [Metodologie di Programmazione](https://github.com/ajhxia/UNI/raw/main/Primo%20Anno/Metodologie%20di%20Programmazione/Teoria/Metodologie_di_Programmazione.pdf) [ !! ]| Scritti da [@ajhxia](https://github.com/ajhxia) | 09/10/2024 |

@@ -43,14 +43,14 @@ Disclaimers ⚠️
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Calcolo Differenziale](../../raw/main/Primo%20Anno/Calcolo%20Differenziale.pdf) | Completi | 08/11/2024 |
-| [Calcolo Integrale](../../raw/main/Primo%20Anno/Calcolo%20Integrale.pdf) | Completi | 09/10/2024 |
-| [Metodi Matematici per l'Informatica](../../raw/main/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi | 18/09/2024 |
-| [Introduzione agli Algoritmi](../../raw/main/Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 18/09/2024 |
-| [Progettazione di Sistemi Digitali](../../raw/main/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 04/01/2025 |
-| [Architettura degli Elaboratori](../../raw/main/Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Completi | 18/09/2024 |
+| [Calcolo Differenziale](../../raw/main/Bachelor/Primo%20Anno/Calcolo%20Differenziale.pdf) | Completi | 08/11/2024 |
+| [Calcolo Integrale](../../raw/main/Bachelor/Primo%20Anno/Calcolo%20Integrale.pdf) | Completi | 09/10/2024 |
+| [Metodi Matematici per l'Informatica](../../raw/main/Bachelor/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi | 18/09/2024 |
+| [Introduzione agli Algoritmi](../../raw/main/Bachelor/Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 18/09/2024 |
+| [Progettazione di Sistemi Digitali](../../raw/main/Bachelor/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 04/01/2025 |
+| [Architettura degli Elaboratori](../../raw/main/Bachelor/Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Completi | 18/09/2024 |
 | Fondamenti di Programmazione [ ! ] | - | - |
-| [Metodologie di Programmazione](https://github.com/ajhxia/UNI/raw/main/Primo%20Anno/Metodologie%20di%20Programmazione/Teoria/Metodologie_di_Programmazione.pdf) [ !! ]| Scritti da [@ajhxia](https://github.com/ajhxia) | 09/10/2024 |
+| [Metodologie di Programmazione](https://github.com/ajhxia/UNI/raw/main/Bachelor/Primo%20Anno/Metodologie%20di%20Programmazione/Teoria/Metodologie_di_Programmazione.pdf) [ !! ]| Scritti da [@ajhxia](https://github.com/ajhxia) | 09/10/2024 |
 </details>
 </div>
 
@@ -60,15 +60,15 @@ Disclaimers ⚠️
 
   | Corso | Status | Aggiornati al |
   | ----- | :----: | :-----------: |
-  | [Algebra](../../raw/main/Secondo%20Anno/Algebra.pdf) | Completi | 18/09/2024 |
-  | [Calcolo delle Probabilità](../../raw/main/Secondo%20Anno/Calcolo%20delle%20Probabilita.pdf) | Completi | 09/10/2024 |
-  | [Progettazione di Algoritmi](../../raw/main/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 21/09/2024 |
-  | [Reti di Elaboratori](../../raw/main/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 18/09/2024 |
-  | [Sistemi Operativi I](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 29/10/2024 |
-  | [Sistemi Operativi II](../../raw/main/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 18/09/2024 |
-  | [Basi di Dati I](../../raw/main/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 18/09/2024 |
-  | [Progetti svolti - Basi di Dati II](../../blob/main/Secondo%20Anno/Progetti%20BD2/README.md) | Completi | 09/10/2024 |
-  | [Basi di Dati II](https://github.com/CasuFrost/University_notes/raw/main/Secondo%20Anno/Secondo%20Semestre/Basi%20di%20Dati%202/Latex%20source%20file/Basi%20di%20Dati%20modulo%202.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | 09/10/2024 |
+  | [Algebra](../../raw/main/Bachelor/Secondo%20Anno/Algebra.pdf) | Completi | 18/09/2024 |
+  | [Calcolo delle Probabilità](../../raw/main/Bachelor/Secondo%20Anno/Calcolo%20delle%20Probabilita.pdf) | Completi | 09/10/2024 |
+  | [Progettazione di Algoritmi](../../raw/main/Bachelor/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 21/09/2024 |
+  | [Reti di Elaboratori](../../raw/main/Bachelor/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 18/09/2024 |
+  | [Sistemi Operativi I](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 29/10/2024 |
+  | [Sistemi Operativi II](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 18/09/2024 |
+  | [Basi di Dati I](../../raw/main/Bachelor/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 18/09/2024 |
+  | [Progetti svolti - Basi di Dati II](../../blob/main/Bachelor/Secondo%20Anno/Progetti%20BD2/README.md) | Completi | 09/10/2024 |
+  | [Basi di Dati II](https://github.com/CasuFrost/University_notes/raw/main/Bachelor/Secondo%20Anno/Secondo%20Semestre/Basi%20di%20Dati%202/Latex%20source%20file/Basi%20di%20Dati%20modulo%202.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | 09/10/2024 |
 </details>
 </div>
 
@@ -78,11 +78,11 @@ Disclaimers ⚠️
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Automi, Calcolabilità e Complessità](../../raw/main/Terzo%20Anno/Automi%2C%20Calcolabilita%20e%20Complessita.pdf) | Completi | 09/10/2024 |
-| [Linguaggi di Programmazione](../../raw/main/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 18/09/2024 |
-| [Programmazione di Sistemi Multicore](../../raw/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore.pdf) | Incompleti | 18/09/2024 |
-| [Cybersecurity](../../raw/main/Terzo%20Anno/Cybersecurity.pdf) | Completed  | 09/10/2024 |
-| [Optimization](../../raw/main/Terzo%20Anno/Optimization.pdf) | Completed | 09/10/2024 |
+| [Automi, Calcolabilità e Complessità](../../raw/main/Bachelor/Terzo%20Anno/Automi%2C%20Calcolabilita%20e%20Complessita.pdf) | Completi | 09/10/2024 |
+| [Linguaggi di Programmazione](../../raw/main/Bachelor/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 18/09/2024 |
+| [Programmazione di Sistemi Multicore](../../raw/main/Bachelor/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore.pdf) | Incompleti | 18/09/2024 |
+| [Cybersecurity](../../raw/main/Bachelor/Terzo%20Anno/Cybersecurity.pdf) | Completed  | 09/10/2024 |
+| [Optimization](../../raw/main/Bachelor/Terzo%20Anno/Optimization.pdf) | Completed | 09/10/2024 |
 | Ingegneria del Software [ ! ] | - | - |
 | Discrete Mathematics [ !!! ] | - | - |
 </details>
@@ -91,22 +91,22 @@ Disclaimers ⚠️
 
 <div align="center">
 <details>
-<summary>Laurea Magistrale - A.A. 2024-25 and 2025-26</summary>
+<summary>Master degree - A.A. 2024-25 and 2025-26</summary>
 
-| Corso | Status | Aggiornati al |
+| Course | Status | Last update |
 | ----- | :----: | :-----------: |
-| [Autonomous Networking](../../raw/main/Master/Autonomous%20Networking.pdf) | In corso | 10/11/2024 |
-| [Network Algorithms](https://github.com/aflaag-notes/network-algs) | Scritti da [@aflaag](https://github.com/aflaag) | 09/10/2024 |
+| [Autonomous Networking](../../raw/main/Master/Autonomous%20Networking.pdf) | - | - |
+| [Network Algorithms](https://github.com/aflaag-notes/network-algs) | Written by [@aflaag](https://github.com/aflaag) | 09/10/2024 |
 | Computer Network Performance| - | - |
 | Internet of Things | - | - |
-| [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | In corso | 06/01/2025 |
+| [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 06/01/2025 |
 | Advanced Algorithms | - | - |
 | Cryptography | - | - |
 | Graph Theory | - | - |
 | Mathematical Logic for Computer Science | - | - |
 | Games and Equilibria | - | - |
-| [Models of Computation](https://github.com/aflaag-notes/moc) | Scritti da [@aflaag](https://github.com/aflaag) | - |
-| [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | In corso | 10/11/2024 |
+| [Models of Computation](https://github.com/aflaag-notes/moc) | Written by [@aflaag](https://github.com/aflaag) | - |
+| [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | W.i.p. | 10/11/2024 |
 | Natural Language Processing | - | - |
 | Deep Learning and Applied Artificial Intelligence | - | - |
 </details>

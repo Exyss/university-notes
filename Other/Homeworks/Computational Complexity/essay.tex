@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper]{report}
 \usepackage[affil-it]{authblk}
 \usepackage{amsthm}
 \usepackage{amssymb}
@@ -9,7 +9,9 @@
 \usepackage{float}
 \usepackage{xcolor}
 \usepackage{hyperref}
-       
+\usepackage{algpseudocode}
+\usepackage[nameinlink]{cleveref}
+
 \usepackage[
   backend=biber,
   style=alphabetic,
@@ -21,14 +23,14 @@
 \hypersetup{
     colorlinks=true,
     citecolor=blue,
-    linkcolor=black,
+    linkcolor=blue,
     urlcolor=blue,
-    pdftitle={NP-Completeness Steiner Tree},
+    pdftitle={Computational Complexity Homework 2024-25},
 }
 
-\newtheorem{definition}{Definition}
-\newtheorem{problem}{Problem}
-\newtheorem{claim}{Claim}
+\newtheorem{question}{Question}
+\theoremstyle{definition}
+\newtheorem{solution}{Solution}
 
 \definecolor{sapRed}{HTML}{6f0a19}
 \definecolor{sapBlue}{HTML}{006778}
@@ -41,413 +43,409 @@
 
 \begin{document}
 
-    \title{NP-Completeness of the Steiner Tree Problem}
-    \author{Simone Bianco}
+    \setlength{\parskip}{5pt}               % Vertical spacing between paragraphs
+    \setlength{\parindent}{0pt}             % Vertical spacing between paragraphs
+
+    \title{Computational Complexity \\ Homework 2024-25}
+    \author{Simone Bianco, 1986936}
     \affil{Sapienza Università di Roma, Italy}
     \date{\today}
 
     \maketitle
 
-    \abstract{The Steiner Tree (ST) problem is an optimization problem in graph theory with applications in network design and computational biology. This essay proves the $\mathsf{NP}$-Completeness for the decision version of the problem in undirected graphs by showing membership in $\mathsf{NP}$ and constructing a polynomial-time reduction from the $\mathsf{NP}$-Complete Exact Cover by 3-Sets (X3C) problem}
+    \begin{question}
+        Prove that if $\mathsf{NP} \subseteq \mathsf{BPP}$, then $\mathsf{NP} = \mathsf{RP}$.
+        
+        To prove this result you may keep in mind that:
+        \begin{itemize}
+            \item $\mathrm{SAT}$ is self-reducible, this means that you can solve it by reducing to one or more smaller instances of the problem itself.
+            \item It is possible, given an algorithm that decides $\mathrm{SAT}$ in polynomial time, to obtain an algorithm that on satisfiable formulas also produces a satisfying assignment.
+            \item We saw how to reduce error in probabilistic computation. Essentially, given a polynomial time probabilistic algorithm with two-sided error for $\mathrm{SAT}$,
+            you should define another polynomial time probabilistic algorithm for $\mathrm{SAT}$. But this time the algorithm's only errors must be false negatives. And of course the algorithm must have an appropriate probability of success. You have to prove the correctness of your algorithm.
+        \end{itemize}
+    \end{question}
 
-    \tableofcontents
-    \newpage
+    \begin{solution}
+        First, we observe that the inclusion $\mathsf{RP} \subseteq \mathsf{NP}$ holds without the assumption. Suppose now that that $\mathsf{NP} \subseteq \mathsf{BPP}$. We know that there is a $\mathrm{PDTM}$ $M$ such that:
+        \[\abk{\phi} \in \mathrm{SAT} \iff \Pr[M(\phi) = L(\phi)] \geq \frac{2}{3}\]
 
-    \section{The Steiner Tree problem}
+        where $L(\phi) = 1$ if $\phi \in \mathrm{SAT}$, otherwise $L(\phi) = 0$. Through error reduction, we know that there is a $\mathrm{PDTM}$ $M_p$ that reduces the error of deciding $\mathrm{SAT}$ to less than $\frac{1}{2^{{\abs{\phi}}^p}}$ by repeatedly running $M$, where $p$ is an arbitrary positive constant.
+        \[\abk{\phi} \in \mathrm{SAT} \iff \Pr[M_p(\phi) = L(\phi)] \geq 1-\frac{1}{2^{{\abs{\phi}}^p}}\]
+        
+        We define the following procedure $A$ that constructs a satisfying assignment:
 
-    The Steiner Tree problem is an optimization problem that arises in various fields, including network design, computational biology, and VLSI design. While there are many formulations of this problem, they all require to find an optimal interconnection for a given set of objects, called \textit{terminals}, for a predefined objective function, which usually asks to minimize the length of such interconnections. This problem has many applications, especially when planning a connecting structure among different terminal points to minimize overall cost or distance. \cite{shortest_network}
+        \begin{algorithmic}[H]
+            \Function{$A$}{$\phi$}
+                \State Let $\alpha_0$ be an empty partial assignment
+                \For{$i$ = $1, \ldots, n$}
+                    \If{$M_p(\phi_{\mid \alpha_{i-1} \cup \{x_i = 1\}}) = 1$}
+                        \State $\alpha_i = \alpha_{i-1} \cup \{x_i = 1\}$
+                    \Else
+                        \State $\alpha_i = \alpha_{i-1} \cup \{x_i = 0\}$
+                    \EndIf
+                \EndFor
+                \State Return $\alpha_n$
+            \EndFunction
+        \end{algorithmic}
 
-    \begin{figure}[H]
-        \centering
+        Let $\alpha = A(\phi)$. Suppose that $\phi$ is unsatisfiable. Then, $\alpha$ will never satisfy $\phi$. Hence, we have that:
+        \[\abk{\phi} \notin \mathrm{SAT} \implies \Pr[\phi(\alpha) = 1] = 0\]
 
-        \resizebox{0.5 \textwidth}{!}{
-            \begin{tikzpicture}[node distance=1.75cm]
-                \node[circle, draw, fill=sapRed] (1) [] {};
-                \node[circle, draw, fill=sapRed] (2) [below of = 1, xshift=-25] {};
-                \node[] (3) [below right of = 2] {};
-                \node[circle, draw, fill=sapRed] (4) [above right of = 3, yshift=-30, xshift=15] {};
-                \node[circle, draw, fill=sapRed] (5) [below left of = 3, xshift=15, yshift=-15] {};
-                \node[circle, draw, fill=sapRed] (6) [left of = 5] {};
-                \node[circle, draw, fill=sapRed] (7) [right of = 4, xshift=-20, yshift=20] {};
-                \node[] (8) [right of = 7, yshift=-10] {};
-                \node[] (9) [below of = 8, yshift=-10, xshift=20] {};
-                \node[circle, draw, fill=sapRed] (10) [left of = 9, yshift=-40, xshift=25] {};
-                \node[circle, draw, fill=sapRed] (11) [right of = 9] {};
-                \node[circle, draw, fill=sapRed] (12) [above of = 8, yshift=20, xshift=40] {};
+        Suppose now that $\phi$ is satisfiable. We notice that the assignment returned by the machine is correct not only when all the $n$ calls of $M_p$ give a correct output, but it may also be correct when some (or all) of the calls give the wrong answer. We'll show that restricting our interest to the probability of the case where all the calls accept is sufficient. Let $\mathrm{X_i}$ be the random Bernoulli variable such that $X_i = 1$ if and only if the $i$-th run of $M_p$ inside $A$ is correct. Due to the previous observation, we have that:
+        \[\Pr[\phi(\alpha) = 1] > \Pr \left [\bigcap_{i = 1}^n X_i = 1 \right ] = 1 - \Pr \left [\bigcup_{i = 1}^n X_i = 0 \right ]\]
 
+        \textbf{Claim}: For each $n \in \mathbb{N}$, it holds that $\Pr \left [\bigcup_{i = 1}^n X_i = 0 \right ] \leq \sum_{i = 1}^n \Pr \left [ X_i = 0 \right ]$ 
 
-                \path[every node/.style={font=\sffamily\small}]
-                    (1) edge (2)
-                    (3.center) edge (2)
-                    (3.center) edge (4)
-                    (3.center) edge (5)
-                    (6) edge (5)
-                    (4) edge (7)
-                    (8.center) edge (7)
-                    (8.center) edge (9.center)
-                    (9.center) edge (10)
-                    (9.center) edge (11)
-                    (8.center) edge (12.center)
-                ;
-            \end{tikzpicture}
-            }
-        \caption{A minimal length Steiner Tree}
-    \end{figure}
-    
-    The usual formulation of this problem is achieved through graphs, where each node of the graph acts as an interconnection point. The terminals are also represented as nodes of the graph. A Steiner Tree must cover all the designed terminal nodes.
-    
-    \begin{definition}
-        Given a graph $G$ and a subset of nodes $S \subseteq V(G)$, called \textit{terminal set}, a Steiner Tree (ST) for $S$ in $G$ is a sub-tree $T$ such that covers all the nodes of $S$, i.e. $S \subseteq V(T)$.
-    \end{definition}
+        \begin{proof}[Proof of the claim]
+            When $n = 1$, the claim is trivially true. Assume that the claim holds for $n$. With $n+1$ we have that:
+            \[\begin{split}
+                \Pr \left [\bigcup_{i = 1}^{n+1} X_i = 0 \right ] &= \Pr[X_{n+1} = 0] + \Pr \left [\bigcup_{i = 1}^n X_i = 0 \right ] - \Pr \left [X_{n+1} = 0 \cap \bigcap_{i = 1}^n X_i \right ]\\
+                &\leq \Pr[X_{n+1} = 0] + \sum_{i = 1}^n \Pr [X_i = 0 ]
+            \end{split} \]
+        \end{proof}
 
-    In particular, we notice that, by definition, a Steiner Tree can also contain nodes that aren't part of the terminal set. These nodes are called \textit{Steiner points}. The Steiner Tree problem asks to find an ST for a given set of terminal nodes with the lowest possible number of edges.
+        Through the claim we get that:
+        \[\Pr[\phi(\alpha) = 1] > 1 - \Pr \left [\bigcup_{i = 1}^n X_i = 0 \right ] \geq 1 -  \sum_{i = 1}^n \Pr \left [ X_i = 0 \right ] \geq 1 - \frac{n}{2^{{\abs{x}}^p}}\]
+        which is always greater than $\frac{2}{3}$ for an appropriate choice of $p$. 
+        Finally, consider the $\mathrm{TM}$ $M'$ that given $\phi$ in input first computes $A(\phi) = \alpha$ and then returns 1 if and only if $\phi(\alpha) = 1$. By our previous observations we have that:
+        \[\abk{\phi} \in \mathrm{SAT} \implies \Pr[M'(\phi) = 1] = \Pr[\phi(\alpha) = 1] \geq \frac{2}{3}\]
+        \[\abk{\phi} \notin \mathrm{SAT} \implies \Pr[M'(\phi) = 1] = \Pr[\phi(\alpha) = 1] = 0\]
+        Since $M'$ runs in polynomial time, this concludes that $\mathrm{SAT} \in \mathsf{RP}$. Moreover, since $\mathsf{SAT}$ is $\mathsf{NP}$-Complete, this also concludes that $\mathrm{NP} \subseteq \mathrm{RP}$.
+    \end{solution}
 
-    \begin{problem}
-        Given a graph $G$ and a subset of nodes $S \subseteq V(G)$, find a Steiner Tree with the minimum number of edges.
-    \end{problem}
+    \quad
 
-    \begin{figure}[H]
-        \centering
+    \hrule
 
-        \resizebox{0.4\textwidth}{!}{
-            \begin{tikzpicture}[]
-                \node[circle, draw, fill=sapRed] (1) [] {};
-                \node[circle, draw, orange, line width=1.5, fill=sapBlue] (2) [above left of = 1, xshift=50] {};
-                \node[circle, draw, fill=orange] (3) [below right of = 1, xshift=0] {};
-                \node[circle, draw, fill=sapRed] (4) [above left of = 2, xshift=-20] {};
-                \node[circle, draw, fill=sapRed] (5) [above right of = 2, xshift=-30] {};
-                \node[circle, draw, orange, line width=1.5, fill=sapBlue] (6) [below left of = 3, xshift=-20] {};
-                \node[circle, draw, fill=sapRed] (7) [below right of = 3, xshift=20] {};
-                \node[circle, draw, fill=sapRed] (8) [below right of = 7, xshift=10] {};
-                \node[circle, draw, orange, line width=1.5, fill=sapBlue] (9) [below left of = 7, xshift=0] {};
-                \node[circle, draw, orange, line width=1.5, fill=sapBlue] (10) [above right of = 7, xshift=20] {};
-                \node[circle, draw, fill=sapRed] (11) [above right of = 1, xshift=40] {};
-                \node[circle, draw, fill=sapRed] (12) [below of = 10, xshift=10] {};
+    \quad
 
-                \path[every node/.style={font=\sffamily\small}]
-                    (1) edge (10)
-                    (2) edge (9)
-                    (4) edge[] (1)
-                    (5) edge[] (2)
-                    (6) edge[color=orange, line width=1.5] (3)
-                    (1) edge[] (3)
-                    (3) edge[color=orange, line width=1.5] (2)
-                    (2) edge (6)
-                    (3) edge[color=orange, line width=1.5] (9)
-                    (4) edge[] (2)
-                    (5) edge (10)
-                    (8) edge[] (2)
-                    (1) edge (5)
-                    (8) edge[] (9)
-                    (11) edge[] (7)
-                    (11) edge[] (3)
-                    (11) edge (5)
-                    (11) edge[] (12)
-                    (11) edge (9)
-                    (12) edge (7)
-                    (12) edge[] (8)
-                    (3) edge[color=orange, line width=1.5] (10)
-                    (10) edge (7)
-                ;
-            \end{tikzpicture}
-        }
+    \begin{question} This questions is broken in several tasks.
+
+        \begin{enumerate}
+            \item Show a polynomial size branching program for the inner product function
+            \[\mathrm{IP}(x_1, \ldots, x_n, y_1, \ldots, y_n) = \sum_{i = 1}^n x_iy_i \pmod{2}\]
             
-        \caption{Minimum Steiner Tree for the given terminals (blue nodes)}
-    \end{figure}
+            \item Given a CNF formula $\phi(x_1, \ldots , x_n)$, describe a branching program that computes $\phi$ of size polynomial with respect to the size of $\phi$. Computing $\phi$ means that the branching program must compute the value of the formula, given as assignment to its variables.
+            \item A read-once branching program is one where no variable is queried more than once on any path. Do part 1 again, but with a read-once branching program. Or show that your solution for part one is already read-once.
+            \item Can you do a read-once branching program for part 2? If not, why not? Discuss the difficulties, but a formal argument is not required here.
+        \end{enumerate}
+    \end{question}
 
-    An interesting thing to notice is that this formulation of the Steiner Tree problem acts as a generalization two well-known combinatorial optimization problems: the \textit{Shortest Path problem} and the \textit{Minimum Spanning Tree problem}. In particular, finding the minimum Steiner Tree on two terminals is equivalent to finding the shortest path between them. When all vertices in the graph are terminals, instead, the problem becomes equivalent to finding the minimum spanning tree of the graph.
+    \begin{solution}
+        \quad
 
-    
-    \begin{figure}[H]
-        \centering
+        \begin{enumerate}
+            \item We'll construct a branching program that contains $n$ levels. Each level evaluates the $k$-th sum of the inner product. In particular, each level contains two tracks. The computation will move between the two tracks based on the partial evaluation of the total inner product. To construct the levels, we use three gadgets: a start gadget, a middle gadget and an end gadget.
 
-        \resizebox{1\textwidth}{!}{
-            \begin{tabular}{ccc}
-                \begin{tabular}{c}
-                    \begin{tikzpicture}
-                        \node[circle, draw, fill=sapRed] (1) [] {};
-                        \node[circle, draw, fill=orange] (2) [above left of = 1, xshift=50] {};
-                        \node[circle, draw, fill=sapRed] (3) [below right of = 1, xshift=0] {};
-                        \node[circle, draw, orange, line width=1.5, fill=sapBlue] (4) [above left of = 2, xshift=-20] {};
-                        \node[circle, draw, fill=sapRed] (5) [above right of = 2, xshift=-30] {};
-                        \node[circle, draw, fill=sapRed] (6) [below left of = 3, xshift=-20] {};
-                        \node[circle, draw, fill=sapRed] (7) [below right of = 3, xshift=20] {};
-                        \node[circle, draw, fill=orange] (8) [below right of = 7, xshift=10] {};
-                        \node[circle, draw, fill=sapRed] (9) [below left of = 7, xshift=0] {};
-                        \node[circle, draw, fill=sapRed] (10) [above right of = 7, xshift=20] {};
-                        \node[circle, draw, fill=sapRed] (11) [above right of = 1, xshift=40] {};
-                        \node[circle, draw, orange, line width=1.5, fill=sapBlue] (12) [below of = 10, xshift=10] {};
+            \begin{figure}[H]
+                \centering
+                \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=3cm, thick,]
+                    \node [circle, draw](1) []{$x_1$};
+                    \node [circle, draw](2) [right of = 1, yshift = -35, ]{$y_1$};
+
+                    \node [circle, draw](3) [below of = 1]{$x_2$};
+                    \node [](4) [right of = 3, yshift = -35, ]{};
+                    \node [](5) [right of = 4, xshift=50]{};
+                    \node [circle, draw](6) [right of = 5, yshift = 35, ]{$x_2$};
+
+                    \path[every node/.style={font=\sffamily\small}]
+                        (1) edge node[swap]{0}(3)
+                        (1) edge node[swap]{1}(2)
+                        (2) edge node[swap]{0}(3)
+                        (2) edge node[swap]{1}(6)
+
+                    ;
+                    
+                \end{tikzpicture}
+                \caption{The start gadget}
+            \end{figure}
+
+            \begin{figure}[H]
+                \centering
+                \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=3cm, thick,]
+                    \node [circle, draw](3) []{$x_i$};
+                    \node [circle, draw](4) [right of = 3, yshift = -35, ]{$y_i$};
+                    \node [circle, draw](5) [right of = 4, xshift=50]{$y_i$};
+                    \node [circle, draw](6) [right of = 5, yshift = 35, ]{$x_i$};
+
+                    \node [circle, draw](7) [below of = 3]{$x_{i+1}$};
+                    \node [circle, draw](10) [below of = 6]{$x_{i+1}$};
+
+                    \path[every node/.style={font=\sffamily\small}]
+
+                        (3) edge node[swap]{0}(7)
+                        (3) edge node[swap]{1}(4)
+                        (4) edge node[swap]{0}(7)
+                        (4) edge node[swap]{1}(10)
+
+                        (6) edge node{0}(10)
+                        (6) edge node{1}(5)
+                        (5) edge node{0}(10)
+                        (5) edge node{1}(7)
+
+                    ;
+                    
+                \end{tikzpicture}
+                \caption{The middle gadget}
+
+            \end{figure}
+
+            \begin{figure}[H]
+                \centering
+                \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=3cm, thick,]
+                    \node [circle, draw](11) []{$x_{n}$};
+                    \node [circle, draw](12) [right of = 11, yshift = -35, ]{$y_{n}$};
+                    \node [circle, draw](13) [right of = 12, xshift=50]{$y_{n}$};
+                    \node [circle, draw](14) [right of = 13, yshift = 35, ]{$x_{n}$};
+
+                    \node [rectangle, draw, minimum height = 20, minimum width = 20](15) [below of = 11]{$0$};
+                    \node [rectangle, draw, minimum height = 20, minimum width = 20](16) [below of = 14]{$1$};
+
+                    \path[every node/.style={font=\sffamily\small}]
+
+                        (11) edge node[swap]{0}(15)
+                        (11) edge node[swap]{1}(12)
+                        (12) edge node[swap]{0}(15)
+                        (12) edge node[swap]{1}(16)
+
+                        (14) edge node{0}(16)
+                        (14) edge node{1}(13)
+                        (13) edge node{0}(16)
+                        (13) edge node{1}(15)
+                    ;
+                    
+                \end{tikzpicture}
+                \caption{The end gadget}
+            \end{figure}
+            
+            Given the input $x_1, \ldots, x_n, y_1, \ldots, y_n$, when $n > 1$, the branching program is constructed by a sequence of $1$ start gadget, $n-2$ middle gadgets and $1$ end gadget. When $n = 1$, the branching program contains a single start gadget, where the two nodes that query $x_{2}$ are replaced by the output nodes 0 and 1. For any $n \in \mathbb{N}$, the size of the constructed branching program is $O(n)$ (see \Cref{bp_1}).
+            
+            We claim the following invariant to prove the correctness of the program. Once the program reaches the $(n+1)$-th layer, the computation concludes.
+
+            \textbf{Claim}: For any $k \in [n+1]$, if in the $k$-th level the computation starts from the left track, we have that $\sum_{i = 1}^{k-1} x_i y_i \equiv 0 \pmod 2$. Otherwise, if it starts from the right track, we have that $\sum_{i = 1}^{k-1} x_i y_i \equiv 1 \pmod 2$.
+
+            \begin{proof}[Proof of the claim]
+                If $k = 1$, we're in the first layer, where we always start from the left track and where the sum is equal to 0. Assume that the claim holds for the $k$-th layer. Assume that the $(k+1)$-th layer starts from the left track (we can use a similar argument for the other case ). Then, this can happen only in two cases:
+                \begin{itemize}
+                    \item The $k$-th layer started from the left track and $x_k = 0$ or $y_k = 0$. In this case, we have that:
+                    \[\sum_{i = 1}^k x_iy_i \equiv x_{k+1}y_{k+1} + \sum_{i = 1}^{k-1} x_iy_i \equiv 0+0 \equiv 0 \pmod 2\]
+                    \item The $k$-th layer started from the right track and $x_k = 1$ or $y_k = 1$. In this case, we have that:
+                    \[\sum_{i = 1}^k x_iy_i \equiv x_{k+1}y_{k+1} + \sum_{i = 1}^{k-1} x_iy_i \equiv 1+1 \equiv 0 \pmod 2\]
+                \end{itemize}
+            \end{proof}
+
+            \begin{figure}[H]
+                \centering
+                \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=3cm, thick,]
+                    \node [circle, draw](1) []{$x_1$};
+                    \node [circle, draw](2) [right of = 1, yshift = -35, ]{$y_1$};
+
+                    \node [circle, draw](3) [below of = 1]{$x_2$};
+                    \node [circle, draw](4) [right of = 3, yshift = -35, ]{$y_2$};
+                    \node [circle, draw](5) [right of = 4, xshift=50]{$y_2$};
+                    \node [circle, draw](6) [right of = 5, yshift = 35, ]{$x_2$};
+
+                    \node [](7) [below of = 3]{$\cdots$};
+                    \node [](8) [right of = 7, yshift = -35, ]{$\cdots$};
+                    \node [](9) [right of = 8, xshift=50]{$\cdots$};
+                    \node [](10) [right of = 9, yshift = 35, ]{$\cdots$};
+
+                    \node [circle, draw](11) [below of = 7]{$x_n$};
+                    \node [circle, draw](12) [right of = 11, yshift = -35, ]{$y_n$};
+                    \node [circle, draw](13) [right of = 12, xshift=50]{$y_n$};
+                    \node [circle, draw](14) [right of = 13, yshift = 35, ]{$x_n$};
+
+                    \node [rectangle, draw, minimum height = 20, minimum width = 20](15) [below of = 11]{$0$};
+                    \node [rectangle, draw, minimum height = 20, minimum width = 20](16) [below of = 14]{$1$};
+
+                    \path[every node/.style={font=\sffamily\small}]
+                        (1) edge node[swap]{0}(3)
+                        (1) edge node[swap]{1}(2)
+                        (2) edge node[swap]{0}(3)
+                        (2) edge node[swap]{1}(6)
+
+                        (3) edge node[swap]{0}(7)
+                        (3) edge node[swap]{1}(4)
+                        (4) edge node[swap]{0}(7)
+                        (4) edge node[swap]{1}(10)
+                        
+                        (7) edge node[swap]{0}(11)
+                        (7) edge node[swap]{1}(8)
+                        (8) edge node[swap]{0}(11)
+                        (8) edge node[swap]{1}(14)
+
+                        (11) edge node[swap]{0}(15)
+                        (11) edge node[swap]{1}(12)
+                        (12) edge node[swap]{0}(15)
+                        (12) edge node[swap]{1}(16)
+
+                        (6) edge node{0}(10)
+                        (6) edge node{1}(5)
+                        (5) edge node{0}(10)
+                        (5) edge node{1}(7)
+
+                        (10) edge node{0}(14)
+                        (10) edge node{1}(9)
+                        (9) edge node{0}(14)
+                        (9) edge node{1}(11)
+
+                        (14) edge node{0}(16)
+                        (14) edge node{1}(13)
+                        (13) edge node{0}(16)
+                        (13) edge node{1}(15)
+                    ;
+                    
+                \end{tikzpicture}
+
+                \caption{The branching program that computes $\mathrm{IP}(x_1, \ldots, x_n, y_1, \ldots, y_n)$}
+                \label{bp_1}
+            \end{figure}
+
+
+            \item Consider the CNF $F = \bigwedge_{i = 1}^m C_j$. For each $j \in [m]$, let $k_j$ be the number of literals in the clause $C_j$, i.e. $C_j = \bigvee_{i = 1}^{k_j} \ell_{i,j}$. We use the following clause gadget to construct the branching program.
+            
+            \begin{figure}[H]
+                \centering
+
+                \resizebox{0.9\hsize}{!}{
+                    \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=3cm, thick,]
+                        \node [circle, draw](1) []{$\ell_{1,j}$};
+                        \node [circle, draw](2) [right of = 1]{$\ell_{2,j}$};
+                        \node [](3) [right of = 2]{$\cdots$};
+                        \node [circle, draw](4) [right of = 3]{$\ell_{k_j-1, j}$};
+                        \node [circle, draw](5) [right of = 4]{$\ell_{k_j, j}$};
+
+                        \node [circle, draw](6) [below of = 1]{$\ell_{1,j+1}$};
+                        \node [rectangle, draw, minimum height = 20, minimum width = 20](7) [below of = 5]{$0$};
 
                         \path[every node/.style={font=\sffamily\small}]
-                            (1) edge (10)
-                            (2) edge (9)
-                            (4) edge[] (1)
-                            (5) edge[] (2)
-                            (6) edge[] (3)
-                            (1) edge[] (3)
-                            (3) edge[] (2)
-                            (2) edge (6)
-                            (3) edge[] (9)
-                            (4) edge[color=orange, line width=1.5] (2)
-                            (5) edge (10)
-                            (8) edge[color=orange, line width=1.5] (2)
-                            (1) edge (5)
-                            (8) edge[] (9)
-                            (11) edge[] (7)
-                            (11) edge[] (3)
-                            (11) edge (5)
-                            (11) edge[] (12)
-                            (11) edge (9)
-                            (12) edge (7)
-                            (12) edge[color=orange, line width=1.5] (8)
-                            (3) edge[] (10)
-                            (10) edge (7)
+                            (1) edge node{0} (2)
+                            (2) edge node{0} (3)
+                            (3) edge node{0} (4)
+                            (4) edge node{0} (5)
+                            (5) edge node{0} (7)
+
+                            (1) edge[swap] node{1} (6)
+                            (2) edge[swap] node{1} (6)
+                            (3) edge[swap] node{1} (6)
+                            (4) edge[swap] node{1} (6)
+                            (5) edge[swap] node{1} (6)
+                        ;
+                        
+                    \end{tikzpicture}
+                }
+
+                \caption{Clause gadget}
+            \end{figure}
+
+            \underline{\textbf{Note}}: To make things easier, we're assuming that the branching program can also query the negation of variables. To convert it into standard form, if $\ell_{i,j} = \overline{x_t}$ for some variable $x_t$ then we can simply invert the labels on the edges outgoing from the node labeled with $\ell_{i,j}$.
+
+            Each level of the branching program is the $j$-th clause gadget corresponding to the $j$-th clause of $F$. If $j = m$, the node $\ell_{1,m+1}$ is replaced by the output node 1. For any CNF $\phi$, the branching program has exactly $2+ \sum_{i = 1}^m k_j$ nodes, meaning that the size is linear with respect to the length of $\phi$ (see \Cref{bp_2}). We claim the following property.
+            
+            \textbf{Claim}: For any $j \in [m]$, the computation on $x$ reaches the node labeled with $\ell_{1,j+1}$ if and only if $C_j$ is satisfied by $x$.
+
+            \begin{proof}[Proof of the claim]
+                Suppose that the computation on $x$ reaches the node $\ell_{1,j+1}$. Then, this can only happen if one of the nodes $\ell_{1,j}, \ldots, \ell_{k_j,j}$ takes the edge labeled with 1. Let $\ell_{t',j}$ be such node. Then, this can happen if and only if $\ell_{t',j}$ is set to 1 in $x$.
+
+                Vice versa, suppose that the clause $C_j$ is satisfied by $x$. Let $\ell_{t, j}$ be the first literal of $C_j$ that is set to 1 in $x$. Once the branching program reaches the node $\ell_{t,j}$ it proceeds on the edge labeled with 1, reaching the node labeled with $\ell_{1,j+1}$.
+            \end{proof}
+
+            Through the claimed property, we get that the computation on $x$ reaches the output node 1 if and only if $x$ satisfies each clause of $\phi$, proving the correctness of the program.
+
+            \begin{figure}[H]
+                \centering
+
+                \resizebox{1\hsize}{!}{
+                    \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=4cm, thick,]
+                        \node [circle, draw](1) []{$\ell_{1,1}$};
+                        \node [circle, draw](2) [right of = 1]{$\ell_{2,1}$};
+                        \node [](3) [right of = 2]{$\cdots$};
+                        \node [circle, draw](4) [right of = 3]{$\ell_{k_1-1, 1}$};
+                        \node [circle, draw](5) [right of = 4]{$\ell_{k_1, 1}$};
+
+                        \node [circle, draw](6) [below of = 1]{$\ell_{1,1}$};
+                        \node [circle, draw](7) [right of = 6]{$\ell_{2,1}$};
+                        \node [](8) [right of = 7]{$\cdots$};
+                        \node [circle, draw](9) [right of = 8]{$\ell_{k_1-1, 1}$};
+                        \node [circle, draw](10) [right of = 9]{$\ell_{k_1, 1}$};
+
+                        \node [](11) [below of = 6]{$\cdots$};
+                        \node [](12) [right of = 11]{$\cdots$};
+                        \node [](13) [right of = 12]{$\cdots$};
+                        \node [](14) [right of = 13]{$\cdots$};
+                        \node [](15) [right of = 14]{$\cdots$};
+
+                        \node [circle, draw](16) [below of = 11]{$\ell_{1,m}$};
+                        \node [circle, draw](17) [right of = 16]{$\ell_{2,m}$};
+                        \node [](18) [right of = 17]{$\cdots$};
+                        \node [circle, draw](19) [right of = 18]{$\ell_{k_1-1, m}$};
+                        \node [circle, draw](20) [right of = 19]{$\ell_{k_1, m}$};
+
+                        \node [rectangle, draw, minimum height = 20, minimum width = 20](21) [below of = 16]{$1$};
+                        \node [rectangle, draw, minimum height = 20, minimum width = 20](22) [below of = 20]{$0$};
+
+                        \path[every node/.style={font=\sffamily\small}]
+                            (1) edge node{0} (2)
+                            (2) edge node{0} (3)
+                            (3) edge node{0} (4)
+                            (4) edge node{0} (5)
+                            (5) edge[bend left] node{0} (22)
+                            (1) edge[swap] node{1} (6)
+                            (2) edge[swap] node{1} (6)
+                            (3) edge[swap] node{1} (6)
+                            (4) edge[swap] node{1} (6)
+                            (5) edge[swap] node{1} (6)
+
+                            (6) edge node{0} (7)
+                            (7) edge node{0} (8)
+                            (8) edge node{0} (9)
+                            (9) edge node{0} (10)
+                            (10) edge[bend left] node{0} (22)
+                            (6) edge[swap] node{1} (11)
+                            (7) edge[swap] node{1} (11)
+                            (8) edge[swap] node{1} (11)
+                            (9) edge[swap] node{1} (11)
+                            (10) edge[swap] node{1} (11)
+
+                            (11) edge node{0} (12)
+                            (12) edge node{0} (13)
+                            (13) edge node{0} (14)
+                            (14) edge node{0} (15)
+                            (15) edge[bend left] node{0} (22)
+                            (11) edge[swap] node{1} (16)
+                            (12) edge[swap] node{1} (16)
+                            (13) edge[swap] node{1} (16)
+                            (14) edge[swap] node{1} (16)
+                            (15) edge[swap] node{1} (16)
+                            
+                            (16) edge node{0} (17)
+                            (17) edge node{0} (18)
+                            (18) edge node{0} (19)
+                            (19) edge node{0} (20)
+                            (20) edge[bend left] node{0} (22)
+                            (16) edge[swap] node{1} (21)
+                            (17) edge[swap] node{1} (21)
+                            (18) edge[swap] node{1} (21)
+                            (19) edge[swap] node{1} (21)
+                            (20) edge[swap] node{1} (21)
                         ;
                     \end{tikzpicture}
-                \end{tabular}
+                }
 
-                &\quad&
+                \caption{The branching program that computes $\phi(x_1, \ldots, x_n)$}
+                \label{bp_2}
+            \end{figure}
 
-                \begin{tabular}{c}
-                    
-                    \begin{tikzpicture}
-                        \node[circle, draw, orange, line width=1.5, fill=sapBlue] (1) [] {};
-                        \node[circle, draw, orange, line width=1.5, fill=sapBlue] (2) [above left of = 1, xshift=50] {};
-                        \node[circle, draw, orange, line width=1.5, fill=sapBlue] (3) [below right of = 1, xshift=0] {};
-                        \node[circle, draw, orange, line width=1.5, fill=sapBlue] (4) [above left of = 2, xshift=-20] {};
-                        \node[circle, draw, orange, line width=1.5, fill=sapBlue] (5) [above right of = 2, xshift=-30] {};
-                        \node[circle, draw, orange, line width=1.5, fill=sapBlue] (6) [below left of = 3, xshift=-20] {};
-                        \node[circle, draw, orange, line width=1.5, fill=sapBlue] (7) [below right of = 3, xshift=20] {};
-                        \node[circle, draw, orange, line width=1.5, fill=sapBlue] (8) [below right of = 7, xshift=10] {};
-                        \node[circle, draw, orange, line width=1.5, fill=sapBlue] (9) [below left of = 7, xshift=0] {};
-                        \node[circle, draw, orange, line width=1.5, fill=sapBlue] (10) [above right of = 7, xshift=20] {};
-                        \node[circle, draw, orange, line width=1.5, fill=sapBlue] (11) [above right of = 1, xshift=40] {};
-                        \node[circle, draw, orange, line width=1.5, fill=sapBlue] (12) [below of = 10, xshift=10] {};
+            \item The branching program shown in $1.$ is clearly already read-once: each path of each layer queries two different variables and there are no layers that query the same variables.
+            
+            \item The branching program shown in $2.$ is not read-once. In fact, the whole idea of the solution is to abuse the possibility of querying multiple times the same variables, which may be shared by multiple clauses. This abuse is necessary due to the lack of information regarding how the CNF is structured: if we knew which clauses contained which literals, we could build a read-once program by skipping the literals that have already been queried.
+            
+            However, even if this were the case, the program would have to split into two sub-programs each time a variable is queried for the first time in order to \curlyquotes{store} the value. Through this process, the size of the program could become exponential.
+            
+            For instance, if the first clause contains all the variables of the formula then the program would have to split into $2^n$ sub-programs, degenerating into a complete decision tree. 
+        \end{enumerate}
+    \end{solution}
 
-                        \path[every node/.style={font=\sffamily\small}]
-                            (1) edge (10)
-                            (2) edge (9)
-                            (4) edge[color=orange, line width=1.5] (1)
-                            (5) edge[color=orange, line width=1.5] (2)
-                            (6) edge[color=orange, line width=1.5] (3)
-                            (1) edge[color=orange, line width=1.5] (3)
-                            (3) edge[color=orange, line width=1.5] (2)
-                            (2) edge (6)
-                            (3) edge[color=orange, line width=1.5] (9)
-                            (4) edge[] (2)
-                            (5) edge (10)
-                            (8) edge[] (2)
-                            (1) edge (5)
-                            (8) edge[color=orange, line width=1.5] (9)
-                            (11) edge[color=orange, line width=1.5] (7)
-                            (11) edge[color=orange, line width=1.5] (3)
-                            (11) edge (5)
-                            (11) edge[color=orange, line width=1.5] (12)
-                            (11) edge (9)
-                            (12) edge (7)
-                            (12) edge[] (8)
-                            (3) edge[color=orange, line width=1.5] (10)
-                            (10) edge (7)
-                        ;
-                    \end{tikzpicture}                
-                \end{tabular}
-            \end{tabular}
-        }
-
-        \caption{The ST problem on two nodes (left) and all nodes (right)}
-    \end{figure}
-    
-    While both of these problems can be solved in polynomial time, the Steiner Tree problem is significantly more challenging. In fact, the Steiner Tree problem results to be \curlyquotes{intractable} unless $\mathsf{P} = \mathsf{NP}$. This is due to the $\mathsf{NP}$-Completeness of the decision version of this problem, which implies that the standard optimization variant is $\mathsf{NP}$-Hard \cite{np_complete}. The decision version of the problem is defined as follows.
-
-    \begin{problem}
-        Given a graph $G$, a subset of nodes $S \subseteq V(G)$ and an integer $k > 0$, determine if there is a Steiner Tree for $S$ with at most $k$ edges.
-    \end{problem}
-
-    \section{\textsf{NP}-Completeness of Steiner Tree}
-
-    It's easy to see that this decision problem is a member of $\mathsf{NP}$, since the requested Steiner Tree can act as a witness. In particular, we can verify a witness $T$ through this simple certification procedure, whose steps can all be done in time $O(\abs{V(G)} + \abs{E(G)})$:
-    \begin{enumerate}
-        \item Check that $T$ is a subgraph of $G$, i.e. that $V(T) \subseteq V(G)$ and $E(T) \subseteq E(G)$.
-        \item Check that $T$ is a tree, i.e. that it contains no cycles
-        \item Check that $T$ covers all the terminals, i.e. that $S \subseteq V(T)$
-        \item Check that $T$ has at most $k$ edges, i.e. that $\abs{E(T)} \leq k$
-    \end{enumerate}
-
-    To show the $\mathsf{NP}$-Hardness of the Steiner Tree problem, we have to find an $\mathsf{NP}$-Hard problem that can be reduced in polynomial time to it. Since the concept of Minimal Steiner Tree reduces to the concept of \curlyquotes{terminal coverage}, it's easy to see that the former should be somehow related to the \textit{Set Coverage problem}.
-
-    Given an universe set $U = \{x_1, \ldots, x_n\}$ and a collection of subsets $\mathcal{C} = \{C_1, \ldots, C_m\}$ where $C_i \subseteq U$, a Set Cover of $U$ over $C$ is a sub-collection $\mathcal{C}^* \subseteq \mathcal{C}$ that covers $U$, that is $U = \bigcup_{C_i \in \mathcal{C}^*} C_i$. The Set Cover (SC) problem asks to find the minimum cardinality Set Cover.
-
-    \begin{figure}[H]
-        \[U = \{x_1, x_2, x_3, x_4, x_5, x_6, x_7\}\]
-        \[C_1 = \{x_1, x_2, x_4, x_7\} \quad C_2 = \{x_1, x_3, x_5, x_6\} \quad C_3 = \{x_3, x_5, x_7\}\]
-
-        \caption{Example of a Set Cover problem instance}
-    \end{figure}
-    
-    Similarly to what we deed for the ST problem, the decision version of the Set Coverage problem would ask to decide if there is a Set Cover of at most $k$ subsets.
-
-    \begin{problem}
-        Given a set $U = \{x_1, \ldots, x_n\}$, a collection of subsets $\mathcal{C} = \{C_1, \ldots, C_m\}$ where $C_i \subseteq U$ and an integer $k > 0$, determine if there is a cover of $U$ with at most $k$ subsets.
-    \end{problem}
-
-    This decision problem is $\mathsf{NP}$-Complete, where the $\mathsf{NP}$-Hardness comes a reduction from the Vertex Cover problem (VC).
-
-    \newpage
-
-    After defining the two decision problems, we're ready to give a reduction from Set Cover to Steiner Tree. Given an instance $\abk{U,\mathcal{C}, k}$ of SC, the reduction proceeds as follows:
-    \begin{enumerate}
-        \item For every subset $C_i \in \mathcal{C}$, we add a node $u_i$ in $G$.
-        \item For every element $x_j \in U$, we add a node $v_i$ in $G$. For every $i \in [m]$, if $x_j \in C_i$ then we add the edge $(u_i, v_j)$ in $G$.
-        \item We add a special node $z$ and an edge $(z, u_i)$ in $G$ for all $i \in [m]$.
-        \item Let $S = \{z, x_1, \ldots, x_{3q}\}$.
-        \item Return $\abk{G,S,2n}$.
-    \end{enumerate}
-
-    This procedure can easily be computed in polynomial time. The reduction is based on the idea that in the generated graph the required Steiner Tree will be composed of the edges incident to all the nodes corresponding th the original cover. However, this reduction is actually invalid: in some cases we get a terminal cover that contains cycles, meaning that it isn't a tree.
-
-    \[U = \{x_1, x_2, x_3, x_4, x_5, x_6\}\]
-    \[C_1 = \{x_1, x_2, x_3, x_5, x_5\} \quad C_2 = \{x_1, x_3, x_5, x_6\} \]
-    \[C_3 = \{x_3, x_5\} \quad C_4 = \{x_1, x_4, x_6\}\]
-
-    \begin{figure}[H]
-        \centering
-
-        \begin{tikzpicture}[node distance=1.25cm]
-            \node[circle, draw, orange, line width=1.5, fill=sapBlue, text=white] (1) [] {$z$};
-            \node[] (w) [above of = 1] {};
-    
-            \node[circle, draw, fill=orange, text=white] (2) [above left of = w] {$u_2$};
-            \node[circle, draw, fill=orange, text=white] (3) [left of = 2, xshift = -10] {$u_1$};
-            \node[circle, draw, fill=sapRed, text=white] (4) [above right of = w] {$u_3$};
-            \node[circle, draw, fill=sapRed, text=white] (5) [right of = 4, xshift = 10] {$u_4$};
-    
-            \node[] (x) [above of = w] {};
-            \node[] (y) [above of = x] {};
-    
-            \node[circle, draw, orange, line width=1.5, fill=sapBlue, text=white] (6) [above left of = y] {$v_3$};
-            \node[circle, draw, orange, line width=1.5, fill=sapBlue, text=white] (7) [left of = 6, xshift = -10] {$v_2$};
-            \node[circle, draw, orange, line width=1.5, fill=sapBlue, text=white] (8) [left of = 7, xshift = -10] {$v_1$};
-            \node[circle, draw, orange, line width=1.5, fill=sapBlue, text=white] (9) [above right of = y] {$v_4$};
-            \node[circle, draw, orange, line width=1.5, fill=sapBlue, text=white] (10) [right of = 9, xshift = 10] {$v_5$};
-            \node[circle, draw, orange, line width=1.5, fill=sapBlue, text=white] (11) [right of = 10, xshift = 10] {$v_6$};
-    
-            \path[every node/.style={font=\sffamily\small}]
-                (1) edge[color=orange, line width=1.5] (2)
-                (1) edge[color=orange, line width=1.5] (3)
-                (1) edge (4)
-                (1) edge (5)
-    
-                (3) edge[color=orange, line width=1.5] (8)
-                (3) edge[color=orange, line width=1.5] (7)
-                (3) edge[color=orange, line width=1.5] (6)
-                (3) edge[color=orange, line width=1.5] (9)
-                (3) edge[color=orange, line width=1.5] (10)
-    
-                (2) edge[color=orange, line width=1.5] (8)
-                (2) edge[color=orange, line width=1.5] (6)
-                (2) edge[color=orange, line width=1.5] (10)
-                (2) edge[color=orange, line width=1.5] (11)
-    
-                (4) edge (6)
-                (4) edge (10)
-                
-                (5) edge (11)
-                (5) edge (9)
-                (5) edge (8)
-            ;
-        \end{tikzpicture}
-
-        \caption{Example of how the reduction from SC to ST fails.}
-    \end{figure}
-
-    To fix this issue, we can use a variant of the Set Cover problem, that being the \textit{Exact Cover problem } (XC). In this variant, we require that the sub-collection is not only a cover but that it also is pairwise disjoint. In other words, the cover must be a partition. 
-
-    \begin{problem}
-        Given a set $U = \{x_1, \ldots, x_n\}$, a collection of subsets $\mathcal{C} = \{C_1, \ldots, C_m\}$ where $C_i \subseteq U$ and an integer $k > 0$, determine if there is a partition $U$ with at most $k$ subsets.
-    \end{problem}
-
-    Through this additional constraint, the reduction is guaranteed to generate an acyclic graph, i.e. a tree. However, we still have an issue: the number of edges of the output tree is too variable. For instance, consider the following two cases:
-    \begin{itemize}
-        \item Given $\abs{U}= n$ with $\mathcal{C} = \{\{x_1, \ldots, x_{n-1}\}, \{x_n\}\}$ and $k = n$ then $T$ will have $n+2$ edges
-        \item Given $\abs{U}= n$ with $\mathcal{C} = \{\{x_1\}, \ldots, \{x_n\}\}$ and $k = n$ then $T$ will have $2n$ edges
-    \end{itemize}
-    
-    This means that we cannot find a \curlyquotes{good} common value $k'$ for the output triple $\abk{G,S,k'}$ -- in fact, this was an issue even in the Set Cover case.
-    
-    To fix this final issue, we use a stronger variant of the exact cover problem: the \textit{Exact Cover by 3-Sets} (X3C) problem. This new problem requires that the universe set has $3q$ elements, for some integer $q > 0$, and that each of the subsets inside the collection has $3$ elements.
-    
-    We notice that since $\abs{U} = 3q$, any exact cover will be made of exactly $q$ subsets, meaning that the optimization version of the problem becomes a simple search problem. The decision version of this problem, defined as follows, is $\mathsf{NP}$-Complete, where the hardness is obtained through a reduction from the 3D Matching problem.
-
-    \begin{definition}
-        Given a set $U = \{x_1, \ldots, x_{3q}\}$ and a collection of subsets $\mathcal{C} = \{C_1, \ldots, C_m\}$ such that $C_i \subseteq U$ and $\abs{C_i} = 3$, determine if there is a sub-collection $\mathcal{C}^* \subseteq  \mathcal{C}$ that is a partition of $U$.
-    \end{definition}
-
-    To better understand how the procedure works, the following X3C instance is transformed into the graph below it:
-    \[U = \{x_1, x_2, x_3, x_4, x_5, x_6\}\]
-    \[C_1 = \{x_1, x_2, x_4\} \quad C_2 = \{x_1, x_3, x_5\} \quad C_3 = \{x_3, x_5, x_6\} \quad C_4 = \{x_1, x_4, x_6\}\]
-
-    \begin{figure}[H]
-        \centering
-
-        \begin{tikzpicture}[node distance = 1.25cm]
-            \node[circle, draw, orange, line width=1.5, fill=sapBlue, text=white] (1) [] {$z$};
-            \node[] (w) [above of = 1] {};
-    
-            \node[circle, draw, fill=sapRed, text=white] (2) [above left of = w] {$u_2$};
-            \node[circle, draw, fill=orange, text=white] (3) [left of = 2, xshift = -10] {$u_1$};
-            \node[circle, draw, fill=orange, text=white] (4) [above right of = w] {$u_3$};
-            \node[circle, draw, fill=sapRed, text=white] (5) [right of = 4, xshift = 10] {$u_4$};
-    
-            \node[] (x) [above of = w] {};
-            \node[] (y) [above of = x] {};
-    
-            \node[circle, draw, orange, line width=1.5, fill=sapBlue, text=white] (6) [above left of = y] {$v_3$};
-            \node[circle, draw, orange, line width=1.5, fill=sapBlue, text=white] (7) [left of = 6, xshift = -10] {$v_2$};
-            \node[circle, draw, orange, line width=1.5, fill=sapBlue, text=white] (8) [left of = 7, xshift = -10] {$v_1$};
-            \node[circle, draw, orange, line width=1.5, fill=sapBlue, text=white] (9) [above right of = y] {$v_4$};
-            \node[circle, draw, orange, line width=1.5, fill=sapBlue, text=white] (10) [right of = 9, xshift = 10] {$v_5$};
-            \node[circle, draw, orange, line width=1.5, fill=sapBlue, text=white] (11) [right of = 10, xshift = 10] {$v_6$};
-
-            \path[every node/.style={font=\sffamily\small}]
-                (1) edge (2)
-                (1) edge[color=orange, line width=1.5] (3)
-                (1) edge[color=orange, line width=1.5] (4)
-                (1) edge (5)
-
-                (3) edge[color=orange, line width=1.5] (8)
-                (3) edge[color=orange, line width=1.5] (7)
-                (3) edge[color=orange, line width=1.5] (9)
-
-                (2) edge (8)
-                (2) edge (6)
-                (2) edge (10)
-
-                (4) edge[color=orange, line width=1.5] (11)
-                (4) edge[color=orange, line width=1.5] (6)
-                (4) edge[color=orange, line width=1.5] (10)
-                
-                (5) edge (11)
-                (5) edge (9)
-                (5) edge (8)
-            ;
-        \end{tikzpicture}
-
-        \caption{Example of how the reduction from X3C to ST works.}
-    \end{figure}
-    
-    The correctness of the reduction follows from the claim below, concluding the proof of the $\mathsf{NP}$-Completeness of the Steiner Tree problem.
-
-    \begin{claim}
-        $U$ has an Exact Cover by 3-Sets over $\mathcal{C}$ iff $G$ has a Steiner Tree for $S$ with $4q$ edges.
-    \end{claim}
-
-    \begin{proof}
-        Suppose that there is an X3C $\mathcal{C}^* \subseteq \mathcal{C}$ of $U$. Since $\mathsf{U} = 3q$ and each subset inside $\mathcal{C}^*$ has 3 elements, we get that $\abs{\mathcal{C}}^* = q$. Without loss of generality, assume that $\mathcal{C}^* = \{C_1, \ldots, C_q\}$. Consider the tree $T$ made of the edges that have $u_1, \ldots, u_q$ as endpoints. Since each $u_1, \ldots, u_q$ has degree 4 and $C_1, \ldots, C_q$ are pairwise disjoint, $T$ is a tree with $4q$ edges. Moreover, since $\mathcal{C}^*$ is a cover of $U$, each node of $U$ is covered by $T$. Since the node $z$ is also covered, we conclude that $T$ is a Steiner Tree for $S$ with $4q$ edges.
-
-        Vice versa, suppose that there is a Steiner Tree $T'$ for $S$ with $4q$ edges. By construction of the graph $G$, in order for $T$ to be a Steiner Tree it must contain $u_1, \ldots, u_t$. Moreover, since $T$ has at most $4q$ edges and each $u_1, \ldots, u_t$ has degree 4, it must hold that $t \leq q$. By way of contradiction, suppose that $t < q$. Since $T$ is a tree, each terminal $v_j$ is reached by only one $u_i$. Hence, if $t < q$ there must be at least one terminal that isn't covered by $T$, which is a contradiction. Thus, we have that $t = q$ and that $C_1, \ldots, C_t$ is an X3C of $U$.
-    \end{proof}
-
-    \newpage
 
     \printbibliography
 

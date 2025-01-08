@@ -99,7 +99,7 @@ Disclaimers ⚠️
 | [Network Algorithms](https://github.com/aflaag-notes/network-algs) | Written by [@aflaag](https://github.com/aflaag) | 09/10/2024 |
 | Computer Network Performance| - | - |
 | Internet of Things | - | - |
-| [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 06/01/2025 |
+| [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 08/01/2025 |
 | Advanced Algorithms | - | - |
 | Cryptography | - | - |
 | Graph Theory | - | - |

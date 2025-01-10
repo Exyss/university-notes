@@ -50,7 +50,7 @@ Disclaimers ⚠️
 | [Progettazione di Sistemi Digitali](../../raw/main/Bachelor/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 04/01/2025 |
 | [Architettura degli Elaboratori](../../raw/main/Bachelor/Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Completi | 18/09/2024 |
 | Fondamenti di Programmazione [ ! ] | - | - |
-| [Metodologie di Programmazione](https://github.com/ajhxia/UNI/raw/main/Bachelor/Primo%20Anno/Metodologie%20di%20Programmazione/Teoria/Metodologie_di_Programmazione.pdf) [ !! ]| Scritti da [@ajhxia](https://github.com/ajhxia) | 09/10/2024 |
+| [Metodologie di Programmazione](https://github.com/ajhxia/UNI/raw/main/Bachelor/Primo%20Anno/Metodologie%20di%20Programmazione/Teoria/Metodologie_di_Programmazione.pdf) [ !! ]| Scritti da [@ajhxia](https://github.com/ajhxia) | - |
 </details>
 </div>
 
@@ -68,7 +68,7 @@ Disclaimers ⚠️
   | [Sistemi Operativi II](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 18/09/2024 |
   | [Basi di Dati I](../../raw/main/Bachelor/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 18/09/2024 |
   | [Progetti svolti - Basi di Dati II](../../blob/main/Bachelor/Secondo%20Anno/Progetti%20BD2/README.md) | Completi | 09/10/2024 |
-  | [Basi di Dati II](https://github.com/CasuFrost/University_notes/raw/main/Bachelor/Secondo%20Anno/Secondo%20Semestre/Basi%20di%20Dati%202/Latex%20source%20file/Basi%20di%20Dati%20modulo%202.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | 09/10/2024 |
+  | [Basi di Dati II](https://github.com/CasuFrost/University_notes/raw/main/Bachelor/Secondo%20Anno/Secondo%20Semestre/Basi%20di%20Dati%202/Latex%20source%20file/Basi%20di%20Dati%20modulo%202.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | - |
 </details>
 </div>
 
@@ -80,7 +80,7 @@ Disclaimers ⚠️
 | ----- | :----: | :-----------: |
 | [Automi, Calcolabilità e Complessità](../../raw/main/Bachelor/Terzo%20Anno/Automi%2C%20Calcolabilita%20e%20Complessita.pdf) | Completi | 09/10/2024 |
 | [Linguaggi di Programmazione](../../raw/main/Bachelor/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 18/09/2024 |
-| [Programmazione di Sistemi Multicore](../../raw/main/Bachelor/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore.pdf) | Incompleti | 18/09/2024 |
+| [Programmazione di Sistemi Multicore](https://raw.githubusercontent.com/CasuFrost/University_notes/refs/heads/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore/letexSrcFile/Programmazione%20di%20Sistemi%20Multicore.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | - |
 | [Cybersecurity](../../raw/main/Bachelor/Terzo%20Anno/Cybersecurity.pdf) | Completed  | 09/10/2024 |
 | [Optimization](../../raw/main/Bachelor/Terzo%20Anno/Optimization.pdf) | Completed | 09/10/2024 |
 | Ingegneria del Software [ ! ] | - | - |
@@ -96,18 +96,18 @@ Disclaimers ⚠️
 | Course | Status | Last update |
 | ----- | :----: | :-----------: |
 | [Autonomous Networking](../../raw/main/Master/Autonomous%20Networking.pdf) | - | - |
-| [Network Algorithms](https://github.com/aflaag-notes/network-algs) | Written by [@aflaag](https://github.com/aflaag) | 09/10/2024 |
 | Computer Network Performance| - | - |
 | Internet of Things | - | - |
-| [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 08/01/2025 |
+| [Network Algorithms](https://github.com/aflaag-notes/network-algs) | Written by [@aflaag](https://github.com/aflaag) | - |
 | Advanced Algorithms | - | - |
+| [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 11/01/2025 |
 | Cryptography | - | - |
 | Graph Theory | - | - |
 | Mathematical Logic for Computer Science | - | - |
-| Games and Equilibria | - | - |
 | [Models of Computation](https://github.com/aflaag-notes/moc) | Written by [@aflaag](https://github.com/aflaag) | - |
-| [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | W.i.p. | 10/11/2024 |
-| Natural Language Processing | - | - |
+| Games and Equilibria | - | - |
+| Introduction to Quantum Computing | - | - |
+| [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | W.I.P. | 11/01/2025 |
 | Deep Learning and Applied Artificial Intelligence | - | - |
 </details>
 </div>

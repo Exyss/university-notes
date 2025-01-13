@@ -100,14 +100,14 @@ Disclaimers ⚠️
 | Internet of Things | - | - |
 | [Network Algorithms](https://github.com/aflaag-notes/network-algs) | Written by [@aflaag](https://github.com/aflaag) | - |
 | Advanced Algorithms | - | - |
-| [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 11/01/2025 |
+| [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 13/01/2025 |
 | Cryptography | - | - |
 | Graph Theory | - | - |
 | Mathematical Logic for Computer Science | - | - |
 | [Models of Computation](https://github.com/aflaag-notes/moc) | Written by [@aflaag](https://github.com/aflaag) | - |
 | Games and Equilibria | - | - |
 | Introduction to Quantum Computing | - | - |
-| [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | W.I.P. | 11/01/2025 |
+| [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | W.I.P. | 13/01/2025 |
 | Deep Learning and Applied Artificial Intelligence | - | - |
 </details>
 </div>

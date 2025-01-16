@@ -50,7 +50,7 @@ Disclaimers ⚠️
 | [Progettazione di Sistemi Digitali](../../raw/main/Bachelor/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 04/01/2025 |
 | [Architettura degli Elaboratori](../../raw/main/Bachelor/Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Completi | 18/09/2024 |
 | Fondamenti di Programmazione [ ! ] | - | - |
-| [Metodologie di Programmazione](https://github.com/ajhxia/UNI/raw/main/Bachelor/Primo%20Anno/Metodologie%20di%20Programmazione/Teoria/Metodologie_di_Programmazione.pdf) [ !! ]| Scritti da [@ajhxia](https://github.com/ajhxia) | - |
+| [Metodologie di Programmazione](https://github.com/ajhxia/UNI/raw/main/Primo%20Anno/Metodologie%20di%20Programmazione/Teoria/Metodologie_di_Programmazione.pdf) [ !! ]| Scritti da [@ajhxia](https://github.com/ajhxia) | - |
 </details>
 </div>
 
@@ -68,7 +68,7 @@ Disclaimers ⚠️
   | [Sistemi Operativi II](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 18/09/2024 |
   | [Basi di Dati I](../../raw/main/Bachelor/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 18/09/2024 |
   | [Progetti svolti - Basi di Dati II](../../blob/main/Bachelor/Secondo%20Anno/Progetti%20BD2/README.md) | Completi | 09/10/2024 |
-  | [Basi di Dati II](https://github.com/CasuFrost/University_notes/raw/main/Bachelor/Secondo%20Anno/Secondo%20Semestre/Basi%20di%20Dati%202/Latex%20source%20file/Basi%20di%20Dati%20modulo%202.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | - |
+  | [Basi di Dati II](https://github.com/CasuFrost/University_notes/raw/main/Secondo%20Anno/Secondo%20Semestre/Basi%20di%20Dati%202/Latex%20source%20file/Basi%20di%20Dati%20modulo%202.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | - |
 </details>
 </div>
 
@@ -95,20 +95,20 @@ Disclaimers ⚠️
 
 | Course | Status | Last update |
 | ----- | :----: | :-----------: |
-| [Autonomous Networking](../../raw/main/Master/Autonomous%20Networking.pdf) | - | - |
-| Computer Network Performance| - | - |
-| Internet of Things | - | - |
-| [Network Algorithms](https://github.com/aflaag-notes/network-algs) | Written by [@aflaag](https://github.com/aflaag) | - |
 | Advanced Algorithms | - | - |
+| [Autonomous Networking](../../raw/main/Master/Autonomous%20Networking.pdf) | - | - |
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 16/01/2025 |
+| Computer Network Performance| - | - |
 | Cryptography | - | - |
-| Graph Theory | - | - |
-| Mathematical Logic for Computer Science | - | - |
-| [Models of Computation](https://github.com/aflaag-notes/moc) | Written by [@aflaag](https://github.com/aflaag) | - |
+| Deep Learning and Applied Artificial Intelligence | - | - |
 | Games and Equilibria | - | - |
+| Graph Theory | - | - |
+| Internet of Things | - | - |
 | Introduction to Quantum Computing | - | - |
 | [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | W.I.P. | 13/01/2025 |
-| Deep Learning and Applied Artificial Intelligence | - | - |
+| Mathematical Logic for Computer Science | - | - |
+| [Models of Computation](https://raw.githubusercontent.com/aflaag-notes/moc/main/src/Models%20of%20Computation.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
+| [Network Algorithms](https://raw.githubusercontent.com/aflaag-notes/network-algs/main/src/Network%20Algorithms.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 </details>
 </div>
 

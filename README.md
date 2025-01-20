@@ -64,7 +64,7 @@ Disclaimers ⚠️
   | [Calcolo delle Probabilità](../../raw/main/Bachelor/Secondo%20Anno/Calcolo%20delle%20Probabilita.pdf) | Completi | 09/10/2024 |
   | [Progettazione di Algoritmi](../../raw/main/Bachelor/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 16/01/2025 |
   | [Reti di Elaboratori](../../raw/main/Bachelor/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 18/09/2024 |
-  | [Sistemi Operativi I](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 29/10/2024 |
+  | [Sistemi Operativi I](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 21/01/2025 |
   | [Sistemi Operativi II](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 18/09/2024 |
   | [Basi di Dati I](../../raw/main/Bachelor/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 18/09/2024 |
   | [Progetti svolti - Basi di Dati II](../../blob/main/Bachelor/Secondo%20Anno/Progetti%20BD2/README.md) | Completi | 09/10/2024 |
@@ -97,7 +97,7 @@ Disclaimers ⚠️
 | ----- | :----: | :-----------: |
 | Advanced Algorithms | - | - |
 | [Autonomous Networking](../../raw/main/Master/Autonomous%20Networking.pdf) | - | - |
-| [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 18/01/2025 |
+| [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 21/01/2025 |
 | Computer Network Performance| - | - |
 | Cryptography | - | - |
 | Deep Learning and Applied Artificial Intelligence | - | - |

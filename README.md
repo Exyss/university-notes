@@ -46,7 +46,7 @@ Disclaimers ⚠️
 | [Calcolo Differenziale](../../raw/main/Bachelor/Primo%20Anno/Calcolo%20Differenziale.pdf) | Completi | 08/11/2024 |
 | [Calcolo Integrale](../../raw/main/Bachelor/Primo%20Anno/Calcolo%20Integrale.pdf) | Completi | 09/10/2024 |
 | [Metodi Matematici per l'Informatica](../../raw/main/Bachelor/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi | 18/09/2024 |
-| [Introduzione agli Algoritmi](../../raw/main/Bachelor/Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 18/09/2024 |
+| [Introduzione agli Algoritmi](../../raw/main/Bachelor/Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 23/01/2025 |
 | [Progettazione di Sistemi Digitali](../../raw/main/Bachelor/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 18/01/2025 |
 | [Architettura degli Elaboratori](../../raw/main/Bachelor/Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Completi | 18/09/2024 |
 | Fondamenti di Programmazione [ ! ] | - | - |
@@ -81,7 +81,7 @@ Disclaimers ⚠️
 | [Automi, Calcolabilità e Complessità](../../raw/main/Bachelor/Terzo%20Anno/Automi%2C%20Calcolabilita%20e%20Complessita.pdf) | Completi | 09/10/2024 |
 | [Linguaggi di Programmazione](../../raw/main/Bachelor/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 18/09/2024 |
 | [Programmazione di Sistemi Multicore](https://raw.githubusercontent.com/CasuFrost/University_notes/refs/heads/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore/letexSrcFile/Programmazione%20di%20Sistemi%20Multicore.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | - |
-| [Cybersecurity](../../raw/main/Bachelor/Terzo%20Anno/Cybersecurity.pdf) | Completed  | 09/10/2024 |
+| [Cybersecurity](../../raw/main/Bachelor/Terzo%20Anno/Cybersecurity.pdf) | Completed  | 23/01/2025 |
 | [Optimization](../../raw/main/Bachelor/Terzo%20Anno/Optimization.pdf) | Completed | 09/10/2024 |
 | Ingegneria del Software [ ! ] | - | - |
 | Discrete Mathematics [ !!! ] | - | - |
@@ -105,7 +105,7 @@ Disclaimers ⚠️
 | Graph Theory | - | - |
 | Internet of Things | - | - |
 | Introduction to Quantum Computing | - | - |
-| [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | W.I.P. | 13/01/2025 |
+| [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | W.I.P. | 23/01/2025 |
 | Mathematical Logic for Computer Science | - | - |
 | [Models of Computation](https://raw.githubusercontent.com/aflaag-notes/moc/main/src/Models%20of%20Computation.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 | [Network Algorithms](https://raw.githubusercontent.com/aflaag-notes/network-algs/main/src/Network%20Algorithms.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |

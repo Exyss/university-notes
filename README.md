@@ -105,7 +105,7 @@ Disclaimers ⚠️
 | Graph Theory | - | - |
 | Internet of Things | - | - |
 | Introduction to Quantum Computing | - | - |
-| [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | W.I.P. | 01/02/2025 |
+| [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | W.I.P. | 02/02/2025 |
 | Mathematical Logic for Computer Science | - | - |
 | [Models of Computation](https://raw.githubusercontent.com/aflaag-notes/moc/main/src/Models%20of%20Computation.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 | [Network Algorithms](https://raw.githubusercontent.com/aflaag-notes/network-algs/main/src/Network%20Algorithms.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |

@@ -81,7 +81,7 @@ Disclaimers ⚠️
 | [Automi, Calcolabilità e Complessità](../../raw/main/Bachelor/Terzo%20Anno/Automi%2C%20Calcolabilita%20e%20Complessita.pdf) | Completi | 09/10/2024 |
 | [Linguaggi di Programmazione](../../raw/main/Bachelor/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 18/09/2024 |
 | [Programmazione di Sistemi Multicore](https://raw.githubusercontent.com/CasuFrost/University_notes/refs/heads/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore/letexSrcFile/Programmazione%20di%20Sistemi%20Multicore.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | - |
-| [Cybersecurity](../../raw/main/Bachelor/Terzo%20Anno/Cybersecurity.pdf) | Completed  | 23/01/2025 |
+| [Cybersecurity](../../raw/main/Bachelor/Terzo%20Anno/Cybersecurity.pdf) | Completed  | 07/02/2025 |
 | [Optimization](../../raw/main/Bachelor/Terzo%20Anno/Optimization.pdf) | Completed | 09/10/2024 |
 | Ingegneria del Software [ ! ] | - | - |
 | Discrete Mathematics [ !!! ] | - | - |
@@ -96,7 +96,7 @@ Disclaimers ⚠️
 | Course | Status | Last update |
 | ----- | :----: | :-----------: |
 | Advanced Algorithms | - | - |
-| [Autonomous Networking](../../raw/main/Master/Autonomous%20Networking.pdf) | - | - |
+| Autonomous Networking | - | 07/02/2025 |
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 05/02/2025 |
 | Computer Network Performance| - | - |
 | Cryptography | - | - |
@@ -105,7 +105,7 @@ Disclaimers ⚠️
 | Graph Theory | - | - |
 | Internet of Things | - | - |
 | Introduction to Quantum Computing | - | - |
-| [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | W.I.P. | 06/02/2025 |
+| [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | Completed | 07/02/2025 |
 | Mathematical Logic for Computer Science | - | - |
 | [Models of Computation](https://raw.githubusercontent.com/aflaag-notes/moc/main/src/Models%20of%20Computation.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 | [Network Algorithms](https://raw.githubusercontent.com/aflaag-notes/network-algs/main/src/Network%20Algorithms.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |

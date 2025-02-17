@@ -67,8 +67,8 @@ Disclaimers ⚠️
   | [Sistemi Operativi I](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 17/02/2025 |
   | [Sistemi Operativi II](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 17/02/2025 |
   | [Basi di Dati I](../../raw/main/Bachelor/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 17/02/2025 |
-  | [Progetti svolti - Basi di Dati II](../../blob/main/Bachelor/Secondo%20Anno/Progetti%20BD2/README.md) | Completi | 09/10/2024 |
   | [Basi di Dati II](https://github.com/CasuFrost/University_notes/raw/main/Secondo%20Anno/Secondo%20Semestre/Basi%20di%20Dati%202/Latex%20source%20file/Basi%20di%20Dati%20modulo%202.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | - |
+  | [Basi di Dati II - Progetti svolti](../../blob/main/Bachelor/Secondo%20Anno/Progetti%20BD2/README.md) | Completi | 09/10/2024 |
 </details>
 </div>
 
@@ -78,31 +78,31 @@ Disclaimers ⚠️
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Automi, Calcolabilità e Complessità](../../raw/main/Bachelor/Terzo%20Anno/Automi%2C%20Calcolabilita%20e%20Complessita.pdf) | Completi | 09/10/2024 |
+| [Automi, Calcolabilità e Complessità](../../raw/main/Bachelor/Terzo%20Anno/Automi%2C%20Calcolabilita%20e%20Complessita.pdf) | Completi | 17/02/2025 |
 | [Linguaggi di Programmazione](../../raw/main/Bachelor/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 18/09/2024 |
 | [Programmazione di Sistemi Multicore](https://raw.githubusercontent.com/CasuFrost/University_notes/refs/heads/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore/letexSrcFile/Programmazione%20di%20Sistemi%20Multicore.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | 17/02/2025 |
-| [Cybersecurity](../../raw/main/Bachelor/Terzo%20Anno/Cybersecurity.pdf) | Completed  | 17/02/2025 |
-| [Optimization](../../raw/main/Bachelor/Terzo%20Anno/Optimization.pdf) | Completed | 17/02/2025 |
+| [Cybersecurity](../../raw/main/Bachelor/Terzo%20Anno/Cybersecurity.pdf) 🇬🇧​ | Completed  | 17/02/2025 |
+| [Optimization](../../raw/main/Bachelor/Terzo%20Anno/Optimization.pdf) 🇬🇧​ | Completed | 17/02/2025 |
 | [Ingegneria del Software](https://raw.githubusercontent.com/CuriousCI/software-engineering/refs/heads/main/software-engineering.pdf) [ !! ]| Scritti da [@CuriousCI](https://github.com/CuriousCI) | - |
-| Discrete Mathematics [ !!! ] | - | - |
+| Discrete Mathematics 🇬🇧​ [ !!! ] | - | - |
 </details>
 </div>
 
 
 <div align="center">
 <details>
-<summary>Master degree - A.A. 2024-25 and 2025-26</summary>
+<summary>Master degree 🇬🇧​ - A.A. 2024-25 and 2025-26</summary>
 
 | Course | Status | Last update |
 | ----- | :----: | :-----------: |
-| [Advanced Algorithms](../../raw/main/Master/Advanced%Algorithms.pdf) | W.I.P. | - |
-| Autonomous Networking | - | 07/02/2025 |
+| [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms.pdf) | W.I.P. | - |
+| Autonomous Networking | - | - |
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 17/02/2025 |
 | Computer Network Performance| - | - |
 | Cryptography | - | - |
 | Deep Learning and Applied Artificial Intelligence | - | - |
 | Games and Equilibria | - | - |
-| [Graph Theory](../../raw/main/Master/Graph%Theory.pdf) | W.I.P. | - |
+| [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | W.I.P. | - |
 | Internet of Things | - | - |
 | Introduction to Quantum Computing | - | - |
 | [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | Completed | 17/02/2025 |

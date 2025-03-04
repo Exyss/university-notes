@@ -44,7 +44,7 @@ Disclaimers ⚠️
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
 | [Calcolo Differenziale](../../raw/main/Bachelor/Primo%20Anno/Calcolo%20Differenziale.pdf) | Completi | 17/02/2025 |
-| [Calcolo Integrale](../../raw/main/Bachelor/Primo%20Anno/Calcolo%20Integrale.pdf) | Completi | 17/02/2025 |
+| [Calcolo Integrale](../../raw/main/Bachelor/Primo%20Anno/Calcolo%20Integrale.pdf) | Completi | 04/03/2025 |
 | [Metodi Matematici per l'Informatica](../../raw/main/Bachelor/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi | 18/09/2024 |
 | [Introduzione agli Algoritmi](../../raw/main/Bachelor/Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 17/02/2025 |
 | [Progettazione di Sistemi Digitali](../../raw/main/Bachelor/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 17/02/2025 |
@@ -95,7 +95,7 @@ Disclaimers ⚠️
 
 | Course | Status | Last update |
 | ----- | :----: | :-----------: |
-| [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms.pdf) | W.I.P. | 27/02/2025 |
+| [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms.pdf) | W.I.P. | 04/03/2025 |
 | Autonomous Networking | - | - |
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 17/02/2025 |
 | Computer Network Performance| - | - |
@@ -106,7 +106,7 @@ Disclaimers ⚠️
 | Internet of Things | - | - |
 | Introduction to Quantum Computing | - | - |
 | [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | Completed | 27/02/2025 |
-| [Mathematical Logic for Computer Science](../../raw/main/Master/Mathematical%20Logic%20for%20Computer%20Science.pdf) | W.I.P. | 27/02/2025 |
+| [Mathematical Logic for Computer Science](../../raw/main/Master/Mathematical%20Logic%20for%20Computer%20Science.pdf) | W.I.P. | 04/03/2025 |
 | [Models of Computation](https://raw.githubusercontent.com/aflaag-notes/moc/main/src/Models%20of%20Computation.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 | [Network Algorithms](https://raw.githubusercontent.com/aflaag-notes/network-algs/main/src/Network%20Algorithms.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 </details>

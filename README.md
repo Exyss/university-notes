@@ -83,7 +83,7 @@ Disclaimers ⚠️
 | [Linguaggi di Programmazione](../../raw/main/Bachelor/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 18/09/2024 |
 | [Programmazione di Sistemi Multicore](https://raw.githubusercontent.com/CasuFrost/University_notes/refs/heads/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore/letexSrcFile/Programmazione%20di%20Sistemi%20Multicore.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | 17/02/2025 |
 | [Cybersecurity](../../raw/main/Bachelor/Terzo%20Anno/Cybersecurity.pdf) 🇬🇧​ | Completed  | 17/02/2025 |
-| [Optimization](../../raw/main/Bachelor/Terzo%20Anno/Optimization.pdf) 🇬🇧​ | Completed | 17/02/2025 |
+| [Optimization](../../raw/main/Bachelor/Terzo%20Anno/Optimization.pdf) 🇬🇧​ | Completed | 09/03/2025 |
 | Discrete Mathematics 🇬🇧​ [ !!! ] | - | - |
 </details>
 </div>

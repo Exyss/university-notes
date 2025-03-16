@@ -61,7 +61,7 @@ Disclaimers ⚠️
   | Corso | Status | Aggiornati al |
   | ----- | :----: | :-----------: |
   | [Algebra](../../raw/main/Bachelor/Secondo%20Anno/Algebra.pdf) | Completi | 16/03/2025 |
-  | [Calcolo delle Probabilità](../../raw/main/Bachelor/Secondo%20Anno/Calcolo%20delle%20Probabilita.pdf) | Completi | 09/10/2024 |
+  | [Calcolo delle Probabilità](../../raw/main/Bachelor/Secondo%20Anno/Calcolo%20delle%20Probabilita.pdf) | Completi | 16/03/2025 |
   | [Progettazione di Algoritmi](../../raw/main/Bachelor/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 16/03/2025 |
   | [Reti di Elaboratori](../../raw/main/Bachelor/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 16/03/2025 |
   | [Sistemi Operativi I](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 16/03/2025 |
@@ -78,7 +78,7 @@ Disclaimers ⚠️
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Automi, Calcolabilità e Complessità](../../raw/main/Bachelor/Terzo%20Anno/Automi%2C%20Calcolabilita%20e%20Complessita.pdf) | Completi | 17/02/2025 |
+| [Automi, Calcolabilità e Complessità](../../raw/main/Bachelor/Terzo%20Anno/Automi%2C%20Calcolabilita%20e%20Complessita.pdf) | Completi | 16/03/2025 |
 | [Ingegneria del Software](https://raw.githubusercontent.com/CuriousCI/software-engineering/refs/heads/main/software-engineering.pdf) [ !! ]| Scritti da [@CuriousCI](https://github.com/CuriousCI) | - |
 | [Linguaggi di Programmazione](../../raw/main/Bachelor/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 16/03/2025 |
 | [Programmazione di Sistemi Multicore](https://raw.githubusercontent.com/CasuFrost/University_notes/refs/heads/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore/letexSrcFile/Programmazione%20di%20Sistemi%20Multicore.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | 17/02/2025 |

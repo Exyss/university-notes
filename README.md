@@ -83,7 +83,7 @@ Disclaimers ⚠️
 | [Linguaggi di Programmazione](../../raw/main/Bachelor/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 18/09/2024 |
 | [Programmazione di Sistemi Multicore](https://raw.githubusercontent.com/CasuFrost/University_notes/refs/heads/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore/letexSrcFile/Programmazione%20di%20Sistemi%20Multicore.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | 17/02/2025 |
 | [Cybersecurity](../../raw/main/Bachelor/Terzo%20Anno/Cybersecurity.pdf) 🇬🇧​ | Completed  | 17/02/2025 |
-| [Optimization](../../raw/main/Bachelor/Terzo%20Anno/Optimization.pdf) 🇬🇧​ | Completed | 09/03/2025 |
+| [Optimization](../../raw/main/Bachelor/Terzo%20Anno/Optimization.pdf) 🇬🇧​ | Completed | 16/03/2025 |
 | Discrete Mathematics 🇬🇧​ [ !!! ] | - | - |
 </details>
 </div>
@@ -95,18 +95,18 @@ Disclaimers ⚠️
 
 | Course | Status | Last update |
 | ----- | :----: | :-----------: |
-| [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms.pdf) | W.I.P. | 10/03/2025 |
+| [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms.pdf) | W.I.P. | 16/03/2025 |
 | Autonomous Networking | - | - |
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 17/02/2025 |
 | Computer Network Performance| - | - |
 | Cryptography | - | - |
 | Deep Learning and Applied Artificial Intelligence | - | - |
 | Games and Equilibria | - | - |
-| [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | W.I.P. | 10/03/2025 |
+| [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | W.I.P. | 16/03/2025 |
 | Internet of Things | - | - |
 | Introduction to Quantum Computing | - | - |
 | [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | Completed | 10/03/2025 |
-| [Mathematical Logic for Computer Science](../../raw/main/Master/Mathematical%20Logic%20for%20Computer%20Science.pdf) | W.I.P. | 06/03/2025 |
+| [Mathematical Logic for Computer Science](../../raw/main/Master/Mathematical%20Logic%20for%20Computer%20Science.pdf) | W.I.P. | 16/03/2025 |
 | Models of Computation [ !! ] | - | - |
 | [Network Algorithms](https://raw.githubusercontent.com/aflaag-notes/network-algs/main/src/Network%20Algorithms.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 </details>

@@ -102,7 +102,7 @@ Disclaimers ⚠️
 | Cryptography | - | - |
 | Deep Learning and Applied Artificial Intelligence | - | - |
 | Games and Equilibria | - | - |
-| [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | W.I.P. | 16/03/2025 |
+| [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | W.I.P. | 20/03/2025 |
 | Internet of Things | - | - |
 | Introduction to Quantum Computing | - | - |
 | [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | Completed | 10/03/2025 |

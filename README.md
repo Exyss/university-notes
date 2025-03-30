@@ -95,7 +95,7 @@ Disclaimers ⚠️
 
 | Course | Status | Last update |
 | ----- | :----: | :-----------: |
-| [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms.pdf) | W.I.P. | 22/03/2025 |
+| [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms.pdf) | W.I.P. | 30/03/2025 |
 | Autonomous Networking | - | - |
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 17/02/2025 |
 | Computer Network Performance| - | - |

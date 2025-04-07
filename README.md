@@ -95,7 +95,7 @@ Disclaimers ⚠️
 
 | Course | Status | Last update |
 | ----- | :----: | :-----------: |
-| [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms.pdf) | W.I.P. | 06/04/2025 |
+| [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms.pdf) | W.I.P. | 07/04/2025 |
 | Autonomous Networking | - | - |
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 17/02/2025 |
 | Computer Network Performance| - | - |
@@ -106,7 +106,7 @@ Disclaimers ⚠️
 | Internet of Things | - | - |
 | Introduction to Quantum Computing | - | - |
 | [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | Completed | 10/03/2025 |
-| [Mathematical Logic for Computer Science](../../raw/main/Master/Mathematical%20Logic%20for%20Computer%20Science.pdf) | W.I.P. | 01/04/2025 |
+| [Mathematical Logic for Computer Science](../../raw/main/Master/Mathematical%20Logic%20for%20Computer%20Science.pdf) | W.I.P. | 07/04/2025 |
 | Models of Computation [ !! ] | - | - |
 | [Network Algorithms](https://raw.githubusercontent.com/aflaag-notes/network-algs/main/src/Network%20Algorithms.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 </details>

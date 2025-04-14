@@ -1,0 +1,97 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[affil-it]{authblk}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{algpseudocode}
+\usepackage[nameinlink]{cleveref}
+
+\usepackage[
+  backend=biber,
+  style=alphabetic,
+  sorting=anyt,
+  minnames=3,
+  minalphanames=3
+]{biblatex}
+
+\hypersetup{
+    colorlinks=true,
+    citecolor=blue,
+    linkcolor=blue,
+    urlcolor=blue,
+    pdftitle={MLCS Homework 1 2024-25},
+}
+
+\newtheorem{question}{Question}
+\theoremstyle{definition}
+\newtheorem{solution}{Solution}
+
+\definecolor{sapRed}{HTML}{6f0a19}
+\definecolor{sapBlue}{HTML}{006778}
+
+\newcommand{\curlyquotes}[1]{\textquotedblleft #1\textquotedblright}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\abk}[1]{\left\langle#1\right\rangle}
+\newcommand{\N}{\mathbb{N}}         % Natural Numbers
+
+\addbibresource{./references.bib}
+
+\begin{document}
+
+    \setlength{\parskip}{5pt}               % Vertical spacing between paragraphs
+    \setlength{\parindent}{0pt}             % Vertical spacing between paragraphs
+
+    \title{Mathematical Logic in Computer Science \\ Homework 1 2024-25}
+    \author{Simone Bianco, 1986936}
+    \affil{Sapienza Università di Roma, Italy}
+    \date{\today}
+
+    \maketitle
+
+    \begin{question}[Compactness]
+        Let $\mathcal{L} = \{E(x, y)\}$ be the language of graphs.
+        \begin{enumerate}
+            \item For each fixed $n \in \N$ write a sentence $C_n$ such that for any graph $\mathcal{G}$, $\mathcal{G} \models C_n$ if and only if $\mathcal{G}$ contains an $n$-clique.
+            \item Prove using Compactness that the property of being finitely colorable is not expressible by a theory in $\mathcal{L}$ over the class of graphs.
+        \end{enumerate}
+    \end{question}
+
+    \begin{proof}[Solution to Question 1.]
+        For any $n \in \N$, consider the following sentence $C_n$:
+        \[C_n \equiv \exists x_1 \ldots \exists x_n \; \bigwedge_{i = 1}^n \bigwedge_{\substack{j = 1 \\i \neq j}}^n (E(x_i, x_j) \land \lnot (x_i = x_j))\] 
+
+        \textbf{Claim 1.1}: $\mathcal{G} \models C_n$ if and only if $\mathcal{G}$ contains an $n$-clique
+
+        \begin{proof}[Proof of Claim 1.1.]
+            Suppose that $\mathcal{G} \models C_n$. Let $v_1, \ldots, v_n$ be the variables forming the assignment that satisfies $C_n$, i.e. $\left ( \begin{matrix}
+                x_1 & \cdots & x_n \\ v_1 & \cdots & v_n
+            \end{matrix} \right )$. Then, $\{v_1, \ldots, v_n\}$ form an $n$-clique since every pair of vertices is adjacent to each other and they are distinct. Vice versa, suppose that $\mathcal{G}$ contains an $n$-clique $\{u_1, \ldots, u_n\}$. Then, the assignment formed by $\left ( \begin{matrix}
+                x_1 & \cdots & x_n \\ u_1 & \cdots & u_n 
+            \end{matrix}\right )$ satisfies the non-quantified formula inside $C_n$, concluding that $\mathcal{G} \models C_n$.
+        \end{proof}
+
+        Consider now the theory $T = \{C_n \mid n \in \N\}$, expressing the property of containing an $n$-clique for any $n \in \N$. By way of contradiction, suppose that there is a theory $T'$ expressing the property of being finitely colorable.
+
+        \textbf{Claim 1.2}: $T^* = T \cup T'$ is finitely satisfiable.
+        
+        \begin{proof}[Proof of Claim 1.2.]
+            Fix $S \underset{fin}{\subseteq} T^*$ and consider the set $S - T' = \{C_{i_1}, \ldots, C_{i_\ell}\}$. Let $M = \max(i_1, \ldots, i_\ell)$. Then, the complete graph $\mathcal{K}_M$ on $M$ vertices is $M$-colorable, hence finitely colorable, and contains an $M$-clique, which implies that it also contains an $h$-clique for any $h \leq M$. Thus, $\mathcal{K}_M \models S-T'$ and $\mathcal{K}_M \models T'$. Since it satisfies $T'$, it also satisfies any subset of $T'$ that may be inside $S$, concluding that $\mathcal{K}_M \models S$. 
+        \end{proof}
+    
+        It's easy to see that if $\mathcal{G}$ is $k$-colorable then it doesn't contain a $k+1$ clique, concluding that $T^*$ is unsatisfiable. However, by Compactness we know that $T^*$ is finitely satisfiable if and only if it is satisfiable, raising a contradiction. Thus, the only possibility is that $T'$ doesn't exist.
+    \end{proof}
+
+    \newpage
+
+    \begin{question}[Games and non-expressibility]
+        
+    \end{question}
+
+
+\end{document}

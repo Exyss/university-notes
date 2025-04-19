@@ -38,7 +38,10 @@
 \newcommand{\curlyquotes}[1]{\textquotedblleft #1\textquotedblright}
 \newcommand{\abs}[1]{\left|#1\right|}
 \newcommand{\abk}[1]{\left\langle#1\right\rangle}
-\newcommand{\N}{\mathbb{N}}         % Natural Numbers
+\newcommand{\N}{\mathbb{N}}                     % Natural Numbers
+\newcommand{\Z}{\mathbb{Z}}                     % Integer Numbers
+
+\newcommand{\model}[1]{\mathfrak{#1}}           % Gothic font
 
 \addbibresource{./references.bib}
 
@@ -71,7 +74,7 @@
         \begin{proof}[Proof of Claim 1.1.]
             Suppose that $\mathcal{G} \models C_n$. Let $v_1, \ldots, v_n$ be the variables forming the assignment that satisfies $C_n$, i.e. $\left ( \begin{matrix}
                 x_1 & \cdots & x_n \\ v_1 & \cdots & v_n
-            \end{matrix} \right )$. Then, $\{v_1, \ldots, v_n\}$ form an $n$-clique since every pair of vertices is adjacent to each other and they are distinct. Vice versa, suppose that $\mathcal{G}$ contains an $n$-clique $\{u_1, \ldots, u_n\}$. Then, the assignment formed by $\left ( \begin{matrix}
+            \end{matrix} \right )$. Then, $\{v_1, \ldots,$ $v_n\}$ form an $n$-clique since every pair of vertices is adjacent to each other and they are distinct. Vice versa, suppose that $\mathcal{G}$ contains an $n$-clique $\{u_1, \ldots, u_n\}$. Then, the assignment formed by $\left ( \begin{matrix}
                 x_1 & \cdots & x_n \\ u_1 & \cdots & u_n 
             \end{matrix}\right )$ satisfies the non-quantified formula inside $C_n$, concluding that $\mathcal{G} \models C_n$.
         \end{proof}
@@ -90,8 +93,55 @@
     \newpage
 
     \begin{question}[Games and non-expressibility]
-        
+        Consider the structures $\model{A} = (\N, \leq)$ and $\model{B} = (\Z, \leq)$:
+        \begin{enumerate}
+            \item What is the smallest $k$ such that $\model{A} \equiv_k \model{B}$ does not hold?
+            \item Prove that the Duplicator wins every finite moves game if the Spoiler is forced to always play in the same structure (i.e. either always in $\model{A}$ or always in $\model{B}$)
+        \end{enumerate}
     \end{question}
+
+    \begin{proof}[Solution to Question 2.]
+        \quad
+
+        \begin{enumerate}
+            \item Through Ehrenfeucht's theorem, we know that $\model{A} \equiv_k \model{B}$ if and only if the Duplicator has a strategy to win the $k$-round game on $\model{A}, \model{B}$. It's easy to see that the Spoiler has a trivial strategy to win the $2$-round game. On the first round, the Spoiler picks $a_0 = 0_\N \in \N$ and the Duplicator answers with $b_0 \in \Z$. On the second round, the Spoiler can pick any value $b_1 \in \Z$ such that $b_1 < b_0$ in order to win the game since $0_\N$ is the minimal element in $\model{A}$. In fact, the query $\forall x \exists y \; (y \leq x) \land \lnot(y = x)$ is enough to distinguish the two structures, hence they cannot be $2$-equivalent. Moreover, the Duplicator can always easily win the $1$-game by replying with any value to the first choice of the Spoiler. Hence, we conclude that $2$ is the smallest value $k$ such that $\model{A} \equiv_k \model{B}$ doesn't hold.
+            
+            \item Consider the case where the Spoiler is forced to always play in $\model{A}$. Then, the Duplicator has a trivial strategy to win the $\infty$-game since $\Z$ contains $\N$: every choice $a_i \in \N$ is mapped to $b_i = a_i$ in $\Z$, preserving the order relations. Hence, the Duplicator can also win the $k$-game for any $k$.
+            
+            In the other case, instead, the Duplicator cannot win the $\infty$-game since the Spoiler has a strategy to win. On the first round, the Spoiler picks $b_0 = 0_\Z$ and the Duplicator answers with $a_0 \in \N$. Then, for any other $i$-th round, the Spoiler always picks $b_{i} = b_{i-1}-1 \in \Z$. Since there are a finite amount of elements in $\{0, \ldots, a_0\} \subset \N$, the Duplicator will eventually run out of options. Nonetheless, the Duplicator still has a strategy to win the $k$-game for any $k$. The idea is to map all the elements $z \in \Z$ with $z \geq 0$ to all the $n \in \N$ with $n \geq 2^k$, while reserving all the $n' \in \N$ with $n' < 2^k$ as a way to \curlyquotes{simulate density up to $k$ elements} in order to survive at least $k$ queries that ask for a middle element.
+
+            Fix $k \in \N$. Let $a_{-1} = 2^k$ and $b_{-1} = 0$. On each round $i$, let $a_1, \ldots, a_{i-1} \in \N$ and $b_1, \ldots, b_{i-1} \in \Z$ be the choices made in the previous rounds. Let $A_i = \{a_j \mid -1 \leq j < i \text{ and } a_j \leq 2^k\}$ and let $B_i = \{b_j \mid -1 \leq j < i \text{ and } b_j \leq 0\}$. The Duplicator plays the $i$-th round through the following decision process:
+            \begin{enumerate}
+                \item If the Spoiler picks $b_i \in \Z$ such that $b_i \geq 0$ then the Duplicator answers with $a_i \in \N$ such that $a_i = 2^k + b_i$.
+                \item If the Spoiler picks $b_i \in \Z$ such that $b_i < 0$ then:
+                \begin{enumerate}
+                    \item If $b_i < \min(B_{i-1})$ then the Duplicator answers with $a_i = \frac{1}{2} \min(A_{i-1})$
+                    \item If $b_i > \min(B_{i-1})$ then the Duplicator answers with $a_i = \frac{1}{2}(a_j + a_t)$, where $j,t$ are two indices such that $b_j,b_t$ are the two values in $B_{i-1}$ that minimize $\abs{b_j - b_t}$ and such that $b_j < b_i < b_t$.
+                \end{enumerate}
+            \end{enumerate}
+
+            \textbf{Claim 2.1}: For all $i \in \N$, if $i \leq k$ it holds that:
+            \begin{enumerate}
+                \item The distance between each pair $x,y \in A_i \cup \{0\}$ is at least $2^{k-i}$.
+                \item $a_1, \ldots, a_i \mapsto b_1, \ldots, b_i$ is a partial isomorphism.
+            \end{enumerate}
+
+            \begin{proof}[Proof of Claim 2.1]
+                Any time the choice made by the Spoiler falls in Case (a) the partial isomorphism is trivially preserved since each positive the integer gets only shifted by $2^k$ places. This allows us to restrict our focus entirely on choices of Case (b).
+                
+                We proceed by induction on $i$. When $i = 1$, we have that $A_0 = \{2^k\}$ and $B_0 = \{0\}$. Hence, since $b_1 < 0 = \min(A_0)$, the Duplicator answers with $a_1 = 2^k-1$. Since $\abs{a_{-1} - a_1} = \abs{0 - a_1} = 2^{k-1}$ and relations are preserved since no other choices have been made, the claim holds.
+                
+                Assume now that the claim holds for the $i$-th round. For the $(i+1)$-th round, we consider the two subcases:
+                \begin{enumerate}
+                    \item If $b_{i+1} < \min(B_i)$ then by setting $a_{i+1} = \frac{1}{2}\min(A_i)$ we guarantee that $b_{i+1}, a_{i+1}$ become the new minimal elements in both orders, preserving relations. By inductive hypothesis, we know that $\abs{0 - \min(A_i)} \geq 2^{k-i}$, hence $\abs{0 - a_{i+1}} \geq 2^{k-(i+1)}$, while we also get that $\abs{a_j - a_{i+1}} \geq 2^{k-i} \geq 2^{k-(i+1)}$ for all $a_j \in A_i$ since $a_{i+1} < \min(A_i)$.
+                    \item If $b_{i+1} > \min(B_i)$ then the elements $b_j,b_t$ are guaranteed to exist since $0 > b_{i+1} > \min(B_i)$. The minimality of the distance between $a_j$ and $a_t$ allows us to restrict our interest to proving that the distance claim holds on the latter elements. By inductive hypothesis, we know that $\abs{a_j - a_t} \geq 2^{k-i}$. By assigning $a_{i+1}$ to the element lying exactly in the middle between these two elements, we get that $\abs{a_j - a_{i+1}} \geq 2^{k-(i+1)}$ and $\abs{a_{i+1} - a_t} \geq 2^{k-(i+1)}$. This choice also preserves the order relation.
+                \end{enumerate}
+            \end{proof}
+
+            The distance property between each element chosen in $\N$ guarantees that the elements selected by the Duplicator are all distinct for at least $k$ rounds (to be precise,they can survive for $k+1$ rounds), even if the choice of the Spoiler always falls in the second case.
+        \end{enumerate}
+
+    \end{proof}
 
 
 \end{document}

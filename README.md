@@ -62,7 +62,7 @@ Disclaimers ⚠️
   | ----- | :----: | :-----------: |
   | [Algebra](../../raw/main/Bachelor/Secondo%20Anno/Algebra.pdf) | Completi | 16/03/2025 |
   | [Calcolo delle Probabilità](../../raw/main/Bachelor/Secondo%20Anno/Calcolo%20delle%20Probabilita.pdf) | Completi | 16/03/2025 |
-  | [Progettazione di Algoritmi](../../raw/main/Bachelor/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 16/03/2025 |
+  | [Progettazione di Algoritmi](../../raw/main/Bachelor/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 11/05/2025 |
   | [Reti di Elaboratori](../../raw/main/Bachelor/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 16/03/2025 |
   | [Sistemi Operativi I](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 16/03/2025 |
   | [Sistemi Operativi II](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 16/03/2025 |
@@ -95,14 +95,14 @@ Disclaimers ⚠️
 
 | Course | Status | Last update |
 | ----- | :----: | :-----------: |
-| [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms.pdf) | W.I.P. | 25/04/2025 |
+| [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms.pdf) | W.I.P. | 11/05/2025 |
 | Autonomous Networking | - | - |
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 17/02/2025 |
 | Computer Network Performance| - | - |
 | Cryptography | - | - |
 | Deep Learning and Applied Artificial Intelligence | - | - |
 | Games and Equilibria | - | - |
-| [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | W.I.P. | 02/05/2025 |
+| [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | W.I.P. | 11/05/2025 |
 | Internet of Things | - | - |
 | Introduction to Quantum Computing | - | - |
 | [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | Completed | 10/03/2025 |

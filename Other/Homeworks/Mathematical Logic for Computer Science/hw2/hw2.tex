@@ -1,0 +1,139 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[affil-it]{authblk}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{algpseudocode}
+\usepackage[nameinlink]{cleveref}
+
+\usepackage[
+  backend=biber,
+  style=alphabetic,
+  sorting=anyt,
+  minnames=3,
+  minalphanames=3
+]{biblatex}
+
+\hypersetup{
+    colorlinks=true,
+    citecolor=blue,
+    linkcolor=blue,
+    urlcolor=blue,
+    pdftitle={MLCS Homework 1 2024-25},
+}
+
+\newtheorem{question}{Question}
+\theoremstyle{definition}
+\newtheorem{solution}{Solution}
+
+\definecolor{sapRed}{HTML}{6f0a19}
+\definecolor{sapBlue}{HTML}{006778}
+
+\newcommand{\curlyquotes}[1]{\textquotedblleft #1\textquotedblright}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\abk}[1]{\left\langle#1\right\rangle}
+\newcommand{\N}{\mathbb{N}}                     % Natural Numbers
+\newcommand{\Z}{\mathbb{Z}}                     % Integer Numbers
+\newcommand{\Q}{\mathbb{Q}}                     % Rational Numbers
+\newcommand{\R}{\mathbb{R}}                     % Real Numbers
+
+\newcommand{\model}[1]{\mathfrak{#1}}           % Gothic font
+
+\addbibresource{./references.bib}
+
+\begin{document}
+
+    \setlength{\parskip}{5pt}               % Vertical spacing between paragraphs
+    \setlength{\parindent}{0pt}             % Vertical spacing between paragraphs
+
+    \title{Mathematical Logic in Computer Science \\ Homework 2 2024-25}
+    \author{Simone Bianco, 1986936}
+    \affil{Sapienza Università di Roma, Italy}
+    \date{\today}
+
+    \maketitle
+
+    \begin{question}[Basic Concepts]
+        Let $R$ be a transitive relation on a finite set $W$. Prove that $R$ is well-founded iff $R$ is irreflexive. ($R$ is called well-founded if there are no infinite paths $\ldots Rs_2Rs_1Rs_0$.)
+    \end{question}
+
+    \begin{proof}[Solution]
+        Suppose that $R$ is reflexive. Then, for any element $s \in W$ we can form a trivial infinite path of the form $\ldots Rs R s R s R s$ by taking the loop infinitely many times. Thus, $R$ cannot be well-founded.
+
+        Vice versa, suppose that $R$ is irreflexive. By way of contradiction, suppose that $R$ is not well-founded. Let $P = \ldots Rs_2Rs_1Rs_0$ be an infinite path on $W$. Since $W$ is finite, the path $P$ has to eventually loop, meaning that $\exists i,j$ with $i \leq \abs{W} \leq j$ such that $s_i R s_j \ldots s_{i+1}Rs_iR \ldots Rs_2Rs_1Rs_0$. By transitivity, we get that $s_i R s_i$, contradicting the irreflexivity of $R$. Thus, $R$ must be well-founded.
+    \end{proof}
+    
+    \begin{question}[Models and Frames]
+        Consider the basic temporal language and the frames $(\Z, <), (\Q, <)$, and $(\R, >)$ (the integer, rational, and real numbers, respectively, all ordered by the usual less-than relation $<$). In this exercise we use $E\phi$ to abbreviate $P\phi \lor \phi \lor F \phi$ and $A \phi$ to abbreviate $H\phi \lor \phi \lor G \phi$. Which of the following formulas are valid on these frames?
+        \begin{enumerate}
+            \item $GGp \to p$
+            \item $(p \land Hp) \to F Hp$
+            \item $(Ep \land E \lnot p \land A(p \to Hp) \land A(\lnot p \to G \lnot p)) \to E(Hp \land G \lnot p)$
+        \end{enumerate}
+    \end{question}
+
+    \begin{proof}[Solution]
+        Let $\mathcal{Z} = (\Z, <), \mathcal{Q} = (\Q, <)$, and $\mathcal{R} = (\R, >)$. The following table summarizes the validity of the formulas for each model.
+        \begin{center}
+            \begin{tabular}{c|ccc}
+                & $\mathcal{Z}$ & $\mathcal{Q}$ & $\mathcal{R}$ \\
+                \hline
+                (1) & $\times$ & $\times$ & $\times$ \\
+                (2) & $\checkmark$ & $\times$ & $\times$ \\
+                (3) & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+            \end{tabular}
+        \end{center}
+        
+        We start by restricting our interest to $\mathcal{Z}$:
+        \begin{itemize}
+            \item We prove that the formula $GGp \to p$ is not valid in $\mathcal{Z}$ by giving a model that doesn't satisfy it. Let $\model{M}_{\mathcal{Z}} = (\mathcal{Z}, V)$ be a model such that $V(p) = \{v \in \Z \mid 0 < v\}$. We observe that:
+            \[\begin{split}
+                \model{M}_{\mathcal{Z}}, 0 \models GGp & \iff \forall x \in \Z \text{ with } 0 < x, \;\; \model{M}_{\mathcal{Z}}, x \models Gp \\
+                & \iff \forall x,y  \in \Z \; \text{ with } 0 < x < y, \;\; \model{M}_{\mathcal{Z}}, y \models p \\ 
+                & \iff \forall x,y \in \Z \; \text{ with } 0 < x < m, \;\; y \in V(p) \\ 
+            \end{split}\]
+
+            which is true by choice of $m$ itself. However, we have that $\model{M}_{\mathcal{Z}}, 0 \not\models p$ because $0 \notin V(p)$, concluding that $\model{M}_{\mathcal{Z}}, 0 \not\models GGp \to p$
+
+            \item We prove that the formula $(p \land Hp) \to FHp$ is valid in $\mathcal{Z}$. Let $\model{M}_{\mathcal{Z}} = (\mathcal{Z}, V)$ be any model of $\mathcal{Z}$. We observe that:
+            \[\begin{split}
+                \model{M}_{\mathcal{Z}}, n \models p \land Hp & \iff n \in V(p) \; \forall x \in \Z \text{ with } x < n \;\; \model{M}_{\mathcal{Z}}, x \models p \\
+                & \iff n \in V(p) \; \forall x \in \Z \text{ with } x < n \;\; x \in V(p) \\
+            \end{split}\]
+            
+            Thus, we know that $p$ holds for $n$ and all $x$ such that $x < n$. Moreover, we observe that:
+            \[\begin{split}
+                \model{M}_{\mathcal{Z}}, n \models FHp & \iff \exists x \in \Z \text{ with } n < x \;\; \model{M}_{\mathcal{Z}}, x \models Hp \\
+                & \iff \exists x,y \in \Z \text{ with } n < x \; \text{ and } y < x \;\;  \model{M}_{\mathcal{Z}}, y \models p \\
+                & \iff \exists x,y \in \Z \text{ with } n < x \; \text{ and } y < x \;\; y \in V(p) \\
+            \end{split}\]
+            
+            Hence, $x$ must be a successor of $n$ such that $p$ is true for all of $x$'s predecessors. In $\Z$, picking $x = n+1$ satisfies the formula since we already know that $p$ holds for $n$ and all $n$ such that $y < n$.
+
+            \item We prove that the formula $(Ep \land E \lnot p \land A(p \to Hp) \land A(\lnot p \to G \lnot p)) \to E(Hp \land G \lnot p)$ is valid in $\mathcal{Z}$. Let $\model{M}_{\mathcal{Z}} = (\mathcal{Z}, V)$ be any model of $\mathcal{Z}$. Let $Q \equiv Ep \land E \lnot p \land A(p \to Hp) \land A(\lnot p \to G \lnot p)$. We observe that $\model{M}_{\mathcal{Z}}, n \models Q$ holds if all of the following hold for $n$:
+            \begin{itemize}
+                \item There are two values $x,y \in \Z$ with $x \in V(p), y \notin V(p)$ and if $n \in V(p)$
+                \item For any value $m \in \Z$, if $m \in V(p)$ then for all $x' \in \Z$ with $x' < m$ then $x' \in V(p)$
+                \item For any value $m \in \Z$, if $m \notin V(p)$ then for all $y' \in \Z$ with $m < y'$ then $y' \notin V(p)$
+            \end{itemize} 
+            
+            In order for the three conditions to not clash, it must hold that:
+            \begin{itemize}
+                \item $x < y$
+                \item For all $x' \in \Z$ with $x' < x$ it holds that $x' \in V(p)$ 
+                \item For all $y' \in \Z$ with $y < y'$ it holds that $y' \noin V(p)$ 
+            \end{itemize}
+
+            But this is exactly the condition required by $E(Hp \land G \lnot p)$ to be satisfied: $x$ is a value such that $p$ holds for all of its predecessors and 
+
+        \end{itemize}
+    \end{proof}
+
+
+\end{document}

@@ -9,6 +9,7 @@
 \usepackage{float}
 \usepackage{xcolor}
 \usepackage{hyperref}
+\usepackage{enumitem}
 \usepackage{algpseudocode}
 \usepackage[nameinlink]{cleveref}
 
@@ -68,7 +69,13 @@
 
         Vice versa, suppose that $R$ is irreflexive. By way of contradiction, suppose that $R$ is not well-founded. Let $P = \ldots Rs_2Rs_1Rs_0$ be an infinite path on $W$. Since $W$ is finite, the path $P$ has to eventually loop, meaning that $\exists i,j$ with $i \leq \abs{W} \leq j$ such that $s_i R s_j \ldots s_{i+1}Rs_iR \ldots Rs_2Rs_1Rs_0$. By transitivity, we get that $s_i R s_i$, contradicting the irreflexivity of $R$. Thus, $R$ must be well-founded.
     \end{proof}
-    
+
+    \quad
+
+    \hrule
+
+    \quad
+
     \begin{question}[Models and Frames]
         Consider the basic temporal language and the frames $(\Z, <), (\Q, <)$, and $(\R, >)$ (the integer, rational, and real numbers, respectively, all ordered by the usual less-than relation $<$). In this exercise we use $E\phi$ to abbreviate $P\phi \lor \phi \lor F \phi$ and $A \phi$ to abbreviate $H\phi \lor \phi \lor G \phi$. Which of the following formulas are valid on these frames?
         \begin{enumerate}
@@ -86,22 +93,29 @@
                 \hline
                 (1) & $\times$ & $\times$ & $\times$ \\
                 (2) & $\checkmark$ & $\times$ & $\times$ \\
-                (3) & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+                (3) & $\times$ & $\times$ & $\times$ \\
             \end{tabular}
         \end{center}
+
+        First, we give an informal idea behind each result:
+        \begin{enumerate}
+            \item $GGp \to p$ doesn't hold in any of the models. Knowing that $p$ will be true for every value following the current one doesn't ensure that it also holds for the current value.
+            \item $(p \land Hp) \to F Hp$ holds only in $\mathcal{Z}$. This is due to the non-density of $\Z$, thus if $p$ holds for the current value $n$ and all previous values $n' < n$, $p$ will hold for all $n'' < n+1$. Without density, there may be values between $n$ and $n+1$ for which $p$ doesn't hold.
+            \item $(Ep \land E \lnot p \land A(p \to Hp) \land A(\lnot p \to G \lnot p)) \to E(Hp \land G \lnot p)$ doesn't hold in any of the models. The premise of the implication states that there are two instants $x,y$ for which $p$ holds for any value $x'$ with $x' < x$ and it doesn't hold for any value $y'$ with $y > y'$. The conclusion of the implication states that there is an instant $z$ for which $p$ is true for any value that comes before $z$ and false for any value that comes after $z$. However, there may be values $s,t$ between $x$ and $y$ for which $p$ holds on $s$ and it doesn't on $t$, making at least one of the two conclusions false for any value $z$.  
+        \end{enumerate}
         
         We start by restricting our interest to $\mathcal{Z}$:
         \begin{itemize}
-            \item We prove that the formula $GGp \to p$ is not valid in $\mathcal{Z}$ by giving a model that doesn't satisfy it. Let $\model{M}_{\mathcal{Z}} = (\mathcal{Z}, V)$ be a model such that $V(p) = \{v \in \Z \mid 0 < v\}$. We observe that:
+            \item We prove that the formula $GGp \to p$ \underline{is not valid} in $\mathcal{Z}$ by giving a model that doesn't satisfy it. Let $\model{M}_{\mathcal{Z}} = (\mathcal{Z}, V)$ be a model such that $V(p) = \{v \in \Z \mid 0 < v\}$. We observe that:
             \[\begin{split}
                 \model{M}_{\mathcal{Z}}, 0 \models GGp & \iff \forall x \in \Z \text{ with } 0 < x, \;\; \model{M}_{\mathcal{Z}}, x \models Gp \\
                 & \iff \forall x,y  \in \Z \; \text{ with } 0 < x < y, \;\; \model{M}_{\mathcal{Z}}, y \models p \\ 
-                & \iff \forall x,y \in \Z \; \text{ with } 0 < x < m, \;\; y \in V(p) \\ 
+                & \iff \forall x,y \in \Z \; \text{ with } 0 < x < y, \;\; y \in V(p) \\ 
             \end{split}\]
 
-            which is true by choice of $m$ itself. However, we have that $\model{M}_{\mathcal{Z}}, 0 \not\models p$ because $0 \notin V(p)$, concluding that $\model{M}_{\mathcal{Z}}, 0 \not\models GGp \to p$
+            which is true by choice of $y$ itself. However, we have that $\model{M}_{\mathcal{Z}}, 0 \not\models p$ because $0 \notin V(p)$, concluding that $\model{M}_{\mathcal{Z}}, 0 \not\models GGp \to p$
 
-            \item We prove that the formula $(p \land Hp) \to FHp$ is valid in $\mathcal{Z}$. Let $\model{M}_{\mathcal{Z}} = (\mathcal{Z}, V)$ be any model of $\mathcal{Z}$. We observe that:
+            \item We prove that the formula $(p \land Hp) \to FHp$ \underline{is valid} in $\mathcal{Z}$. Let $\model{M}_{\mathcal{Z}} = (\mathcal{Z}, V)$ be any model of $\mathcal{Z}$. We observe that:
             \[\begin{split}
                 \model{M}_{\mathcal{Z}}, n \models p \land Hp & \iff n \in V(p) \; \forall x \in \Z \text{ with } x < n \;\; \model{M}_{\mathcal{Z}}, x \models p \\
                 & \iff n \in V(p) \; \forall x \in \Z \text{ with } x < n \;\; x \in V(p) \\
@@ -114,25 +128,326 @@
                 & \iff \exists x,y \in \Z \text{ with } n < x \; \text{ and } y < x \;\; y \in V(p) \\
             \end{split}\]
             
-            Hence, $x$ must be a successor of $n$ such that $p$ is true for all of $x$'s predecessors. In $\Z$, picking $x = n+1$ satisfies the formula since we already know that $p$ holds for $n$ and all $n$ such that $y < n$.
+            Hence, $x$ must be a successor of $n$ such that $p$ is true for all of $x$'s predecessors. In $\Z$, picking $x = n+1$ satisfies the formula since we already know that $p$ holds for all $y$ such that $y \leq n$ and there are no elements between $n$ and $n+1$.
 
-            \item We prove that the formula $(Ep \land E \lnot p \land A(p \to Hp) \land A(\lnot p \to G \lnot p)) \to E(Hp \land G \lnot p)$ is valid in $\mathcal{Z}$. Let $\model{M}_{\mathcal{Z}} = (\mathcal{Z}, V)$ be any model of $\mathcal{Z}$. Let $Q \equiv Ep \land E \lnot p \land A(p \to Hp) \land A(\lnot p \to G \lnot p)$. We observe that $\model{M}_{\mathcal{Z}}, n \models Q$ holds if all of the following hold for $n$:
+            \item We prove that the formula $(Ep \land E \lnot p \land A(p \to Hp) \land A(\lnot p \to G \lnot p)) \to E(Hp \land G \lnot p)$ \underline{is not valid} in $\mathcal{Z}$. Let $S \equiv Ep \land E \lnot p \land A(p \to Hp) \land A(\lnot p \to G \lnot p)$. Let $\model{M}_{\mathcal{Z}} = (\mathcal{Z}, V)$ be a model of $\mathcal{Z}$ such that
+            \[V(p) = \{v \in \Z \mid v < 0\} \cup \{1\}\]. We observe that $\model{M}_{\mathcal{Z}}, 0 \models S$ is true when:
             \begin{itemize}
-                \item There are two values $x,y \in \Z$ with $x \in V(p), y \notin V(p)$ and if $n \in V(p)$
+                \item There are two values $x,y \in \Z$ with $x \in V(p), y \notin V(p)$. This comes from the definition of $E p$ and $E \lnot p$ (e.g. $x$ has to be either less than, equal to or greater than $0$)
                 \item For any value $m \in \Z$, if $m \in V(p)$ then for all $x' \in \Z$ with $x' < m$ then $x' \in V(p)$
                 \item For any value $m \in \Z$, if $m \notin V(p)$ then for all $y' \in \Z$ with $m < y'$ then $y' \notin V(p)$
-            \end{itemize} 
-            
-            In order for the three conditions to not clash, it must hold that:
-            \begin{itemize}
-                \item $x < y$
-                \item For all $x' \in \Z$ with $x' < x$ it holds that $x' \in V(p)$ 
-                \item For all $y' \in \Z$ with $y < y'$ it holds that $y' \noin V(p)$ 
             \end{itemize}
 
-            But this is exactly the condition required by $E(Hp \land G \lnot p)$ to be satisfied: $x$ is a value such that $p$ holds for all of its predecessors and 
-
+            Picking $x = -1$ and $y = 1$ satisfies all the above conditions, thus $\model{M}_{\mathcal{Z}}, 0 \models S$ is satisfied. However, we have that $\model{M}_{\mathcal{Z}}, 0 \not\models E(Hp \land G \lnot p)$ because for all values $z \in \Z$ with $x < z < y$ at least one between $Hp$ and $G \lnot p$ is false.
         \end{itemize}
+
+        We now consider the model $\mathcal{Q}$:
+        \begin{itemize}
+            \item We prove that the formula $GGp \to p$ \underline{is not valid} in $\mathcal{Q}$ by giving a model that doesn't satisfy it. Let $\model{M}_{\mathcal{Q}} = (\mathcal{Q}, V)$ be a model such that $V(p) = \{v \in \Q \mid 0 < v\}$. We observe that:
+            \[\begin{split}
+                \model{M}_{\mathcal{Q}}, 0 \models GGp & \iff \forall x \in \Q \text{ with } 0 < x, \;\; \model{M}_{\mathcal{Q}}, x \models Gp \\
+                & \iff \forall x,y  \in \Q \; \text{ with } 0 < x < y, \;\; \model{M}_{\mathcal{Q}}, y \models p \\ 
+                & \iff \forall x,y \in \Q \; \text{ with } 0 < x < y, \;\; y \in V(p) \\ 
+            \end{split}\]
+
+            which is true by choice of $y$ itself. However, we have that $\model{M}_{\mathcal{Q}}, 0 \not\models p$ because $0 \notin V(p)$, concluding that $\model{M}_{\mathcal{Q}}, 0 \not\models GGp \to p$
+
+            \item We prove that the formula $(p \land Hp) \to FHp$ \underline{is not valid} in $\mathcal{Q}$. Let $\model{M}_{\mathcal{Q}} = (\mathcal{Q}, V)$ be a model of $\mathcal{Q}$ with $V(p) = \{v \in \Q \mid v < 0\} \cup \{0\}$. We observe that:
+            \[\begin{split}
+                \model{M}_{\mathcal{Q}}, 0 \models p \land Hp & \iff 0 \in V(p) \; \forall x \in \Q \text{ with } x < 0 \;\; \model{M}_{\mathcal{Q}}, x \models p \\
+                & \iff n \in V(p) \; \forall x \in \Q \text{ with } x < 0 \;\; x \in V(p) \\
+            \end{split}\]
+            
+            which is true by choice of $x$ itself. However, we have that $\model{M}_{\mathcal{Q}}, 0 \not\models FHp$ because $\forall y \in \Q$ with $0 < y$ there is a value $z \in \Q$ with $0 < z < y$ such that $z \notin V(p)$ due to density of $\Q$.
+
+            \item We prove that the formula $(Ep \land E \lnot p \land A(p \to Hp) \land A(\lnot p \to G \lnot p)) \to E(Hp \land G \lnot p)$ \underline{is not valid} in $\mathcal{Q}$. Let $S \equiv Ep \land E \lnot p \land A(p \to Hp) \land A(\lnot p \to G \lnot p)$. Let $\model{M}_{\mathcal{Q}} = (\mathcal{Q}, V)$ be a model of $\mathcal{Q}$ such that
+            \[V(p) = \{v \in \Q \mid v < 0\} \cup \{1\}\]. We observe that $\model{M}_{\mathcal{Q}}, 0 \models S$ is true when:
+            \begin{itemize}
+                \item There are two values $x,y \in \Q$ with $x \in V(p), y \notin V(p)$. This comes from the definition of $E p$ and $E \lnot p$ (e.g. $x$ has to be either less than, equal to or greater than $0$)
+                \item For any value $m \in \Q$, if $m \in V(p)$ then for all $x' \in \Q$ with $x' < m$ then $x' \in V(p)$
+                \item For any value $m \in \Q$, if $m \notin V(p)$ then for all $y' \in \Q$ with $m < y'$ then $y' \notin V(p)$
+            \end{itemize}
+
+            Picking $x = -1$ and $y = 1$ satisfies all the above conditions, thus $\model{M}_{\mathcal{Q}}, 0 \models S$ is satisfied. However, we have that $\model{M}_{\mathcal{Q}}, 0 \not\models E(Hp \land G \lnot p)$ because for all values $z \in \Q$ with $x < z < y$ at least one between $Hp$ and $G \lnot p$ is false.
+        \end{itemize}
+
+
+        Finally, we consider the model $\mathcal{R}$:
+        \begin{itemize}
+            \item We prove that the formula $GGp \to p$ \underline{is not valid} in $\mathcal{R}$ by giving a model that doesn't satisfy it. Let $\model{M}_{\mathcal{R}} = (\mathcal{R}, V)$ be a model such that $V(p) = \{v \in \R \mid 0 > v\}$. We observe that:
+            \[\begin{split}
+                \model{M}_{\mathcal{R}}, 0 \models GGp & \iff \forall x \in \R \text{ with } 0 > x, \;\; \model{M}_{\mathcal{R}}, x \models Gp \\
+                & \iff \forall x,y  \in \R \; \text{ with } 0 > x > y, \;\; \model{M}_{\mathcal{R}}, y \models p \\ 
+                & \iff \forall x,y \in \R \; \text{ with } 0 > x > y, \;\; y \in V(p) \\ 
+            \end{split}\]
+
+            which is true by choice of $y$ itself. However, we have that $\model{M}_{\mathcal{R}}, 0 \not\models p$ because $0 \notin V(p)$, concluding that $\model{M}_{\mathcal{R}}, 0 \not\models GGp \to p$
+
+            \item We prove that the formula $(p \land Hp) \to FHp$ \underline{is not valid} in $\mathcal{R}$. Let $\model{M}_{\mathcal{R}} = (\mathcal{R}, V)$ be a model of $\mathcal{R}$ with $V(p) = \{v \in \R \mid v > 0\} \cup \{0\}$. We observe that:
+            \[\begin{split}
+                \model{M}_{\mathcal{R}}, 0 \models p \land Hp & \iff 0 \in V(p) \; \forall x \in \R \text{ with } x > 0 \;\; \model{M}_{\mathcal{R}}, x \models p \\
+                & \iff n \in V(p) \; \forall x \in \R \text{ with } x > 0 \;\; x \in V(p) \\
+            \end{split}\]
+            
+            which is true by choice of $x$ itself. However, we have that $\model{M}_{\mathcal{R}}, 0 \not\models FHp$ because $\forall y \in \R$ with $0 > y$ there is a value $z \in \R$ with $0 > z > y$ such that $z \notin V(p)$  due to density of $\R$.
+
+            \item We prove that the formula $(Ep \land E \lnot p \land A(p \to Hp) \land A(\lnot p \to G \lnot p)) \to E(Hp \land G \lnot p)$ \underline{is not valid} in $\mathcal{R}$. Let $S \equiv Ep \land E \lnot p \land A(p \to Hp) \land A(\lnot p \to G \lnot p)$. Let $\model{M}_{\mathcal{R}} = (\mathcal{R}, V)$ be a model of $\mathcal{R}$ such that
+            \[V(p) = \{v \in \R \mid v > 0\} \cup \{-1\}\]. We observe that $\model{M}_{\mathcal{R}}, 0 \models S$ is true when:
+            \begin{itemize}
+                \item There are two values $x,y \in \R$ with $x \in V(p), y \notin V(p)$. This comes from the definition of $E p$ and $E \lnot p$ (e.g. $x$ has to be either greater than, equal to or less than $0$)
+                \item For any value $m \in \R$, if $m \in V(p)$ then for all $x' \in \R$ with $x' > m$ then $x' \in V(p)$
+                \item For any value $m \in \R$, if $m \notin V(p)$ then for all $y' \in \R$ with $m > y'$ then $y' \notin V(p)$
+            \end{itemize}
+
+            Picking $x = 1$ and $y = -1$ satisfies all the above conditions, thus $\model{M}_{\mathcal{R}}, 0 \models S$ is satisfied. However, we have that $\model{M}_{\mathcal{R}}, 0 \not\models E(Hp \land G \lnot p)$ because for all values $z \in \R$ with $x > z > y$ at least one between $Hp$ and $G \lnot p$ is false.
+        \end{itemize}
+    \end{proof}
+
+    \quad
+
+    \hrule
+
+    \quad
+
+    \begin{question}[General frames]
+        Consider the structure $g = (\N, C, A)$ where $A$ is the collection of finite and co-finite subsets of $\N$, and $C$ is defined by:
+        \[C(n_1, n_2, n_3) \iff n_1 \leq n_2 + n_3 \text{ and } n_2 \leq n_1 + n_3 \text{ and } n_3 \leq n_1 + n_2\]
+        If $C$ is the accessibility relation of a dyadic modal operator, show that $g$ is a general frame.
+    \end{question}
+
+    \begin{proof}[Solution]
+        In order to prove that $g$ is a general frame, we have to prove that $A$ is closed under union, complement and modal operators. Closure under complement is easily implied by the very definition of $A$: for any $X \in A$, if $X$ is finite then $\overline{X}$ is co-finite, otherwise if $X$ is co-finite then $\overline{X}$ is finite.
+        
+        We now prove that $A$ is closed under union. Fix two subsets $X,Y \in A$. We may assume that at least one of $X$ and $Y$ is co-finite, otherwise we trivially get that $X \cup Y$ is finite and thus that $X \cup Y \in A$. Without loss of generality, assume that $X$ is co-finite, implying that $\overline{X}$ is finite. By De Morgan's theorem we have that $\overline{X \cup Y} = \overline{X} \cap \overline{Y}$. Since $\overline{X}$ is finite, $\overline{X} \cap \overline{Y}$ must also be finite, concluding that $X \cup Y$ is co-finite and thus that $X \cup Y \in A$.
+
+        Lastly, we prove that $A$ is closed under $\Delta_{C}$, i.e. the dyadic modal operator associated with $C$. To prove this, we have to show that for each $X_1,X_2 \in A$ it holds that $m_{\Delta_{C}}(X_1, X_2) \in A$, where:
+        \[m_{\Delta_{C}}(X_1, X_2) = \{w \in \N \mid \exists (x_1,x_2) \in X_1 \times X_2 \;\; C(w,x_1,x_2)\}\]
+
+        Fix two subsets $X_1,X_2 \in A$. If both $X_1$ and $X_2$ are finite, both subsets have a maximum under $\leq$, implying that $m_{\Delta_{C}}(X_1, X_2)$ is finite since for each pair $(x_1,x_2) \in X_1 \times X_2$ there are only finitely many values $w \in \N$ for which $w \leq x_1+x_2$ holds.
+
+        Hence, we may assume that at least one between $X_1, X_2$ is co-finite. Without loss of generality assume that $X_1$ is co-finite. Then, $X_1$ must be infinite since $X_1 = \N - \overline{X_1}$ and $\overline{X_1}$ is finite, concluding that $X_1$ has no maximum value. Consider the set:
+        \[\overline{m_{\Delta_{C}}(X_1, X_2)} = \{w \in \N \mid \forall (x_1,x_2) \in X_1 \times X_2 \;\; \lnot C(w,x_1,x_2)\}\]
+
+        \textbf{Claim 3.1}: for any $n_1, n_2, n_3 \in \N$ it holds that $\lnot C(n_1, n_2, n_3)$ if and only if exactly one of the following conditions holds:
+        \begin{enumerate}
+            \item $n_1 > n_2 + n_3$
+            \item $n_2 > n_1 + n_3$
+            \item $n_3 > n_1 + n_2$
+        \end{enumerate}
+
+        \begin{proof}[Proof of Claim 3.1]
+            By definition, we have that
+            \[\lnot C(n_1, n_2, n_3) \iff n_1 > n_2 + n_3 \text{ or } n_2 > n_1 + n_3 \text{ or } n_3 > n_1 + n_2\]
+
+            We now observe that:
+            \begin{itemize}
+                \item It cannot hold that both $n_1 > n_2 + n_3$ and $n_2 > n_1 + n_3$ are true, otherwise:
+                \[n_1 > n_2 + n_3 > n_1 + 2n_3 \implies 0 > n_3\]
+                which is impossible since $n_3 \in \N$
+                
+                \item It cannot hold that both $n_1 > n_2 + n_3$ and $n_3 > n_1 + n_2$ are true, otherwise:
+                \[n_1 > n_2 + n_3 > 2n_2 + n_1 \implies 0 > n_2\]
+                which is impossible since $n_2 \in \N$
+
+                \item It cannot hold that both $n_2 > n_1 + n_3$ and $n_3 > n_1 + n_2$ are true, otherwise:
+                \[n_2 > n_1 + n_3 > 2n_1 + n_2 \implies 0 > n_1\]
+                which is impossible since $n_1 \in \N$
+            \end{itemize}
+        \end{proof}
+        
+        Claim 3.1 allows us to partition $\overline{m_{\Delta_{C}}(X_1, X_2)}$ into three disjoint subsets $Z_1, Z_2, Z_3$, where:
+        \begin{itemize}
+            \item $Z_1 = \{w \in \N \mid \forall (x_1,x_2) \in X_1 \times X_2 \;\; w > x_1 + x_2\}$
+            \item $Z_2 = \{w \in \N \mid \forall (x_1,x_2) \in X_1 \times X_2 \;\; x_1 > w + x_2\}$
+            \item $Z_3 = \{w \in \N \mid \forall (x_1,x_2) \in X_1 \times X_2 \;\; x_2 > w + x_2\}$
+        \end{itemize}
+
+        \textbf{Claim 3.2}: $Z_1, Z_2, Z_3$ are finite.
+
+        \begin{proof}[Proof of Claim 3.2]
+            Since $X_1$ has a minimum, there are only finitely many values $w \in \N$ for which $\min(X_1) > w + x_2$ holds for every $x_2 \in X_2$. Similarly, since $X_2$ has a minimum there are only finitely many values $w \in \N$ for which $\min(X_2) > w + x_1$ holds for every $x_1 \in X_1$. This concludes that $Z_2$ and $Z_3$ are finite.
+
+            Consider now the set $Z_1$. Since $X_1$ has no maximum, for each $w \in \N$ there is always a pair $(x_1, x_2) \in \N$ with $w < x_1$ such that $w \not > x_1 + x_2$. This concludes that $Z_1 = \varnothing$.
+        \end{proof}
+
+        Since $\overline{m_{\Delta_{C}}(X_1, X_2)} = Z_1 \cup Z_2 \cup Z_3$, by Claim 3.2 we conclude that $\overline{m_{\Delta_{C}}(X_1, X_2)}$ is finite and thus that $m_{\Delta_{C}}(X_1, X_2)$ is co-finite.
+    \end{proof}
+
+    \quad
+
+    \hrule
+
+    \quad
+
+    \newpage
+
+    \begin{question}[Modal Consequence Relations]
+        Let $\Sigma$ be a set of formulas in the basic modal language and let $F$ denote the class of all frames. Show that $\Sigma \models^g_F \phi$ iff $\{\square^n \sigma \mid \sigma \in \Sigma, n \in \N\} \models_F \phi$.
+    \end{question}
+
+    \begin{proof}[Solution]
+        Let $\Pi = \{\square^n \sigma \mid \sigma \in \Sigma, n \in \N\}$. We recall that $\Sigma \models^g_F \phi$ holds iff:
+        \[\forall \model F \in F \; \forall \model M \in \mathrm{Model}(\model F) \; ((\forall w \in W \; \model M, w \models \Sigma) \to (\forall w \in W \; \model M, w \models \phi))\]
+
+        while $\Pi \models_F \phi$ holds iff:
+        \[\forall \model F \in F \; \forall \model M \in \mathrm{Model}(\model F) \; \forall w \in W \;((\model M, w \models \Sigma) \to (\model M, w \models \phi))\]
+
+        where $\mathrm{mod}(\model F)$ is the set of all models of the frame $\model F$.
+
+        \textbf{Claim 1}: if $\Pi \models_F \phi$ then $\Sigma \models^g_F \phi$
+
+        \begin{proof}[Proof of Claim 1]
+            Assume that $\Pi \models_F \phi$ holds. Fix $\model{F} = (W,R)\in F$ and a model $\model{M}$ of $\model{F}$. Suppose that $\forall w \in W$ it holds that $\model M, w \models \Sigma$. Then,  $\forall w \in W, \forall \sigma \in \Sigma$ we have that $\model M, w \models \sigma$. However, this implies that for each $\forall w \in W, \forall \sigma \in \Sigma, n \in \N$ it holds that:
+            \[\forall w, \forall x_1, \ldots, x_n \text{ with } R(w,x_1), R(x_1, x_2), \ldots, R(x_{n-1}, x_n) \;\; \model M, x_n \models \sigma\]
+
+            which is equivalent to saying that $\model M, w \models \square^n \sigma$, and thus that $\model M, w \models \Pi$ holds for all $w \in W$. By applying the assumption $\Pi \models_F \phi$, we conclude that $\model M, w \models \phi$ for all $w \in W$. Since the argument holds for an arbitrary frame and an arbitrary model, we conclude that $\Sigma \models^g_F \phi$.
+        \end{proof}
+
+        \textbf{Claim 2}: if $\Sigma \models^g_F \phi$ then $\Pi \models_F \phi$
+
+        \begin{proof}[Proof of Claim 2]
+            Assume $\Sigma \models^g_F \phi$. Fix $\model{F} = (W,R)\in F$, a model $\model{M} = (\model F, V)$ and a world $w \in W$.
+
+            Let $C \subseteq W \times W$ be the relation of reachability from $w$ in $W$, meaning that:
+            \[C(w,w') \iff \exists m \in \N, \exists z_1, \ldots, z_{m} \in W \;\; \text{ with } R(w, z_1), \ldots, R(z_{m}, w')\]
+
+            Consider the frame $\model{F}' = (W', R')$ such that:
+            \[W' = \{w' \in W \mid C(w,w')\} \qquad\quad R' = R \cap (W' \times W')\]
+
+            and consider the model $\model{M}' = (\model F', V')$, where for all propositional letters $p$ it holds that:
+            \[V'(p) = V(p) \cap W'\]
+
+            Suppose that $\model M, w \models \Pi$. Then, we have that:
+            \[\begin{split}
+                & \model M, w \models \Pi \\
+                \iff & \forall \sigma \in \Sigma, \forall n \in \N \;\; \model M, w \models \square^n \sigma \\
+                \iff & \forall \sigma \in \Sigma, \forall n \in \N, \forall x_1, \ldots, x_n \in W  \text{ with } R(w, x_1), \ldots, R(x_{n-1}, x_n)\;\; \model M, x_n \models \sigma \\
+            \end{split}\]
+
+            Since $W' \subseteq W$, we have that each $x_1, \ldots, x_n$ in the above statement can also be chosen from $W'$. When taken from $W'$, we get that $R'(w, x_1), \ldots, R'(x_{n-1}, x_n)$ holds by definition of $R'$ and thus that $\model M', x_n \models \sigma$ by definition of $\model M'$.
+            \[\begin{split}
+                & \model M, w \models \Pi \\
+                \iff & \forall \sigma \in \Sigma, \forall n \in \N, \forall x_1, \ldots, x_n \in W  \text{ with } R(w, x_1), \ldots, R(x_{n-1}, x_n)\;\; \model M, x_n \models \sigma \\
+                \implies & \forall \sigma \in \Sigma, \forall n \in \N, \forall x_1, \ldots, x_n \in W'  \text{ with } R(w, x_1), \ldots, R(x_{n-1}, x_n)\;\; \model M, x_n \models \sigma \\
+                \implies & \forall \sigma \in \Sigma, \forall n \in \N, \forall x_1, \ldots, x_n \in W'  \text{ with } R'(w, x_1), \ldots, R'(x_{n-1}, x_n)\;\; \model M, x_n \models \sigma \\
+                \implies & \forall \sigma \in \Sigma, \forall n \in \N, \forall x_1, \ldots, x_n \in W'  \text{ with } R'(w, x_1), \ldots, R'(x_{n-1}, x_n)\;\; \model M', x_n \models \sigma \\
+                \implies & \forall \sigma \in \Sigma, \forall w' \in W' \;\; \model M', w \models \sigma \\
+                \iff & \forall w' \in W' \;\; \model M', w \models \Sigma \\
+            \end{split}\]
+
+            Using the assumption and the fact that $w \in W' \subseteq V'(\phi) \subseteq V(\phi)$, we conclude that:
+            \[\begin{split}
+                \model M, w \models \Pi &\implies \forall w' \in W' \,\; \model M', w \models \Sigma \\
+                & \implies \model M', w \models \phi \\
+                & \implies w \in V'(\phi) \subseteq V(\phi)\\
+                & \implies \model M, w \models \phi\\
+            \end{split}\]
+        \end{proof}
+
+        The two claims conclude the proof.
+    \end{proof}
+
+
+    \quad
+
+    \hrule
+
+    \quad
+
+    \newpage
+
+    \begin{question}[Normal Modal Logic]
+        Let $F$ be a class of frames. Prove that $\Lambda_{F}$ is a normal modal logic.
+    \end{question}
+
+    \begin{proof}[Solution]
+        We recall that $\Lambda_{F}$ is the set of all formulas that are valid for every frame of $F$. To show that $\Lambda_{F}$ is a normal modal logic, we have to prove that:
+        \begin{enumerate}[label={(\arabic*)}]
+            \item it contains all tautologies, the formula $\square(p \to q) \to (\square p \to \square q)$ and the formula $\Diamond p \leftrightarrow \lnot \square \lnot p$
+            \item it is closed under modus ponens, uniform substitution and generalization 
+        \end{enumerate}
+
+        \textbf{Claim 5.1}: (1) holds on $\Lambda_{F}$
+        
+        \begin{proof}[Proof of Claim 5.1]
+            
+            Fix $\model{F} = (W,R) \in F$. Since all tautologies are valid on every frame by definition, they are also valid in $\model{F}$. Likewise, the formula $\Diamond p \leftrightarrow \lnot \square \lnot p$ is valid in every frame by definition of $\Diamond$ and $\square$, thus also in $\model{F}$. Consider now a model $\model{M}$ of $\model{F}$. Given a world $w \in W$, suppose that $\model{M}, w \models \square(p \to q)$ and $\model{M}, w \models \square p$ then, we have that:
+            \[\begin{split}
+                \model{M}, w \models \square(p \to q) & \iff \forall x \in W \text{ with } R(w,x) \;\; \model{M}, x \models p \to q \\
+            \end{split}\]
+            and that:
+            \[\begin{split}
+                \model{M}, w \models \square p & \iff \forall x \in W \text{ with } R(w,x) \;\; \model{M}, x \models p \\
+            \end{split}\]
+
+            which implies that $\forall x \in W \text{ with } R(w,x) \;\; \model{M}, x \models p \land (p \to q)$. Since $p \land (p \to q) \equiv p \land q$, we get that:
+            \[\iff \forall x \in W \text{ with } R(w,x) \;\; \model{M}, x \models q \iff \model{M}, w \models \square q\]
+            
+            which concludes that for each $w \in W$ it holds that:
+            \[\model{M}, w \models \square(p \to q) \to (\square p \to \square q)\]
+
+            Since $M$ was a arbitrary model of $\model{F}$ and $\model{F}$ was a arbitrary frame of $F$, we conclude that the formula is valid on every frame of $F$.
+        \end{proof}
+
+        \textbf{Claim 5.1}: (2) holds on $\Lambda_{F}$
+        
+        \begin{proof}[Proof of Claim 5.2]
+            We prove that $\Lambda_{F}$ is closed under each of the three operations:
+            \begin{itemize}
+                \item \textit{Modus Ponens}: given two formulas $\phi, \psi$, suppose that $\phi \in \Lambda_{F}$ and $\phi \to \psi \in \Lambda_F$. Then, for every frame $\model{F} = (W,R) \in F$ it holds that:
+                \[(\model{F} \models \phi) \text{ and } \model{F} \models \phi \to \psi \implies \model{F} \models \phi \land (\phi \to \psi)\]
+    
+                We now observe that:
+                \[\phi \land (\phi \to \psi) \equiv \phi \land (\lnot \phi \lor \psi) \equiv (\phi \land \lnot \phi) \lor (\phi \land \psi) \equiv \phi \land \psi\]
+    
+                Hence, we that:
+                \[\model{F} \models \phi \land (\phi \to \psi) \implies \model{F} \models \phi \land \psi \implies \model{F} \models \psi\]
+    
+                concluding that $\psi \in \Lambda_F$
+
+                \item \textit{Generalization}: given a formula $\phi$, suppose that $\phi \in \Lambda_{F}$. Then, for every frame $\model{F} = (W,R) \in F$ it holds that $\model{M}, w \models \phi$ for each model $\model{M}$ of $\model{F}$ and each $w \in W$. Since every world $w \in W$ satisfies $\phi$, we trivially get that $\model{M}, x \models \phi$ for all $x \in W$ with $R(w,x)$, concluding that $\model{F} \models \square \phi$ and thus that $\square \phi \in \Lambda_{F}$.
+                
+                \item \textit{Uniform substitution}: given a formula $\phi$, suppose that $\phi \in \Lambda_{F}$ and let $\sigma(\phi)$ a formula obtained by replacing every propositional letter in $\phi$ with an arbitrary formula. Fix a frame $\model{F} = (W,R) \in F$ and let $\model{M}$ be a frame of $\model{F}$. We construct a new model $\model{M'} = (\model{F}, V')$ such that:
+                \[V'(p) = \{w \in W \mid \model{M}, w \models \sigma(p)\}\]
+                for each propositional letter $p$.
+                
+                We prove by structural induction that for each $w \in W$ it holds that $\model{M}, w \models \sigma(\phi)$ if and only if $\model{M'}, w \models \phi$. The base case is given by propositional letters, for which the statement holds by definition of $\model{M'}$. We inductively assume that the statement holds of every subformula of $\phi$. Then, on the inductive step, we have three cases:
+                \begin{enumerate}
+                    \item If $\phi = \lnot \psi$ then $\sigma(\phi) = \lnot \sigma(\psi)$, thus:
+                    \[\begin{split}
+                        \model{M'}, w \models \phi &\iff \model{M}, w \models \lnot \psi \\
+                        & \iff \model{M'}, w \not\models \psi \\
+                        & \iff \model{M}, w \not\models \sigma(\psi) \\
+                        & \iff \model{M}, w \models \lnot \sigma(\psi) \\
+                        & \iff \model{M}, w \models \sigma(\phi) \\
+                    \end{split}\]
+
+                    \item If $\phi = \psi \to \varphi$ then $\sigma(\phi) = \sigma(\psi) \to \sigma(\varphi)$, thus:
+                    \[\begin{split}
+                        \model{M'}, w \models \phi &\iff \model{M'}, w \models \psi \to \varphi \\
+                        & \iff (\model{M'}, w \models \lnot \psi) \lor (\model{M'}, w \models \varphi)\\
+                        & \iff (\model{M'}, w \not \models \psi) \lor (\model{M'}, w \models \varphi)\\
+                        & \iff (\model{M}, w \not \models \sigma(\psi)) \lor (\model{M}, w \models \sigma(\varphi))\\
+                        & \iff (\model{M}, w \models \lnot \sigma(\psi)) \lor (\model{M}, w \models \sigma(\varphi))\\
+                        & \iff \model{M}, w \not\models \sigma(\psi) \to \sigma(\varphi) \\
+                        & \iff \model{M}, w \not\models \sigma(\phi)
+                    \end{split}\]
+
+                    \item If $\phi = \square \psi$ then $\sigma(\phi) = \square \sigma(\psi)$, thus:
+                    \[\begin{split}
+                        \model{M'}, w \models \phi & \iff \model{M'}, w \models \square \psi \\
+                        &\iff \forall x \in W \text{ with } R(w,x) \;\; \model{M'}, x \models \psi \\
+                        &\iff \forall x \in W \text{ with } R(w,x) \;\; \model{M}, x \models \sigma(\psi) \\
+                        &\iff \model{M}, w \models \square \sigma(\psi) \\
+                        &\iff \model{M}, w \models \sigma(\phi) \\
+                    \end{split} \]
+                \end{enumerate}
+
+                Therefore, since for each $w \in W$ it holds that $\model{M}, w \models \sigma(\phi)$ if and only if $\model{M'}, w \models \phi$ and $\model{M'}$ is a model of $\model{F}$, we get that $\model{M}, w \models \sigma(\phi)$ holds for each $w \in W$. Moreover, since $M$ was a arbitrary model of $\model{F}$, the argument holds for every model of $\model{F}$. Likewise, since $\model{F}$ was a arbitrary frame of $F$, this holds for every frame of $\model{F}$, concluding that $\sigma(\phi) \in \Lambda_{F}$.
+            \end{itemize}
+        \end{proof}
+
+        The two claims conclude that $\Lambda_{F}$ is a normal modal logic.
     \end{proof}
 
 

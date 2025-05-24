@@ -216,7 +216,7 @@
     \end{question}
 
     \begin{proof}[Solution]
-        In order to prove that $g$ is a general frame, we have to prove that $A$ is closed under union, complement and modal operators. Closure under complement is easily implied by the very definition of $A$: for any $X \in A$, if $X$ is finite then $\overline{X}$ is co-finite, otherwise if $X$ is co-finite then $\overline{X}$ is finite.
+        In order to prove that $g$ is a general frame, we have to prove that $A$ is closed under union, complement and modal operators. Closure under complement is implied by the very definition of $A$: for any $X \in A$, if $X$ is finite then $\overline{X}$ is co-finite, otherwise if $X$ is co-finite then $\overline{X}$ is finite.
         
         We now prove that $A$ is closed under union. Fix two subsets $X,Y \in A$. We may assume that at least one of $X$ and $Y$ is co-finite, otherwise we trivially get that $X \cup Y$ is finite and thus that $X \cup Y \in A$. Without loss of generality, assume that $X$ is co-finite, implying that $\overline{X}$ is finite. By De Morgan's theorem we have that $\overline{X \cup Y} = \overline{X} \cap \overline{Y}$. Since $\overline{X}$ is finite, $\overline{X} \cap \overline{Y}$ must also be finite, concluding that $X \cup Y$ is co-finite and thus that $X \cup Y \in A$.
 
@@ -335,9 +335,10 @@
                 \iff & \forall w' \in W' \;\; \model M', w \models \Sigma \\
             \end{split}\]
 
-            Using the assumption and the fact that $w \in W' \subseteq V'(\phi) \subseteq V(\phi)$, we conclude that:
+            Using the assumption and the fact that $w \in W'$, we conclude that:
             \[\begin{split}
                 \model M, w \models \Pi &\implies \forall w' \in W' \,\; \model M', w \models \Sigma \\
+                & \implies \forall w' \in W' \,\; \model M', w \models \phi \\
                 & \implies \model M', w \models \phi \\
                 & \implies w \in V'(\phi) \subseteq V(\phi)\\
                 & \implies \model M, w \models \phi\\

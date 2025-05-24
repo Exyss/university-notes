@@ -66,7 +66,7 @@ Disclaimers ⚠️
   | [Reti di Elaboratori](../../raw/main/Bachelor/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 16/03/2025 |
   | [Sistemi Operativi I](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 16/03/2025 |
   | [Sistemi Operativi II](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 16/03/2025 |
-  | [Basi di Dati I](../../raw/main/Bachelor/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 16/03/2025 |
+  | [Basi di Dati I](../../raw/main/Bachelor/Secondo%20Anno/Basi%20di%20Dati%20I.pdf) | Completi | 25/05/2025 |
   | [Basi di Dati II](https://github.com/CasuFrost/University_notes/raw/main/Secondo%20Anno/Secondo%20Semestre/Basi%20di%20Dati%202/Latex%20source%20file/Basi%20di%20Dati%20modulo%202.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | - |
   | [Basi di Dati II - Progetti svolti](../../blob/main/Bachelor/Secondo%20Anno/Progetti%20BD2/README.md) | Completi | 09/10/2024 |
 </details>
@@ -102,7 +102,7 @@ Disclaimers ⚠️
 | Cryptography | - | - |
 | Deep Learning and Applied Artificial Intelligence | - | - |
 | Games and Equilibria | - | - |
-| [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | W.I.P. | 21/05/2025 |
+| [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | W.I.P. | 25/05/2025 |
 | Internet of Things | - | - |
 | Introduction to Quantum Computing | - | - |
 | [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | Completed | 10/03/2025 |

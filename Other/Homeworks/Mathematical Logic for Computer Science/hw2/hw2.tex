@@ -282,40 +282,39 @@
     \newpage
 
     \begin{question}[Modal Consequence Relations]
-        Let $\Sigma$ be a set of formulas in the basic modal language and let $F$ denote the class of all frames. Show that $\Sigma \models^g_F \phi$ iff $\{\square^n \sigma \mid \sigma \in \Sigma, n \in \N\} \models_F \phi$.
+        Let $\Sigma$ be a set of formulas in the basic modal language and let $M$ denote the class of all models. Show that $\Sigma \models^g_M \phi$ iff $\{\square^n \sigma \mid \sigma \in \Sigma, n \in \N\} \models_M \phi$.
     \end{question}
 
     \begin{proof}[Solution]
-        Let $\Pi = \{\square^n \sigma \mid \sigma \in \Sigma, n \in \N\}$. We recall that $\Sigma \models^g_F \phi$ holds iff:
-        \[\forall \model F \in F \; \forall \model M \in \mathrm{Model}(\model F) \; ((\forall w \in W \; \model M, w \models \Sigma) \to (\forall w \in W \; \model M, w \models \phi))\]
+        Let $\Pi = \{\square^n \sigma \mid \sigma \in \Sigma, n \in \N\}$. We recall that $\Sigma \models^g_M \phi$ holds iff:
+        \[\forall \model M \in M \; ((\forall w \in W \; \model M, w \models \Sigma) \to (\forall w \in W \; \model M, w \models \phi))\]
 
-        while $\Pi \models_F \phi$ holds iff:
-        \[\forall \model F \in F \; \forall \model M \in \mathrm{Model}(\model F) \; \forall w \in W \;((\model M, w \models \Sigma) \to (\model M, w \models \phi))\]
+        while $\Pi \models_M \phi$ holds iff:
+        \[\forall \model M \in M \; \forall w \in W \;((\model M, w \models \Sigma) \to (\model M, w \models \phi))\]
 
-        where $\mathrm{mod}(\model F)$ is the set of all models of the frame $\model F$.
-
-        \textbf{Claim 1}: if $\Pi \models_F \phi$ then $\Sigma \models^g_F \phi$
+        \textbf{Claim 1}: if $\Pi \models_M \phi$ then $\Sigma \models^g_M \phi$
 
         \begin{proof}[Proof of Claim 1]
-            Assume that $\Pi \models_F \phi$ holds. Fix $\model{F} = (W,R)\in F$ and a model $\model{M}$ of $\model{F}$. Suppose that $\forall w \in W$ it holds that $\model M, w \models \Sigma$. Then,  $\forall w \in W, \forall \sigma \in \Sigma$ we have that $\model M, w \models \sigma$. However, this implies that for each $\forall w \in W, \forall \sigma \in \Sigma, n \in \N$ it holds that:
+            Assume that $\Pi \models_M \phi$ holds. Fix a model $\model{M} = (W,R,V) \in M$. Suppose that $\forall w \in W$ it holds that $\model M, w \models \Sigma$. Then,  $\forall w \in W, \forall \sigma \in \Sigma$ we have that $\model M, w \models \sigma$. However, this implies that for each $\forall w \in W, \forall \sigma \in \Sigma, n \in \N$ it holds that:
             \[\forall w, \forall x_1, \ldots, x_n \text{ with } R(w,x_1), R(x_1, x_2), \ldots, R(x_{n-1}, x_n) \;\; \model M, x_n \models \sigma\]
 
-            which is equivalent to saying that $\model M, w \models \square^n \sigma$, and thus that $\model M, w \models \Pi$ holds for all $w \in W$. By applying the assumption $\Pi \models_F \phi$, we conclude that $\model M, w \models \phi$ for all $w \in W$. Since the argument holds for an arbitrary frame and an arbitrary model, we conclude that $\Sigma \models^g_F \phi$.
+            which is equivalent to saying that $\model M, w \models \square^n \sigma$, and thus that $\model M, w \models \Pi$ holds for all $w \in W$. By applying the assumption $\Pi \models_M \phi$, we conclude that $\model M, w \models \phi$ for all $w \in W$. Since the argument holds for an arbitrary model $\model M \in M$, we conclude that $\Sigma \models^g_M \phi$.
         \end{proof}
 
-        \textbf{Claim 2}: if $\Sigma \models^g_F \phi$ then $\Pi \models_F \phi$
+        \textbf{Claim 2}: if $\Sigma \models^g_M \phi$ then $\Pi \models_M \phi$
 
         \begin{proof}[Proof of Claim 2]
-            Assume $\Sigma \models^g_F \phi$. Fix $\model{F} = (W,R)\in F$, a model $\model{M} = (\model F, V)$ and a world $w \in W$.
+            Assume $\Sigma \models^g_M \phi$. Fix a model $\model{M} = (W,R, V)\in M$ and a world $w \in W$.
 
             Let $C \subseteq W \times W$ be the relation of reachability from $w$ in $W$, meaning that:
             \[C(w,w') \iff \exists m \in \N, \exists z_1, \ldots, z_{m} \in W \;\; \text{ with } R(w, z_1), \ldots, R(z_{m}, w')\]
 
-            Consider the frame $\model{F}' = (W', R')$ such that:
-            \[W' = \{w' \in W \mid C(w,w')\} \qquad\quad R' = R \cap (W' \times W')\]
-
-            and consider the model $\model{M}' = (\model F', V')$, where for all propositional letters $p$ it holds that:
-            \[V'(p) = V(p) \cap W'\]
+            Consider the $\model{M}' = (W', R', V')$ such that:
+            \begin{itemize}
+                \item $W' = \{w' \in W \mid C(w,w')\}$
+                \item $R' = R \cap (W' \times W')$
+                \item $V'(p) = V(p) \cap W'$
+            \end{itemize}
 
             Suppose that $\model M, w \models \Pi$. Then, we have that:
             \[\begin{split}
@@ -335,7 +334,7 @@
                 \iff & \forall w' \in W' \;\; \model M', w \models \Sigma \\
             \end{split}\]
 
-            Using the assumption and the fact that $w \in W'$, we conclude that:
+            Using the assumption $\Sigma \models_M^g$ and the fact that $w \in W'$, we conclude that:
             \[\begin{split}
                 \model M, w \models \Pi &\implies \forall w' \in W' \,\; \model M', w \models \Sigma \\
                 & \implies \forall w' \in W' \,\; \model M', w \models \phi \\

@@ -83,7 +83,7 @@ Disclaimers ⚠️
 | [Linguaggi di Programmazione](../../raw/main/Bachelor/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 16/03/2025 |
 | [Programmazione di Sistemi Multicore](https://raw.githubusercontent.com/CasuFrost/University_notes/refs/heads/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore/letexSrcFile/Programmazione%20di%20Sistemi%20Multicore.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | - |
 | [Cybersecurity](../../raw/main/Bachelor/Terzo%20Anno/Cybersecurity.pdf) 🇬🇧​ | Completed  | 16/03/2025 |
-| [Optimization](../../raw/main/Bachelor/Terzo%20Anno/Optimization.pdf) 🇬🇧​ | Completed | 17/05/2025 |
+| [Optimization](../../raw/main/Bachelor/Terzo%20Anno/Optimization.pdf) 🇬🇧​ | Completed | 01/06/2025 |
 | Discrete Mathematics 🇬🇧​ [ !!! ] | - | - |
 </details>
 </div>
@@ -102,7 +102,7 @@ Disclaimers ⚠️
 | Cryptography | - | - |
 | Deep Learning and Applied Artificial Intelligence | - | - |
 | Games and Equilibria | - | - |
-| [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | W.I.P. | 27/05/2025 |
+| [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | W.I.P. | 01/06/2025 |
 | Internet of Things | - | - |
 | Introduction to Quantum Computing | - | - |
 | [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | Completed | 10/03/2025 |

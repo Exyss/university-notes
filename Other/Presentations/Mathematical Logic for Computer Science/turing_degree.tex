@@ -100,6 +100,38 @@
 
     \subsection{Degrees of unsolvability}
 
+    From Turing's work and the underlying separation between computable and uncomputable problems, a natural question arises: is there a good measure of how much a problem is uncomputable? It turns out that a good enough measure can be obtained by other concepts that were developed by Turing himself, in particular \textbf{Turing reductions}. This reducibility notion describes the idea of a problem being solvable through the use of a machine that knows how to solve another problem. In particular, Turing formulated such notion through the use of \textit{oracle machines}, that being Turing machines that have access to a black-box oracle (which can be seen as a magic tool or simply as another TM whose internal workings aren't known).
+
+    \begin{definition}[Turing reduction]
+        Given two sets $A, B \subseteq \Sigma^*$, we say that $A$ is \textit{Turing reducible} to $B$, denoted with $A \leq_T B$, if there is an oracle TM $M^B$ that has access to an oracle for $B$ and that decides $A$.
+    \end{definition}
+    
+    Turing reductions are a generalized version of more commonly used \textit{many-one reductions}, denoted with $A \leq_m B$, where the oracle TM is restricted to one single final query to the oracle. It's easy to see that Turing reductions define a partial order on the set $2^{\Sigma^*}$. We also observe that there are clearly some problems that are equivalent to each other, either due to their definition (e.g. pairs of problems that ask the same question in two different ways) or to their intrinsic nature (e.g pairs of problems whose instances can be transformed back and forth). In particular, two problems $A,B \subseteq \Sigma^*$ are said to be \textbf{Turing equivalent}, written as $A \equiv_T B$, when $A \leq_T B$ and $B \leq_T A$. Intuitively, Turing equivalence defines an equivalence relation $\equiv_T$ that partitions the set $2^{\Sigma^*}$ into various classes of problems. Each class describes the complexity of the problems lying inside of it: for a problem $X \subseteq \Sigma^*$, each problem $Y \in [X]$ (where $[X]$ denotes the class of $X$ over $\equiv_T$) is \textit{$X$-complete}, meaning that it is perfectly interchangeable with the problem $X$.
+    
+    When two problems lie in two different classes, at least one of them cannot be reduced to the other, implying that there is some intrinsic property that differentiates them. This allows us to view all of these classes as a \textit{reduction hierarchy}. This hierarchy can be described in a natural way by a partial order over the classes and Turing reductions among them. In particular, given two classes $[X], [Y]$, we say that $[X] \leq [Y]$ if and only if $X \leq_T Y$. Intuitively, if $[X] \leq [Y]$ holds then each problem in the class $[Y]$ is \curlyquotes{at least as hard} as each problem in the class $[X]$. This raises a natural concept of \textit{hardness degree}, known as the \textbf{Turing degree}.
+
+    \begin{definition}[Turing degree]
+        Given a subset $X \subseteq \Sigma^*$, the \textit{Turing degree} of $X$ is the equivalence class $[X]$ over the relation $\equiv_T$. We denote with $\mathcal{D}$ the set of all Turing degrees, i.e. the quotient set $\mathcal{D} = 2^{\Sigma^*}/_{\equiv_T}$.
+    \end{definition}
+
+    The Turing degree acts as a measure that perfectly encapsulates the concept of algorithmic unsolvability. In fact, it's easy to see that any decidable problem has the same degree since for any pair $A,B \subseteq \Sigma^*$ of decidable sets we can decide $A$ through a TM provided with an oracle for $B$ simply by ignoring the oracle. We refer to the unique class of decidable problems as the degree $0$ (or the degree $[\varnothing]$). Clearly, any problem that can be decided through an oracle for any set $X$ of degree 0 is also also of degree 0. This implies that any problem outside of 0 must be undecidable under every single decidable oracle. The largest class of problems that lie outside of 0 is known as the class $0'$, where $0'$ denotes the \textbf{Turing jump} of 0. 
+    
+    \begin{proof}[Turing jump]
+        Given a subset $X \subseteq \Sigma^*$, the \textit{Turing jump} of $X$ is a problem $X'$ that cannot be Turing reduced to $X$, i.e. $X' \not\leq_T X$.
+    \end{proof}
+
+    This definition of jump comes from the fact that the Turing degree strictly increases, meaning that $d < d'$ for any degree $d \in \mathcal{D}$. In particular, we observe that the famous Halting problem $H$ is $0'$-complete, meaning that $0' = [H]$. To prove this, we give a stronger result.
+
+    \begin{theorem}
+        A problem is recursively enumerable if and only if it can be Turing reduced to the Halting problem.
+    \end{theorem}
+
+    \begin{proof}
+        Given $A \subseteq \Sigma^*$, suppose that $A \leq_T H$. Since $H$ is recursively enumerable, its semi-decider can be used to semi-decide the instances of $A$ also is. Vice versa, suppose that $A$ is recursively enumerable. Then, there is a semi-decider $M_1$ for $A$. We can build a new machine $M_2$ that on input $x$ simulates $M_1(x)$ and accepts if $M_1(x) = 1$, otherwise it loops. It's easy to see that $x \in A$ if and only if $\abk{M_2, x} \in H$, concluding that $A \leq_m H$ and thus that $A \leq_T H$.
+    \end{proof}
+
+    The above theorem concludes that $0'$ is exactly the class of semi-decidable and undecidable problems. This also implies that every degree containing a recursively enumerable set is below $0'$. Such degrees are referred to r.e. degrees.
+
     \section{The Friedberg-Muchnik Theorem}
 
     \subsection{Post's problem}

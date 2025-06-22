@@ -1,0 +1,185 @@
+\documentclass{beamer}
+\usepackage{amsfonts,amsmath,oldgerm}
+\usepackage[nameinlink]{cleveref}
+\usepackage{hyperref}
+\usepackage[
+  backend=biber,
+  style=alphabetic,
+  sorting=anyt,
+  minnames=3,
+  minalphanames=3
+]{biblatex}
+
+\hypersetup{
+    colorlinks=true,
+    citecolor=red,
+    linkcolor=white,
+    urlcolor=black,
+    pdftitle={MLCS Seminar},
+}
+
+\usetheme{sintef}
+
+\newcommand{\N}{\mathbb{N}}                     % Natural Numbers
+\newcommand{\curlyquotes}[1]{\textquotedblleft #1\textquotedblright}
+
+\usefonttheme[onlymath]{serif}
+\setbeamercovered{transparent}
+
+\titlebackground*{assets/background}
+
+\title{Turing Degrees and the Friedberg-Muchnik Theorem}
+\subtitle{Mathematical Logic for Computer Science}
+\course{Master's Degree in Computer Science}
+\author{\href{https://github.com/Exyss/}{Simone Bianco}}
+\IDnumber{1986936}
+\date{Academic Year 2024/2025}
+
+\addbibresource{../references.bib}
+
+\begin{document}
+\maketitle
+
+
+% \begin{frame}
+
+% This template is a based on \hrefcol{https://www.overleaf.com/latex/templates/sintef-presentation/jhbhdffczpnx}{SINTEF Presentation} from \hrefcol{mailto:federico.zenith@sintef.no}{Federico Zenith} and its derivation \hrefcol{https://github.com/TOB-KNPOB/Beamer-LaTeX-Themes}{Beamer-LaTeX-Themes} from Liu Qilong
+
+% \vspace{\baselineskip}
+
+% In the following you find a brief introduction on how to use \LaTeX\ and the beamer package to prepare slides, based on the one written by \hrefcol{mailto:federico.zenith@sintef.no}{Federico Zenith} for \hrefcol{https://www.overleaf.com/latex/templates/sintef-presentation/jhbhdffczpnx}{SINTEF Presentation}
+
+% % This template is released under \hrefcol{https://creativecommons.org/licenses/by-nc/4.0/legalcode}{Creative Commons CC BY 4.0} license
+
+% \end{frame}
+
+\section{Introduction}
+
+\begin{frame}{Introduction}
+\framesubtitle{Notation}
+
+    Let $\mathcal{M} = \{M_0, M_1, M_2, \ldots\}$ be the set of all Turing Machines working on $\Sigma = \{0,1\}$.
+    
+    We denote with $\Phi_{i,s}^A(x)$ the \textbf{computation} of $M_i$ for $s \in \N$ steps on input $x \in \N$ while having access to an oracle for the subset $A \subseteq \N$
+
+    \uncover<+->{
+        \begin{itemize}[<+->]
+        \item If the computation halts after $s$ steps, we write $\Phi_{i,s}^A(x) \downarrow$.
+        \item When the computation halts for some $s$, we simply write $\Phi_{i}^A(x) \downarrow$.
+        \item If no value $s$ exists, we write $\Phi_{i}^A(x) \uparrow$.
+        \item We denote with $\phi_{i}^A(x)$ the \textbf{output} of the computation (defined iff $\Phi_{i}^A(x) \downarrow$)
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Introduction}
+\framesubtitle{Definitions}
+    Given a set $S \subseteq \N$, we say that:
+    \begin{itemize}[<+->]
+        \item $S$ is \textbf{semi-decidable} if $\exists i \in \N$ such that $\forall x \in S$ it holds that $\Phi_i(x) \downarrow$ and $\phi_i(x) = 1$.
+        \item $S$ is \textbf{decidable} if $\exists i \in \N$ such that $\forall x \in \N$ it holds that $\Phi_i(x) \downarrow$ and $\phi_i(x) = 1$ if $x \in S$, otherwise $\phi_i(x) = 0$.
+        \item $S$ is \textbf{recursively enumerable} if there is an algorithmic procedure $\mathcal{A} : \N \to \{0,1\}$ such that $S = \{A(0), A(1), A(2), \ldots\}$
+    \end{itemize}
+
+    \uncover<+-> {
+        \textbf{Obs. 1:} $S$ is semi-decidable if and only if it is r.e.
+
+        \textbf{Obs. 2:} $S$ is decidable if and only if both $S$ and $\overline{S}$ are semi-decidable.
+    }
+\end{frame}
+
+\begin{frame}{Introduction}
+\framesubtitle{Turing's work}
+    \begin{itemize}[<+->]
+        \item \textcite{turing} proved that there are some problems that are some sets that are semi-decidable but undecidable (e.g. the set $H = \{(i,x) \mid \Phi_i(x) \downarrow\}$).
+        
+        \item He also proved that some sets cannot be semi-decided (e.g. the set $\overline{H}$).
+        
+        \item This gives three degrees of computability: \textbf{solvable} problems, \textbf{semi-solvable} problems and \textbf{unsolvable} problems.
+        
+    \end{itemize}
+
+    \uncover<+-> {
+        Are there some other degrees of computability?
+    }
+\end{frame}
+
+\section{Degrees of Unsolvability}
+
+\begin{frame}{Degrees of Unsolvability}
+\framesubtitle{Turing degrees}
+    \textcite{post_degrees} formalized the idea of computability degrees through \textbf{Turing reductions}.
+
+    \begin{itemize}[<+->]
+        \item Given $A,B \subseteq \N$, we say that $A$ is Turing reducible to $B$, written as $A \leq_T B$, if $\exists i \in \N$ such that $\Phi_i^B(x)$ for all $x \in \N$ and $\phi_i^B = A$.
+        \item We say that $A$ and $B$ are \textit{Turing equivalent}, written as $A \equiv_T B$, when $A \leq_T B$ and $B \leq_T A$
+        \item $\equiv_T$ is an equivalence relation over the set $2^\N$, inducing the quotient set $\mathcal{D} = 2^{\N}/_{\equiv_T}$. Each equivalence class of $\mathcal{D}$ is referred to as a \textbf{Turing degree}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Degrees of Unsolvability}
+\framesubtitle{Turing degrees}
+    We say that $[A]$ is lower than $[B]$, written as $[A] \preceq [B]$, if $A \leq_T B$.
+    
+    $\preceq$ is a (partial) order over the set $\mathcal{D}$, forming an hierarchy of unsolvability degree.
+
+    \uncover<+->{
+    
+        \begin{itemize}[<+->]
+            \item \textbf{Prop. 1}: There is an unique degree containing all the decidable problems
+        
+            \begin{itemize}
+                \item Each decidable problem can be solved by ignoring the provided oracle
+                \item This unique class is referred to as the $0$ degree (formally $0 = [\varnothing]$)
+            \end{itemize}
+    
+            \item \textbf{Prop. 2}: $0$ is a minimal degree
+            \begin{itemize}
+                \item If $[A] \preceq 0$ then $A$ can be decided by reducing it to any decidable problem, thus $[A] = 0$
+            \end{itemize}
+    
+            \item \textbf{Obs.}: There are minimal degrees different from $0$
+            \begin{itemize}
+                \item E.g. the set $\overline{H}$
+            \end{itemize}
+        \end{itemize}
+        }
+\end{frame}
+
+\begin{frame}{Degrees of Unsolvability}
+\framesubtitle{The jump operator}
+    The strict relation $[A] \prec [B]$ between degrees can be easily forced through an operator known as the \textbf{Turing jump}.
+    \begin{itemize}[<+->]
+        \item Given a set $X \subseteq \N$, the \textit{Turing jump} of $X$ is the set $X' = \{i \mid \Phi_i^X(i) \downarrow\}$
+        \item It's easy to see that $X \not\leq_T X'$ since $X'$ is obtained by forcing a variant of the Halting problem on TMs with $X$ as an oracle
+        \item In particular, the jump $0'$ of $0$ is exactly the class containing the Halting problem, meaning that $0' = [H]$
+        \item \textbf{Prop.}: $A \in 0'$ if and only if $A$ is r.e.
+        \begin{itemize}
+            \item If $A \in 0'$ then $A \leq_T H$, thus $A$ is r.e. since $H$ is r.e.
+            \item If $A$ is r.e. then it has a semi-decider $M_i$. We can build a new semi-decider $M_j$ such that $\Phi_j(x) \downarrow$ if $\phi_i(x) = 1$, otherwise $\Phi_j(x) \uparrow$. By construction, $x \in A$ iff $(j,x) \in H$. 
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Degrees of Unsolvability}
+\framesubtitle{Post's problem}
+    \begin{itemize}[<+->]
+        \item The jump operator can be iteratively applied to get infinite levels of the hierarchy. This makes \curlyquotes{going upwards} a less interesting question. This gave Post the idea of exploring the hierarchy sideways.
+
+        \item Post proved that for each degree $A$ there is another degree $B$ that is incomparable with $A$.
+        \begin{itemize}
+            \item \textbf{Obs.}: \textcite{simpson} proved that the first-order theory of $\mathcal{D}$ over the language $(\preceq, = )$ is many-one equivalent to the theory of true second-order arithmetic. 
+        \end{itemize}
+
+        \item After exploring many results of this type, Post's work stopped on the following simple problem: is there a degree that lies between $0$ and $0'$?
+
+        \item This problem was only solved 12 years later independently by \textcite{friedberg, muchnik}
+    \end{itemize}
+\end{frame}
+    
+\begin{frame}{Bibliography}
+\framesubtitle{{}}
+    \printbibliography
+\end{frame}
+
+\end{document}

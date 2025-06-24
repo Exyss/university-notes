@@ -150,7 +150,7 @@
 
     The finite extension method is a general technique used to prove many results for uncomparability of two types of sets. In this section, we'll give an idea behind the method by proving Kleene and Post's result \cite{kleene_post}.
     
-    Given two sets $A,B$, we want to define a countable list of requirements on both sets that must be satisfied by a string. By their construction, these requirements will automatically guarantee that the two sets are uncomparable. In the finite extension method, we start with the empty string $\varepsilon$ and in each step, we extend the string in a way that preserves the satisfaction of previous requirements and satisfies new ones, and previously. Formally, we define a list the requirements be $\{R_i\}_{i \in \N}$ and set the empty string $A_0 = \varepsilon$. On each step $s$, we construct a finite string $A_{s+1}$ that extends $A_s$ and satisfies $R_0, R_1, \ldots, R_{s+1}$. In the end, we set $A = \bigcup_{i} A_i$.
+    Given two sets $A,B$, we want to define a countable list of requirements on both sets that must be satisfied by a string. By their construction, these requirements will automatically guarantee that the two sets are uncomparable. In the finite extension method, we start with the empty string $\varepsilon$ and in each step, we extend the string in a way that preserves the satisfaction of previous requirements and satisfies new ones. Formally, we define a list the requirements be $\{R_i\}_{i \in \N}$ and set the empty string $A_0 = \varepsilon$. On each step $s$, we construct a finite string $A_{s+1}$ that extends $A_s$ and satisfies $R_0, R_1, \ldots, R_{s+1}$. In the end, we set $A = \bigcup_{i} A_i$.
     
     In this context, strings are to be considered as an infinite tape of cells. Each cell is marked by an index and either contains a 0 or a 1 or is undefined. In some sense, each string can be viewed as a partial function on three values: $0, 1$ and $*$. Hence, the string $A_{s+1}$ extends the string $A_s$ if for each position $x \in \N$ it holds that if $A_s(x) \neq *$ then $A_{s+1}(x) = A_{s}(x)$. We now give an example of application of the finite extension method by proving Karp and Post's result, which gives that $(\mathcal{D}, \leq)$ is not a total ordering as a corollary.
 
@@ -181,12 +181,12 @@
 
     \subsection{The finite injury priority method}
 
-    We saw how the finite extension method can be modified to force additional conditions on the two underlying sets $A$ and $B$. However, there is no way requirement modification that guarantee recursive enumerability of the two sets. This is due to the underlying nature of the method itself: the sets are constructed in a non-recursively enumerable way. This is what stopped Post and Karp from using their own method to solve Post's problem.
+    We saw how the finite extension method can be modified to force additional conditions on the two underlying sets $A$ and $B$. However, there is no requirement modification that guarantee recursive enumerability of the two sets. This is due to the underlying nature of the method itself: the sets are constructed in a non-recursively enumerable way. This is what stopped Post and Karp from using their own method to solve Post's problem.
     
-    The finite injury priority method independently developed by Friedberg and Muchnik fixes this problem by \curlyquotes{breaking} a finite number of requirements in order to guarantee that the two sets are r.e. As always, we start with the empty string $A_0 = \varepsilon$. On each step $s$, we add again extend $A_s$ to $A_{s+1}$ to satisfy some new requirements, but we also allow some previously satisfied requirements to be unsatisfied by $A_{s+1}$. This unsatisfied requirements are called \textit{injuries}. The key idea is to assign a priority level to each requirement and force two conditions during the construction of the set $A$:
+    The finite injury priority method independently developed by Friedberg and Muchnik fixes this problem by \curlyquotes{breaking} a finite number of requirements in order to guarantee that the two sets are r.e. As always, we start with the empty string $A_0 = \varepsilon$. On each step $s$, we add again extend $A_s$ to $A_{s+1}$ to satisfy some new requirements, but we also allow some previously satisfied requirements to get \textbf{injured}, i.e. its satisfaction is not guaranteed anymore. The key idea is to assign a priority level to each requirement and force two conditions during the construction of the set $A$:
     \begin{enumerate}
-        \item Each requirement as a finitely many requirements with higher priority
-        \item Each requirement can be injured by requirements with higher priority 
+        \item Each requirement has finitely many requirements with higher priority
+        \item Each requirement can be injured only by requirements with higher priority 
     \end{enumerate}
 
     Together, these two conditions impose that each requirement can be injured a finite number of times by other requirements. To show how the method works, we define a \textbf{query function} that enables us to measure when an injury occurs. 
@@ -194,7 +194,7 @@
     \begin{definition}[Query function]
         Let $A$ be a set and let $i,s,x \in \N$. We define the query function $\omega_{i,s}^A$ as the largest index that is queried on an oracle for $A$ during the computation $\Phi_{i,s}^A$:
         \[\omega_{i,s}^A(x) = \left \{ \begin{array}{ll}
-            \max \{z \in \N \mid A(z) \text{ is queried in } \Phi_{i,s}^A\} & \text{if } \Phi_{i,s}^A \downarrow \\
+            \max \{z \in \N \mid A(z) \text{ is queried in } \Phi_{i,s}^A\} & \text{if } \Phi_{i,s}^A(x) \downarrow \\
             -1 & \text{otherwise}
         \end{array}\right .\]
     \end{definition}
@@ -206,15 +206,18 @@
     \begin{proof}
         For each $i \in \N$, we define the requirement $R_{2i}$ as $\phi_i^A \neq B$ and $R_{2i+1}$ as $\phi_{i}^B \neq A$ (when $\Phi_i^A(x) \uparrow$ or $\Phi_i^B(x) \uparrow$, the requirements are considered to be satisfied). Let $\{R_i\}_{i \in \N}$ be the list of requirements. We say that an index $x$ is a \textit{witness} for the requirement $R_{2i}$ at step $s$ if $\Phi_{i,s}^{B_s}(x) \downarrow$ and $\phi_{i,s}^{B_s}(x) \neq A_s(x)$. Symmetrically, we say that an index $x$ is a \textit{witness} for the requirement $R_{2i+1}$ at step $s$ if $\Phi_{i,s}^{A_s}(x) \downarrow$ and $\phi_{i,s}^{A_s}(x) \neq B_s(x)$.
 
-        On each step $s$, we compute the index $x_{j,s}$ and the restriction index $r_{j,s}$ for each $j \in \N$, where $x_{j,s}$ is a witness for $R_j$ at step $s$ and $r_{j,s}$ is used to dictate the priority of the requirements. In general, we'll force that when $x_{j,s} = r_{j,s} = -1$ holds then no witness is known for $R_j$ at step $s$. Clearly, this implies that at the start of step $s$ for each $k \in \N$ such that $s \leq k$ it holds that $x_{k,s} = r_{k,s} = -1$.
+        On each step $s$, we compute the index $w_{j,s}$ and the restriction index $r_{j,s}$ for each $j \in \N$, where $w_{j,s}$ is a witness for $R_j$ at step $s$ and $r_{j,s}$ is used to dictate the priority of the requirements.
+        In general, we'll force that when $w_{j,s} = r_{j,s} = -1$ holds then no witness is known for $R_j$ at step $s$. Clearly, this implies that at the start of step $s$ for each $k \in \N$ such that $s \leq k$ it holds that $w_{k,s} \neq -1$ and $r_{k,s} = -1$.
 
-        Let $A_0 = B_0 = \varepsilon$ and let $x_{j,0} = r_{j,0} = -1$ for each $j \in \N$. Consider a generic step $s \in \N$ and consider the requirement $R_{2i}$ for each $i \in \N$ (the requirements $R_{2i+1}$ are symmetrical). We construct the values $x_{2i,s+1}$ and $r_{2i,s+1}$ in the following way. If $x_{2i,s} \neq -1$, we propagate the previous values, i.e. $A_{s+1} = A_s$, $B_{s+1} = B_s$, $x_{2i,s+1} = x_{2i,s}$ and $r_{2i,s+1} = r_{2i,s}$.
+        We say that the requirement $R_j$ is injured at step $s$ if $A_{s+1}- A_s$ contains some $x \leq r_{e,s}$.
 
-        Assume now that $x_{2i,s} = -1$. Let $x$ be the minimum index such that $A_s(x) = *$ and such that for all $k < 2i$ we have that $x > r_{k,s}$, that being the minimum undefined index of the string $A_s$ that is larger than each restriction value of the previous requirements. If $\Phi_{i,s}^{B_s} \uparrow$, we preserve that $x_{2i,s+1} = r_{2i,s+1} = -1$ and propagate $A_{s+1} = A_s$, $B_{s+1} = B_s$. Otherwise, we set $x_{2i,s+1} = x$ and $r_{2i,s+1} = \max(x, \omega_{i,s}^{B_s}(x))$. Finally, we set $B_{s+1} = B_s$ and:
+        Let $A_0 = B_0 = \varepsilon$ and let $w_{j,0} = r_{j,0} = -1$ for each $j \in \N$. Consider a generic step $s \in \N$ and consider the requirement $R_{2i}$ for each $i \in \N$ (the requirements $R_{2i+1}$ are symmetrical). We construct the values $w_{2i,s+1}$ and $r_{2i,s+1}$ in the following way. If $w_{2i,s} \neq -1$, we propagate the previous values, i.e. $A_{s+1} = A_s$, $B_{s+1} = B_s$, $w_{2i,s+1} = w_{2i,s}$ and $r_{2i,s+1} = r_{2i,s}$.
+
+        Assume now that $w_{2i,s} = -1$. Let $x$ be the minimum index such that $A_s(x) = *$ and such that for all $k < 2i$ we have that $x > r_{k,s}$, that being the minimum undefined index of the string $A_s$ that is larger than each restriction value of the previous requirements. If $\Phi_{i,s}^{B_s}(x) \uparrow$, we preserve that $w_{2i,s+1} = r_{2i,s+1} = -1$ and propagate $A_{s+1} = A_s$, $B_{s+1} = B_s$. Otherwise, we set $w_{2i,s+1} = x$ and $r_{2i,s+1} = \max(x, \omega_{i,s}^{B_s}(x))$. Finally, we set $B_{s+1} = B_s$ and:
         \[A_{s+1}(y) = \left \{ \begin{array}{ll}
             A_{s}(y)  & \text{if } y \neq x \\
-            A_s(y) & \text{if } y = x \text{ and }  \phi_{i,s}^{B_s} = 1 \\
-            x & \text{if } y = x \text{ and }  \phi_{i,s}^{B_s} = 0
+            A_s(y) & \text{if } y = x \text{ and }  \phi_{i,s}^{B_s}(x) = 1 \\
+            x & \text{if } y = x \text{ and }  \phi_{i,s}^{B_s}(x) = 0
         \end{array}\right .\]
 
     We now prove the correctness of the construction through the following claims.
@@ -226,30 +229,30 @@
     \end{enumerate}
 
     \begin{proof}[Proof of Claim 1]
-        We observe that the requirement $R_j$ is injured at step $s$ if some $x \leq r_{j,s}$ is added to $A_s$, which only happens when for some $k < j$ a new index is added to $A_s$, i.e. all of $x_{j,k} = -1, \Phi_{j,s}^{B_s} \downarrow$ and $\phi_{j,s}^{B_s} = 1$ hold.
+        We observe that the requirement $R_j$ is injured at step $s$ if some $x \leq r_{j,s}$ is added to $A_s$, which only happens when for some $k < j$ a new index is added to $A_s$, i.e. all of $w_{j,k} = -1, \Phi_{j,s}^{B_s} (x) \downarrow$ and $\phi_{j,s}^{B_s}(x) = 0$ hold.
 
-        Let $g_{j,s} = \sum_{\substack{k < j \text{ s.t.} x_{k,s} \neq -1}} 2^{-(k+1)}$ the injure value of $R_j$ at step $s$. When $R_j$ is injured at step $s$, the smallest value $k < j$ such that $x_{k,s} \neq x_{k,s+1}$ must satisfy $x_{k,s} = -1$ by construction. Thus, we get that:
+        Let $g_{j,s} = \sum_{\substack{k < j \text{ s.t.} w_{k,s} \neq -1}} 2^{-(k+1)}$ the injure value of $R_j$ at step $s$. When $R_j$ is injured at step $s$, the smallest value $k < j$ such that $w_{k,s} \neq w_{k,s+1}$ must satisfy $w_{k,s} = -1$ by construction. Thus, we get that:
         \[g_{j,s+1} - g_{j,s} \geq 2^{-(j+1)} - \sum_{k < h < j} 2^{-(h+1)} = 2^{-j}\]
 
         Hence, for each step $s$ we have that $0 \leq g_{j,s} \leq 1-2^{-j}$, concluding that $R_j$ can be injured at most $2^{j}-1$ times.
     \end{proof}
 
-    \textbf{Claim 2}: for each $j \in \N$ it holds that $\lim_{s \to \infty} x_{j,s}$ and $\lim_{s \to +\infty} r_{j,s}$ exist and are finite.
+    \textbf{Claim 2}: for each $j \in \N$ it holds that $\lim_{s \to \infty} w_{j,s}$ and $\lim_{s \to +\infty} r_{j,s}$ exist and are finite.
 
     \begin{proof}[Proof of Claim 2]
         Assume that $j = 2i$ for some $i \in \N$ (the case $j = 2i+1$ is symmetrical). By point 1) of Claim 1, we know there is a step $s_0$ such that for all $s \geq s_0$ the requirement $R_j$ is not injured at step $s$. Let $s_0^*$ be the biggest step satisfying both the above condition and point 2) of Claim 1.
         
-        If for some step $s' \geq s_0^*$ it holds that $x_{j,s} \neq -1$, then all values are preserved from step $s'$, which implies that for all $t \geq s'$ we have that:
+        If for some step $s' \geq s_0^*$ it holds that $w_{j,s} \neq -1$, then all values are preserved from step $s'$, which implies that for all $t \geq s'$ we have that:
         \begin{itemize}
-            \item $x_{j,t} = x_{j,s'}$ and $r_{j,t} = r_{j,s'}$
-            \item $A_t(x_{j,t}) = A_{s'}(x_{j,s'})$
-            \item $\Phi_{i, s}^{B_s}(x_{j,t}) \downarrow$ and $\phi_{i, s}^{B_s}(x_{j,t}) \neq A_{t}(x_{j,t})$
+            \item $w_{j,t} = w_{j,s'}$ and $r_{j,t} = r_{j,s'}$
+            \item $A_t(w_{j,t}) = A_{s'}(w_{j,s'})$
+            \item $\Phi_{i, s}^{B_s}(w_{j,t}) \downarrow$ and $\phi_{i, s}^{B_s}(w_{j,t}) \neq A_{t}(w_{j,t})$
         \end{itemize}
 
-        Hence, the constraint $R_j$ is satisfied. Suppose now that $s' \geq s_0^*$ it holds that $x_{j,s} \neq -1$. Then, for each step $s \geq s_0^*$ let $y_s$ be the minimum value such that $A_s(y_s) = *$ and such that $\forall k < j$ it holds that $y_s > r_{j,s}$. Since $x_{j,s} \neq -1$ for all $s' \geq s_0^*$, by construction we have that $\Phi_{i,s}^{B_s}(y_s) \uparrow$ for all $s' \geq s_0^*$, thus $R_j$ is automatically satisfied. 
+        Hence, the constraint $R_j$ is satisfied. Suppose now that for all $s' \geq s_0^*$ it holds that $w_{j,s} = -1$. Then, for each step $s \geq s_0^*$ let $x^*_s$ be the minimum value such that $A_s(x^*_s) = *$ and such that $\forall k < j$ it holds that $x^*_s > r_{j,s}$. Since $w_{j,s} = -1$ for all $s' \geq s_0^*$, by construction we have that $\Phi_{i,s}^{B_s}(x^*_s) \uparrow$ for all $s' \geq s_0^*$, thus $R_j$ is automatically satisfied. 
     \end{proof}
 
-    By Claim 2, we get that eventually each requirement $R_j$ will be satisfied by the construction. Moreover, the use of the restricting values $r_{j,s}$ allows us to recursively enumerate the sets $A$ and $B$ since each requirement will eventually be satisfied in a finite number of steps.
+    By Claim 2, we get that eventually each requirement $R_j$ will be satisfied by the construction, thus $A = \bigcup_{i} A_i$ and $B = \bigcup_{i} B_i$ are such that $\Phi_s^A(x) \neq B$ and $\Phi_s^B(x) \neq A$ for all $s \in \N$. Moreover, the use of the restricting values $r_{j,s}$ allows us to recursively enumerate the sets $A$ and $B$ since each requirement will eventually be satisfied in a finite number of steps.
 
     \end{proof}
 

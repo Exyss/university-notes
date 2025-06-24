@@ -1,6 +1,7 @@
 \documentclass{beamer}
 \usepackage{amsfonts,amsmath,oldgerm}
 \usepackage[nameinlink]{cleveref}
+\usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage[
   backend=biber,
@@ -58,28 +59,28 @@
 \begin{frame}{Introduction}
 \framesubtitle{Notation}
 
-    Let $\mathcal{M} = \{M_0, M_1, M_2, \ldots\}$ be the set of all Turing Machines working on $\Sigma = \{0,1\}$.
-    
-    We denote with $\Phi_{i,s}^A(x)$ the \textbf{computation} of $M_i$ for $s \in \N$ steps on input $x \in \N$ while having access to an oracle for the subset $A \subseteq \N$
+    $\Phi_{i,s}^A(x)$ denotes the \textbf{computation} of the TM $M_i$ for $s \in \N$ steps on input $x \in \N$ while having access to an oracle for the subset $A \subseteq \N$
 
     \uncover<+->{
         \begin{itemize}[<+->]
-        \item If the computation halts after $s$ steps, we write $\Phi_{i,s}^A(x) \downarrow$.
-        \item When the computation halts for some $s$, we simply write $\Phi_{i}^A(x) \downarrow$.
-        \item If no value $s$ exists, we write $\Phi_{i}^A(x) \uparrow$.
-        \item We denote with $\phi_{i}^A(x)$ the \textbf{output} of the computation (defined iff $\Phi_{i}^A(x) \downarrow$)
+        \item $\Phi_{i,s}^A(x) \downarrow$ : the computation halts after $s$ steps
+        \item $\Phi_{i}^A(x) \downarrow$ : there is a $s \in \N$ such that $\Phi_{i,s}^A(x) \downarrow$
+        \item $\Phi_{i}^A(x) \uparrow$ : there is no $s \in \N$ such that $\Phi_{i,s}^A(x) \downarrow$
+        \item $\phi_{i}^A(x)$ : output of the computation (defined iff $\Phi_{i}^A(x) \downarrow$)
         \end{itemize}
     }
 \end{frame}
 
 \begin{frame}{Introduction}
 \framesubtitle{Definitions}
-    Given a set $S \subseteq \N$, we say that:
+    Given a set $S \subseteq \N$, we say that $S$ is:
     \begin{itemize}[<+->]
-        \item $S$ is \textbf{semi-decidable} if $\exists i \in \N$ such that $\forall x \in S$ it holds that $\Phi_i(x) \downarrow$ and $\phi_i(x) = 1$.
-        \item $S$ is \textbf{decidable} if $\exists i \in \N$ such that $\forall x \in \N$ it holds that $\Phi_i(x) \downarrow$ and $\phi_i(x) = 1$ if $x \in S$, otherwise $\phi_i(x) = 0$.
-        \item $S$ is \textbf{recursively enumerable} if there is an algorithmic procedure $\mathcal{A} : \N \to \{0,1\}$ such that $S = \{A(0), A(1), A(2), \ldots\}$
+        \item \textbf{Semi-decidable} if $\exists i \in \N$ such that $\forall x \in S$ it holds that $\Phi_i(x) \downarrow$ and $\phi_i(x) = 1$.
+        \item \textbf{Decidable} if $\exists i \in \N$ such that $\forall x \in \N$ it holds that $\Phi_i(x) \downarrow$ and $\phi_i(x) = 1$ if $x \in S$, otherwise $\phi_i(x) = 0$.
+        \item \textbf{Recursively enumerable} if there is an algorithmic procedure $\mathcal{A} : \N \to \{0,1\}$ such that $S = \{A(0), A(1), A(2), \ldots\}$
     \end{itemize}
+
+    \quad
 
     \uncover<+-> {
         \textbf{Obs. 1:} $S$ is semi-decidable if and only if it is r.e.
@@ -90,14 +91,18 @@
 
 \begin{frame}{Introduction}
 \framesubtitle{Turing's work}
+    \textcite{turing} proved that:
     \begin{itemize}[<+->]
-        \item \textcite{turing} proved that there are some problems that are some sets that are semi-decidable but undecidable (e.g. the set $H = \{(i,x) \mid \Phi_i(x) \downarrow\}$).
+        \item  Some sets that are semi-decidable but undecidable (e.g. $H = \{(i,x) \mid \Phi_i(x) \downarrow\}$).
         
-        \item He also proved that some sets cannot be semi-decided (e.g. the set $\overline{H}$).
-        
-        \item This gives three degrees of computability: \textbf{solvable} problems, \textbf{semi-solvable} problems and \textbf{unsolvable} problems.
-        
+        \item Some sets cannot be semi-decided (e.g. $\overline{H}$).
     \end{itemize}
+
+    \uncover<+-> {
+        This gives three degrees of computability: \textbf{solvable} problems, \textbf{semi-solvable} problems and \textbf{unsolvable} problems.
+    }
+
+    \quad
 
     \uncover<+-> {
         Are there some other degrees of computability?
@@ -111,69 +116,301 @@
     \textcite{post_degrees} formalized the idea of computability degrees through \textbf{Turing reductions}.
 
     \begin{itemize}[<+->]
-        \item Given $A,B \subseteq \N$, we say that $A$ is Turing reducible to $B$, written as $A \leq_T B$, if $\exists i \in \N$ such that $\Phi_i^B(x)$ for all $x \in \N$ and $\phi_i^B = A$.
-        \item We say that $A$ and $B$ are \textit{Turing equivalent}, written as $A \equiv_T B$, when $A \leq_T B$ and $B \leq_T A$
-        \item $\equiv_T$ is an equivalence relation over the set $2^\N$, inducing the quotient set $\mathcal{D} = 2^{\N}/_{\equiv_T}$. Each equivalence class of $\mathcal{D}$ is referred to as a \textbf{Turing degree}
+        \item \textit{Turing reducibility}: $A \leq_T B$ when $\exists i \in \N$ such that $\Phi_i^B(x) \downarrow$ for all $x \in \N$ and $\phi_i^B = A$.
+        \item \textit{Turing equivalence}: $A \equiv_T B$ when $A \equiv_T B$, when $A \leq_T B$ and $B \leq_T A$
+        \item The set $\mathcal{D} = 2^{\N}/_{\equiv_T}$ is referred to as the set of \textbf{Turing degrees}.
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Degrees of Unsolvability}
 \framesubtitle{Turing degrees}
-    We say that $[A]$ is lower than $[B]$, written as $[A] \preceq [B]$, if $A \leq_T B$.
-    
-    $\preceq$ is a (partial) order over the set $\mathcal{D}$, forming an hierarchy of unsolvability degree.
 
-    \uncover<+->{
-    
-        \begin{itemize}[<+->]
-            \item \textbf{Prop. 1}: There is an unique degree containing all the decidable problems
-        
-            \begin{itemize}
-                \item Each decidable problem can be solved by ignoring the provided oracle
-                \item This unique class is referred to as the $0$ degree (formally $0 = [\varnothing]$)
-            \end{itemize}
-    
-            \item \textbf{Prop. 2}: $0$ is a minimal degree
-            \begin{itemize}
-                \item If $[A] \preceq 0$ then $A$ can be decided by reducing it to any decidable problem, thus $[A] = 0$
-            \end{itemize}
-    
-            \item \textbf{Obs.}: There are minimal degrees different from $0$
-            \begin{itemize}
-                \item E.g. the set $\overline{H}$
-            \end{itemize}
-        \end{itemize}
-        }
-\end{frame}
-
-\begin{frame}{Degrees of Unsolvability}
-\framesubtitle{The jump operator}
-    The strict relation $[A] \prec [B]$ between degrees can be easily forced through an operator known as the \textbf{Turing jump}.
     \begin{itemize}[<+->]
-        \item Given a set $X \subseteq \N$, the \textit{Turing jump} of $X$ is the set $X' = \{i \mid \Phi_i^X(i) \downarrow\}$
-        \item It's easy to see that $X \not\leq_T X'$ since $X'$ is obtained by forcing a variant of the Halting problem on TMs with $X$ as an oracle
-        \item In particular, the jump $0'$ of $0$ is exactly the class containing the Halting problem, meaning that $0' = [H]$
-        \item \textbf{Prop.}: $A \in 0'$ if and only if $A$ is r.e.
+        \setlength{\itemindent}{-2em}
+
+        \item[] We say that $[A]$ is \textbf{lower} than $[B]$, written as $[A] \preceq [B]$, if $A \leq_T B$.
+        
+        \quad
+        
+        \item[] $\preceq$ is a (partial) order over the set $\mathcal{D}$, forming an hierarchy of unsolvability degrees.
+        
+        \quad
+
+        \item[] \textbf{Prop. 1}: There is an unique degree containing all the decidable problems
+    
         \begin{itemize}
-            \item If $A \in 0'$ then $A \leq_T H$, thus $A$ is r.e. since $H$ is r.e.
-            \item If $A$ is r.e. then it has a semi-decider $M_i$. We can build a new semi-decider $M_j$ such that $\Phi_j(x) \downarrow$ if $\phi_i(x) = 1$, otherwise $\Phi_j(x) \uparrow$. By construction, $x \in A$ iff $(j,x) \in H$. 
+            \item This unique class is referred to as the $0$ degree (formally $0 = [\varnothing]$)
+        \end{itemize}
+
+        \quad
+
+        \item[ ]\textbf{Prop. 2}: There is no degree below $0$
+        \begin{itemize}
+            \item If $[A] \preceq 0$ then $A$ is decidable, thus $[A] = 0$
         \end{itemize}
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Degrees of Unsolvability}
-\framesubtitle{Post's problem}
+\framesubtitle{The jump operator}
+    The strict relation $[A] \prec [B]$ between degrees can be easily forced through \textbf{Turing jumps}.
     \begin{itemize}[<+->]
-        \item The jump operator can be iteratively applied to get infinite levels of the hierarchy. This makes \curlyquotes{going upwards} a less interesting question. This gave Post the idea of exploring the hierarchy sideways.
-
-        \item Post proved that for each degree $A$ there is another degree $B$ that is incomparable with $A$.
+        \item Given a set $X \subseteq \N$, the \textit{Turing jump} of $X$ is the set $X' = \{i \mid \Phi_i^X(i) \downarrow\}$
         \begin{itemize}
-            \item \textbf{Obs.}: \textcite{simpson} proved that the first-order theory of $\mathcal{D}$ over the language $(\preceq, = )$ is many-one equivalent to the theory of true second-order arithmetic. 
+            \item $X <_T X'$ since $X'$ is obtained by forcing a variant of the Halting problem on TMs with $X$ as an oracle
+        \end{itemize}
+        \item \textbf{Obs.:} The jump $0'$ of $0$ is exactly the class containing the Halting problem
+        \[\varnothing' = \{i \mid \Phi_i^\varnothing(i) \downarrow\} = \{i \mid \Phi_i(i) \downarrow\} \equiv_T H\]
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Degrees of Unsolvability}
+\framesubtitle{The jump operator}
+    \begin{itemize}[<+->]
+        \item \textbf{Thm.:} $[A] \leq_m H$ if and only if $A$ is r.e.
+        
+        \begin{itemize}
+            \item If $A \leq_m H$ then $A$ is trivially r.e. since $H$ is r.e.
+            \item If $A$ is r.e. then it has a semi-decider $M_i$. Let $M_j$ be a new semi-decider such that $\Phi_j(x) \downarrow$ if $\phi_i(x) = 1$, otherwise $\Phi_j(x) \uparrow$.
         \end{itemize}
 
-        \item After exploring many results of this type, Post's work stopped on the following simple problem: is there a degree that lies between $0$ and $0'$?
+        \item \textbf{Cor.:} Every degree containing a r.e. set is below $0'$
+        \item \textbf{Obs.}: If a degree contains a r.e. set, the other sets \underline{aren't} forced to also be r.e.
+            \begin{itemize}
+                \item E.g.: $\overline{H} \in 0'$, but  $\overline{H}$ is not r.e 
+            \end{itemize}
+    \end{itemize}
+\end{frame}
 
-        \item This problem was only solved 12 years later independently by \textcite{friedberg, muchnik}
+\section{Post's problem}
+
+\begin{frame}{Post's problem}
+\framesubtitle{The main question}
+    \begin{itemize}[<+->]
+        \item The jump operator can be iteratively applied to get infinite levels of the hierarchy, i.e. $0 \prec 0' \prec 0'' \prec \ldots$. This makes \curlyquotes{going upwards} not so interesting.
+        \item \textcite{post_degrees} proved that for each degree $A$ there is another degree $B$ that is incomparable with $A$.
+        \begin{itemize}
+            \item \textbf{Cor.:} There is at least one Turing degree that is incomparable with both $0$ and $0'$ 
+        \end{itemize}
+
+        \item \textbf{Post's problem}: is there a degree $d$ such that $0 \prec d \prec 0'$?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Post's problem}
+\framesubtitle{The main question}
+    \begin{itemize}[<+->]
+        \item Post's problem was solved 12 years later independently by \textcite{friedberg, muchnik} through the \textbf{finite injury priority method}.
+        \item The method is an improvement on the \textbf{finite extension method} developed by Post in his original works
+        \item Since the FIP method involves constructions that are way more complex than those of the FE method, we'll first give an example of the latter
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The finite extension method}
+\framesubtitle{The setup}
+
+    \begin{itemize}[<+->]
+        \item Given a set $A$, we want to define a countable list of \textbf{requirements} $\{R_i\}_{i \in \N}$, each to be satisfied by a string.
+        
+        \item Strings are to be considered as an infinite tape of cells, each marked by an index and containing either a $0$, a $1$ or an undefined value.
+        
+        \begin{itemize}
+            \item In some sense, each string can be viewed as a partial function on $\{0,1\}$.
+        \end{itemize}
+        
+        \item We start with the empty string and on each step $s \in \N$, we construct a new finite string $A_{s+1}$ that extends $A_s$ and satisfies $R_0, R_1, \ldots, R_{s+1}$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The finite extension method}
+\framesubtitle{The Kleene-Post theorem}
+    \cite{kleene_post} \textbf{Thm.:} There are two sets $A$ and $B$ that are incomparable
+    \begin{itemize}[<+->]
+        \item For each $i \in \N$, we define the requirement $R_{2i}$ as $\phi_i^A \neq B$ and $R_{2i+1}$ as $\phi_{i}^B \neq A$
+        \begin{itemize}
+            \item When $\Phi_i^A(x) \uparrow$ or $\Phi_i^B(x) \uparrow$, the requirements $R_{2i}, R_{2i+1}$ are considered to be satisfied.
+        \end{itemize} 
+        \item Let $\{R_i\}_{i \in \N}$ be the list of requirements
+        \item Let $A_0 = B_0 = \varepsilon$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The finite extension method}
+\framesubtitle{The Kleene-Post theorem}
+    \begin{itemize}[<+->]
+        \item Consider a generic step $s \in \N$
+        \begin{itemize}
+            \item We assume that $s = 2i$ since the case $2i+1$ is symmetrically constructed
+        \end{itemize}
+        \item Choose any index $x \in \N$ such that $B_s(x) = *$
+        \begin{itemize}
+            \item Guaranteed to exist!
+        \end{itemize}
+        \item If there is any finite extension $A'$ of $A_s$ such that $\Phi_i^{A'}(x) \downarrow$ then we set:
+        \[A_{s+1} = A' \qquad B_{s+1}(y) = \left \{ \begin{array}{ll}
+            B_s(y) & \text{if } y \neq x \\
+            1-\phi_{i}^{A'}(x) & \text{if } y = x
+        \end{array}\right .\]
+        \item The requirement $R_{2i}$ is satisfied by this flipped bit.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The finite extension method}
+\framesubtitle{The Kleene-Post theorem}
+    \begin{itemize}[<+->]
+        \item If no such finite extension $A'$ of $A_s$ exists, then $\Phi_i^{A'}(x) \uparrow$ for all $A'$.
+        \item Hence, we can trivially set
+        \[A_{s+1} = A_{s} \qquad B_{s+1}(y) = \left \{ \begin{array}{ll}
+            B_s(y) & \text{if } y \neq x \\
+            \mathrm{rand}(\{0,1\}) & \text{if } y = x
+        \end{array}\right .\]
+        \item The requirement $R_{2i}$ is automatically satisfied since $\Phi_i^{A_{s+1}}(x) \uparrow$.
+        \item $A = \bigcup\limits_{i \in \N} A_i$ and $B = \bigcup\limits_{i \in \N} B_i$ are such that $\Phi_s^A(x) \neq B$ and $\Phi_s^B(x) \neq A$ for all $s \in \N$
+    \end{itemize}
+    $\hfill \square$
+\end{frame}
+
+\begin{frame}{The finite extension method}
+\framesubtitle{Strenghts and weaknesses}
+    
+    \begin{itemize}[<+->]
+        \item We observe that this general method can be easily modified and extended.
+        \begin{itemize}
+            \item E.g.: we can force that $[A], [B] \leq 0'$ or even $[A'], [B'] \leq 0'$
+        \end{itemize}
+        \item However, the construction used can never guarantee the recursive enumerability of the two sets.
+        \item This problem is fixed by the \textbf{finite injury priority method}
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{The finite injury priority method}
+\framesubtitle{The idea}
+    \begin{itemize}[<+->]
+        \item \textbf{Injury}: a requirement gets injured when its satisfaction is not guaranteed anymore.
+        
+        \item The key idea is to assign a priority level to each requirement and force two conditions during the construction of the set $A$:
+    \begin{enumerate}
+        \item Each requirement has finitely many requirements with higher priority
+        \item Each requirement can be injured only by requirements with higher priority
+    \end{enumerate}
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{The finite injury priority method}
+\framesubtitle{The query function}
+    \begin{itemize}[<+->]
+        \item To keep track of injuries, we'll use the following \textbf{query function}
+        
+        \item Let $A \subseteq \N$ and let $i,s,x \in \N$. The query function $\omega_{i,s}^A$ is defined as:
+        \[\omega_{i,s}^A(x) = \left \{ \begin{array}{ll}
+            \max \{z \in \N \mid A(z) \text{ is queried in } \Phi_{i,s}^A\} & \text{if } \Phi_{i,s}^A(x) \downarrow \\
+            -1 & \text{otherwise}
+        \end{array}\right .\]
+        
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{The finite injury priority method}
+\framesubtitle{The Friedberg-Muchnik theorem}
+    \cite{friedberg,muchnik} \textbf{Thm.:} There are two r.e. sets $A$ and $B$ that are incomparable
+    \begin{itemize}[<+->]
+        \item The requirements are defined as in the previous theorem
+        \item We say that an index $x$ is a \textbf{witness} for the requirement $R_{2i}$ at step $s$ if $\Phi_{i,s}^{B_s}(x) \downarrow$ and $\phi_{i,s}^{B_s}(x) \neq A_s(x)$ (symmetric definition for $R_{2i+1}$)
+
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The finite injury priority method}
+\framesubtitle{The Friedberg-Muchnik theorem}
+    \begin{itemize}[<+->]
+        \item On each step $s \in \N$, for each $j \in \N$ we compute:
+        \begin{itemize}
+            \item A witness $w_{j,s}$ for $R_j$ at step $s$
+            \item A restriction index $r_{j,s}$ to dictate the priority of the requirements
+        \end{itemize}
+        \item We'll enforce that $w_{j,s} = r_{j,s} = -1$ holds when no witness is known for $R_j$ at step $s$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The finite injury priority method}
+\framesubtitle{The Friedberg-Muchnik theorem}
+    \begin{itemize}[<+->]
+        \item Let $A_0 = B_0 = \varepsilon$ and let $w_{j,0} = r_{j,0} = -1$ for each $j \in \N$.
+        \item Consider a generic step $s \in \N$.
+        \begin{itemize}
+            \item Assume $s = 2i$.
+        \end{itemize}
+        \item If $w_{2i,s} \neq -1$ we propagate the previous values because $R_{2i}$ already has a witness.
+        \begin{itemize}
+            \item We set $A_{s+1} = A_s$, $B_{s+1} = B_s$, $w_{2i,s+1} = w_{2i,s}$ and $r_{2i,s+1} = r_{2i,s}$
+        \end{itemize} 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The finite injury priority method}
+\framesubtitle{The Friedberg-Muchnik theorem}
+    \begin{itemize}[<+->]
+        \item Assume that $w_{2i,s} = -1$. Let $x$ be the minimum index such that $A_s(x) = *$ and such that for all $k < 2i$ it holds that $x > r_{k,s}$.
+        \item If $\lnot \Phi_{i,s}^{B_s}(x) \downarrow$, we preserve that $w_{2i,s+1} = r_{2i,s+1} = -1$ and propagate $A_{s+1} = A_s$, $B_{s+1} = B_s$. This trivially satisfies the requirement $R_{2i}$.
+        \item Otherwise, we set $w_{2i,s+1} = x$ and $r_{2i,s+1} = \max(x, \omega_{i,s}^{B_s}(x))$, propagate $B_{s+1} = B_s$ and set:
+        \[A_{s+1}(y) = \left \{ \begin{array}{ll}
+            A_{s}(y)  & \text{if } y \neq x \\
+            * & \text{if } y = x \text{ and }  \phi_{i,s}^{B_s}(x) = 1 \\
+            1 & \text{if } y = x \text{ and }  \phi_{i,s}^{B_s}(x) = 0
+        \end{array}\right .\]
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The finite injury priority method}
+\framesubtitle{The Friedberg-Muchnik theorem}
+    \textbf{Claim}: For each $j \in \N$ it holds that:
+    \begin{enumerate}
+        \item $R_j$ is injured a finite number of times
+        \item There is a step $s_0$ such that for all $s \geq s_0$ and for all $k < j$ no new index is added to $A_s$
+    \end{enumerate}
+
+    \textit{Proof.}
+    \begin{itemize}[<+->]
+        \item The requirement $R_j$ is injured at step $s$ if some $x \leq r_{j,s}$ is added to $A_s$, which happens only when there is a $k < j$ that adds a new index to $A_s$, i.e. when
+        \[w_{j,k} = -1 \quad \Phi_{j,s}^{B_s} \downarrow \quad \phi_{j,s}^{B_s}(x) = 0\]
+        \item In other words, statement (2) of the claim follows from statement (1) by construction.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The finite injury priority method}
+\framesubtitle{The Friedberg-Muchnik theorem}
+    \begin{itemize}[<+->]
+        \item Let $g_{j,s} = \sum\limits_{\substack{k <\, j \; s.t. \\ w_{k,s} \neq -1}} 2^{-(k+1)}$ be the injure value of $R_j$ at step $s$
+        \item When $R_j$ is injured at step $s$, the smallest value $k < j$ such that $w_{k,s} \neq w_{k,s+1}$ must satisfy $w_{k,s} = -1$ and $w_{k,s+1} \neq -1$ by construction. Thus:
+        \[g_{j,s+1} - g_{j,s} \geq 2^{-(j+1)} - \sum_{k < h < j} 2^{-(h+1)} = 2^{-j}\]
+
+        \item Hence, for each step $s$ we have that $0 \leq g_{j,s} \leq 1-2^{-j}$, concluding that $R_j$ can be injured at most $2^{j}-1$ times
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The finite injury priority method}
+\framesubtitle{The Friedberg-Muchnik theorem}
+
+    \begin{itemize}
+        \item We observe that there is always a large enough step $s_0^*$ satisfying statements (1) and (2) of the Claim. This step guarantees that for each $j \in \N$ it holds that $\lim\limits_{s \to +\infty} w_{j,s}$ and $\lim\limits_{s \to +\infty} r_{j,s}$ exist and are finite.
+        \item This concludes that, eventually, each requirement $R_j$ will be satisfied by the construction. Thus, $A = \bigcup\limits_{i \in \N} A_i$ and $B = \bigcup\limits_{i \in \N} B_i$ are such that $\Phi_s^A(x) \neq B$ and $\Phi_s^B(x) \neq A$ for all $s \in \N$
+        \item Moreover, the use of the restriction values $r_{j,s}$ allows us to recursively enumerate the sets $A$ and $B$ by restricting our interest to the indexes between $0$ and $r_{j,s}$ for each $j \in \N$
+    \end{itemize}
+
+    $\hfill \square$
+
+\end{frame}
+
+\begin{frame}{The finite injury priority method}
+\framesubtitle{Other results}
+    \begin{itemize}[<+->]
+        \item \textbf{Infinite Injury Priority Argument}: \textcite{sacks} proved that the above construction can be extended to a countably infinite argument
+        
+        \item \textbf{Density of r.e. sets}: For each pair of r.e. sets $A, B$ there is another r.e. set such that $A <_T C <_T B$
+        \item \textcite{simpson} proved that the first-order theory of $\mathcal{D}$ over the language $(\preceq, = )$ is many-one equivalent to the theory of true second-order arithmetic. 
     \end{itemize}
 \end{frame}
     

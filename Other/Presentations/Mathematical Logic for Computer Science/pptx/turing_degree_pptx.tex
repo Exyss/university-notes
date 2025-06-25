@@ -318,6 +318,7 @@
     \cite{friedberg,muchnik} \textbf{Thm.:} There are two r.e. sets $A$ and $B$ that are incomparable
     \begin{itemize}[<+->]
         \item The requirements are defined as in the previous theorem
+        \item $A_0, A_1, A_2, \ldots$ and $B_0, B_1, B_2, \ldots$ are now \textbf{sets}
         \item We say that an index $x$ is a \textbf{witness} for the requirement $R_{2i}$ at step $s$ if $\Phi_{i,s}^{B_s}(x) \downarrow$ and $\phi_{i,s}^{B_s}(x) \neq A_s(x)$ (symmetric definition for $R_{2i+1}$)
 
     \end{itemize}
@@ -332,13 +333,15 @@
             \item A restriction index $r_{j,s}$ to dictate the priority of the requirements
         \end{itemize}
         \item We'll enforce that $w_{j,s} = r_{j,s} = -1$ holds when no witness is known for $R_j$ at step $s$
+        \item The indices that come before each $r_{j,s}$ are considered to be \textit{safe}, i.e. they don't break any requirement.
+        \item $R_j$ gets \textit{injured} at step $s$ if $A_{s+1} - A_s$ contains some $x \leq r_{j,s}$.
     \end{itemize}
 \end{frame}
 
 \begin{frame}{The finite injury priority method}
 \framesubtitle{The Friedberg-Muchnik theorem}
     \begin{itemize}[<+->]
-        \item Let $A_0 = B_0 = \varepsilon$ and let $w_{j,0} = r_{j,0} = -1$ for each $j \in \N$.
+        \item Let $A_0 = B_0 = \varnothing$ and let $w_{j,0} = r_{j,0} = -1$ for each $j \in \N$.
         \item Consider a generic step $s \in \N$.
         \begin{itemize}
             \item Assume $s = 2i$.
@@ -353,14 +356,13 @@
 \begin{frame}{The finite injury priority method}
 \framesubtitle{The Friedberg-Muchnik theorem}
     \begin{itemize}[<+->]
-        \item Assume that $w_{2i,s} = -1$. Let $x$ be the minimum index such that $A_s(x) = *$ and such that for all $k < 2i$ it holds that $x > r_{k,s}$.
-        \item If $\lnot \Phi_{i,s}^{B_s}(x) \downarrow$, we preserve that $w_{2i,s+1} = r_{2i,s+1} = -1$ and propagate $A_{s+1} = A_s$, $B_{s+1} = B_s$. This trivially satisfies the requirement $R_{2i}$.
-        \item Otherwise, we set $w_{2i,s+1} = x$ and $r_{2i,s+1} = \max(x, \omega_{i,s}^{B_s}(x))$, propagate $B_{s+1} = B_s$ and set:
-        \[A_{s+1}(y) = \left \{ \begin{array}{ll}
-            A_{s}(y)  & \text{if } y \neq x \\
-            * & \text{if } y = x \text{ and }  \phi_{i,s}^{B_s}(x) = 1 \\
-            1 & \text{if } y = x \text{ and }  \phi_{i,s}^{B_s}(x) = 0
-        \end{array}\right .\]
+        \item Assume that $w_{2i,s} = -1$. Let $x$ be the minimum index such that $x \notin A_s$ and such that for all $k < 2i$ it holds that $x > r_{k,s}$.
+        \item If $\Phi_{i,s}^{B_s}(x) \uparrow$, we preserve that $w_{2i,s+1} = r_{2i,s+1} = -1$ and propagate $A_{s+1} = A_s$, $B_{s+1} = B_s$. This trivially satisfies the requirement $R_{2i}$.
+        \item Otherwise, if $\Phi_{i,s}^{B_s}(x) \downarrow$, we set:
+        \[\begin{array}{ccc}
+            w_{2i,s+1} = x & \qquad & r_{2i,s+1} = \max(x, \omega_{i,s}^{B_s}(x))\\\\
+            A_{s+1} = A_{s} \cup \{x\} & \qquad & B_{s+1} = B_s
+        \end{array}\]
     \end{itemize}
 \end{frame}
 
@@ -375,7 +377,7 @@
     \textit{Proof.}
     \begin{itemize}[<+->]
         \item The requirement $R_j$ is injured at step $s$ if some $x \leq r_{j,s}$ is added to $A_s$, which happens only when there is a $k < j$ that adds a new index to $A_s$, i.e. when
-        \[w_{j,k} = -1 \quad \Phi_{j,s}^{B_s} \downarrow \quad \phi_{j,s}^{B_s}(x) = 0\]
+        \[w_{j,k} = -1 \quad \Phi_{j,s}^{B_s}(x) \downarrow \quad \phi_{j,s}^{B_s}(x) = 0\]
         \item In other words, statement (2) of the claim follows from statement (1) by construction.
     \end{itemize}
 \end{frame}
@@ -395,9 +397,29 @@
 \framesubtitle{The Friedberg-Muchnik theorem}
 
     \begin{itemize}
-        \item We observe that there is always a large enough step $s_0^*$ satisfying statements (1) and (2) of the Claim. This step guarantees that for each $j \in \N$ it holds that $\lim\limits_{s \to +\infty} w_{j,s}$ and $\lim\limits_{s \to +\infty} r_{j,s}$ exist and are finite.
-        \item This concludes that, eventually, each requirement $R_j$ will be satisfied by the construction. Thus, $A = \bigcup\limits_{i \in \N} A_i$ and $B = \bigcup\limits_{i \in \N} B_i$ are such that $\Phi_s^A(x) \neq B$ and $\Phi_s^B(x) \neq A$ for all $s \in \N$
+        \item We observe that there is always a large enough step $s_0^*$ satisfying statements (1) and (2) of the Claim.
+        
+        \item This step guarantees that for each $j \in \N$ it holds that $\lim\limits_{s \to +\infty} w_{j,s}$ and $\lim\limits_{s \to +\infty} r_{j,s}$ exist and are finite.
+        \begin{itemize}
+            \item If for some $s' \geq s_0^*$ it holds that $w_{j,s'} \neq -1$ then it will hold from $s'$ onward
+            \item Otherwise, there is a minimum value $x_s^*$ such that $x_s^* \notin A_s$ and such that $x_s^* > r_{k,s}$ for all $k < j$
+            \item By construction $\Phi_{j,s}^{B_s}(x) \uparrow$ holds in this case
+        \end{itemize}
+    \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{The finite injury priority method}
+\framesubtitle{The Friedberg-Muchnik theorem}
+
+    \begin{itemize}[<+->]
+        \item This concludes that, eventually, each requirement $R_j$ will be satisfied by the construction.
+        \item Thus, $A = \bigcup\limits_{i \in \N} A_i$ and $B = \bigcup\limits_{i \in \N} B_i$ are such that $\Phi_s^A(x) \neq B$ and $\Phi_s^B(x) \neq A$ for all $s \in \N$
         \item Moreover, the use of the restriction values $r_{j,s}$ allows us to recursively enumerate the sets $A$ and $B$ by restricting our interest to the indexes between $0$ and $r_{j,s}$ for each $j \in \N$
+        \begin{itemize}
+            \item This implies that $A$ and $B$ are both r.e.!
+        \end{itemize}
     \end{itemize}
 
     $\hfill \square$
@@ -413,6 +435,8 @@
         \item \textcite{simpson} proved that the first-order theory of $\mathcal{D}$ over the language $(\preceq, = )$ is many-one equivalent to the theory of true second-order arithmetic. 
     \end{itemize}
 \end{frame}
+
+\backmatter[notitle]
     
 \begin{frame}{Bibliography}
 \framesubtitle{{}}

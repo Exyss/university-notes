@@ -17,15 +17,15 @@ I progetti proposti in seguito sono stati ordinati in base a:
 
 | Numero | Progetto | Status | Aggiornato al |
 | :----: | -------- | :----: | :-----------: |
-| 1  | [eBuy](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/eBuy.pdf) | Fino agli use-case | 07/09/2023 |
-| 2  | [ecoParks](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/ecoParks.pdf) | Fino agli use-case | 07/09/2023 |
-| 3  | [QuickHospital](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/QuickHospital.pdf) | Completo | 07/09/2023 |
-| 4  | [My Precious](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/My%20Precious.pdf) | Completo e Valutato | 07/09/2023 |
-| 5  | [RistoBook](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/RistoBook.pdf) | Completo | 07/09/2023 |
-| 6  | [AllenaMondo](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/AllenaMondo.pdf) | Completo | 07/09/2023 |
-| 7  | [Slimmy](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/Slimmy.pdf) | Completo | 07/09/2023 |
-| 8  | [TravelPlan](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/TravelPlan.pdf) | Completo e Valutato | 07/09/2023 |
-| 9  | [EasyToll](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/EasyToll.pdf) | Completo | 07/09/2023 |
-| 10 | [SafeOnTheBeach](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/SafeOnTheBeach.pdf) | Completo | 07/09/2023 |
-| 11 | [Città Verde](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/Citt%C3%A0%20Verde.pdf) | Completo e Valutato | 07/09/2023 |
-| 12 | [CozyRooms](../../../../raw/main/Secondo%20Anno/Progetti%20BD2/CozyRooms.pdf) | Mio esame (30L) | 11/09/2023 |
+| 1  | [eBuy](../../../../raw/main/Bachelor/Secondo%20Anno/Progetti%20BD2/eBuy.pdf) | Fino agli use-case | 07/09/2023 |
+| 2  | [ecoParks](../../../../raw/main/Bachelor/Secondo%20Anno/Progetti%20BD2/ecoParks.pdf) | Fino agli use-case | 07/09/2023 |
+| 3  | [QuickHospital](../../../../raw/main/Bachelor/Secondo%20Anno/Progetti%20BD2/QuickHospital.pdf) | Completo | 07/09/2023 |
+| 4  | [My Precious](../../../../raw/main/Bachelor/Secondo%20Anno/Progetti%20BD2/My%20Precious.pdf) | Completo e Valutato | 07/09/2023 |
+| 5  | [RistoBook](../../../../raw/main/Bachelor/Secondo%20Anno/Progetti%20BD2/RistoBook.pdf) | Completo | 07/09/2023 |
+| 6  | [AllenaMondo](../../../../raw/main/Bachelor/Secondo%20Anno/Progetti%20BD2/AllenaMondo.pdf) | Completo | 07/09/2023 |
+| 7  | [Slimmy](../../../../raw/main/Bachelor/Secondo%20Anno/Progetti%20BD2/Slimmy.pdf) | Completo | 07/09/2023 |
+| 8  | [TravelPlan](../../../../raw/main/Bachelor/Secondo%20Anno/Progetti%20BD2/TravelPlan.pdf) | Completo e Valutato | 07/09/2023 |
+| 9  | [EasyToll](../../../../raw/main/Bachelor/Secondo%20Anno/Progetti%20BD2/EasyToll.pdf) | Completo | 07/09/2023 |
+| 10 | [SafeOnTheBeach](../../../../raw/main/Bachelor/Secondo%20Anno/Progetti%20BD2/SafeOnTheBeach.pdf) | Completo | 07/09/2023 |
+| 11 | [Città Verde](../../../../raw/main/Bachelor/Secondo%20Anno/Progetti%20BD2/Citt%C3%A0%20Verde.pdf) | Completo e Valutato | 07/09/2023 |
+| 12 | [CozyRooms](../../../../raw/main/Bachelor/Secondo%20Anno/Progetti%20BD2/CozyRooms.pdf) | Mio esame (30L) | 11/09/2023 |

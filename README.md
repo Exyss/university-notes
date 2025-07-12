@@ -62,7 +62,7 @@ Disclaimers ⚠️
   | ----- | :----: | :-----------: |
   | [Algebra](../../raw/main/Bachelor/Secondo%20Anno/Algebra.pdf) | Completi | 16/03/2025 |
   | [Calcolo delle Probabilità](../../raw/main/Bachelor/Secondo%20Anno/Calcolo%20delle%20Probabilita.pdf) | Completi | 16/03/2025 |
-  | [Progettazione di Algoritmi](../../raw/main/Bachelor/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 11/05/2025 |
+  | [Progettazione di Algoritmi](../../raw/main/Bachelor/Secondo%20Anno/Progettazione%20di%20Algoritmi.pdf) | Completi | 12/07/2025 |
   | [Reti di Elaboratori](../../raw/main/Bachelor/Secondo%20Anno/Reti%20di%20Elaboratori.pdf) | Completi | 16/03/2025 |
   | [Sistemi Operativi I](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20I.pdf) | Completi | 16/03/2025 |
   | [Sistemi Operativi II](../../raw/main/Bachelor/Secondo%20Anno/Sistemi%20Operativi%20II.pdf) | Completi | 16/03/2025 |

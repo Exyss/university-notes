@@ -45,7 +45,7 @@ Disclaimers ⚠️
 | ----- | :----: | :-----------: |
 | [Calcolo Differenziale](../../raw/main/Bachelor/Primo%20Anno/Calcolo%20Differenziale.pdf) | Completi | 16/03/2025 |
 | [Calcolo Integrale](../../raw/main/Bachelor/Primo%20Anno/Calcolo%20Integrale.pdf) | Completi | 16/03/2025 |
-| [Metodi Matematici per l'Informatica](../../raw/main/Bachelor/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi | 16/03/2025 |
+| [Metodi Matematici per l'Informatica](../../raw/main/Bachelor/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi | 28/07/2025 |
 | [Introduzione agli Algoritmi](../../raw/main/Bachelor/Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 16/03/2025 |
 | [Progettazione di Sistemi Digitali](../../raw/main/Bachelor/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 16/03/2025 |
 | [Architettura degli Elaboratori](../../raw/main/Bachelor/Primo%20Anno/Architettura%20degli%20Elaboratori.pdf) | Completi | 16/03/2025 |

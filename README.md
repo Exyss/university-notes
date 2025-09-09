@@ -100,11 +100,11 @@ Disclaimers ⚠️
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 17/02/2025 |
 | Computer Network Performance| - | - |
 | Cryptography | - | - |
-| Deep Learning and Applied Artificial Intelligence | - | - |
-| Games and Equilibria | - | - |
+| High Performance Computing | - | - |
+| Foundations of Mathematics | - | - |
 | [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | Completed | 22/06/2025 |
-| Internet of Things | - | - |
-| Introduction to Quantum Computing | - | - |
+| AFC (???) | - | - |
+| Quantum Computing | - | - |
 | [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | Completed | 10/03/2025 |
 | [Mathematical Logic for Computer Science](../../raw/main/Master/Mathematical%20Logic%20for%20Computer%20Science.pdf) | Completed | 25/06/2025 |
 | Models of Computation [ !! ] | - | - |

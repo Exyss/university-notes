@@ -43,7 +43,7 @@ Disclaimers ⚠️
 
 | Corso | Status | Aggiornati al |
 | ----- | :----: | :-----------: |
-| [Calcolo Differenziale](../../raw/main/Bachelor/Primo%20Anno/Calcolo%20Differenziale.pdf) | Completi | 16/03/2025 |
+| [Calcolo Differenziale](../../raw/main/Bachelor/Primo%20Anno/Calcolo%20Differenziale.pdf) | Completi | 29/09/2025 |
 | [Calcolo Integrale](../../raw/main/Bachelor/Primo%20Anno/Calcolo%20Integrale.pdf) | Completi | 16/03/2025 |
 | [Metodi Matematici per l'Informatica](../../raw/main/Bachelor/Primo%20Anno/Metodi%20Matematici%20per%20l'Informatica.pdf) | Completi | 28/07/2025 |
 | [Introduzione agli Algoritmi](../../raw/main/Bachelor/Primo%20Anno/Introduzione%20agli%20Algoritmi.pdf) | Completi | 16/03/2025 |
@@ -96,13 +96,13 @@ Disclaimers ⚠️
 | Course | Status | Last update |
 | ----- | :----: | :-----------: |
 | [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms.pdf) | Completed | 22/06/2025 |
-| [Autonomous Networking](../../raw/main/Master/Autonomous%20Networking.pdf) | W.I.P. | 29/06/2025 |
+| [Autonomous Networking](../../raw/main/Master/Autonomous%20Networking.pdf) | W.I.P. | 29/09/2025 |
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 17/02/2025 |
 | Computer Network Performance| - | - |
 | Cryptography | - | - |
 | High Performance Computing | - | - |
 | Foundations of Mathematics | - | - |
-| [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | Completed | 22/06/2025 |
+| [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | Completed | 29/09/2025 |
 | AFC (???) | - | - |
 | Quantum Computing | - | - |
 | [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | Completed | 10/03/2025 |

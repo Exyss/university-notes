@@ -98,13 +98,13 @@ Disclaimers ⚠️
 | [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms.pdf) | Completed | 22/06/2025 |
 | [Autonomous Networking](../../raw/main/Master/Autonomous%20Networking.pdf) | W.I.P. | 29/09/2025 |
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 17/02/2025 |
-| Computer Network Performance| - | - |
-| Cryptography | - | - |
+| [Computer Network Performance](../../raw/main/Master/Computer%20Network%20Performance.pdf) | W.I.P. | - |
+| [Cryptography](../../raw/main/Master/Cryptography.pdf) | W.I.P. | - |
 | High Performance Computing | - | - |
 | Foundations of Mathematics | - | - |
 | [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | Completed | 29/09/2025 |
 | AFC (???) | - | - |
-| Quantum Computing | - | - |
+| [Quantum Computing](../../main/Master/Quantum%20Computing.pdf) | W.I.P. | - |
 | [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | Completed | 10/03/2025 |
 | [Mathematical Logic for Computer Science](../../raw/main/Master/Mathematical%20Logic%20for%20Computer%20Science.pdf) | Completed | 25/06/2025 |
 | Models of Computation [ !! ] | - | - |

@@ -100,7 +100,7 @@ Disclaimers ⚠️
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 17/02/2025 |
 | [Computer Network Performance](../../raw/main/Master/Computer%20Network%20Performance.pdf) | W.I.P. | - |
 | [Cryptography](../../raw/main/Master/Cryptography.pdf) | W.I.P. | - |
-| High Performance Computing | - | - |
+| High Performance Computing | - | 01/10/2025 |
 | Foundations of Mathematics | - | - |
 | [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | Completed | 29/09/2025 |
 | AFC (???) | - | - |

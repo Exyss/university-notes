@@ -80,7 +80,7 @@ Disclaimers ⚠️
 | ----- | :----: | :-----------: |
 | [Automi, Calcolabilità e Complessità](../../raw/main/Bachelor/Terzo%20Anno/Automi%2C%20Calcolabilita%20e%20Complessita.pdf) | Completi | 16/03/2025 |
 | [Ingegneria del Software](https://raw.githubusercontent.com/CuriousCI/software-engineering/refs/heads/main/software-engineering.pdf) [ !! ]| Scritti da [@CuriousCI](https://github.com/CuriousCI) | - |
-| [Linguaggi di Programmazione](../../raw/main/Bachelor/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 16/03/2025 |
+| [Linguaggi di Programmazione](../../raw/main/Bachelor/Terzo%20Anno/Linguaggi%20di%20Programmazione.pdf) | Completi | 03/10/2025 |
 | [Programmazione di Sistemi Multicore](https://raw.githubusercontent.com/CasuFrost/University_notes/refs/heads/main/Terzo%20Anno/Programmazione%20di%20Sistemi%20Multicore/letexSrcFile/Programmazione%20di%20Sistemi%20Multicore.pdf) [ !! ]| Scritti da [@CasuFrost](https://github.com/CasuFrost) | - |
 | [Cybersecurity](../../raw/main/Bachelor/Terzo%20Anno/Cybersecurity.pdf) 🇬🇧​ | Completed  | 16/03/2025 |
 | [Optimization](../../raw/main/Bachelor/Terzo%20Anno/Optimization.pdf) 🇬🇧​ | Completed | 02/06/2025 |

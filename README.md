@@ -6,6 +6,11 @@
   <a href="https://www.latex-project.org/"><img src="https://img.shields.io/badge/LaTeX-47A141?style=for-the-badge&logo=LaTeX&logoColor=white"/></a>
 </div>
 
+> [!CAUTION]
+> 4 years, the LaTeX source code of these notes will soon go public!!
+>
+> The details are going to be available soon, I'm polishing things up. 
+
 ### ℹ️ Informazioni
 
 Appunti e riassunti personali (ormai veri e propri libri) raccolti a partire dal 2021 durante i miei percorsi di laurea triennale in Informatica e laurea magistrale in Computer Science offerti dall'Università degli Studi di Roma "Sapienza".
@@ -96,19 +101,18 @@ Disclaimers ⚠️
 | Course | Status | Last update |
 | ----- | :----: | :-----------: |
 | [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms.pdf) | Completed | 30/09/2025 |
-| [Autonomous Networking](../../raw/main/Master/Autonomous%20Networking.pdf) | W.I.P. | 11/10/2025 |
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity.pdf) | Completed | 17/02/2025 |
-| [Computer Network Performance](../../raw/main/Master/Computer%20Network%20Performance.pdf) | W.I.P. | 29/10/2025 |
 | [Cryptography](../../raw/main/Master/Cryptography.pdf) | W.I.P. | 25/10/2025 |
-| High Performance Computing | - | 01/10/2025 |
-| Foundations of Mathematics | - | - |
 | [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | Completed | 16/10/2025 |
-| AFC (???) | - | - |
-| [Quantum Computing](https://raw.githubusercontent.com/aflaag-notes/quantum-computing/main/src/Quantum%20Computing.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
-| [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | Completed | 10/03/2025 |
 | [Mathematical Logic for Computer Science](../../raw/main/Master/Mathematical%20Logic%20for%20Computer%20Science.pdf) | Completed | 25/06/2025 |
 | Models of Computation [ !! ] | - | - |
+| [Quantum Computing](https://raw.githubusercontent.com/aflaag-notes/quantum-computing/main/src/Quantum%20Computing.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 | [Network Algorithms](https://raw.githubusercontent.com/aflaag-notes/network-algs/main/src/Network%20Algorithms.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
+| [Autonomous Networking](../../raw/main/Master/Autonomous%20Networking.pdf) | W.I.P. | 11/10/2025 |
+| [Computer Network Performance](../../raw/main/Master/Computer%20Network%20Performance.pdf) | W.I.P. | 29/10/2025 |
+| Internet of Things | - | - |
+| [Distributed Systems](../../raw/main/Distributed%20Systems.pdf) | Only exercises | 13/11/2025 |
+| [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | Completed | 10/03/2025 |
 </details>
 </div>
 

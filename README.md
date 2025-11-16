@@ -111,7 +111,7 @@ Disclaimers ⚠️
 | [Autonomous Networking](../../raw/main/Master/Autonomous%20Networking.pdf) | W.I.P. | 11/10/2025 |
 | [Computer Network Performance](../../raw/main/Master/Computer%20Network%20Performance.pdf) | W.I.P. | 29/10/2025 |
 | Internet of Things | - | - |
-| [Distributed Systems](../../raw/main/Distributed%20Systems.pdf) | Only exercises | 13/11/2025 |
+| [Distributed Systems](../../raw/main/Master/Distributed%20Systems.pdf) | Only exercises | 13/11/2025 |
 | [Machine Learning](../../raw/main/Master/Machine%20Learning.pdf) | Completed | 10/03/2025 |
 </details>
 </div>

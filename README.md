@@ -106,7 +106,7 @@ Disclaimers ⚠️
 | [Graph Theory](../../raw/main/Master/Graph%20Theory.pdf) | Completed | 16/10/2025 |
 | [Mathematical Logic for Computer Science](../../raw/main/Master/Mathematical%20Logic%20for%20Computer%20Science.pdf) | Completed | 25/06/2025 |
 | Models of Computation [ !! ] | - | - |
-| [Quantum Computing](https://raw.githubusercontent.com/aflaag-notes/quantum-computing/main/src/Quantum%20Computing.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
+| [Quantum Computing](https://raw.githubusercontent.com/aflaag-notes/quantum-computing/main/src/Quantum%20Computing.pdf) | Written by [@aflaag](https://github.com/aflaag) | 19/11/2025 |
 | [Network Algorithms](https://raw.githubusercontent.com/aflaag-notes/network-algs/main/src/Network%20Algorithms.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 | [Autonomous Networking](../../raw/main/Master/Autonomous%20Networking.pdf) | W.I.P. | 11/10/2025 |
 | [Computer Network Performance](../../raw/main/Master/Computer%20Network%20Performance.pdf) | W.I.P. | 29/10/2025 |

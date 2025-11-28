@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html class="client-nojs" lang="it" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>File:Determinant 3x3 Example.svg - Wikipedia</title>
+<script>document.documentElement.className="client-js";RLCONF={"wgBreakFrames":false,"wgSeparatorTransformTable":[",\t."," \t,"],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"],"wgRequestId":"07062361-452d-4002-82b5-3bf7e8564113","wgCSPNonce":false,"wgCanonicalNamespace":"File","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":6,"wgPageName":"File:Determinant_3x3_Example.svg","wgTitle":"Determinant 3x3 Example.svg","wgCurRevisionId":0,"wgRevisionId":0,"wgArticleId":0,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":[],"wgPageContentLanguage":"it","wgPageContentModel":"wikitext","wgRelevantPageName":"File:Determinant_3x3_Example.svg","wgRelevantArticleId":0,"wgIsProbablyEditable":true,"wgRelevantPageIsProbablyEditable":true,"wgRestrictionCreate":[],"wgVisualEditor":{
+"pageLanguageCode":"it","pageLanguageDir":"ltr","pageVariantFallbacks":"it"},"wgMFDisplayWikibaseDescriptions":{"search":true,"watchlist":true,"tagline":true,"nearby":true},"wgWMESchemaEditAttemptStepOversample":false,"wgWMEPageLength":0,"wgNoticeProject":"wikipedia","wgVector2022PreviewPages":[],"wgMediaViewerOnClick":true,"wgMediaViewerEnabledByDefault":true,"wgPopupsFlags":10,"wgULSCurrentAutonym":"italiano","wgEditSubmitButtonLabelPublish":true,"wgCentralAuthMobileDomain":false,"wgULSPosition":"interlanguage","wgULSisCompactLinksEnabled":true,"GEHomepageSuggestedEditsEnableTopics":true,"wgGETopicsMatchModeEnabled":false,"wgGEStructuredTaskRejectionReasonTextInputEnabled":false};RLSTATE={"ext.gadget.PDCStriker":"ready","ext.globalCssJs.user.styles":"ready","site.styles":"ready","user.styles":"ready","ext.globalCssJs.user":"ready","user":"ready","user.options":"loading","mediawiki.interface.helpers.styles":"ready","filepage":"ready","mediawiki.action.view.filepage":"ready",
+"skins.vector.styles.legacy":"ready","ext.visualEditor.desktopArticleTarget.noscript":"ready","ext.wikimediaBadges":"ready","ext.uls.interlanguage":"ready"};RLPAGEMODULES=["site","mediawiki.page.ready","skins.vector.legacy.js","mmv.head","mmv.bootstrap.autostart","ext.visualEditor.desktopArticleTarget.init","ext.visualEditor.targetLoader","ext.eventLogging","ext.wikimediaEvents","ext.navigationTiming","ext.cx.eventlogging.campaigns","ext.centralNotice.geoIP","ext.centralNotice.startUp","ext.gadget.InterProject","ext.gadget.MainPageWikiList","ext.gadget.stru-commonsupload","ext.gadget.HiddenCat","ext.gadget.OpenStreetMap","ext.gadget.ReferenceTooltips","ext.gadget.WikiMiniAtlas","ext.gadget.ExternalSearch","ext.gadget.Form-valutazione-enc","ext.gadget.NewSection","ext.gadget.RichiediRevisioneBozza","ext.gadget.Requests-Wizard","ext.centralauth.centralautologin","ext.popups","ext.echo.centralauth","ext.uls.compactlinks","ext.uls.interface"];</script>
+<script>(RLQ=window.RLQ||[]).push(function(){mw.loader.implement("user.options@12s5i",function($,jQuery,require,module){mw.user.tokens.set({"patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});});});</script>
+<link rel="stylesheet" href="/w/load.php?lang=it&amp;modules=ext.uls.interlanguage%7Cext.visualEditor.desktopArticleTarget.noscript%7Cext.wikimediaBadges%7Cfilepage%7Cmediawiki.action.view.filepage%7Cmediawiki.interface.helpers.styles%7Cskins.vector.styles.legacy&amp;only=styles&amp;skin=vector"/>
+<script async="" src="/w/load.php?lang=it&amp;modules=startup&amp;only=scripts&amp;raw=1&amp;skin=vector"></script>
+<link rel="stylesheet" href="https://commons.wikimedia.org/w/index.php?title=MediaWiki:Filepage.css&amp;action=raw&amp;ctype=text/css"/>
+<meta name="ResourceLoaderDynamicStyles" content=""/>
+<link rel="stylesheet" href="/w/load.php?lang=it&amp;modules=ext.gadget.PDCStriker&amp;only=styles&amp;skin=vector"/>
+<link rel="stylesheet" href="/w/load.php?lang=it&amp;modules=site.styles&amp;only=styles&amp;skin=vector"/>
+<meta name="generator" content="MediaWiki 1.40.0-wmf.14"/>
+<meta name="referrer" content="origin"/>
+<meta name="referrer" content="origin-when-crossorigin"/>
+<meta name="referrer" content="origin-when-cross-origin"/>
+<meta name="robots" content="max-image-preview:standard"/>
+<meta name="format-detection" content="telephone=no"/>
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Determinant_3x3_Example.svg/1200px-Determinant_3x3_Example.svg.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="873"/>
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Determinant_3x3_Example.svg/800px-Determinant_3x3_Example.svg.png"/>
+<meta property="og:image:width" content="800"/>
+<meta property="og:image:height" content="582"/>
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Determinant_3x3_Example.svg/640px-Determinant_3x3_Example.svg.png"/>
+<meta property="og:image:width" content="640"/>
+<meta property="og:image:height" content="465"/>
+<meta name="viewport" content="width=1000"/>
+<meta property="og:title" content="File:Determinant 3x3 Example.svg - Wikipedia"/>
+<meta property="og:type" content="website"/>
+<link rel="preconnect" href="//upload.wikimedia.org"/>
+<link rel="preconnect" href="//upload.wikimedia.org"/>
+<link rel="alternate" media="only screen and (max-width: 720px)" href="//it.m.wikipedia.org/wiki/File:Determinant_3x3_Example.svg"/>
+<link rel="alternate" type="application/x-wiki" title="Modifica" href="/w/index.php?title=File:Determinant_3x3_Example.svg&amp;action=edit"/>
+<link rel="apple-touch-icon" href="/static/apple-touch/wikipedia.png"/>
+<link rel="icon" href="/static/favicon/wikipedia.ico"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/w/opensearch_desc.php" title="Wikipedia (it)"/>
+<link rel="EditURI" type="application/rsd+xml" href="//it.wikipedia.org/w/api.php?action=rsd"/>
+<link rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/"/>
+<link rel="canonical" href="https://commons.wikimedia.org/wiki/File:Determinant_3x3_Example.svg"/>
+<link rel="dns-prefetch" href="//meta.wikimedia.org" />
+<link rel="dns-prefetch" href="//login.wikimedia.org"/>
+</head>
+<body class="skin-vector-legacy mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-6 ns-subject mw-editable page-File_Determinant_3x3_Example_svg rootpage-File_Determinant_3x3_Example_svg skin-vector action-view vector-feature-language-in-header-enabled vector-feature-language-in-main-page-header-disabled vector-feature-language-alert-in-sidebar-enabled vector-feature-sticky-header-disabled vector-feature-sticky-header-edit-disabled vector-feature-page-tools-disabled vector-feature-page-tools-pinned-disabled vector-feature-limited-width-enabled vector-feature-limited-width-content-enabled"><div id="mw-page-base" class="noprint"></div>
+<div id="mw-head-base" class="noprint"></div>
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	<div id="siteNotice"><!-- CentralNotice --><!--esi <esi:include src="/esitest-fa8a495983347898/content" /> --> </div>
+	<div class="mw-indicators">
+	<div id="mw-indicator-commons" class="mw-indicator"><span typeof="mw:File"><a href="https://commons.wikimedia.org/wiki/File:Determinant_3x3_Example.svg" title="File proveniente da Wikimedia Commons. Clicca per visitare la pagina originale"><img alt="File proveniente da Wikimedia Commons. Clicca per visitare la pagina originale" src="//upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Commons-logo.svg/30px-Commons-logo.svg.png" decoding="async" width="30" height="40" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Commons-logo.svg/45px-Commons-logo.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Commons-logo.svg/60px-Commons-logo.svg.png 2x" data-file-width="1024" data-file-height="1376" /></a></span></div>
+	</div>
+	<h1 id="firstHeading" class="firstHeading mw-first-heading">File:Determinant 3x3 Example.svg</h1>
+	<div id="bodyContent" class="vector-body">
+		<div id="siteSub" class="noprint">Da Wikipedia, l&#039;enciclopedia libera.</div>
+		<div id="contentSub"><div id="mw-content-subtitle"></div></div>
+		<div id="contentSub2"></div>
+		
+		<div id="jump-to-nav"></div>
+		<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+		<a class="mw-jump-link" href="#searchInput">Jump to search</a>
+		<div id="mw-content-text" class="mw-body-content"><ul id="filetoc"><li><a href="#file">File</a></li>
+<li><a href="#filehistory">Cronologia del file</a></li>
+<li><a href="#filelinks">Pagine che usano questo file</a></li>
+<li><a href="#globalusage">Utilizzo globale del file</a></li></ul><div class="fullImageLink" id="file"><a href="//upload.wikimedia.org/wikipedia/commons/d/d6/Determinant_3x3_Example.svg"><img alt="File:Determinant 3x3 Example.svg" src="//upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Determinant_3x3_Example.svg/440px-Determinant_3x3_Example.svg.png" decoding="async" width="440" height="320" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Determinant_3x3_Example.svg/660px-Determinant_3x3_Example.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Determinant_3x3_Example.svg/880px-Determinant_3x3_Example.svg.png 2x" data-file-width="440" data-file-height="320" /></a><div class="mw-filepage-resolutioninfo">Dimensioni di questa anteprima PNG per questo file SVG: <a href="//upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Determinant_3x3_Example.svg/440px-Determinant_3x3_Example.svg.png" class="mw-thumbnail-link">440 × 320 pixel</a>. <span class="mw-filepage-other-resolutions">Altre risoluzioni: <a href="//upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Determinant_3x3_Example.svg/320px-Determinant_3x3_Example.svg.png" class="mw-thumbnail-link">320 × 233 pixel</a> | <a href="//upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Determinant_3x3_Example.svg/640px-Determinant_3x3_Example.svg.png" class="mw-thumbnail-link">640 × 465 pixel</a> | <a href="//upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Determinant_3x3_Example.svg/1024px-Determinant_3x3_Example.svg.png" class="mw-thumbnail-link">1&#160;024 × 745 pixel</a> | <a href="//upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Determinant_3x3_Example.svg/1280px-Determinant_3x3_Example.svg.png" class="mw-thumbnail-link">1&#160;280 × 931 pixel</a> | <a href="//upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Determinant_3x3_Example.svg/2560px-Determinant_3x3_Example.svg.png" class="mw-thumbnail-link">2&#160;560 × 1&#160;862 pixel</a>.</span></div></div>
+<div class="fullMedia"><p><a href="//upload.wikimedia.org/wikipedia/commons/d/d6/Determinant_3x3_Example.svg" class="internal" title="Determinant 3x3 Example.svg">File originale</a> &#8206;<span class="fileInfo">(file in formato SVG, dimensioni nominali 440 × 320 pixel, dimensione del file: 17 KB)</span>
+</p></div><div class="sharedUploadNotice">
+<div style="clear:both;"></div>
+<table border="0" cellspacing="2" style="border:3px solid #307090; background:#f9f9f9; margin:.2em auto .2em auto;">
+<tbody><tr>
+<td style="padding:0 5px;"><figure class="mw-halign-left" typeof="mw:File"><a href="/wiki/File:Commons-logo.svg" class="mw-file-description" title="Logo di Commons"><img alt="Logo di Commons" src="//upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Commons-logo.svg/30px-Commons-logo.svg.png" decoding="async" width="30" height="40" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Commons-logo.svg/45px-Commons-logo.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Commons-logo.svg/60px-Commons-logo.svg.png 2x" data-file-width="1024" data-file-height="1376" /></a><figcaption>Logo di Commons</figcaption></figure>
+</td>
+<td style="padding:0 5px;">Questo file e la <span class="plainlinks"><b><a class="external text" href="https://commons.wikimedia.org/wiki/Image:Determinant_3x3_Example.svg?uselang=it">sua pagina di descrizione</a></b></span> (<a href="https://commons.wikimedia.org/wiki/Image_talk:Determinant_3x3_Example.svg" class="extiw" title="commons:Image talk:Determinant 3x3 Example.svg">discussione</a> · <a class="external text" href="https://commons.wikimedia.org/w/index.php?title=Image:Determinant_3x3_Example.svg&amp;action=edit">modifica</a>) si trovano su <a href="https://commons.wikimedia.org/wiki/Pagina_principale" class="extiw" title="commons:Pagina principale">Wikimedia Commons</a> (<a href="https://commons.wikimedia.org/wiki/Commons:Benvenuto" class="extiw" title="commons:Commons:Benvenuto">?</a>)
+</td></tr></tbody></table>
+</div>
+<div id="shared-image-desc"><div class="mw-parser-output"><div class="hproduct commons-file-information-table">
+<table class="fileinfotpl-type-information toccolours vevent mw-content-ltr" style="width: 100%; direction: ltr;" cellpadding="4"><tbody><tr style="vertical-align: top"><td id="fileinfotpl_desc" class="fileinfo-paramfield" lang="it">Descrizione<span class="summary fn" style="display:none">Determinant 3x3 Example.svg</span></td>
+<td class="description">
+This image is an example of how to easily remember the order of operations for calculating the determinant of a 3x3 matrix using the diagonals and back-diagonals as indicated.</td>
+</tr><tr style="vertical-align: top"><td id="fileinfotpl_date" class="fileinfo-paramfield" lang="it">Data</td>
+<td lang="it">
+<time class="dtstart" datetime="2008-08-11 21:02" lang="it" dir="ltr" style="white-space:nowrap">11 agosto 2008, 21:02</time> (UTC)</td>
+</tr><tr style="vertical-align: top"><td id="fileinfotpl_src" class="fileinfo-paramfield" lang="it">Fonte</td>
+<td>
+<ul><li><a href="//commons.wikimedia.org/wiki/File:Determinant_3x3_Example_Barking_Mad_1.jpg" title="File:Determinant 3x3 Example Barking Mad 1.jpg">Determinant_3x3_Example_Barking_Mad_1.jpg</a></li></ul></td>
+</tr><tr style="vertical-align: top"><td id="fileinfotpl_aut" class="fileinfo-paramfield" lang="it">Autore</td>
+<td>
+<ul><li>opera derivata <a href="//commons.wikimedia.org/w/index.php?title=User:Fiachra&amp;action=edit&amp;redlink=1" class="new" title="User:Fiachra (page does not exist)">Fiachra</a></li>
+<li><a href="//commons.wikimedia.org/wiki/File:Determinant_3x3_Example_Barking_Mad_1.jpg" title="File:Determinant 3x3 Example Barking Mad 1.jpg">File:Determinant 3x3 Example Barking Mad 1.jpg</a>: <a href="//commons.wikimedia.org/w/index.php?title=User:Barking_Mad142&amp;action=edit&amp;redlink=1" class="new" title="User:Barking Mad142 (page does not exist)">user:Barking Mad142</a></li></ul></td>
+</tr><tr style="vertical-align: top"><td style="" class="fileinfo-paramfield">SVG sviluppo<div style="display: none;">InfoField</div></td><td style=""><div style="vertical-align:middle"><div style="display:inline-block;width:auto;white-space:nowrap;vertical-align:middle;direction:ltr;float:ltr;line-height:22px;height:24px;font-size:.96em;margin:0px;padding:2px 4px 2px 6px;color:#000;background:#F8F9FA;border:1px solid #BAB;padding:2px 4px 2px 0px;"><a href="//commons.wikimedia.org/wiki/File:W3C_grn.svg" class="image"><img alt="W3C grn.svg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/W3C_grn.svg/40px-W3C_grn.svg.png" decoding="async" width="40" height="24" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/W3C_grn.svg/60px-W3C_grn.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/W3C_grn.svg/80px-W3C_grn.svg.png 2x" data-file-width="288" data-file-height="174"></a> <div lang="it" dir="ltr" class="description it" style="display:inline;">Il codice sorgente di questo <a href="//commons.wikimedia.org/wiki/Help:SVG" title="Help:SVG">file SVG</a> è <span class="plainlinks" style="background:#CE8"><a rel="nofollow" class="external text" href="//validator.w3.org/check?uri=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FSpecial%3AFilepath%2FDeterminant_3x3_Example.svg&amp;doctype=Inline&amp;ss=1#source">valido</a></span>.</div></div><div style="display:inline-block;width:auto;white-space:nowrap;vertical-align:middle;direction:ltr;float:ltr;line-height:22px;height:24px;font-size:.96em;margin:0px;padding:2px 4px 2px 6px;color:#000;background:#F8F9FA;border:1px solid #BAB;"><a href="//commons.wikimedia.org/wiki/File:Adobe-yes.svg" class="image"><img alt="Adobe-yes.svg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Adobe-yes.svg/23px-Adobe-yes.svg.png" decoding="async" width="23" height="22" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Adobe-yes.svg/35px-Adobe-yes.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Adobe-yes.svg/47px-Adobe-yes.svg.png 2x" data-file-width="342" data-file-height="322"></a> <div lang="it" dir="ltr" class="description it" style="display:inline;">Questa  <a href="https://it.wikipedia.org/wiki/grafica_vettoriale" class="extiw" title="it:grafica vettoriale">grafica vettoriale</a>   è stata creata con <a href="https://it.wikipedia.org/wiki/Adobe_Illustrator" class="extiw" title="it:Adobe Illustrator">Adobe Illustrator</a></div></div></div></td>
+</tr></tbody></table><table class="layouttemplate" style="margin: 0.5em auto; width: 100%; background-color: #f8f8f8; border: 2px solid #e0e0e0; padding: 5px;" lang="it" dir="ltr"><tbody><tr><td style="padding:5px;"><div class="wpImageAnnotatorControl wpImageAnnotatorOff"><a href="//commons.wikimedia.org/wiki/File:Applications-graphics.svg" class="image"><img alt="Applications-graphics.svg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Applications-graphics.svg/45px-Applications-graphics.svg.png" decoding="async" width="45" height="45" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Applications-graphics.svg/68px-Applications-graphics.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Applications-graphics.svg/90px-Applications-graphics.svg.png 2x" data-file-width="48" data-file-height="48"></a></div>
+</td>
+<td style="width:100%;">Questa è una <i><b><a href="https://en.wikipedia.org/wiki/Image_editing" class="extiw" title="en:Image editing">immagine ritoccata</a></b></i>, il che significa che è stata modificata digitalmente dalla sua versione originale. Modifiche: <i>Converted to SVG</i>. La versione originale può essere vista qui: <a href="//commons.wikimedia.org/wiki/File:Determinant_3x3_Example_Barking_Mad_1.jpg" title="File:Determinant 3x3 Example Barking Mad 1.jpg"><b>Determinant 3x3 Example Barking Mad 1.jpg</b></a>. Le modifiche sono di <i><a href="//commons.wikimedia.org/w/index.php?title=User:Fiachra&amp;action=edit&amp;redlink=1" class="new" title="User:Fiachra (page does not exist)">Fiachra</a></i>.
+<p><span class="layouttemplateargs" style="display:none;speak:none;" title="template=Retouched+picture 1%3D 2%3D 3%3D 4%3D 5%3D"> </span>
+</p>
+</td></tr></tbody></table></div>
+<div style="clear:both; margin:0.5em auto; background-color:#eee; border:2px solid #ddd; padding:8px; direction: ltr;" class="licensetpl_wrapper">
+<div class="center" style="font-weight:bold;"><div lang="it" dir="ltr" class="description it" style="display:inline;">Io, detentore del copyright su quest'opera, dichiaro di pubblicarla con la seguente licenza:</div></div>
+<table class="licensetpl" style="display:none"><tbody><tr><td><span class="licensetpl_short">Public domain</span><span class="licensetpl_long">Public domain</span><span class="licensetpl_link_req">false</span><span class="licensetpl_attr_req">false</span>
+</td></tr></tbody></table><table style="width:100%; clear:both; margin:0.5em auto; background-color:#f7f8ff; border:2px solid #8888aa; direction: ltr; border-spacing: 8px; padding: 0px;" class="layouttemplate mw-content-ltr" lang="it"><tbody><tr><td><img alt="Public domain" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/PD-icon.svg/64px-PD-icon.svg.png" decoding="async" title="Public domain" width="64" height="64" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/PD-icon.svg/96px-PD-icon.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/PD-icon.svg/128px-PD-icon.svg.png 2x" data-file-width="196" data-file-height="196"></td>
+<td>Io, detentore del copyright su quest'opera, la rilascio nel <b><a href="https://en.wikipedia.org/wiki/it:Pubblico_dominio" class="extiw" title="w:it:Pubblico dominio">pubblico dominio</a></b>. Questa norma si applica in tutto il mondo.<br><small>In alcuni paesi questo potrebbe non essere legalmente possibile. In tal caso:</small><br><i>Garantisco a chiunque il diritto di utilizzare quest'opera <b>per qualsiasi scopo</b>, senza alcuna condizione, a meno che tali condizioni siano richieste dalla legge.</i>
+</td></tr></tbody></table></div>
+<h2><span class="mw-headline" id="Registro_originale_del_caricamento">Registro originale del caricamento</span></h2>
+<p>This image is a derivative work of the following images:
+</p>
+<ul><li><a href="//commons.wikimedia.org/wiki/File:Determinant_3x3_Example_Barking_Mad_1.jpg" title="File:Determinant 3x3 Example Barking Mad 1.jpg">Image:Determinant_3x3_Example_Barking_Mad_1.jpg</a> licensed with PD-self
+<ul><li>2007-10-31T04:23:15Z <a href="//commons.wikimedia.org/wiki/User:Tarif" title="User:Tarif">Tarif</a> 640x480 (25949 Bytes) <i>{{Information |Description=This image is an example of how to easily remember the order of operations for calculating the determinant of a 3x3 matrix using the diagonals and back-diagonals as indicated. |Source=http://en.wiki</i></li></ul></li></ul><p><i>Uploaded with <a href="//commons.wikimedia.org/wiki/Commons:DerivativeFX" title="Commons:DerivativeFX">derivativeFX</a></i>
+</p><h1 class="mw-slot-header"><mediainfoslotheader></mediainfoslotheader></h1><mediainfoview style="display: none"><mediainfoviewcaptions><div class="wbmi-entityview-captionsPanel oo-ui-layout oo-ui-panelLayout oo-ui-panelLayout-framed"><h3 class="wbmi-entityview-captions-header">Didascalie</h3><div class="wbmi-entityview-caption oo-ui-layout oo-ui-horizontalLayout"><label class="wbmi-language-label oo-ui-widget oo-ui-widget-enabled oo-ui-labelElement-label oo-ui-labelElement oo-ui-labelWidget">italiano</label><div lang="it" dir="ltr" class="wbmi-caption-value wbmi-entityview-emptyCaption">Aggiungi una brevissima spiegazione di ciò che questo file rappresenta</div></div></div></mediainfoviewcaptions><mediainfoviewstatements><div id="P180" data-property="P180" data-statements="[]" data-formatvalue="[]" class="wbmi-entityview-statementsGroup wbmi-entityview-statementsGroup-P180 oo-ui-layout oo-ui-panelLayout oo-ui-panelLayout-framed"><div class="wbmi-statements-widget"><div class="wbmi-statement-header"><div class="wbmi-entity-data"><div class="wbmi-entity-title"><h3 class="wbmi-statements-title">Elementi ritratti in questo file</h3><h4 class="wbmi-entity-label"><bdi><a target="_blank" title="d:Special:EntityPage/P180" href="https://www.wikidata.org/wiki/Special:EntityPage/P180">raffigura</a></bdi></h4></div></div></div><div class="wbmi-content-items-group"></div></div></div><div id="P170" data-property="P170" data-statements='[{"mainsnak":{"snaktype":"somevalue","property":"P170","hash":"d3550e860f988c6675fff913440993f58f5c40c5"},"type":"statement","qualifiers":{"P2093":[{"snaktype":"value","property":"P2093","hash":"bdf5594a608629266ac7345a49759926cbbf576a","datavalue":{"value":"Fiachra","type":"string"}}],"P4174":[{"snaktype":"value","property":"P4174","hash":"6c59929f0be26e4ad1362cb00091a525833ed8d8","datavalue":{"value":"Fiachra","type":"string"}}]},"qualifiers-order":["P2093","P4174"],"id":"M4542892$B44FF1C9-DC99-427B-BB1A-038BB2EEC1E9","rank":"normal"}]' data-formatvalue="{&quot;{\&quot;value\&quot;:{\&quot;entity-type\&quot;:\&quot;property\&quot;,\&quot;numeric-id\&quot;:170,\&quot;id\&quot;:\&quot;P170\&quot;},\&quot;type\&quot;:\&quot;wikibase-entityid\&quot;}&quot;:{&quot;text\/html&quot;:{&quot;it&quot;:{&quot;&quot;:&quot;&lt;a target=\&quot;_blank\&quot; title=\&quot;d:Special:EntityPage\/P170\&quot; href=\&quot;https:\/\/www.wikidata.org\/wiki\/Special:EntityPage\/P170\&quot;&gt;creatore&lt;\/a&gt;&quot;}},&quot;text\/plain&quot;:{&quot;it&quot;:{&quot;&quot;:&quot;creatore&quot;}}},&quot;{\&quot;value\&quot;:{\&quot;entity-type\&quot;:\&quot;property\&quot;,\&quot;numeric-id\&quot;:2093,\&quot;id\&quot;:\&quot;P2093\&quot;},\&quot;type\&quot;:\&quot;wikibase-entityid\&quot;}&quot;:{&quot;text\/html&quot;:{&quot;it&quot;:{&quot;&quot;:&quot;&lt;a target=\&quot;_blank\&quot; title=\&quot;d:Special:EntityPage\/P2093\&quot; href=\&quot;https:\/\/www.wikidata.org\/wiki\/Special:EntityPage\/P2093\&quot;&gt;stringa del nome dell'autore&lt;\/a&gt;&quot;}},&quot;text\/plain&quot;:{&quot;it&quot;:{&quot;&quot;:&quot;stringa del nome dell'autore&quot;}}},&quot;{\&quot;value\&quot;:\&quot;Fiachra\&quot;,\&quot;type\&quot;:\&quot;string\&quot;}&quot;:{&quot;text\/html&quot;:{&quot;it&quot;:{&quot;P2093&quot;:&quot;Fiachra&quot;,&quot;P4174&quot;:&quot;&lt;a target=\&quot;_blank\&quot; class=\&quot;wb-external-id external\&quot; href=\&quot;https:\/\/www.wikidata.org\/wiki\/Special:CentralAuth?target=Fiachra\&quot; rel=\&quot;nofollow\&quot;&gt;Fiachra&lt;\/a&gt;&quot;}},&quot;text\/plain&quot;:{&quot;it&quot;:{&quot;P2093&quot;:&quot;Fiachra&quot;,&quot;P4174&quot;:&quot;Fiachra&quot;}}},&quot;{\&quot;value\&quot;:{\&quot;entity-type\&quot;:\&quot;property\&quot;,\&quot;numeric-id\&quot;:4174,\&quot;id\&quot;:\&quot;P4174\&quot;},\&quot;type\&quot;:\&quot;wikibase-entityid\&quot;}&quot;:{&quot;text\/html&quot;:{&quot;it&quot;:{&quot;&quot;:&quot;&lt;a target=\&quot;_blank\&quot; title=\&quot;d:Special:EntityPage\/P4174\&quot; href=\&quot;https:\/\/www.wikidata.org\/wiki\/Special:EntityPage\/P4174\&quot;&gt;nome utente nei progetti Wikimedia&lt;\/a&gt;&quot;}},&quot;text\/plain&quot;:{&quot;it&quot;:{&quot;&quot;:&quot;nome utente nei progetti Wikimedia&quot;}}}}" class="wbmi-entityview-statementsGroup wbmi-entityview-statementsGroup-P170 oo-ui-layout oo-ui-panelLayout oo-ui-panelLayout-framed"><div class="wbmi-statements-widget"><div class="wbmi-statement-header"><div class="wbmi-entity-data"><div class="wbmi-entity-title"><h4 class="wbmi-entity-label"><bdi><a target="_blank" title="d:Special:EntityPage/P170" href="https://www.wikidata.org/wiki/Special:EntityPage/P170">creatore</a></bdi></h4></div></div></div><div class="wbmi-content-items-group"><div class="wbmi-item wbmi-item-read"><div data-guid="M4542892$B44FF1C9-DC99-427B-BB1A-038BB2EEC1E9" class="wbmi-item-container"><div class="wbmi-entity-header"><div class="wbmi-entity-data"><div class="wbmi-entity-title"><h4 class="wbmi-entity-label"><bdi>Valore sconosciuto senza un elemento Wikidata</bdi></h4></div></div></div><div class="wbmi-item-qualifiers"><div class="wbmi-snaklist-container"><div class="wbmi-snaklist-content"><div class="wbmi-snak"><div class="wbmi-snak-value"><a target="_blank" title="d:Special:EntityPage/P2093" href="https://www.wikidata.org/wiki/Special:EntityPage/P2093">stringa del nome dell'autore</a><span class="wbmi-snak-value-separator">: </span><span class="wbmi-snak-value--value">Fiachra</span></div></div><div class="wbmi-snak"><div class="wbmi-snak-value"><a target="_blank" title="d:Special:EntityPage/P4174" href="https://www.wikidata.org/wiki/Special:EntityPage/P4174">nome utente nei progetti Wikimedia</a><span class="wbmi-snak-value-separator">: </span><span class="wbmi-snak-value--value"><a target="_blank" class="wb-external-id external" href="https://www.wikidata.org/wiki/Special:CentralAuth?target=Fiachra" rel="nofollow">Fiachra</a></span></div></div></div></div></div></div></div></div></div></div><div id="P6216" data-property="P6216" data-statements='[{"mainsnak":{"snaktype":"value","property":"P6216","hash":"f88a8b9472789ca66067ed50ce20dc2650af5744","datavalue":{"value":{"entity-type":"item","numeric-id":88088423,"id":"Q88088423"},"type":"wikibase-entityid"}},"type":"statement","id":"M4542892$F40CD733-09DF-4CBA-9E22-82628F97A763","rank":"normal"}]' data-formatvalue="{&quot;{\&quot;value\&quot;:{\&quot;entity-type\&quot;:\&quot;property\&quot;,\&quot;numeric-id\&quot;:6216,\&quot;id\&quot;:\&quot;P6216\&quot;},\&quot;type\&quot;:\&quot;wikibase-entityid\&quot;}&quot;:{&quot;text\/html&quot;:{&quot;it&quot;:{&quot;&quot;:&quot;&lt;a target=\&quot;_blank\&quot; title=\&quot;d:Special:EntityPage\/P6216\&quot; href=\&quot;https:\/\/www.wikidata.org\/wiki\/Special:EntityPage\/P6216\&quot;&gt;stato del copyright&lt;\/a&gt;&quot;}},&quot;text\/plain&quot;:{&quot;it&quot;:{&quot;&quot;:&quot;stato del copyright&quot;}}},&quot;{\&quot;value\&quot;:{\&quot;entity-type\&quot;:\&quot;item\&quot;,\&quot;numeric-id\&quot;:88088423,\&quot;id\&quot;:\&quot;Q88088423\&quot;},\&quot;type\&quot;:\&quot;wikibase-entityid\&quot;}&quot;:{&quot;text\/html&quot;:{&quot;it&quot;:{&quot;P6216&quot;:&quot;&lt;a target=\&quot;_blank\&quot; title=\&quot;d:Special:EntityPage\/Q88088423\&quot; href=\&quot;https:\/\/www.wikidata.org\/wiki\/Special:EntityPage\/Q88088423\&quot;&gt;rilasciato in pubblico dominio da chi detiene i diritti d'autore&lt;\/a&gt;&quot;}},&quot;text\/plain&quot;:{&quot;it&quot;:{&quot;P6216&quot;:&quot;rilasciato in pubblico dominio da chi detiene i diritti d'autore&quot;}}}}" class="wbmi-entityview-statementsGroup wbmi-entityview-statementsGroup-P6216 oo-ui-layout oo-ui-panelLayout oo-ui-panelLayout-framed"><div class="wbmi-statements-widget"><div class="wbmi-statement-header"><div class="wbmi-entity-data"><div class="wbmi-entity-title"><h4 class="wbmi-entity-label"><bdi><a target="_blank" title="d:Special:EntityPage/P6216" href="https://www.wikidata.org/wiki/Special:EntityPage/P6216">stato del copyright</a></bdi></h4></div></div></div><div class="wbmi-content-items-group"><div class="wbmi-item wbmi-item-read"><div data-guid="M4542892$F40CD733-09DF-4CBA-9E22-82628F97A763" class="wbmi-item-container"><div class="wbmi-entity-header"><div class="wbmi-entity-data"><div class="wbmi-entity-title"><h4 class="wbmi-entity-label"><bdi><a target="_blank" title="d:Special:EntityPage/Q88088423" href="https://www.wikidata.org/wiki/Special:EntityPage/Q88088423">rilasciato in pubblico dominio da chi detiene i diritti d'autore</a></bdi></h4></div></div></div></div></div></div></div></div><div id="P275" data-property="P275" data-statements='[{"mainsnak":{"snaktype":"value","property":"P275","hash":"c50f467f552350584a199dd3c9ceadf026c05180","datavalue":{"value":{"entity-type":"item","numeric-id":98592850,"id":"Q98592850"},"type":"wikibase-entityid"}},"type":"statement","id":"M4542892$FD07FF4E-75D5-443E-A49E-B6BF1FE86AE0","rank":"normal"}]' data-formatvalue='{"{\"value\":{\"entity-type\":\"property\",\"numeric-id\":275,\"id\":\"P275\"},\"type\":\"wikibase-entityid\"}":{"text\/html":{"it":{"":"&lt;a target=\"_blank\" title=\"d:Special:EntityPage\/P275\" href=\"https:\/\/www.wikidata.org\/wiki\/Special:EntityPage\/P275\"&gt;licenza&lt;\/a&gt;"}},"text\/plain":{"it":{"":"licenza"}}},"{\"value\":{\"entity-type\":\"item\",\"numeric-id\":98592850,\"id\":\"Q98592850\"},\"type\":\"wikibase-entityid\"}":{"text\/html":{"it":{"P275":"&lt;a target=\"_blank\" title=\"d:Special:EntityPage\/Q98592850\" href=\"https:\/\/www.wikidata.org\/wiki\/Special:EntityPage\/Q98592850\"&gt;rilasciato nel pubblico dominio dal detentore del copyright&lt;\/a&gt;"}},"text\/plain":{"it":{"P275":"rilasciato nel pubblico dominio dal detentore del copyright"}}}}' class="wbmi-entityview-statementsGroup wbmi-entityview-statementsGroup-P275 oo-ui-layout oo-ui-panelLayout oo-ui-panelLayout-framed"><div class="wbmi-statements-widget"><div class="wbmi-statement-header"><div class="wbmi-entity-data"><div class="wbmi-entity-title"><h4 class="wbmi-entity-label"><bdi><a target="_blank" title="d:Special:EntityPage/P275" href="https://www.wikidata.org/wiki/Special:EntityPage/P275">licenza</a></bdi></h4></div></div></div><div class="wbmi-content-items-group"><div class="wbmi-item wbmi-item-read"><div data-guid="M4542892$FD07FF4E-75D5-443E-A49E-B6BF1FE86AE0" class="wbmi-item-container"><div class="wbmi-entity-header"><div class="wbmi-entity-data"><div class="wbmi-entity-title"><h4 class="wbmi-entity-label"><bdi><a target="_blank" title="d:Special:EntityPage/Q98592850" href="https://www.wikidata.org/wiki/Special:EntityPage/Q98592850">rilasciato nel pubblico dominio dal detentore del copyright</a></bdi></h4></div></div></div></div></div></div></div></div><div id="P7482" data-property="P7482" data-statements='[{"mainsnak":{"snaktype":"value","property":"P7482","hash":"83568a288a8b8b4714a68e7239d8406833762864","datavalue":{"value":{"entity-type":"item","numeric-id":66458942,"id":"Q66458942"},"type":"wikibase-entityid"}},"type":"statement","id":"M4542892$CE2BCDD1-E9CE-4302-B8F9-F7462BD271AA","rank":"normal"}]' data-formatvalue='{"{\"value\":{\"entity-type\":\"property\",\"numeric-id\":7482,\"id\":\"P7482\"},\"type\":\"wikibase-entityid\"}":{"text\/html":{"it":{"":"&lt;a target=\"_blank\" title=\"d:Special:EntityPage\/P7482\" href=\"https:\/\/www.wikidata.org\/wiki\/Special:EntityPage\/P7482\"&gt;origine del file&lt;\/a&gt;"}},"text\/plain":{"it":{"":"origine del file"}}},"{\"value\":{\"entity-type\":\"item\",\"numeric-id\":66458942,\"id\":\"Q66458942\"},\"type\":\"wikibase-entityid\"}":{"text\/html":{"it":{"P7482":"&lt;a target=\"_blank\" title=\"d:Special:EntityPage\/Q66458942\" href=\"https:\/\/www.wikidata.org\/wiki\/Special:EntityPage\/Q66458942\"&gt;creazione originale della persona che ha caricato il file&lt;\/a&gt;"}},"text\/plain":{"it":{"P7482":"creazione originale della persona che ha caricato il file"}}}}' class="wbmi-entityview-statementsGroup wbmi-entityview-statementsGroup-P7482 oo-ui-layout oo-ui-panelLayout oo-ui-panelLayout-framed"><div class="wbmi-statements-widget"><div class="wbmi-statement-header"><div class="wbmi-entity-data"><div class="wbmi-entity-title"><h4 class="wbmi-entity-label"><bdi><a target="_blank" title="d:Special:EntityPage/P7482" href="https://www.wikidata.org/wiki/Special:EntityPage/P7482">origine del file</a></bdi></h4></div></div></div><div class="wbmi-content-items-group"><div class="wbmi-item wbmi-item-read"><div data-guid="M4542892$CE2BCDD1-E9CE-4302-B8F9-F7462BD271AA" class="wbmi-item-container"><div class="wbmi-entity-header"><div class="wbmi-entity-data"><div class="wbmi-entity-title"><h4 class="wbmi-entity-label"><bdi><a target="_blank" title="d:Special:EntityPage/Q66458942" href="https://www.wikidata.org/wiki/Special:EntityPage/Q66458942">creazione originale della persona che ha caricato il file</a></bdi></h4></div></div></div></div></div></div></div></div><div id="P1163" data-property="P1163" data-statements='[{"mainsnak":{"snaktype":"value","property":"P1163","hash":"636199d1806c7cdbae57b4d4298f38fade12d052","datavalue":{"value":"image\/svg+xml","type":"string"}},"type":"statement","id":"M4542892$511EFAC6-75DF-422B-A890-57DB49441B9F","rank":"normal"}]' data-formatvalue='{"{\"value\":{\"entity-type\":\"property\",\"numeric-id\":1163,\"id\":\"P1163\"},\"type\":\"wikibase-entityid\"}":{"text\/html":{"it":{"":"&lt;a target=\"_blank\" title=\"d:Special:EntityPage\/P1163\" href=\"https:\/\/www.wikidata.org\/wiki\/Special:EntityPage\/P1163\"&gt;tipo di file&lt;\/a&gt;"}},"text\/plain":{"it":{"":"tipo di file"}}},"{\"value\":\"image\\\/svg+xml\",\"type\":\"string\"}":{"text\/html":{"it":{"P1163":"image\/svg+xml"}},"text\/plain":{"it":{"P1163":"image\/svg+xml"}}}}' class="wbmi-entityview-statementsGroup wbmi-entityview-statementsGroup-P1163 oo-ui-layout oo-ui-panelLayout oo-ui-panelLayout-framed"><div class="wbmi-statements-widget"><div class="wbmi-statement-header"><div class="wbmi-entity-data"><div class="wbmi-entity-title"><h4 class="wbmi-entity-label"><bdi><a target="_blank" title="d:Special:EntityPage/P1163" href="https://www.wikidata.org/wiki/Special:EntityPage/P1163">tipo di file</a></bdi></h4></div></div></div><div class="wbmi-content-items-group"><div class="wbmi-item wbmi-item-read"><div data-guid="M4542892$511EFAC6-75DF-422B-A890-57DB49441B9F" class="wbmi-item-container"><div class="wbmi-entity-header"><div class="wbmi-entity-data"><div class="wbmi-entity-title"><h4 class="wbmi-entity-label"><bdi>image/svg+xml</bdi></h4></div></div></div></div></div></div></div></div></mediainfoviewstatements></mediainfoview><!-- 
+NewPP limit report
+Parsed by mw1407
+Cached time: 20221222210853
+Cache expiry: 1814400
+Reduced expiry: false
+Complications: []
+CPU time usage: 0.162 seconds
+Real time usage: 0.228 seconds
+Preprocessor visited node count: 6023/1000000
+Post‐expand include size: 42437/2097152 bytes
+Template argument size: 7292/2097152 bytes
+Highest expansion depth: 34/100
+Expensive parser function count: 4/500
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 225/5000000 bytes
+Lua time usage: 0.056/10.000 seconds
+Lua memory usage: 2506837/52428800 bytes
+Number of Wikibase entities loaded: 1/400
+--><!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%  198.249      1 -total
+ 84.84%  168.192      1 Template:Information
+ 49.27%   97.686      1 Template:Igen
+ 42.02%   83.307      1 Template:InFi
+ 29.45%   58.389      1 Template:Created_with_Adobe_Illustrator
+ 24.10%   47.771      3 Template:Autotranslate
+ 17.42%   34.528      1 Template:SVGvalid
+ 17.34%   34.375      2 Template:Created_with/layout
+ 16.44%   32.598      1 Template:Ifsvg
+ 12.76%   25.294      1 Template:Self
+--><!-- Saved in parser cache with key commonswiki:pcache:idhash:4542892-0!userlang=it!wb=3 and timestamp 20221222210853 and revision id 701146203.
+ --></div></div>
+<h2 id="filehistory">Cronologia del file</h2>
+<div id="mw-imagepage-section-filehistory">
+<p>Fare clic su un gruppo data/ora per vedere il file come si presentava nel momento indicato.
+</p>
+<table class="wikitable filehistory">
+<tr><th></th><th>Data/Ora</th><th>Miniatura</th><th>Dimensioni</th><th>Utente</th><th>Commento</th></tr>
+<tr><td>attuale</td><td class="filehistory-selected" style="white-space: nowrap;"><a href="//upload.wikimedia.org/wikipedia/commons/d/d6/Determinant_3x3_Example.svg">22:03, 11 ago 2008</a></td><td><a href="//upload.wikimedia.org/wikipedia/commons/d/d6/Determinant_3x3_Example.svg"><img alt="Miniatura della versione delle 22:03, 11 ago 2008" src="//upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Determinant_3x3_Example.svg/120px-Determinant_3x3_Example.svg.png" decoding="async" width="120" height="87" data-file-width="440" data-file-height="320" /></a></td><td>440 × 320 <span style="white-space: nowrap;">(17 KB)</span></td><td>Fiachra</td><td dir="ltr">{{Information |Description=This image is an example of how to easily remember the order of operations for calculating the determinant of a 3x3 matrix using the diagonals and back-diagonals as indicated. |Source=*[[:Image:Determinant_3x3_Example_Barking_Ma</td></tr>
+</table>
+
+</div>
+<h2 id="filelinks">Pagine che usano questo file</h2>
+<div id='mw-imagepage-section-linkstoimage'>
+<p>Le seguenti 2 pagine usano questo file:
+</p><ul class="mw-imagepage-linkstoimage">
+<li class="mw-imagepage-linkstoimage-ns0"><a href="/wiki/Determinante_(algebra)" title="Determinante (algebra)">Determinante (algebra)</a></li>
+<li class="mw-imagepage-linkstoimage-ns0"><a href="/wiki/Regola_di_Sarrus" title="Regola di Sarrus">Regola di Sarrus</a></li>
+</ul>
+</div>
+<h2 id="globalusage">Utilizzo globale del file</h2>
+<div id="mw-imagepage-section-globalusage"><p>Anche i seguenti wiki usano questo file:
+</p><ul>
+<li class='mw-gu-onwiki-lmo_wikipedia_org'>Usato nelle seguenti pagine di lmo.wikipedia.org:
+<ul>	<li><a class="external" href="https://lmo.wikipedia.org/wiki/Regola_de_Sarrus">Regola de Sarrus</a></li>
+</ul></li>
+<li class='mw-gu-onwiki-pt_wikipedia_org'>Usato nelle seguenti pagine di pt.wikipedia.org:
+<ul>	<li><a class="external" href="https://pt.wikipedia.org/wiki/Determinante">Determinante</a></li>
+</ul></li>
+</ul>
+</div><noscript><img src="//it.wikipedia.org/wiki/Special:CentralAutoLogin/start?type=1x1" alt="" title="" width="1" height="1" style="border: none; position: absolute;" /></noscript>
+<div class="printfooter" data-nosnippet="">Estratto da "<a dir="ltr" href="https://it.wikipedia.org/wiki/File:Determinant_3x3_Example.svg">https://it.wikipedia.org/wiki/File:Determinant_3x3_Example.svg</a>"</div></div>
+		<div id="catlinks" class="catlinks catlinks-allhidden" data-mw="interface"></div>
+	</div>
+</div>
+
+<div id="mw-navigation">
+	<h2>Menu di navigazione</h2>
+	<div id="mw-head">
+		
+
+<nav id="p-personal" class="vector-menu mw-portlet mw-portlet-personal vector-user-menu-legacy" aria-labelledby="p-personal-label" role="navigation"  >
+	<h3
+		id="p-personal-label"
+		
+		class="vector-menu-heading "
+	>
+		<span class="vector-menu-heading-label">Strumenti personali</span>
+	</h3>
+	<div class="vector-menu-content">
+	    
+	    <ul class="vector-menu-content-list"><li id="pt-anonuserpage" class="mw-list-item"><span title="La pagina utente di questo indirizzo IP">Accesso non effettuato</span></li><li id="pt-anontalk" class="mw-list-item"><a href="/wiki/Speciale:MieDiscussioni" title="Discussioni sulle modifiche fatte da questo indirizzo IP [n]" accesskey="n"><span>discussioni</span></a></li><li id="pt-anoncontribs" class="mw-list-item"><a href="/wiki/Speciale:MieiContributi" title="Un elenco delle modifiche fatte da questo indirizzo IP [y]" accesskey="y"><span>contributi</span></a></li><li id="pt-createaccount" class="mw-list-item"><a href="/w/index.php?title=Speciale:CreaUtenza&amp;returnto=File%3ADeterminant+3x3+Example.svg" title="Si consiglia di registrarsi e di effettuare l&#039;accesso, anche se non è obbligatorio"><span>registrati</span></a></li><li id="pt-login" class="mw-list-item"><a href="/w/index.php?title=Speciale:Entra&amp;returnto=File%3ADeterminant+3x3+Example.svg" title="Si consiglia di effettuare l&#039;accesso, anche se non è obbligatorio [o]" accesskey="o"><span>entra</span></a></li></ul>
+	    
+	</div>
+</nav>
+
+		<div id="left-navigation">
+			
+
+<nav id="p-namespaces" class="vector-menu mw-portlet mw-portlet-namespaces vector-menu-tabs vector-menu-tabs-legacy" aria-labelledby="p-namespaces-label" role="navigation"  >
+	<h3
+		id="p-namespaces-label"
+		
+		class="vector-menu-heading "
+	>
+		<span class="vector-menu-heading-label">Namespace</span>
+	</h3>
+	<div class="vector-menu-content">
+	    
+	    <ul class="vector-menu-content-list"><li id="ca-nstab-image" class="selected mw-list-item"><a href="/wiki/File:Determinant_3x3_Example.svg" title="Vedi la pagina del file [c]" accesskey="c"><span>File</span></a></li><li id="ca-talk" class="new mw-list-item"><a href="/w/index.php?title=Discussioni_file:Determinant_3x3_Example.svg&amp;action=edit&amp;redlink=1" rel="discussion" title="Vedi le discussioni relative a questa pagina (la pagina non esiste) [t]" accesskey="t"><span>Discussione</span></a></li></ul>
+	    
+	</div>
+</nav>
+
+			
+
+<nav id="p-variants" class="vector-menu mw-portlet mw-portlet-variants emptyPortlet vector-menu-dropdown-noicon vector-menu-dropdown" aria-labelledby="p-variants-label" role="navigation"  >
+	<input type="checkbox"
+		id="p-variants-checkbox"
+		role="button"
+		aria-haspopup="true"
+		data-event-name="ui.dropdown-p-variants"
+		class="vector-menu-checkbox"
+		aria-labelledby="p-variants-label"
+	/>
+	<label
+		id="p-variants-label"
+		 aria-label="Change language variant"
+		class="vector-menu-heading "
+	>
+		<span class="vector-menu-heading-label">italiano</span>
+	</label>
+	<div class="vector-menu-content">
+	    
+	    <ul class="vector-menu-content-list"></ul>
+	    
+	</div>
+</nav>
+
+		</div>
+		<div id="right-navigation">
+			
+
+<nav id="p-views" class="vector-menu mw-portlet mw-portlet-views vector-menu-tabs vector-menu-tabs-legacy" aria-labelledby="p-views-label" role="navigation"  >
+	<h3
+		id="p-views-label"
+		
+		class="vector-menu-heading "
+	>
+		<span class="vector-menu-heading-label">Visite</span>
+	</h3>
+	<div class="vector-menu-content">
+	    
+	    <ul class="vector-menu-content-list"><li id="ca-view" class="selected mw-list-item"><a href="/wiki/File:Determinant_3x3_Example.svg"><span>Leggi</span></a></li><li id="ca-view-foreign" class="mw-list-item"><a href="https://commons.wikimedia.org/wiki/File:Determinant_3x3_Example.svg"><span>Vedi su Wikimedia Commons</span></a></li><li id="ca-ve-edit" class="mw-list-item"><a href="/w/index.php?title=File:Determinant_3x3_Example.svg&amp;veaction=edit" title="Modifica questa pagina [v]" accesskey="v"><span>Aggiungi descrizione locale</span></a></li><li id="ca-edit" class="collapsible mw-list-item"><a href="/w/index.php?title=File:Determinant_3x3_Example.svg&amp;action=edit" title="Modifica questa pagina [e]" accesskey="e"><span>Aggiungi descrizione locale con wikitesto</span></a></li></ul>
+	    
+	</div>
+</nav>
+
+			
+
+<nav id="p-cactions" class="vector-menu mw-portlet mw-portlet-cactions emptyPortlet vector-menu-dropdown-noicon vector-menu-dropdown" aria-labelledby="p-cactions-label" role="navigation"  title="Altre opzioni" >
+	<input type="checkbox"
+		id="p-cactions-checkbox"
+		role="button"
+		aria-haspopup="true"
+		data-event-name="ui.dropdown-p-cactions"
+		class="vector-menu-checkbox"
+		aria-labelledby="p-cactions-label"
+	/>
+	<label
+		id="p-cactions-label"
+		
+		class="vector-menu-heading "
+	>
+		<span class="vector-menu-heading-label">Altro</span>
+	</label>
+	<div class="vector-menu-content">
+	    
+	    <ul class="vector-menu-content-list"></ul>
+	    
+	</div>
+</nav>
+
+			
+<div id="p-search" role="search" class="vector-search-box-vue  vector-search-box-show-thumbnail vector-search-box-auto-expand-width vector-search-box">
+	<div>
+		<form action="/w/index.php" id="searchform"
+			class="vector-search-box-form">
+			<div id="simpleSearch"
+				class="vector-search-box-inner"
+				 data-search-loc="header-navigation">
+				<input class="vector-search-box-input"
+					 type="search" name="search" placeholder="Cerca in Wikipedia" aria-label="Cerca in Wikipedia" autocapitalize="sentences" title="Cerca in Wikipedia [f]" accesskey="f" id="searchInput"
+				>
+				<input type="hidden" name="title" value="Speciale:Ricerca">
+				<input id="mw-searchButton"
+					 class="searchButton mw-fallbackSearchButton" type="submit" name="fulltext" title="Cerca il testo indicato nelle pagine" value="Ricerca">
+				<input id="searchButton"
+					 class="searchButton" type="submit" name="go" title="Vai a una pagina con il titolo indicato, se esiste" value="Vai">
+			</div>
+		</form>
+	</div>
+</div>
+
+		</div>
+	</div>
+	
+<div id="mw-panel" class="vector-legacy-sidebar">
+	<div id="p-logo" role="banner">
+		<a class="mw-wiki-logo" href="/wiki/Pagina_principale"
+			title="Visita la pagina principale"></a>
+	</div>
+	
+
+<nav id="p-navigation" class="vector-menu mw-portlet mw-portlet-navigation vector-menu-portal portal" aria-labelledby="p-navigation-label" role="navigation"  >
+	<h3
+		id="p-navigation-label"
+		
+		class="vector-menu-heading "
+	>
+		<span class="vector-menu-heading-label">Navigazione</span>
+	</h3>
+	<div class="vector-menu-content">
+	    
+	    <ul class="vector-menu-content-list"><li id="n-mainpage-description" class="mw-list-item"><a href="/wiki/Pagina_principale" title="Visita la pagina principale [z]" accesskey="z"><span>Pagina principale</span></a></li><li id="n-recentchanges" class="mw-list-item"><a href="/wiki/Speciale:UltimeModifiche" title="Elenco delle ultime modifiche del sito [r]" accesskey="r"><span>Ultime modifiche</span></a></li><li id="n-randompage" class="mw-list-item"><a href="/wiki/Speciale:PaginaCasuale" title="Mostra una pagina a caso [x]" accesskey="x"><span>Una voce a caso</span></a></li><li id="n-nearby-pages-title" class="mw-list-item"><a href="/wiki/Speciale:NelleVicinanze"><span>Nelle vicinanze</span></a></li><li id="n-vetrina" class="mw-list-item"><a href="/wiki/Wikipedia:Vetrina"><span>Vetrina</span></a></li><li id="n-help" class="mw-list-item"><a href="/wiki/Aiuto:Aiuto" title="Pagine di aiuto"><span>Aiuto</span></a></li><li id="n-Sportello-informazioni" class="mw-list-item"><a href="/wiki/Aiuto:Sportello_informazioni"><span>Sportello informazioni</span></a></li></ul>
+	    
+	</div>
+</nav>
+
+	
+
+<nav id="p-Comunità" class="vector-menu mw-portlet mw-portlet-Comunità vector-menu-portal portal" aria-labelledby="p-Comunità-label" role="navigation"  >
+	<h3
+		id="p-Comunità-label"
+		
+		class="vector-menu-heading "
+	>
+		<span class="vector-menu-heading-label">Comunità</span>
+	</h3>
+	<div class="vector-menu-content">
+	    
+	    <ul class="vector-menu-content-list"><li id="n-portal" class="mw-list-item"><a href="/wiki/Portale:Comunit%C3%A0" title="Descrizione del progetto, cosa puoi fare, dove trovare le cose"><span>Portale Comunità</span></a></li><li id="n-villagepump" class="mw-list-item"><a href="/wiki/Wikipedia:Bar"><span>Bar</span></a></li><li id="n-wikipediano" class="mw-list-item"><a href="/wiki/Wikipedia:Wikipediano"><span>Il Wikipediano</span></a></li><li id="n-sitesupport" class="mw-list-item"><a href="//donate.wikimedia.org/wiki/Special:FundraiserRedirector?utm_source=donate&amp;utm_medium=sidebar&amp;utm_campaign=C13_it.wikipedia.org&amp;uselang=it" title="Sostienici"><span>Fai una donazione</span></a></li><li id="n-contactpage" class="mw-list-item"><a href="/wiki/Wikipedia:Contatti"><span>Contatti</span></a></li></ul>
+	    
+	</div>
+</nav>
+
+
+<nav id="p-tb" class="vector-menu mw-portlet mw-portlet-tb vector-menu-portal portal" aria-labelledby="p-tb-label" role="navigation"  >
+	<h3
+		id="p-tb-label"
+		
+		class="vector-menu-heading "
+	>
+		<span class="vector-menu-heading-label">Strumenti</span>
+	</h3>
+	<div class="vector-menu-content">
+	    
+	    <ul class="vector-menu-content-list"><li id="t-whatlinkshere" class="mw-list-item"><a href="/wiki/Speciale:PuntanoQui/File:Determinant_3x3_Example.svg" title="Elenco di tutte le pagine che sono collegate a questa [j]" accesskey="j"><span>Puntano qui</span></a></li><li id="t-specialpages" class="mw-list-item"><a href="/wiki/Speciale:PagineSpeciali" title="Elenco di tutte le pagine speciali [q]" accesskey="q"><span>Pagine speciali</span></a></li><li id="t-print" class="mw-list-item"><a href="javascript:print();" rel="alternate" title="Versione stampabile di questa pagina [p]" accesskey="p"><span>Versione stampabile</span></a></li><li id="t-info" class="mw-list-item"><a href="/w/index.php?title=File:Determinant_3x3_Example.svg&amp;action=info" title="Ulteriori informazioni su questa pagina"><span>Informazioni pagina</span></a></li></ul>
+	    
+	</div>
+</nav>
+
+	
+
+<nav id="p-lang" class="vector-menu mw-portlet mw-portlet-lang vector-menu-portal portal" aria-labelledby="p-lang-label" role="navigation"  >
+	<h3
+		id="p-lang-label"
+		
+		class="vector-menu-heading "
+	>
+		<span class="vector-menu-heading-label">In altre lingue</span>
+	</h3>
+	<div class="vector-menu-content">
+	    
+	    <ul class="vector-menu-content-list"></ul>
+	    <div class="after-portlet after-portlet-lang"><span class="uls-after-portlet-link"></span></div>
+	</div>
+</nav>
+
+</div>
+
+</div>
+
+<footer id="footer" class="mw-footer" role="contentinfo" >
+	<ul id="footer-info">
+</ul>
+
+	<ul id="footer-places">
+	<li id="footer-places-privacy"><a href="https://meta.wikimedia.org/wiki/Privacy_policy/it">Informativa sulla privacy</a></li>
+	<li id="footer-places-about"><a href="/wiki/Wikipedia:Sala_stampa/Wikipedia">Informazioni su Wikipedia</a></li>
+	<li id="footer-places-disclaimers"><a href="/wiki/Wikipedia:Avvertenze_generali">Avvertenze</a></li>
+	<li id="footer-places-mobileview"><a href="//it.m.wikipedia.org/w/index.php?title=File:Determinant_3x3_Example.svg&amp;mobileaction=toggle_view_mobile" class="noprint stopMobileRedirectToggle">Versione mobile</a></li>
+	<li id="footer-places-developers"><a href="https://developer.wikimedia.org">Sviluppatori</a></li>
+	<li id="footer-places-statslink"><a href="https://stats.wikimedia.org/#/it.wikipedia.org">Statistiche</a></li>
+	<li id="footer-places-cookiestatement"><a href="https://foundation.wikimedia.org/wiki/Cookie_statement">Dichiarazione sui cookie</a></li>
+</ul>
+
+	<ul id="footer-icons" class="noprint">
+	<li id="footer-copyrightico"><a href="https://wikimediafoundation.org/"><img src="/static/images/footer/wikimedia-button.png" srcset="/static/images/footer/wikimedia-button-1.5x.png 1.5x, /static/images/footer/wikimedia-button-2x.png 2x" width="88" height="31" alt="Wikimedia Foundation" loading="lazy" /></a></li>
+	<li id="footer-poweredbyico"><a href="https://www.mediawiki.org/"><img src="/static/images/footer/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/static/images/footer/poweredby_mediawiki_132x47.png 1.5x, /static/images/footer/poweredby_mediawiki_176x62.png 2x" width="88" height="31" loading="lazy"/></a></li>
+</ul>
+
+</footer>
+
+<script>(RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.001","walltime":"0.001","ppvisitednodes":{"value":2,"limit":1000000},"postexpandincludesize":{"value":0,"limit":2097152},"templateargumentsize":{"value":0,"limit":2097152},"expansiondepth":{"value":1,"limit":100},"expensivefunctioncount":{"value":0,"limit":500},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":0,"limit":5000000},"entityaccesscount":{"value":0,"limit":400},"timingprofile":["100.00%    0.000      1 -total"]},"cachereport":{"origin":"mw1407","timestamp":"20221223133938","ttl":1814400,"transientcontent":false}}});mw.config.set({"wgBackendResponseTime":84,"wgHostname":"mw1407"});});</script>
+</body>
+</html>

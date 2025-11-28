@@ -11,4 +11,6 @@ standalone*
 *.synctex.gz
 *.toc
 *blx.bib
+*(new)*
+*_new*
 Nyx*

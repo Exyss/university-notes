@@ -1,0 +1,2313 @@
+\documentclass[a4paper, 12pt]{report}
+
+\usepackage[dvipsnames]{xcolor}
+
+%%%%%%%%%%%%%%%%
+% Set Variables %
+%%%%%%%%%%%%%%%%
+
+\def\useItalian{0}  % 1 = Italian, 0 = English
+
+\def\courseName{Cybersecurity}
+
+\def\coursePrerequisites{Preventive learning of material related to the \textit{Computer networks}, \textit{Operating systems} and \textit{Data management and analysis} courses is recommended}
+
+\def\book{\curlyquotes{Computer Security: Principles and Practice}, W. Stallings, L. Brown}
+
+\def\authorName{Simone Bianco}
+\def\email{bianco.simone@outlook.it}
+\def\github{https://github.com/Exyss/university-notes}
+\def\linkedin{https://www.linkedin.com/in/simone-bianco}
+
+
+%%%%%%%%%%%%
+% Packages %
+%%%%%%%%%%%%
+
+\usepackage{../../../packages/Nyx/nyx-packages}
+\usepackage{../../../packages/Nyx/nyx-styles}
+\usepackage{../../../packages/Nyx/nyx-frames}
+\usepackage{../../../packages/Nyx/nyx-macros}
+\usepackage{../../../packages/Nyx/nyx-title}
+\usepackage{../../../packages/Nyx/nyx-intro}
+
+%%%%%%%%%%%%%%
+% Title-page %
+%%%%%%%%%%%%%%
+
+\logo{../../../packages/Nyx/logo.png}
+
+\if\useItalian1
+    \institute{\curlyquotes{\hspace{0.25mm}Sapienza} Università di Roma}
+    \faculty{Ingegneria dell'Informazione,\\Informatica e Statistica}
+    \department{Dipartimento di Informatica}
+    \ifdefined\book
+        \subtitle{Appunti integrati con il libro \book}
+    \fi
+    \author{\textit{Autore}\\\authorName}
+\else
+    \institute{\curlyquotes{\hspace{0.25mm}Sapienza} University of Rome}
+    \faculty{Faculty of Information Engineering,\\Informatics and Statistics}
+    \department{Department of Computer Science}
+    \ifdefined\book
+        \subtitle{Lecture notes integrated with the book \book}
+    \fi
+    \author{\textit{Author}\\\authorName}
+\fi
+
+
+\title{\courseName}
+\date{\today}
+
+% \supervisor{Linus \textsc{Torvalds}}
+% \context{Well, I was bored\ldots}
+
+%%%%%%%%%%%%
+% Document %
+%%%%%%%%%%%%
+
+\begin{document}
+    \maketitle
+
+    % The following style changes are valid only inside this scope 
+    {
+        \hypersetup{allcolors=black}
+        \fancypagestyle{plain}{%
+        \fancyhead{}        % clear all header fields
+        \fancyfoot{}        % clear all header fields
+        \fancyfoot[C]{\thepage}
+        \renewcommand{\headrulewidth}{0pt}
+        \renewcommand{\footrulewidth}{0pt}}
+
+        \romantableofcontents
+    }
+
+    \introduction
+
+    %%%%%%%%%%%%%%%%%%%%%
+
+    \chapter{Introduction to Cybersecurity}
+
+    \section{Fundamental concepts}
+
+    The National Institute of Standards and Technology (NIST) defines \textbf{computer security} as the prevention of damage, protection and restoration of computers, electronic communications systems and services and any other type of digital structure.
+
+    In this course, we define \textbf{computer security} as measures and controls that ensure \textbf{confidentiality},
+    \textbf{integrity} and \textbf{availability} of information system assets including hardware, software and information being processed, stored, and communicate.
+
+    In order to talk about cybersecurity, first we have to give the following \textbf{essential definitions}:
+
+    \begin{itemize}
+        \item \textbf{Asset}: any resource, information or entity relative to the system
+        \item \textbf{Threat}: any circumstance or event with the potential to adversely impact organizational operations
+        \item \textbf{Threat agent} (or \textit{Adversary}): anyone who conducts or has the intent to conduct detrimental activities
+        \item \textbf{Countermeasures}: a device or a technique that has the objective of impairing detrimental activities
+        \item \textbf{Risk}: a measure of the extent to which an asset is exposed to a threat, such as the impact that would arise if an unaccounted event occurs and his likelihood of occurrences
+        \item \textbf{Vulnerability}: weakness in an information system, internal controls, implementation, etc... that could be exploited or triggered by a threat source 
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.6]{images/concepts.png}
+    \end{center}
+
+    \begin{framedobs}{}
+        The security of a system, application or protocol is always relative to the set of desired properties and the capabilities of the potential threat agent
+    \end{framedobs}
+
+    \textbf{Example:}
+    \begin{itemize}
+        \item Standard file access permission in Linux or Windows systems are not effective against an adversary who can boot the system from a CD
+    \end{itemize}
+
+    \begin{frameddefn}{Types of attacks}
+        In order to distinguish between kinds of threats, we define the following \textbf{types of attack}:
+        \begin{itemize}
+            \item \textbf{Active attack}: an attempt to alter system resources or affect the operation.
+            
+            In particular, we establish four categories of active attack: \textbf{replay}, \textbf{masquerade}, \textbf{modification of messages} and \textbf{denial of service}
+            \item \textbf{Passive attack}: an attempt to learn or make use of information from the system that does not effect the system resources
+            
+            In particular, we establish four categories of passive attack: \textbf{release of message contents} and \textbf{traffic analysis}
+            \item \textbf{Inside attack}: initiated by an entity inside of the system's \textit{security perimeter}, namely an \textbf{insider} who is authorized to access the system resources, using them in an unapproved way
+            \item \textbf{Outside attack}: initiated by an entity outside of the system's \textit{security perimeter} who is
+        \end{itemize}
+    \end{frameddefn}
+
+    \newpage
+
+    \section{Confidentiality, Integrity and Availability (CIA)}
+
+    \begin{frameddefn}{Confidentiality}
+        We define \textbf{confidentiality} as the avoidance of the unauthorized disclosure of information
+    \end{frameddefn}
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item Confidentiality involves the protection of data, providing access for those who are allowed to see it while disallowing others from learning anything about its content
+    \end{itemize}
+
+    In order to \textbf{ensure} confidentiality is preserved, five main tools are used:
+    \begin{itemize}
+        \item \textbf{Encryption}: the transformation of information using a secret called \textit{encryption key} in order to make the transformed information readable only by those who know another (or the same) secret, namely the \textit{decryption key}
+        
+        \begin{center}
+            \includegraphics[scale=0.5]{images/encryption.png}
+        \end{center}
+
+        \item \textbf{Access control}: rules and policies that limit access to confidential information to established people and/or systems
+        \item \textbf{Authentication}: the determination of the identity or role that someone has, usually done through a number of different factors, such as something the person has, knows or is
+        \item \textbf{Authorization}: the determination if a person or system is allowed to access resources based on an policy
+        \item \textbf{Physical security}: the establishment of physical barriers to limit access to protected computational resources
+    \end{itemize}
+
+    \begin{frameddefn}{Integrity}
+        We define \textbf{integrity} has the property that something must not be altered in an unauthorized way
+    \end{frameddefn}
+
+    \textbf{Examples:}
+    \begin{itemize}
+        \item Integrity involves the use of backups, checksums, data correcting codes, etc...
+    \end{itemize}
+
+    \begin{frameddefn}{Availability}
+        We define \textbf{availability} as the property that something is accessible and modifiable in a timely fashion by those who are authorized to do so
+    \end{frameddefn}
+
+    \textbf{Examples:}
+    \begin{itemize}
+        \item Availability involves the use of physical protections and computational redundancies
+    \end{itemize}
+
+    The concepts of confidentiality, integrity and availability establish what is know as the \textbf{CIA security triad}. In order to be secure, a system should try to minimize the number of fallacies that conflict with the triad.
+
+    However, other concepts are used to describe the security of a system:
+    \begin{itemize}
+        \item \textbf{Authenticity}: the ability to determine that statements, policies and permission issued by a person are genuine. This also includes \textbf{non-repudiation}, the property that authentic statements issued by some person or system cannot be denied.
+        \item \textbf{Accountability}: the requirement for actions of an entity to be traced uniquely back to that same entity through the use of activity records
+        \item \textbf{Anonymity}: the property that certain records or transactions are not to be attributable to any individual
+    \end{itemize}
+
+    \quad
+
+    \section{Threat consequences and types}
+
+    We can categorize events based on their ability to pose a threat on one or more concepts of the CIA triad or based on the type of attack implied by those events.
+
+    The first categorization can be reduces to the following types of events:
+    \begin{itemize}
+        \item \textbf{Unauthorized disclosure}: a circumstance or event whereby an entity gains access to data for which the entity is not authorized. This type of event is a threat to \textbf{confidentiality}
+        \item \textbf{Deception}: a circumstance or event that may result in an authorized entity receiving false data and believing it to be true. This type of event is a threat to either \textbf{system integrity} or \textbf{data integrity}
+        \item \textbf{Disruption}: a circumstance or event that interrupts or prevents the correct operation of system services and functions. This type of event is a threat to \textbf{availability} or \textbf{system integrity}
+        \item \textbf{Usurpation}: a circumstance or event that results in control of system services or functions by an unauthorized entity. This type of event is a threat to \textbf{system integrity}
+    \end{itemize}
+
+    \newpage
+
+    Instead, the second categorization can be reduces to the following types of attacks:
+    \begin{itemize}
+        \item \textbf{Interception}: the eavesdropping of information intended for someone else during its transmission over a communication channel
+        \item \textbf{Falsification}: unauthorized modification of information, such as the \textit{man-in-the-middle attack}, where a network stream is intercepted, modified and retransmitted to the original receiver
+        \item \textbf{Denial of service (DoS)}: the obstruction or degradation of data service and/or information access
+        \item \textbf{Masquerading}: the fabrication of information that is supposed to be from someone who is not actually the author
+        \item \textbf{Repudiation}: the denial of commitment or data reception, such as the attempt to back out of a contract or protocol that requires the different partied to provide receipts acknowledging that data has been received
+        \item \textbf{Inference} (or \textit{correlation/traceback}): the integration of multiple data sources and information flows to determine the source of a particular data stream or piece of information
+    \end{itemize}
+
+    \quad
+
+    \section{Authentication}
+
+    As we already discussed, authentication can be described as the process of establishing confidence in the user identities that are presented electronically to an information system through the use of:
+    \begin{itemize}
+        \item Something the individual \textbf{knows}, such as a password or a PIN
+        \item Something the individual \textbf{possesses}, such as a token or a key card
+        \item Something the individual \textbf{is}, such as biometrics (fingerprints, iris, face, ...)
+        \item Something the individual \textbf{does}, such as dynamic biometrics (handwriting, voice pattern, ...)
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.6]{images/auth_model.png}
+    \end{center}
+
+    The use of more than one of these authentication means is called \textbf{multifactor authentication}, ensuring greater security as the number of methods used increases.
+
+    One of the most common means of authentication is the use of \textbf{passwords}. Usually, the user provides a name and a password, which then get compared by the system with the ones stored in their memory. The \textbf{user ID} determines that the user is authorized to access the system and the his privileges.
+
+    \begin{frameddefn}{Hash function}
+        An \textbf{hash function} is a one-way-function (meaning that it irreversible) capable of converting a string of plain text into an incomprehensible string of text of fixed length called \textbf{hash}
+    \end{frameddefn}
+
+    Since they are impossible to reverse, the best way to store passwords is through the use of \textbf{hash functions}. A good hash function must be capable of being efficient to compute while also being able to minimize the possibility of two string \textbf{colliding} into the same hash.
+
+    \begin{frameddefn}{Salt}
+        We define as \textbf{salt} a fixed-length string fed as an additional input to a hashing function by getting attached to the original input before being hashed. The use of salts ensures that the input becomes sufficiently large, making the output  more secure
+    \end{frameddefn}
+
+    \textbf{Example:}
+    \begin{itemize}
+        \item Modern UNIX systems store passwords by looping 1000 iterations of MD5 hash function with a salt of up to 48 bits, producing a 128 bit hash value
+    \end{itemize}
+
+    By \textbf{storing the hashed password}, one can check if the given password is correct simply by hashing it and then check if it matches the stored hash.
+
+    Many programs are used to \textbf{crack password} by exploiting the fact that people usually choose easily guessable password and/or short passwords, making it easy to \textbf{brute force} through the use of a cracking software:
+    \begin{itemize}
+        \item \textbf{Dictionary attacks} are based on a large list of possible passwords, testing them one by one. Each password must be hashed using each different salt value and then compared to the stored hash values.
+        \item \textbf{Rainbow table attacks} are based on pre-computed enormous tables of hash values fro all salts. This attack can be countered by using a sufficiently large salt value and a sufficiently large hash length
+    \end{itemize}
+
+    Password salting becomes essential to prevent these two types of attack: by using a long enough salt, these attacks become so slow that they are computationally infeasible.
+    
+    \begin{frameddefn}{Token}
+        We define as \textbf{token} a small string of text able to identify a user or an entity
+    \end{frameddefn}
+
+    Common examples of tokens include barcodes, magnetic stripe cards, smart tokens and smart cards realized through the use of RFID technology:
+    \begin{itemize}
+        \item \textbf{Magnetic stripe cards}: plastic cards with a magnetic stripe containing personalized information about the card holder. They are very easy to read and reproduce, making them vulnerable to cloning attacks
+        \item \textbf{Smart tokens}: small devices that include an embedded microprocessor (i.e. bank cards, electronic key, ...)
+        \item \textbf{Smart cards}: plastic cards with a processor, a memory and small I/O ports, making them effectively a very very small computer.
+        
+        A particular type of smart cards is the \textbf{Electronic Identity Card (eID)}, which serves the same purposes as other national ID cards and additional services that provide stronger proof of identity, such as:
+        \begin{itemize}
+            \item \textbf{ePass}: a digital representation of the cardholder's identity
+            \item \textbf{eID}: an identity record that authorized services can access with the cardholder's permission
+            \item \textbf{eSign}: an optional private key and certificate used for generating digital signatures
+        \end{itemize} 
+    \end{itemize}
+
+    Less common examples of tokens include \textbf{biometrics}: the data gets read and then converted to a \textit{reference vector}, which then gets compared to the stored one through the use of matching techniques based on \textit{similarity} (since a perfect copy is almost impossible to replicate).
+    
+    Biometrics such as voice and face recognition are usually low cost with low accuracy, while biometrics such as iris and fingerprint scanning are medium to high cost while also being pretty accurate.
+
+    Biometric authentication systems usually involve one or more of the following three types of operations:
+    \begin{itemize}
+        \item \textbf{Enrollment}: the user registers his biometric data through the use of a PIN and a scanner
+        \begin{center}
+            \includegraphics[scale=0.7]{images/enrollment.png}
+        \end{center}
+
+        \newpage
+
+        \item \textbf{Verification}: the user gets recognized by giving the registered PIN and his biometric data by matching. Requires a previous registration and one sample of the user's biometric data
+        
+        \begin{center}
+            \includegraphics[scale=0.7]{images/verification.png}
+        \end{center}
+
+        \item \textbf{Identification}: the user gets identified by giving only his biometric data. Requires a previous registration and a chosen amount of samples of the user's biometric data
+        
+        \begin{center}
+            \includegraphics[scale=0.7]{images/identification.png}
+        \end{center}
+    \end{itemize}
+
+    One of the most challenging problems of biometrics is the \textbf{biometric accuracy dilemma}: the system must be able to recognize the user's biometrics thanks to a probability density function, due to the impossibility of having a perfect match with the stored sample. 
+    
+    \begin{center}
+        \includegraphics[scale=0.6]{images/biometric_prob.png}
+    \end{center}
+
+    \newpage
+
+    Modern systems are also able to do \textbf{remote user authentication} over a network, the Internet or more complex communication links. While being convenient, this types of authentication include \textbf{additional security threats} such as eavesdropping, password capturing and repli attacks. To avoid this threats, they generally rely on some form of a challenge-response protocol.
+
+    \begin{center}
+        \includegraphics[scale=0.8]{images/remote_auth.png}
+
+        \textit{Example of a remote user login}
+    \end{center}
+    
+    \quad
+
+    \section{Access Control}
+
+    \subsection{Discretional Access Control (DAC)}
+
+    \begin{frameddefn}{Access Control}
+        We define \textbf{access control} as the process by which use of system resources is regulated according to a security policy and is permitted only by authorized entities
+    \end{frameddefn}
+
+
+    One of the main access control models is the \textbf{Discretional Access Control (DAC)}, which controls access based on the identity of the requestor and on access rules stating what requestors are allowed and not allowed to do. This is achieved through the use of a scheme in which an entity may be granted access rights that permit the entity, by its own volition, to enable another entity to access some resource.
+
+    Common ways to implement the DAC model include:
+
+    \begin{itemize}
+        \item \textbf{Access Control Matrix}: one dimension identifies subjects asking data access to the resources (the users), while the other dimension identifies the objects that may be accesses. Each entry of the matrix indicates the access rights of the associated subject to the associated object. An empty entry defaults to no access right granted
+        
+        \begin{center}
+            \includegraphics[scale=0.85]{images/access_matrix.png}
+        \end{center}
+
+        \item \textbf{Extended Access Control Matrix}: considers the ability of a subject to create another subject and to have "owner" access rights to that subject. Can be used to define a \textit{hierarchy of subjects}
+        
+        \begin{center}
+            \includegraphics[scale=0.7]{images/extended_access_matrix.png}
+        \end{center}
+
+        \item \textbf{Access Control List}: each object has an associated list which enumerates all the subjects that have access rights for that object, specifying the granted rights 
+        
+        \begin{center}
+            \includegraphics[scale=0.8]{images/access_list.png}
+        \end{center}
+
+        \quad
+
+        \item \textbf{UNIX File Access Control}: a minimal ACL version, where each objects is identified by the owner (User ID), the primary group (Group ID) and 12 protection bits (Read, Write and Execute bits for object owner, group members and all other users)
+
+        \item \textbf{Capability List}: each subject has an associated list which enumerates all the objects and the access rights granted for each one of them to that subject (same as ACL but objects and subjects are swapped)
+        
+        \begin{center}
+            \includegraphics[scale=0.8]{images/capabilities.png}
+        \end{center}
+
+        \quad
+
+        \item \textbf{Access Control Function}: every access by a subject to an object is mediated by the controller for that object. The controller's decision is based on the current contents of the matrix. Certain subjects have to authority to make specific changes to the access matrix
+        
+        \begin{center}
+            \includegraphics[scale=0.7]{images/access_function.png}
+        \end{center}
+    \end{itemize}
+
+    \newpage
+
+    Another way to manage access control is through the \textbf{Mandatory Access Control (MAC)} model, where each subject and each object gets assigned a security class, forming a strict hierarchy and being referred to as \textbf{security levels}. A subject is said to have a \textbf{security clearance} of a given level, while an object is said to have a \textbf{security classification} of a given level.
+
+    Through \textbf{Multilevel Security (MLS)}, the MAC model defines four access modes:
+    \begin{itemize}
+        \item \textbf{read}: the subject is granted read access to the object
+        \item \textbf{append}: the subject is granted write access to the object
+        \item \textbf{write}: the subject is granted read and write access to the object
+        \item \textbf{execute}: the subject is granted the ability to execute the object
+    \end{itemize}
+
+    \textbf{Confidentiality} is achieved if a subject at high level \underline{may not} convey information to a subject at lower level, unless that flow accurately reflects the will of an authorized user as revealed by an authorized declassification:
+    \begin{itemize}
+        \item \textbf{No read up}: a subject can only read an object of less or equal security level
+        \item \textbf{No write down}: a subject can only write into an object of greater or equal security level
+    \end{itemize}
+
+    \quad
+
+    \subsection{Role-based Access Control (RBAC)}
+
+    A more advanced model of access control is \textbf{Role-based Access Control (RBAC)}, where  access rights are defined on roles instead of directly on subjects, allowing to descrive organizational access control \textit{policies} based on job functions.
+
+    \begin{center}
+        \includegraphics[scale=0.65]{images/roles.png}
+    \end{center}
+    
+    A user's permissions are determined by its roles rather by identity or clearance, increasing flexibility and scalability in policy administration. Each role is assigned to users through the use of an \textbf{User Assignment table}, while each access right gets assigned to roles through the use of a \textbf{Permission Assignment table}.
+
+    \newpage
+    
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item Consider the following user and permission assignments:
+        
+        \begin{center}
+            \begin{tabular}{ccc}
+                \begin{tabular}{c|c}
+                    \textbf{User} & \textbf{Role}\\
+                    \hline
+                    Alice & Radiologist\\
+                    Alice & GP\\
+                    Bob & GP\\
+                    Charlie & Radiologist\\
+                    David & Nurse
+                \end{tabular}
+                &
+                \qquad\qquad
+                &
+                \begin{tabular}{c|c}
+                    \textbf{Role} & \textbf{Permission}\\
+                    \hline
+                    Nurse & (read, prescription)\\
+                    GP & (read, prescription)\\
+                    GP & (write, prescription)\\
+                    GP & (read, history)\\
+                    Radiologist & (read, history)\\
+                    Radiologist & (insert, image scane)\\
+                \end{tabular}
+            \end{tabular}
+        \end{center}
+
+        \item The corresponding access matrix is defined as:
+        
+        \begin{center}
+            \begin{tabular}{c|ccc}
+                & \textbf{Prescription} & \textbf{History} & \textbf{Image scan}\\
+                \hline
+                \textbf{Alice} & read, write & read & insert\\
+                \textbf{Bob} & read, write & read & insert\\
+                \textbf{Charlie} & & read & insert\\
+                \textbf{David} & read &  & \\
+            \end{tabular}
+        \end{center}
+    \end{itemize}
+
+    \quad
+
+    Through the years, the standard RBAC model, namely the \textbf{RBAC0} model, has evolved into four sub-models. The first sub-model is \textbf{RBAC1}, where roles are structured in a hierarchy, making lower level roles inherit access rights of their related superior level, reflecting an organization's role structure. Formally, we say that $x \leq y$ if and only if $x$ is a specialization of $y$. If $x \leq y$, then the role $x$ inherits permissions of role $y$. The $\leq$ relationship forms a \textit{partial order} on the defined roles.
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item Consider the following user and permission assignments:
+        
+        \begin{center}
+            \begin{tabular}{ccc}
+                \begin{tabular}{c|c}
+                    \textbf{User} & \textbf{Role}\\
+                    \hline
+                    $u_1$ & $r_2$\\
+                    $u_2$ & $r_3$\\
+                    $u_3$ & $r_4$\\
+                    $u_4$ & $r_5$\\
+                \end{tabular}
+                &
+                \qquad\qquad
+                &
+                \begin{tabular}{c|c}
+                    \textbf{Role} & \textbf{Permission}\\
+                    \hline
+                    $r_1$ & $p_1$\\
+                    $r_2$ & $p_2$\\
+                    $r_3$ & $p_3$\\
+                    $r_4$ & $p_4$\\
+                    $r_5$ & $p_5$\\
+                \end{tabular}
+            \end{tabular}
+        \end{center}
+
+        \item Consider now the following hierarchy of roles:
+        
+        \begin{center}
+            \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.5cm,thick,main node/.style={scale=0.9,circle,draw,font=\sffamily\normalsize}]
+                \node[] (1) {$r_1$};
+                \node[] (2) [right of=1]{$r_2$};
+                \node[] (3) [above right of=2]{$r_3$};
+                \node[] (4) [below right of=2]{$r_4$};
+                \node[] (5) [below right of=3]{$r_5$};
+
+                \path[every node/.style={font=\sffamily\small}]
+                    (1) edge (2)
+                    (2) edge (3)
+                    (2) edge (4)
+                    (3) edge (5)
+                    (4) edge (5)
+                ;
+            \end{tikzpicture}
+        \end{center}
+
+        \item The corresponding access matrix is defines as:
+        
+        \begin{center}
+            \begin{tabular}{c|ccccc}
+                & $\mathbf{p_1}$ & $\mathbf{p_2}$ & $\mathbf{p_3}$ & $\mathbf{p_4}$ & $\mathbf{p_5}$\\
+                \hline
+                $\mathbf{u_1}$ & $\times$ & $\times$ & & & \\
+                $\mathbf{u_2}$ & $\times$ & $\times$ & $\times$ & & \\
+                $\mathbf{u_3}$ & $\times$ & $\times$ & & $\times$ & \\
+                $\mathbf{u_4}$ & $\times$ & $\times$ & $\times$ & $\times$ & $\times$ \\
+            \end{tabular}
+        \end{center}
+    \end{itemize}
+
+    \quad
+
+    The second sub-model is \textbf{RBAC2}, where role hierarchy is replaced with the definition of \textbf{constraints}, providing means of adapting RBAC to the specifics of administrative and security policies of an organization. Constraints are defined through \textbf{relationships} among roles or a \textbf{condition} related to roles:
+    \begin{itemize}
+        \item \textbf{Mutually exclusive roles}: a user or permission can only be assigned to one role of the defined mutually exclusive set
+        \item \textbf{Cardinality}: setting a maximum number of assignable roles
+        \item \textbf{Prerequisite roles}: dictates that a user can only be assigned to a particular role only if it is already assigned to some other specified role
+    \end{itemize}
+
+    The last sub-model is \textbf{RBAC3}, a combination of RBAC1 and RBAC2 (role hierarchy and constraints).
+
+    \quad
+
+    \subsection{Attribute-based Access Control (ABAC)}
+
+    Another type of advanced access control model is \textbf{Attribute-based Access Control (ABAC)}, which uses attributes to define authorizations that express conditions on properties of both the resource and the subject. The main obstacle to the adoption of this model in real systems has been a concern about the performance impact of evaluating predicates on both resource and user properties for each access.
+
+    There are three types of usable attributes:
+    \begin{itemize}
+        \item \textbf{Subject attributes}: a subject is an active entity that causes information to flow among objects or changes the system state. Attributes define the identity and characteristics of the subject
+        \item \textbf{Object attributes}: an object is a passive information system-related entity containing or receiving information. Objects have attributes that can be leverages to make access control decisions
+        \item \textbf{Environmental attributes}: describe the operational technical and even situational environment or context in which the information access occurs. These attributes have so far been largely ignored in most access control policies
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.6]{images/policies.png}
+    \end{center}
+
+    \begin{frameddefn}{Policy}
+        A \textbf{policy} is a set of rules and relationships that govern allowable behavior within an organization, based on the privileges of subjects and how resources or objects are to be protected under which environment conditions
+    \end{frameddefn}
+
+    \textbf{Example}:
+    \begin{itemize}
+        \item Consider the following policy:
+        \begin{itemize}
+            \item Movies rated R can only be accessed by users of age 17+
+            \item Movies rated PG13 can only be accessed by users of age 13+
+            \item Movies rated G can only be accessed by everyone
+        \end{itemize}
+        \item The following function for the role $R1$ determines if a user $u$ can access the movie $m$ with the given environment values $e$:
+        \[\begin{array}{cl}
+            \text{R1: can\_access$(u, m, e)$} \; \gets & (\mathtt{Age}(u) \geq 17 \land \mathtt{Rating}(m) \in \{\mathrm{R}, \mathrm{PG13}, \mathrm{G}\}) \; \lor\\
+            & (\mathtt{Age}(u) \geq 13 \land \mathtt{Rating}(m) \in \{\mathrm{PG13}, \mathrm{G}\}) \; \lor\\
+            & (\mathtt{Age}(u) < 13 \land \mathtt{Rating}(m) \in \{\mathrm{G}\})
+        \end{array}\]
+    \end{itemize}
+
+    In the RBAC model, as the number of attributes increases to accomodate finer-grained policies, the number of roles and permissions grows exponentially. The ABAC model, instead, deals with additional attributes in an efficient way.
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item Suppose that:
+        \begin{itemize}
+            \item Movies are classified as either New Release or Old Release, based on release date compared to the current date
+            \item Users are classified as Premium User and Regular User, based the fee they pay
+            \item The policy states that only premium users can view new movies
+        \end{itemize}
+
+        \item In the RBAC model, we have to double the number of roles and the number of separate permissions in order to distinguish each user by age and fee
+        \item In the ABAC model, we can simply define the following functions for the roles $R1, R2$ and $R3$:
+        \[\begin{array}{cl}
+            \text{R1:can\_access$(u, m, e)$} \; \gets & (\mathtt{Age}(u) \geq 17 \land \mathtt{Rating}(m) \in \{\mathrm{R}, \mathrm{PG13}, \mathrm{G}\}) \; \lor\\
+            & (\mathtt{Age}(u) \geq 13 \land \mathtt{Rating}(m) \in \{\mathrm{PG13}, \mathrm{G}\}) \; \lor\\
+            & (\mathtt{Age}(u) < 13 \land \mathtt{Rating}(m) \in \{\mathrm{G}\})\\\\
+
+            \text{R2:can\_access$(u, m, e)$} \; \gets & (\mathtt{MembershipType}(u) = \mathrm{Premium}) \; \lor \\
+            & (\mathtt{MembershipType}(u) = \mathrm{Regular} \; \land \\
+            & \mathtt{MovieType}(m) = \mathrm{OldRelease})\\\\
+
+            \text{R3:can\_access$(u, m, e)$} \; \gets & \text{R1:can\_access$(u, m, e)$} \land \text{R2:can\_access$(u, m, e)$}
+        \end{array}\]
+    \end{itemize}
+
+    \chapter{Vulnerabilities and Countermeasures}
+
+    \section{Malware}
+
+    \begin{frameddefn}{Malware}
+        We define \textbf{malware (malicious software)} as any program that is inserted into a system with the intent of compromising the confidentiality, integrity or availability of the victim's data, applications or operating system or otherwise annoying or disrupting the victim
+    \end{frameddefn}
+
+    Malware gets usually classified by two major characteristics:
+    \begin{itemize}
+        \item \textbf{Propagation mechanism}: how the malware spreads in order to reach the desired targets, including:
+        \begin{itemize}
+            \item Infection of existing content by viruses that is subsequently spread to other systems
+            \item Exploit of software vulnerabilities by worms or drive-by-downloads to allow malware to replicate
+            \item Social engineering attacks that convince users to bypass security mechanisms to install Trojans or to respond to phishing attacks
+        \end{itemize}
+
+        \item \textbf{Payload actions}: the actual infective actions performed by the malware once the target gets reached, including:
+        \begin{itemize}
+            \item Corruption of system or data files
+            \item Theft of service, such as making the system a "zombie" agent of attacks as part of a botnet
+            \item Theft of information from the system, such as keylogging
+            \item Stealthing, such as hiding its presence on the system 
+        \end{itemize}
+    \end{itemize}
+
+    Initially, the development and deployment of malware required considerable technical skill by software authors. Through the years, virus-creation \textbf{toolkits} where developed, followed by even more general attack kits. These types of toolkits are often known as \textbf{crimeware}. They include a variety of propagation mechanisms ad payload modules that even novices can deploy. Attack variants that can be generated by attackers using these toolkits creates a significant problem for system defenses.
+
+    Another significant malware development turning point is the change from attackers being individuals often motivated to demonstrate their technical competence to their peers to more organized and dangerous attack sources, such as politically motivated attackers, organized crime, etc...
+
+    This has significantly changed the resources available and motivation behind the rise
+    of malware and has led to development of a large underground economy involving the sale of attack kits, access to compromised hosts and to stolen information
+
+    \begin{frameddefn}{Advanced Persistent Threat}
+        We define as \textbf{Advanced Persistent Threat (APT)} the well-resourced, persistent application of a wide variety of intrusion technologies and malware to selected targets
+    \end{frameddefn}
+
+    Typically, APT get attributed to state-sponsored organizations and criminal enterprises. They differ from other types of attack by their \textbf{careful target selection} and \textbf{stealthy intrusion} efforts over \textbf{extended periods}.
+    
+    The aim of these types of attack varies from theft of intellectual property or security and infrastructure related data to the physical disruption of infrastructure. Once initial access has been gained, further range of attack tools are used to maintain and extend their access. APT attacks characteristics can be reduced to the following three points:
+    \begin{itemize}
+        \item \textbf{Advanced}: they use a wide variety of intrusion technologies and malware including the development of custom malware if required. The individual components may not necessarily be technically advanced but are carefully
+        selected to suit the chosen target
+        \item \textbf{Persistent}: they include determined application of the attacks over an extended period against the chosen target in order to maximize the chance of success. A variety of attacks may be progressively applied until the target is compromised
+        \item \textbf{Threats}: they pose threats to the selected targets as a result of the organized, capable and well-funded
+        attackers intent to compromise the specifically chosen targets. The active involvement of people in the process greatly raises the threat level from that due to automated attacks tools and also the likelihood of successful attacks
+    \end{itemize} 
+
+    \newpage
+
+    \subsection{Types of malware}
+
+    \begin{frameddefn}{Virus}
+        A \textbf{virus} is a piece of software that infects other programs by modifying them to include a copy of the virus itself, making it capable of replicating itself and spreading through network environments.
+
+        They are made of three major components:
+        \begin{itemize}
+            \item \textbf{Infection mechanism} (or \textit{Infection vector}): means by which the virus propagates
+            \item \textbf{Trigger} (or \textit{Logic Bomb}): events and conditions that determines when the payload is activated or delivered
+            \item \textbf{Payload}: the actual malevolent actions of the virus
+        \end{itemize}
+    \end{frameddefn}
+
+    When a virus gets attached to an executable program, it can do anything that the program is permitted to do. Usually, they execute secretly when the host program is run:
+    \begin{itemize}
+        \item \textbf{Dormant phase}: the virus is idle and will eventually be activated by some event. Not all viruses have this stage
+        \item \textbf{Triggering phase}: the virus gets activated to perform the functions for which it was intended
+        \item \textbf{Propagation phase}: the virus places a copy of itself into other programs or into certain system areas on the disk. Each infected program will contain a clone of the virus with will itself enter a propagation phase. The propagated virus may not be identical to the original spreader
+        \item \textbf{Execution phase}: the virus executes the payload, which may be harmless or damaging
+    \end{itemize}
+
+    A less known but more common type of viruses are \textbf{macro viruses}, viruses attached to documents that use \textbf{macro programming} (which usually are simple scripts) capabilities of the document's application to execute and propagate, infecting scripting code used to support active content in a variety of user document types. They are platform independent, easy to write and can rapidly spread.
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item Microsoft Office Word documents can contain some macros to define advanced operations on the document which can be exploited to insert a macro virus
+    \end{itemize}
+
+    Viruses area \textbf{classified} by two characteristics:
+    \begin{itemize}
+        \item \textbf{Classification by target}:
+        \begin{itemize}
+            \item \textbf{Boot sector infector}: the virus infects a master boot record or simple boot record, spreading when the system gets booted from the disk containing the virus
+            \item \textbf{File infector}: the virus infects files that the operating system or shell considers to be executable
+            \item \textbf{Macro virus}: the virus infects files with macro or scripting code that is interpreted by an application
+            \item \textbf{Multipartite virus}: the virus infects in multiple ways
+        \end{itemize}
+        \item \textbf{Classification by concealment strategy}:
+        \begin{itemize}
+            \item \textbf{Encrypted virus}: a portion of the virus creates a random encryption key and encrypts the remainder of the virus
+            \item \textbf{Stealth virus}: a form of virus explicitly designed to hide itself from detection by anti-virus software
+            \item \textbf{Polymorphic virus}: a virus that mutates with every infection
+            \item \textbf{Metamorphic virus}: a virus that mutates and rewrites itself completely at each iteration and may change behavior as well as appearance
+        \end{itemize}
+    \end{itemize}
+
+    \begin{frameddefn}{Worm}
+        A \textbf{worm} is a program that actively seeks out more machines to infect and each infected machine serves as an automated launching pad for attacks on other machines
+    \end{frameddefn}
+
+    \begin{framedobs}{Viruses vs Worms}
+        Worms are similar to a viruses, but they do not modify the host program. They simply replicate themselves more and more to cause slow down the computer system. Also, worms can be controlled by remote, while viruses are independent once deployed
+    \end{framedobs}
+
+    Worms exploit software vulnerabilities ina client or server programs, using network connections to spread from system to system, usually carrying some form of payload.
+
+    \textbf{Worm replication} usually happens through one of these capabilities:
+    \begin{itemize}
+        \item \textbf{E-mail or instant messenger facility}: the worm sends an attachment containing a copy of itself to other systems 
+        \item \textbf{File sharing}: the worm creates a copy of itself or infects a file as a virus on removable media
+        \item \textbf{Remote execution capability}: the worm executes a copy of itself on another system
+        \item \textbf{Remove file access capability}: the worm uses a remove file access or transfer service to copy itself from one system to another
+        \item \textbf{Remote login capability}: the worm logs onto a remote system as a user and then uses commands to copy itself from one system to the other
+    \end{itemize}
+
+    \newpage
+
+    Worms discover their targets through the use of various methods:
+    \begin{itemize}
+    \item \textbf{Scanning}: the worm searches for other systems to infect on the network
+    \item \textbf{Random}: each compromised host probes random addresses in the IP address space using different seeds
+    \item \textbf{Hit-list}: the attacker compiles a long list of potential vulnerable machines, which then gets split into portions, each given to an already compromised host
+    \item \textbf{Topological}: the attacker uses information contained on an infected victim machine to find more hosts to scan
+    \item \textbf{Local subnet}: if a host gets infected behind a firewall, that host looks for targets in its own local network
+    \end{itemize}
+
+    Other common but less know types of malware include:
+
+    \begin{itemize}
+        \item \textbf{Drive-by-Downloads}:
+        \begin{itemize}
+            \item They exploit browser and plugin vulnerabilities
+            \item The user views a webpage controlled by the attacker which contains code that exploits the bug to download and install malware on the system without the user's knowledge or consent
+            \item In most cases, the malware doesn't actively propagate but spreads only when the user visits the malicious web page
+        \end{itemize}
+        \item \textbf{Watering-Hole attacks}:
+        \begin{itemize}
+            \item A variant of drive-by-downloads used in highly targeted attacks
+            \item The attacker researches their intended victim to identify websites they are likely to visit, then scans these sites to identify those with vulnerabilities that allow their compromise, waiting for one of their intended victims to visit one of the compromised sites
+            \item Attack code may even be written so that it will only infect systems belonging to the target organization and take no action for other visitors of the site
+        \end{itemize}
+        \item \textbf{Malvertising}:
+        \begin{itemize}
+            \item The attacker places a malware on websites without actually compromising them, paying for advertisements that are highly likely to be placed on their intended target websites and incorporate malware in them
+            \item The code may be dynamically generated to either reduce the chance of detection or to only infect specific systems
+        \end{itemize}
+
+        \item \textbf{Clickjacking} (or \textit{User interface redress attack}):
+        \begin{itemize}
+            \item The attacker can force the user to do a variety of thinks from adjusting the user's computer setting to unwittingly sending the user to websites that might have malicious code
+            \item Can be achieved by hiding a button under or over a legitimate button, making it difficult to be detected 
+            \item Similarly, this technique can be user to hijack keystrokes: an user can be led to believe that they are typing into a legitimate textbox but are instead typing into an invisible frame controlled by the attacker
+        \end{itemize}
+
+        \item \textbf{Ransomware}:
+        \begin{itemize}
+            \item The system gets infected usually through a worm that encrypts a large number of files, demanding a payment to decrypt them
+            \item Tactics such as threatening to publish sensitive personal data or permanently destroy the encrypted data are sometimes used to increase the pressure on the victim to pay up
+        \end{itemize}
+    \end{itemize}
+
+    \quad
+
+    \subsection{Types of malware payload}
+
+    The simplest type of malware payload is plain \textbf{system corruption}, causing real-world damage such as damage to the physical equipment. The logic bomb code of this type of payload is set to "explode" when certain conditions are met. As an example, the \textit{Chernobyl virus} was common virus set to rewrite the whole BIOS code after exploding, making the host completely unbootable.
+
+    Another type of payload is \textbf{attack agent bots}: the malware takes over another Internet attached computer and uses that computer to launch or manage attacks. After propagation, every host infected by these type of malware becomes part of a \textbf{botnet}, a collection of bots capable of acting in a coordinated manner.
+    
+    Each botnet is controlled through a \textbf{remote control facility} (also called \textbf{Control \& Command - C\&C}). The presence of a C\&C host is what distinguishes a simple worm from a bot: the first one propagates and activates itself, while the latter is initially controlled from some central facility.
+
+    Typical means of implementing the remote control facility is through an \textbf{IRC server}, where bots join a specific channel on this server, treating incoming messages as commands, or through the use of \textbf{peer-to-peer protocols} to avoid a single point of failure.
+
+    The most common type of payload widely known is \textbf{information theft}, usually divided into three subcategories:
+    
+    \begin{itemize}
+        \item \textbf{Keyloggers}: the malware captures keystrokes to allow the attacker to monitor sensitive information
+        \item \textbf{Spyware}: the malware captures data about the compromised machine, monitoring the activity, redirecting certain webpage requests to fake sites and dynamically modifying data exchanged between the browser and certain websites
+        \item \textbf{Phishing}: the attacker exploits social engineering to leverage the user's trust by masquerading as communication from a trusted source. The name of this type of attack comes as a variant of the word \textit{fishing} to mimic its general intention.
+    \end{itemize}
+    
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item The attacker includes a URL in a spam e-mail that links to a fake website that mimics the login page of a banking, social network or similar site
+        \item The website suggests that urgent action is required by the user to authenticate their account, asking the user to input his credentials, stealing them
+    \end{itemize}
+
+    A more sophisticated type of phishing attacks is \textbf{spear-phishing}, where the recipients are carefully researched by the attacker. The e-mail is crafter to specifically suit its recipient, often quoting a range of private information known only people close to the victim to convince them of its authenticity.
+
+    The last type of malware payload consists in \textbf{stealthing} attacks. These types of attack are based on silent malware that is almost unperceivable by the user:
+    \begin{itemize}
+        \item \textbf{Backdoor stealthing}: the malware contains a secret entry point, allowing the attacker to gain access and bypass the security access procedures. They are difficult to implement in modern operating systems due to restrictive checks
+        
+        \begin{center}
+            \includegraphics[scale=0.45]{images/backdoor.jpg}
+        \end{center}
+
+        \item \textbf{Rootkit}: a set of hidden programs installed on a system to maintain covert access to that system. Hides by subverting the mechanisms that monitor and report on processes, files and registries of the computer, usually giving administrator privileges to the attacker
+    \end{itemize}
+
+    \newpage
+
+    \subsection{Malware countermeasure approaches}
+
+    The ideal solution to any kind of malware is \textbf{prevention} by spreading awareness, suggesting the use of policies, vulnerability and threat mitigation. If prevention fails, \textbf{technical mechanisms} can be used to support detection, identification and removal of the malicious software. One of the most common and widely used mechanism is \textbf{anti-virus software}. Through the years, these type of software has been extensively improved:
+    \begin{itemize}
+        \item \textbf{Generation I - Scanners}: the software compares the signature of every file installed on the machine with every signature stored in his database. Limited to the detection of known malware
+        \item \textbf{Generation II - Heuristic scanners}: the software uses heuristic rules to search for probable malware instances 
+        \item \textbf{Generation III - Activity traps}: memory-resident programs that identify malware by its actions rather than its structure in an infected program
+        \item \textbf{Generation IV - Full-featured protection}: packages consisting of a variety of anti-virus techniques used in conjunction, including scanning and activity traps 
+    \end{itemize} 
+
+    New types of anti-virus software also use what is known as \textbf{sandbox analysis}, where the suspected malicious code gets emulated in a "sandbox" environment, usually a virtual machine, allowing the code to execute in a \textbf{controlled environment} where its behavior can be closely monitored without threatening the security of the real system. 
+    
+    However, since the emulation has to eventually stop and declare the software safe or unsafe, modern malware has \textbf{adapted} to just wait a sufficient amount of time before actually executing the payload, making the determination of the duration of each simulation the most difficult design issue with sandbox analysis.
+
+    \begin{center}
+        \includegraphics[scale=0.3]{images/emulation.png}
+    \end{center}
+
+    Other recently developed techniques include \textbf{host-based behavior-blocking software}, which integrates with the operating system of the machine and monitors program behavior in real time for malicious actions, blocking potentially them before they have a chance to affect the system, and \textbf{perimeter scanning approaches}, where the anti-virus software is typically included in e-mail and web proxy services running on an organization's firewall. 
+    
+    \newpage
+    
+    \section{Denial of Service (DoS)}
+
+    \begin{frameddefn}{Denial of Service (DoS)}
+        We define as \textbf{Denial of Service (DoS)} any action that prevents or impairs the authorized use of networks, systems or applications by exhausting resources such as CPUs, memory, bandwidth and disk space
+    \end{frameddefn}
+
+    DoS attacks can be used to influence the availability of some service by degrading network bandwidth, system resources or application resources, typically by overloading and/or crashing the network handling software by sending a number of valid requests, each consuming significant resources.
+
+    Classic DoS attacks are based on \textbf{flooding ping command} which aims to overwhelm the capacity of the network connection to the target organization. Traffic can be handled by higher capacity links on the path, but packets are discarded as capacity decreases, heavily affecting the network performance. The source of the attack is clearly identified unless a \textbf{spoofed address} is used (namely a fake address), which is usually forged via the raw socket interface on the operating system, making attacking systems harder to identify 
+
+    More generally, \textbf{flooding attacks} are classified based on the network protocol used. Each type of flooding attack aims to overload the network capacity on some link to a server. Virtually, any type of network packet can be used to instantiate a flooding attack. The most commonly used are:
+    \begin{itemize}
+        \item \textbf{ICMP flood}: realized by sending excessive ICMP protocol echo requests called \textit{pings}
+        \item \textbf{UDP flood}: realized by sending excessive UDP packets directed to some port number on the target system
+        \item \textbf{TCP SYN flood}: realized by sending excessive TCP packets directed 
+    \end{itemize}
+
+    A particular type of DoS attacks uses \textbf{SYN Spoofing}, affecting the ability of a server to respond to future connection requests by overflowing the tables used to manage them, making access to the service impossible for legitimate users. This attack is realized through the exploitation of the \textbf{TCP three-way connection handshake}:
+    \begin{itemize}
+        \item The attacker sends a SYN packet to the server by using a spoofed address
+        \item The server tries to send a SYN-ACK packet to the spoofed address
+        \item Since the spoofed address is non-existent or not actively waiting for that packet, the request times out
+        \item The server retries to send the SYN-ACK package a couple of times, eventually assuming the connection failed
+        \item By sending a large number of spoofed SYN packets to server, the latter will eventually become unavailable to manage other requests 
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.55]{images/syn_spoof.png}
+    \end{center}
+
+    \begin{frameddefn}{Distributed DoS (DDoS)}
+        We define as \textbf{Distributed DoS (DDoS)} a particular type of DoS attack realized through a large collection of systems under control of the attacker, such as a \textbf{botnet} previously created through spreading a worm malware. The machines used in the attack are called \textbf{agent zombies} and their are usually coordinated by \textbf{handler zombies}, both part of the botnet.
+    \end{frameddefn}
+
+    \begin{center}
+        \includegraphics[scale=0.5]{images/dos.png}
+    \end{center}
+
+    The use of botnets becomes particularly good in case of \textbf{HTTP flood}: each bot bombards the targeted webservers with HTTP requests, starting from a given HTTP link and following all links on the provided website in a recursive way (\textbf{spidering}). Another type of HTTP DoS attack is \textbf{Slowloris}, where the machines attempt to monopolize the service by sending HTTP requests in an excessively slow way, making the requests effectively never complete without letting the connection timeout.
+
+    More complex DoS attacks are realized through a technique called \textbf{reflection}:
+    \begin{itemize}
+        \item The attacker sends a packet with a spoofed source address to a known service on an intermediary host, where the spoofed address corresponds to the victim's address
+        \item When the intermediary responds, the response is sent to the victim
+        \item The goal is to reflect the attack off the intermediary (the \textbf{reflector}) instead of the original attacker
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.4]{images/reflection.png}
+    \end{center}
+
+    A more advanced form of reflection attack is called \textbf{amplification attack}, where the attacker exploit the behavior of the DNS protocol to convert a small request to a much larger response (amplification), flooding the target with responses.
+
+    \begin{center}
+        \includegraphics[scale=0.65]{images/amplification.png}
+    \end{center}
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item The following simple DNS request sends a 64 bytes package, but the DNS response is 3223 bytes long (50x amplification)
+        \[\ttt{dig ANY isc.org @x.x.x.x}\]
+    \end{itemize}
+
+    Another type of DDoS attack is realized through the exploit of \textbf{memcached}, a high-performance caching mechanism for dynamic websites that allows to speed up the delivery of web contents. The idea is to make a request that stores a large amount of data and then send a spoofed request to make such data delivered to the victim via UDP. Memcached DDoS attacks can bring an amplification factor of 50000x, making them really dangerous.
+
+    Even though they are based on a very simple concept, \textbf{DoS attacks can't be entirely prevented}: a high traffic volume may be legitimate or not, especially for famous sites, making it hard to detect if an attack is incoming or not. The most common \textbf{prevention techniques} include:
+    \begin{itemize}
+        \item Blocking spoofed source addresses
+        \item Filters that can ensure the path back to the claimed source address is the one being used by the current packet
+        \item Usage of modified TCP connection handling codes
+        \item Blocking IP directed broadcasts
+        \item Usage of mirrored and replicated servers when high-performance and reliability is required
+    \end{itemize}
+
+    \quad
+
+    \section{Buffer overflow}
+
+    \begin{frameddefn}{Buffer overflow}
+        We define as \textbf{buffer overflow} any condition under which more input can be placed into a buffer or data holding area than the capacity allocated, overwriting other information
+    \end{frameddefn}
+
+    Buffer overflows are a very common vulnerability and potentially one of the most dangerous ones. They exploit programming errors due to a process \textbf{attempting to store data beyond the limits} of a fixed-size buffer, overwriting the adjacent memory locations, corrupting data or enabling execution of code chosen by the attacker. A buffer could be located on the stack, in the heap or in the data sections of the process.
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item Consider the following C code:
+        
+    \begin{verbatim}
+    #include <stdio.h>
+    
+    void main(){
+        char str1[8] = "Hello!";
+        char str2[8];
+    
+        gets(str2);
+        printf("String 1: %s - String 2: %s", str1, str2);
+    }\end{verbatim}
+
+        \item After compiling and executing the code with input \ttt{TEST}, we get the following output
+            
+    \begin{verbatim}
+    [exyss@exyss ~]$ ./test.out 
+    TEST
+    String 1: Hello! - String 2: TEST
+    \end{verbatim}
+
+        \item If we execute the code with input \ttt{BUFFEROVERFLOW}, we get the following output
+    
+    \begin{verbatim}
+    [exyss@exyss ~]$ ./test.out 
+    BUFFEROVERFLOW
+    String 1: ERFLOW - String 2: BUFFEROVERFLOW
+    \end{verbatim}
+
+        \item The space on the stack get allocated downwards, meaning that \ttt{str1} was allocated above \ttt{str2}, while instead the \ttt{gets} function fills the given buffer upwards
+        \item Thus, by making the buffer overflow, the buffer of \ttt{str1} was overwritten
+    \end{itemize}
+
+    To exploit a buffer overflow, an attacker needs to identify a \textbf{vulnerable buffer} in some program that can be triggered using externally sourced data under the attacker's control, requiring knowledge on \textbf{how that buffer is stored} in memory and ability to determine potential for corruption. Identification of vulnerable programs can be done by \textbf{inspecting the source code}, by \textbf{tracing the execution} of the program as they process oversized input or by using tools such as \textbf{fuzzing} to automatically identify potentially vulnerable programs.
+
+    Older programming languages are typically low-level, meaning that problems such as memory management are under the programmer's responsibility. Thus, an unexperienced programmer is more likely to make programming mistakes, exposing the software to buffer overflows. Instead, modern languages are typically high-level, meaning that such problems are managed by the language itself. These languages tend to be more secure, but also more resource expensive.
+
+    The most common type of buffer overflows are \textbf{stack overflows}, where adjacent buffers declared in the same stack frame get overwritten, such as the previous example. Stack overflows mainly abuse the structure of \textbf{stack frames}: when a functions calls another, the return address to the caller function gets stored in the stack frame, allowing attackers to overwrite it in case of a stack overflow.  
+
+    \begin{frameddefn}{Shellcode}
+        We define as \textbf{shellcode} any machine code specific to the processor and operating system used
+    \end{frameddefn}
+
+    A very common way to exploit buffer overflows is through the injection of \textbf{shellcode}, which then gets executed directly by the program. To be effective, the shellcode must be \textbf{position independent}, meaning it must be able to run no matter where it is located in the memory. The attacker generally cannot determine in advance exactly where the targeted buffer will be located in the stack frame of the function in which it is defined. 
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item Consider the following C code:
+    
+    \begin{verbatim}
+    int main(int argc, char* argv[]){
+        char* sh;
+        char* args[2];
+        sh = "/bin/sh";
+        args[0] = sh;
+        args[1] = NULL;
+        execve(sh, args, NULL);
+    }
+    \end{verbatim}
+
+        \item The equivalent position independent x86 assembly code is the following:
+        
+    \begin{verbatim}
+            nop
+            nop
+            jmp find
+    cont:   pop %esi
+            xor %eax, %eax
+            mov %al, 0x7(%esi)
+            lea (%esi), %ebx
+            mov %ebx, 0x8(%esi)
+            mov %eax, 0xc(%esi)
+            mov $0xb, %al
+            mov %esi, %ebx
+            lea 0x8(%esi), %ecx
+            lea 0xc(%esi), %edx
+            int $0x80
+    find:   call cont
+    sh:     .string "/bin/sh"
+    args:   .long 0
+            .long 0
+    \end{verbatim}
+
+        \item Once compiled, the assembly code gets translated to the following hexadecimal shellcode
+        
+    \begin{verbatim}
+        90 90 eb 1a 53 31 c0 88 46 07 8d 1e 89 5e 08 89
+        46 0c b0 0b 89 f3 8d 4e 08 8d 56 0c cd 80 e8 e1
+        ff ff ff 2f 62 69 6e 2f 73 68 20 20 20 20 20 20
+    \end{verbatim}
+
+        \item Through a buffer overflow, an attacker can inject this shellcode ad force the program to execute it, spawning a system shell
+    \end{itemize}
+
+    \subsection{Buffer overflow countermeasures and variants}
+
+    Ideally, any programmer should be able to write safe software, preventing exposition to buffer overflows. However, in order to protect unexperienced developers, modern languages developed \textbf{built-in countermeasure} to these type of attack.
+
+    The first countermeasure is \textbf{compile-time defenses}. As we already discussed, modern high-level languages aren't vulnerable to buffer overflow attacks, requiring however additional built-in code to be executed at runtime to impose safety checks and additional resources, limiting their usage. For example, programs such as device drivers and embedded software cannot be written through these languages due to the necessity of manually managing delicate operations and/or resource usage.
+
+    Additionally, modern languages are slowly replacing old libraries with \textbf{safer libraries}, allowing programmers to handle complex things such as dynamically allocated memory more easily. Another powerful addition is \textbf{stack protection}, which adds  entry and exit codes to each function in order to check the stack for signs of corruption, such as the GCC Stackshield and Return Address Defender (RAD).
+
+    The second countermeasure is \textbf{run-time defenses}, such as:
+    \begin{itemize}
+        \item \textbf{Executable address space protection}: uses virtual memory support to make some regions of memory non-executable, requiring support from the Memory Management Unit (MMU) and for executable stack code
+        \item \textbf{Address space randomization}: manipulates the location of key data structures (stack, heap, etc...) using a random shift for each process. Due to the large address range on modern systems, this mechanism requires wasting some space, having however negligible impact 
+        \item \textbf{Guard pages}: places a guard page between critical regions of memory and, on some extent, between stack frames and heap buffers. Any attempted access to these regions immediately aborts the process execution
+    \end{itemize}
+
+    Depending on the way it's executed, we can distinguish four \textbf{variants} of buffer overflow:
+    \begin{itemize}
+        \item \textbf{Replacement stack frame}: overwrites buffer and saved frame pointer address, which gets replaced with a dummy stack frame, making the current function return to the replacement dummy frame and transferring control to the shellcode in the overwritten buffer.
+        
+        Common defenses include: stack protection mechanisms that can detect modifications to the stack frame or return address, usage of non-executable stacks and randomization of the stack in memory and the system libraries
+
+        \item \textbf{Return to system call}: replaces return address with a standard library function that uses pre-constructed suitable parameters
+        
+        Common defenses include: stack protection mechanisms that can detect modifications to the stack frame or return address, usage of non-executable and randomized stack
+        
+        \item \textbf{Heap overflow}: same as stack overflows, affecting the dynamic memory, including various data structures.
+        
+        Common defenses include: usage of non-executable and randomized heap 
+        
+        \item \textbf{Global data overflow}: same as stack and heap overflows, affecting the global data memory, including function pointers.
+        
+        Common defenses include: guard pages,usage of non-executable and randomized global data region
+    \end{itemize}
+
+    \quad
+
+    \section{Database security}
+
+    The most common type of database model is the \textbf{relational model}, based on tables of data consisting of rows and columns, where each column holds a particular type of data called \textit{attribute} and each row contains a specific value for each column. Ideally, each table has one attribute called \textit{primary key} for which each row has an unique value, forming an identifier for each row. Through the use of these unique identifiers, multiple tables can be linked together.
+
+    Relational databases are usually utilized through the \textbf{Structured Query Language (SQL)}, the standardized language to define schemas, manipulate and query data in relational databases, such as creating tables. Being so popular, SQL has become subject of study by attackers, finding vulnerabilities in its very own structure. The most common type of SQL based attack is \textbf{SQL injections}:
+    \begin{itemize}
+        \item Sends a malicious SQL command to the database server, usually with the goal of extracting data for which the attacker has no authorization
+        \item Depending on the environment, they can be exploited to also modify or delete data, execute arbitrary operating system commands or launch DoS attacks
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.525]{images/sql_inj.png}
+    \end{center}
+
+    \subsection{SQL injection}
+
+    SQL injections are usually made by \textbf{prematurely terminating} a text string expected by the server and \textbf{appending} a new command to it. Since the appended command may have additional strings appended to it, the attacker usually terminates the injected string with the comment mark "---", effectively making the server ignore the subsequent text during execution time.
+    
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item Suppose the database server executes the following SQL command:
+        \[\ttt{SELECT id FROM users WHERE user='\$user' AND pass = '\$pass'}\]
+        where \ttt{\$user} and \ttt{\$pass} are parameters with values sent by the user
+        \item By sending the values \ttt{\$user = "admin"} and \ttt{\$pass = "' OR '1' = '1' ---}, the two parameters get replaced with their associated value, meaning that the DB server executes the following SQL command:
+        \[\ttt{SELECT id FROM users WHERE user='admin' AND pass = '' OR '1' = '1' ---'}\]
+        \item Due to how SQL queries work, the previous command returns a record containing every single ID found in the table \ttt{users}
+        \item In particular, we notice how the inserted comment mark \ttt{---} makes sure the last ' mark gets ignored during execution, ensuring that the query has a correct format and doesn't get rejected by the DBMS
+    \end{itemize}
+
+    Places where SQL code can be freely injected are usually called \textbf{SQL sinks}. Common SQL sinks are user input, HTTP headers (mostly the GET/POST headers), Cookies and even the database itself (\textbf{second order injection}), where the injected code gets first stored in the database, later being fetched by the user and thus executed.
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item In the following PHP language code:
+        \[\ttt{\$q = "SELECT id, name, price, description
+        FROM products}\]
+        \[\ttt{WHERE category = ".\$\_GET['cat'];}\]
+        the HTTP GET header is an SQL sink
+    \end{itemize}
+
+    SQL injection attacks that use the same communication channel for the injection and the retrieval of the results are called \textbf{inband attacks}. Usually, the channel used is directly the webpage in which the code was injected. They are based on three strategies, two of which were shown in the previous example:
+    \begin{itemize}
+        \item \textbf{Tautology}: the attacker injects code in one or more conditional statements so that they always evaluate to true
+        \item \textbf{End-of-line comment}: after injecting the code into a particular field, legitimate code that follows gets nullified through a comment mark
+        \item \textbf{Union query}: the attacker adds an union operation to the intended query, displaying contents of other tables that could be or not be mentioned in the query
+        \item \textbf{Piggybacked queries}: the attacker adds additional queries beyond the intended query, piggy-backing the attack on top of the legitimate request
+    \end{itemize}
+
+    \textbf{Examples:}
+
+    \begin{enumerate}
+        \item \textbf{Union Query:}
+        
+        \begin{itemize}
+            \item Consider the following query:
+            \[\ttt{SELECT id, name, price, description
+            FROM products}\]
+           \[\ttt{WHERE category = '\$cat';}\]
+
+            \item Suppose we inject the following code:
+            \[\ttt{\$cat = "1' UNION SELECT 1, user, 1, pass FROM users"}\]
+
+            \item The resulting query would be:
+            \[\ttt{SELECT id, name, price, description
+            FROM products}\]
+           \[\ttt{WHERE category = '\$cat' UNION SELECT 1, user, 1, pass FROM users;}\]
+
+            appending the contents of the table \ttt{users} to the result of the query
+        \end{itemize}
+
+        \item \textbf{Piggybacked query}
+        \begin{itemize}
+            \item Consider the following query:
+            \[\ttt{SELECT id FROM users WHERE user = '\$user' AND pass = '\$pass';}\]
+
+            \item Suppose we inject the following code:
+            \[\ttt{\$user = "'; DROP TABLE users ---;"}\]
+
+            \item The resulting query would be:
+            \[\ttt{SELECT id FROM users WHERE user = '';}\]
+            \[\ttt{DROP TABLE users ---;' AND pass = '\$pass';}\]
+            
+            making the DMBS ignore everything after the --- mark and delete the table \ttt{users}
+        \end{itemize}
+    \end{enumerate}
+
+    \newpage
+
+    \begin{framedobs}{Missing information}
+        An attacker can discover the \textbf{structure of the DB schema} through the database itself. In particular, the \ttt{INFORMATION\_SCHEMA} is a schema containing metadata about other objects within the database, such as table names, number of rows, etc...
+    \end{framedobs}
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item Consider the following query:
+        \[\ttt{SELECT username FROM users WHERE id = \$id;}\]
+
+        \item Through the following injection, we can find the names of the tables stored in the database:
+        \[\ttt{\$id = "-1 UNION SELECT table\_name
+        FROM INFORMATION\_SCHEMA.TABLES}\]
+        \[\ttt{
+        WHERE table\_schema != 'mysql' AND
+        table\_schema != 'information\_schema'"}\]
+
+        \item Likewise, through the following injection, we can find the names of the columns of the table \ttt{user} found through the previous query:
+        \[\ttt{\$id = "-1 UNION SELECT column\_name
+        FROM INFORMATION\_SCHEMA.COLUMNS}\]
+        \[\ttt{
+        WHERE table\_name = 'users' LIMIT 0, 1"}\]
+    \end{itemize}
+    
+    \quad
+
+    Another common type of SQL injection attack is made up by \textbf{inferential attacks}. These kind of attacks do not actually transfer data. Instead, they enable the attacker to reconstruct the information by sending particular requests and observing the resulting behavior of the website/DBMS. They include:
+    \begin{itemize}
+        \item \textbf{Illegal or logically incorrect queries}: the attacker gathers important information about the type and structure of the backend database of a web application. Usually, this attack is considered a preliminary step
+        \item \textbf{Blind SQL injection}: the attacker infers the data contained in the DB even when the system is sufficiently secure to not display any correct or erroneous information back to the attacker
+        \item \textbf{Out-of-Band attack}: data is retrieved using a different channel, allowing the attacker to get feedback even when there are limitations to information retrieval but outbound connectivity from the database server is lax
+        \item \textbf{File operations}: SQL queries can also read or write files, giving the attacked a way to access their content
+    \end{itemize}
+
+    \newpage
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item Suppose the server runs the following PHP code:
+        
+    \begin{verbatim}
+    $q = "SELECT col FROM example WHERE id=".$_GET['id'];
+    $res = mysql query($q);
+
+    if(!$res) {
+        die("error");
+    } else {
+        // Does something, but never prints anything about it
+    }
+    \end{verbatim}
+
+        \item Even though the code never outputs a result, we can still exploit it with blind SQL injection through the use of the following functions:
+        
+        \begin{itemize}
+            \item \ttt{BENCHMARK(n, expression)} executes the given expression for \ttt{n} times
+            \item \ttt{IF(condition, true\_branch, false\_branch)} executes conditional statements
+        \end{itemize}
+
+        \item By combining if statements and benchmark calls we can find data through \textbf{time inference}: if the condition is true, a time-expensive benchmark call will be made, meaning we can find out information based on elapsed time
+        
+        \begin{center}
+            \includegraphics[scale=0.8]{images/time_inference.png}
+        \end{center}
+
+        \item The following pseudo-code gives an idea on how to extract data by exploiting time inference:
+        
+    \begin{verbatim}
+    $LENGTH = 20;
+    $charset = ['a', 'b', 'c', ...];
+    $i = 1;
+    $content = "";
+
+    while i < LENGTH{
+        for c in charset{
+            $q = '-1 UNION SELECT IF(
+                (SELECT substr( col, $1, 1)
+                FROM example WHERE id = 1) = '$c',
+                BENCHMARK(50000000, MD5(1)), 0)'
+            
+            $start = time();
+
+            # Send web request injecting $q
+
+            if (time() - $start) > 8{
+                $content += c;
+                break;
+            }
+        }
+        $i += 1;
+    }
+    \end{verbatim}
+    \end{itemize}
+    
+    Common prevention techniques against SQL injections consist in \textbf{input sanitization}, through the use of functions that place escape characters before executing the query (e.g. the string "user='max'" gets converted to "user=\textbackslash'max\textbackslash'"), \textbf{parametrized queries} (if the language supports them) and \textbf{SQL DOM}.
+
+    \quad
+
+    \subsection{Database authorization, inference and encryption}
+
+    In each DBMS, the \textbf{database access control} system determines which portions of the database are accessible by the user and his access rights. It can support a range of administrative policies such as \textbf{centralized administration}, where a small number of privileged users may grand and revoke access rights, \textbf{ownership based administration}, where the creator of a table may grant and revoke access rights to the table, and \textbf{decentralized administration}, where the owner of the table may grant and revokei authorization rights to other users, allowing them to grand and revoke access rights to the table.
+
+    Table access rights can be managed through the commands \ttt{GRANT} and \ttt{REVOKE}. These commands have a \textbf{cascading effect}: when a user $A$ revokes an access right to an user $B$, any user that was granted that access right from user $B$ also gets his access right revoked, unless that access was also granted from another user $C$
+
+    \begin{center}
+        \includegraphics[scale=0.6]{images/cascade.png}
+    \end{center}
+
+    Due to the cascading effect, the usage of \textbf{role-based access control (RBAC)} can ease administrative burden and improve security.
+    
+    \begin{frameddefn}{Inference}
+        In database security, we define \textbf{inference} as the process of performing authorized queries and deducing unauthorized information from the legitimate responses received
+    \end{frameddefn}
+    
+    \begin{center}
+        \includegraphics[scale=0.6]{images/inference.png}
+    \end{center}
+
+    Database inference can be detected \textbf{during database design}, where inference channels get removed by altering the database structure or by changing the access control regime, or during \textbf{query execution}, where the execution gets denied or altered if an inference channel gets detected. These approaches are still under development in modern days.
+
+    The last line of defense for databases is \textbf{encryption}, which can be applied to the entire database, to some records, to some attributes or even on some specific individual entry. However, these approaches come with some disadvantages, such as \textbf{key management}, where authorized users must have access to the decryption key of the requested data, and \textbf{inflexibility}, meaning that record searching becomes more difficult to perform.
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item A straightforward solution is to encrypt the entire database and not provide the encryption/decryption keys to the service provider
+        \item This solutions is by itself inflexible, leaving little ability to access individual data items based on searches or indexing on key parameters
+    \end{itemize}
+
+    To provide more flexibility, it must be possible to \textbf{work with the database in its encrypted form}:
+    \begin{itemize}
+        \item Each row is encrypted as a block, meaning that for each row in the original database, there is now one row in the encrypted database
+        \item For any attributes, the range of attribute values is divided into a set of non-overlapping partitions that encompass all possible values, assigning an index value to each partition
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.6]{images/db_encryption.png}
+    \end{center}
+
+    \quad
+
+    \section{Web security}
+
+    \subsection{HTTP security measures}
+
+    The HTTP protocol is \textbf{stateless}, meaning that every request is independent from the previous ones. However, modern dynamic web applications require the ability to maintain some kind of information. To fix this problem, \textbf{HTTP sessions} are implemented by web applications themselves through the use of \textbf{cookies}, small data files created by the server and memorized by the client, which appends them to any request sent to the user.
+
+    Usually, session data gets stored on the server and a cookie containing a \textbf{session ID} gets stored on the client. For each request, the client sends back that ID to the server, which then retrieves the information of the previous session.
+
+    Due to being a very simple mechanism, cookie sessions are very easy to exploit: the attacker can \textbf{intercept} the cookies sent to the web server, allowing him to \textbf{hijack} the session through a reply attack.
+
+    \begin{center}
+        \includegraphics[scale=0.65]{images/session_hijacking.png}
+    \end{center}
+
+    Early PHP implementations of session cookies were susceptible to \textbf{session prediction}: due to the low number of possible IDs (almost 1 million), attackers could bruteforce the session ID through randomization.
+
+    Another common type of session attack is \textbf{session fixation}, where the attacker starts a new session with the server, storing the ID and sending it to the victim, which will store and use the same session ID.
+
+    \begin{center}
+        \includegraphics[scale=0.65]{images/session_fixation.png}
+    \end{center}
+
+    \begin{frameddefn}{Insecure direct object reference (IDOR)}
+        We define as \textbf{insecure direct object reference (IDOR)} any medium through which the user gets direct access to object, bypassing authorization checks by leveraging session coockies to access resources in the system
+    \end{frameddefn}
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item The URL \ttt{www.example.com/index.html?id=5} gives us direct access to an object with ID 5
+        \item By simply changing the number inside the URL, we can access every object
+    \end{itemize}
+
+    Most of the browser's security mechanisms rely on the possibility of \textbf{isolating} documents depending on the resource's origin. Content coming from a website can only be read and modified by that very same website  and not by other websites, meaning that a malicious website cannot run scripts that access data and functionalities of another website visited by the user. This is achieved through the use of the \textbf{Same Origin Policy (SOP)}
+
+    \begin{framedprop}{Same Origin Policy (SOP)}
+        Any two scripts executed in two given execution contexts can access their DOMs if and only if the \textbf{protocol, domain name} and \textbf{port} of their host documents are the same
+    \end{framedprop}
+
+    \newpage
+    
+    \subsection{XSS and CSRF attacks}
+
+    The first type of client side attack is commonly known as \textbf{Cross-Site Scripting (XSS)}, where the goal is to obtain unauthorized access to information stored on the client (namely the browser) or execute unauthorized action. The major cause of this attack is lack of \textbf{input sanitization}: the original webpage gets modified and HTML/JavaScript code is injected in the page, which then gets executed by the client's browser.
+
+    There are three types of XSS attacks:
+    \begin{itemize}
+        \item \textbf{Reflected XSS}: the injection happens in a parameter used by the page to dynamically display information to the user
+        
+        \begin{center}
+            \includegraphics[scale=0.5]{images/reflected_xss.png}
+        \end{center}
+
+        \quad
+
+        \item \textbf{Stored XSS}: the injection is stored in a page of the web application, attacking the users that access it
+        
+        \begin{center}
+            \includegraphics[scale=0.5]{images/stored_xss.png}
+        \end{center}
+
+        \item \textbf{DOM-based XSS}: the injection happens in a parameter used by a script running within the page itself
+        
+        \begin{center}
+            \includegraphics[scale=0.475]{images/dom_based_xss.png}
+        \end{center}
+    \end{itemize}
+
+    The second type of client side attack is commonly known as \textbf{request forgery}, where the goal is to make the victim execute a number of actions using her credentials. This type of attack doesn't steal data and has to be done without direct access to the cookies (due to SOP).
+
+    The most common type of request forgery is \textbf{Cross Site Request Forgery (CSRF)}, where the attacker makes an authenticated user submit a malicious and unintentional request. If the user is currently authenticated, the site has no way to distinguish between a legitimate and forged request sent by the victim.
+
+    \textbf{Example:}
+    \begin{itemize}
+        \item Suppose the victim visits \ttt{www.bank.com} and performs a successful authentication
+        \item The victim then opens another browser tab or window and visits a malicious website that contains an image with the following HTML tag:
+        \[\ttt{<img src="www.bank.com/transfer.php?to=1337\&amount=10000"}\]
+        \item Since the user is authenticated on the bank website, the correct session cookie is stored in the client, meaning that the request done through the \ttt{<img>} tag will be satisfied
+    \end{itemize}
+
+    Im summary, we can say that XSS attacks exploit the \textbf{client's trust} in the website, while CSRF attacks exploit the \textbf{website's trust} in the client's input.
+
+    \chapter{Cryptography}
+
+    The primary purpose of cryptography is to alger a message in a way which can be reversed only by the intended recipients, allowing them to read the original message. Cryptography is used to preserve confidentiality, authenticate senders and receivers of a message, facilitate message integrity.
+
+    In the following sections, we will assume that:
+    \begin{itemize}
+        \item $K$ is the secret key
+        \item $P$ is the plaintext message and $C$ is the encrypted message (also known as \textit{ciphertext})
+        \item $E_K(P) = C$, where $E_K$ is the encryption function
+        \item $D_K(C) = P$, where $D_K$ is the decryption function
+        \item Encryptions and decryptions are permutation functions on the set of all $n$-bit arrays
+    \end{itemize}
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item Suppose that Alice wants to send a message $P$ to Bob over an insecure channel, which could be eavesdropped
+        \item If Alice and Bob have previously agreed on a simmetric encryption scheme based on the secret key $K$, Alice can send $E_K(P)$ to Bob
+        \item Once the message gets received, Bob will decrypt the received ciphertext by calculating $D_K(E_K(P)) = P$
+    \end{itemize}
+
+    \begin{frameddefn}{Exhaustive search}
+        We define as \textbf{exhaustive search} (or \textbf{brute force}) the process of testing every single key $K$ in order to decrypt a ciphertext
+    \end{frameddefn}
+
+    Brute force attacks are the main reason why the secret key used should \textbf{always be a sufficiently long and random value}. If the key is small, the exhaustive search will take only a little amount of time. Instead, if the key is big enough, the exhaustive search will take an unbearable amount of time (in some cases, it will take even longer than the universe's lifespan).
+
+    In order to reduce the number of keys to be tested, attackers use a series of techniques named \textbf{cryptoanalysis}. An attacker may have:
+    \begin{itemize}
+        \item A collection of ciphertexts to analyze (\textbf{ciphertext-only attack})
+        \item A collection of plaintext-ciphertext pairs to analyze (\textbf{known-plaintext attack})
+        \item A collection of plaintext-ciphertext pairs for plaintexts selected by the attacker  (\textbf{chosen-plaintext attack})
+        \item A collection of plaintext-ciphertext pairs for ciphertexts selected by the attacker  (\textbf{chosen-ciphertext attack})
+    \end{itemize}
+
+    \begin{frameddefn}{Symmetric and Public key cryptography}
+        We define as \textbf{Symmetric key cryptography} a cryptography scheme based on a single secret key used for both encryption and decryption
+
+        Similarly, we define as \textbf{Public key cryptography} (or \textit{asymmetric cryptographi}) a cryptography scheme based on the use of a public key for encryption and a private key for decryption
+    \end{frameddefn}
+
+    \quad
+    
+    \section{Symmetric key cryptography}
+
+    \subsection{Substitution and transposition ciphers}
+
+    Common symmetric key cryptographies are based on \textbf{substitution}, where each character in the plaintext gets replaced by another character of the same or different alphabet
+
+    \begin{framedmeth}{Caesar chiper}
+        The \textbf{Caesar cipher} (or \textbf{ROT} - from \textit{rotation}) is a symmetric key cryptography scheme where each character of the plaintext gets replaced with the character $K$ positions ahead in the english alphabet, wrapping back to the start if the end of the alphabet gets reached (\textbf{cyclic permutation}).
+    \end{framedmeth}
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item If the chosen key is $K = 3$, the substitution pattern is:
+        
+        \begin{center}
+            \resizebox{0.9\hsize}{!}{
+                \begin{tabular}{cccccccccccccccccccccccccc}
+                    A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z\\
+                    \hline
+                    D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C\\
+                \end{tabular}
+            }
+        \end{center}
+
+        \item Thus, the plaintext $P = \text{HELLO WORLD!}$ becomes $E_K(P) = \text{KHOOR ZRUOG!}$
+    \end{itemize}
+
+    \newpage
+
+    Since there are only 26 possible keys, brute force attacks run extremely fast on ciphertexts encrypted with Caesar's cipher. A more advanced versions of this cipher, generally known as \textbf{random permutation cipher}, is based on using a chosen substitution pattern as the whole key.
+
+    \begin{itemize}
+        \item If the chosen key is $K = KEPALMUHDRVBXYSGNIZFOWTJQC$, the substitution pattern is:
+        
+        \begin{center}
+            \resizebox{0.9\hsize}{!}{
+                \begin{tabular}{cccccccccccccccccccccccccc}
+                    A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z\\
+                    \hline
+                    K & E & P & A & L & M & U & H & D & R & V & B & X & Y & S & G & N & I & Z & F & O & W & T & J & Q & C\\
+                \end{tabular}
+            }
+        \end{center}
+
+        \quad
+
+        \item Thus, the plaintext $P = \text{HELLO WORLD!}$ becomes $E_K(P) = \text{HLBBS TSIBA!}$
+    \end{itemize}
+
+    However, this scheme also results weak: the number of possible keys is the number of permutations of the alphabet, meaning only $26! = 4.03 \cdot 10^{26}$ possible values.
+
+    In addition, these schemes are weak against \textbf{text frequency analysis}: some characters are used more frequently in english texts (i.e. the letter E), making it easier to find patterns between words, allowing attackers to find the key.
+
+    More sophisticated substitutions can be obtained by using more alphabets or more keys. These \textbf{poly-alphabetic ciphers} are more difficult to be cryptoanalyzed.
+    
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item Suppose that we chose two keys:
+        \begin{itemize}
+            \item If a character is in an odd position in the text, it gets replaced with the character $K_1$ positions ahead in the english alphabet
+            \item If a character is in an even position in the text, it gets replaced with the character $K_2$ positions ahead in the english alphabet
+        \end{itemize}
+        \item If the chosen keys are $K_1 = 5$ and $K_2 = 19$, the substitution patter is:
+        
+        \begin{center}
+            \resizebox{0.925\hsize}{!}{
+                \begin{tabular}{c|cccccccccccccccccccccccccc}
+                    & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z\\
+                    \hline
+                    $\mathrm{K_1}$ & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z A & B & C & D & E \\
+                    \hline
+                    $\mathrm{K_2}$ & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S\\
+                \end{tabular}
+            }
+        \end{center}
+    \end{itemize}
+
+    \begin{framedmeth}{Vigenére cipher}
+        The \textbf{Vigenére cipher} is a symmetric key cryptography scheme where:
+        \begin{itemize}
+            \item The key $K$ is a word
+            \item Eeach character of the key corresponds to its order number in the alphabet (i.e. $E$ corresponds to $5$) 
+            \item Each character of the plaintext gets paired with a character of the key, repeating the key if necessary
+            \item If $n$ is the ciphertext character of the pair, the corresponding plaintext character gets replaced with the character $n$ places ahead in the alphabet 
+        \end{itemize}
+
+    \end{framedmeth}
+
+    The Vigenére cipher is based on the use of all the possible cyclic permutations of the used alphabet:
+
+    \begin{center}
+        \includegraphics[scale=0.65]{images/vigenere.png}
+    \end{center}
+
+    \textbf{Example:}
+    \begin{itemize}
+        \item If the chosen key is $K = \text{USE THIS}$, the sostitution pattern is:
+        
+        \begin{center}
+            \includegraphics[scale=0.4]{images/vigenere_2.png}
+        \end{center}
+
+        \item Suppose that $P = \text{THIS IS MY SECRET TEXT}$. The pairs get established as:
+        \begin{center}
+            \begin{tabular}{cccccccccccccccccc}
+                T & H & I & S & I & S & M & Y & S & E & C & R & E & T & T & E & X & T\\
+                \hline
+                U & S & E & T & H & I & S & U & S & E & T & H & I & S & U & S & E & T\\
+            \end{tabular}
+        \end{center}
+
+        \item Thus, the plaintext $P$ becomes $E_K(P) = \text{NZML PA ES KIVYML NWBM}$
+    \end{itemize}
+
+    \newpage
+
+    The Vigenére cipher gets used for \textbf{one-time pads}, keys that get used only for one encryption. In this type of encryption, the key must be as long as the plaintext, making it resistant against frequency analysis. In particular, this type of encryption is \textbf{unbreakable} thanks to \textbf{Shannon's theorem}.
+
+    \begin{framedthm}{Shannon's theorem}
+        If a cipher is \textbf{perfect}, there must be \textbf{at least as many keys} as there are possible messages
+    \end{framedthm}
+
+    In spite of their perfect security, the weakness of one-time pads is the necessity of keys long as their plaintext and the impossibility of reusing keys.
+
+    A completely different approach is used by \textbf{transposition chipers}, where the order of the characters in the plaintext gets changed. In particular, these ciphers don't change which characters are more frequent, making them immune to frequency analysis.
+    
+    The easiest type of transpositions characters are:
+    \begin{itemize}
+        \item \textbf{Rail fence transposition}: the given message gets arranged in a zig-zag pattern and then read row by row
+        \begin{center}
+            \includegraphics[scale=0.65]{images/rail_fence.png}
+        \end{center}
+
+        \quad
+
+        \item \textbf{Block transposition}: the given message gets divided in blocks of the same length and each character in the block gets reordered with the same permutation (the key)
+        \begin{center}
+            \includegraphics[scale=0.75]{images/block_permutation.png}
+        \end{center}
+
+        \newpage
+
+        \item \textbf{Column transposition}: the given message gets written in a tabular form using a fixed row length, which then gets read column by column, forming the ciphertext
+        \begin{center}
+            \includegraphics[scale=0.65]{images/column_transposition.png}
+        \end{center}
+
+        \quad
+
+        \item \textbf{Keyed column transposition}: same as column transposition, but the columns get reordered by a permutation
+        \begin{center}
+            \includegraphics[scale=0.75]{images/keyed_column_transposition.png}
+        \end{center}
+    \end{itemize}
+
+    \begin{framedobs}{}
+        An encryption scheme is defined as \textbf{computationally secure} if:
+        \begin{itemize}
+            \item The cost of breaking the cipher exceeds the value of the information
+            \item The time required to break the cipher exceeds the useful lifetime of the information
+        \end{itemize}
+    \end{framedobs}
+
+    \quad
+
+    \subsection{Block and stream ciphers}
+
+    In 1973, Horst Feistel proposed the concept of a \textbf{product cipher}, which is composed of two or more simple ciphers (usually substitution and permutation) executed in sequence in such a way that the final result or product is cryptographically stronger than any of the the component ciphers. This sequencr is commonly known as \textbf{Feistel network}.
+
+    A common example of product ciphers are \textbf{block ciphers}, where the plaintext and the ciphertext have a fixed length $n$ (i.e 128 bits) and the plaintext is partitioned into a sequence of $m$ blocks (some padding gets added to the last block if needed). Each block is independent from the others, requiring the key to be applied repeatedly for each block of data.
+
+    \begin{center}
+        \includegraphics[scale=0.65]{images/block_cipher.png}
+    \end{center}
+
+    The \textbf{Data Encryption Standard (DES)} is the most widely used encryption scheme. Its algorithm, the Data Encryption Algorithm (DEA), is a minor variation of the Feistel network.
+
+    Although DES is a public standard, it was considered controverted by design due to the key being only \textbf{56 bits} long with a block length of 64 bits. Over time, this key length proved to be too short, making DES unsafe.
+
+    In 1992, it was proven that DES encryption does not form an algebraic group: applying two DES encryptions is \textbf{never equivalent} two a single application:
+    \[\forall K_1, K_2, K_3 \quad E_{K_2}(E_{K_1}(P)) \neq E_{K_3}(P)\] 
+    meaning that multiple encipherments should be more effective, establishing the \textbf{Double DES} standard. However, Double DES proved to not be as secure as expected due to a design flaw, allowing attackers to execute a \textbf{meet-in-the-middle attack}:
+    \begin{itemize}
+        \item Due to using two keys (56 bits + 56 bits), bruteforce attacks would need to test $2^{112}$ keys 
+        \item In a two-adjacent block cipher, such as Double DES, we have that $C = E_{K_2}(E_{K_1}(P))$
+        \item Given a known pair $(P,C)$, we can encrypt $P$ with $2^{56}$ keys and try to decrypt $C$ with $2^{56}$ keys
+        \item After testing every encryption/decryption, there will be a matching pair:
+        \[\exists K_1, K_2 \;\; E_{K_1}(P) = D_{K_2}(C)\]
+        \item The keys used for that encryption and that decryption are the two correct keys, requiring only $2^{56}+2^{56} = 2^{57}$ tests
+    \end{itemize}
+    
+    \newpage
+
+    To fix this issue, the \textbf{Triple DES} standard was established, fixing the design flaw thanks to the use of 3 keys, one for each encryption step. Another common version of 3DES uses only 2 keys, one for the first and third encryption step and one for the second one.
+
+    \begin{center}
+        \includegraphics[scale=0.525]{images/3des.png}
+
+        \textit{Triple DES with only two keys}
+    \end{center}
+
+    To replace DES, a public call was made to chose a new algorithm as replacement to DES. The algorithm Rejindael was chosen and became what is now knows as the \textbf{Advanced Encryption Standard (AES)}. This algorithm uses a block cipher with blocks of 128 bits and keys of 128, 192 or 256 bits, making exhaustive search attacks almost impossible.
+
+    In particular, 128 bit AES starts with an \textbf{initial XOR step} applied to the plaintext with the key $K$, followed by \textbf{10 rounds}, each of which is an invertible transformation made up of four basic steps:
+    \begin{itemize}
+        \item \textbf{SubBytes}: an S-box (\textit{Substitution Box}) substitution is applied, where a number is split in 2 blocks used as indexes of a substitution table
+        
+        As an example, given the following S-box, the number 1001 gets replaced by the number 1101:
+
+        \begin{center}
+            \includegraphics[scale=0.55]{images/sbox.png}
+        \end{center}
+
+        \item \textbf{Shift rows}: a permutation step
+        \item \textbf{MixColumns}: a matrix multiplication step
+        \item \textbf{AddRoundKey}: a XOR step with a round key derived from $K$
+    \end{itemize}
+
+    \quad
+
+    Differently from block ciphers, \textbf{stream ciphers} treat the message to be encrypted as one continuous stream of characters. The encryption scheme or the key can change for each character of the plaintext. In particular, given the plaintext $P =P_1, P_2, P_3, \ldots $ and the keystream $E = E_1, E_2, E_3, \ldots$, a stream cipher produces the ciphertext $C = C_1, C_2, C_3, \ldots$ with $C_i = E_{E_i}(M_i)$
+
+    In some sense, stream ciphers can be seen as block ciphers with block size of length one. These kind of ciphers are useful when the plaintext needs to be processed character-by-character or if the message is short. Stream ciphers should have long periods without repetitions, requiring a large enough key that should be statistically unpredictable and unbiased.
+
+    \begin{center}
+        \includegraphics[scale=0.6]{images/stream_cipher.png}
+    \end{center}
+
+    Compared to block ciphers, stream ciphers provide speed of transformation and no error propagation, while also providing low diffusion and being subject to malicious insertions and modifications, to which block ciphers are immune.
+
+    A widely used stream cipher is \textbf{RC4}, where the key forms a random permutation of all 8 bits values, scrambling the processed input byte-by-byte. This cipher has been proven to be secure against known attacks.
+
+    \begin{verbatim}
+
+    /* Initialization */
+    for i = 0 to 255 do:
+        S[i] = i;
+        T[i] = K[i mod keylen];
+
+    /* Initial Permutation of S */
+    j = 0;
+    for i = 0 to 255 do:
+        j = (j + S[i] + T[i]) mod 256;
+        Swap (S[i], S[j]);
+
+    /* Stream Generation */
+    i, j = 0;
+    while (true):
+        i = (i + 1) mod 256;
+        j = (j + S[i]) mod 256;
+        Swap (S[i], S[j]);
+        t = (S[i] + S[j]) mod 256;
+        k = S[t];
+        Output k;
+    \end{verbatim}
+
+    \begin{center}
+        \includegraphics[scale=0.48]{images/rc4.png}
+    \end{center}
+
+    \quad
+
+    \subsection{Block cipher modes}
+
+    Block ciphers can be executed with a vast variety of \textbf{cipher modes}, each one describing the way a sequence of blocks gets encrypted and decrypted.
+    
+    The simplest block cipher mode is the \textbf{Electronic Code Book (ECB)} mode:
+    \begin{itemize}
+        \item The plaintext block $P[i]$ gets encrypted into the ciphertext block $C[i] = E_K(P[i])$ 
+        \item The ciphertext block $C[i]$ gets decrypted into the plaintext block $P[i] = D_K(C[i])$ 
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.8]{images/ecb.png}
+    \end{center}
+
+    \newpage
+
+    Thanks to its simplicity, the ECB mode allows for parallel encryptions of the blocks of a plaintext and can tolerate the loss or damaging of a block. However, this mode is not suitable for encrypting documents and images due to the presence of patters in the plaintext that would get repeated in the ciphertext, making it easier to reverse.
+
+    A more advanced block cipher mode is \textbf{Cipher Block Chaining (CBC)} mode:
+    \begin{itemize}
+        \item The current plaintext block gets XORed with the previous ciphertext block before being encrypted, meaning that $C[i] = E_K(P[i] \xor C[i-1])$
+        \item The block $C[-1] = V$ is a random block separately transmitted as encrypted, known as the \textbf{initialization vector (IV)}
+        \item Decryption is done through $P[i] = C[i-1] \xor D_K(C[i])$
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.6]{images/cbc.png}
+
+        \textit{CBC encryption}
+
+        \includegraphics[scale=0.67]{images/cbc_dec.png}
+
+        \textit{CBC decryption}
+    \end{center}
+
+    Even though it's more complex than ECB, CBC mode is still fast and doesn't show patterns in the plaintext, being the most commonly used mode. However, CBC requires the reliable transmission of all the blocks sequentially due to each ciphertext block depending on all the other message blocks, meaning that CBC is not suitable for applications that allow packet losses.
+
+    A cipher mode very similar to CBC mode is the \textbf{Cipher Feed Back (CFB)} mode:
+    \begin{itemize}
+        \item The message is treated as a stream of bits and gets XORed with the output of the block cipher
+        \item The current plaintext block gets XORed with the encryption of the previous ciphertext block, meaning that $C[i] = P[i] \xor E_K(C[i-1])$
+        \item The block $C[-1] = V$ is a random block separately transmitted as encrypted, known as the \textit{initialization vector (IV)}
+        \item Decryption is done through $P[i] = C[i] \xor E_K(C[i-1])$
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.45]{images/cfb.png}
+
+        \textit{CFB encryption}
+
+        \includegraphics[scale=0.45]{images/cfb_dec.png}
+
+        \textit{CFB decryption}
+    \end{center}
+
+    \quad
+
+    The CFB mode is appropriate when the data arrives in bits or bytes, making it the most commonly used stream mode. Like in CBC, in CFB mode the input block to each forward cipher function (except the first) depends on the result of the previous forward cipher function, making it hard to parallelize.
+
+    \newpage
+
+    Similar to CFB, the \textbf{Output Feed Back (OFB)} mode is used for stream encryption over noisy channels:
+    \begin{itemize}
+        \item The message is treated as a stream of bits and gets XORed with the output of the block cipher and the encryption is applied to the partial output values $O[0], \ldots, O[N]$
+        
+        \item Each partial value is the encryption of the previous partial value, meaning that $O[i] = E_K(O[i-1])$, where the initial vector is $O[0] = V$
+        \item The current plaintext block gets XORed with the current partial output, meaning that $C[i] = P[i] \xor O[i]$
+        \item Decryption is done through $P[i] = C[i] \xor O[i]$
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.45]{images/ofb.png}
+
+        \textit{OFB encryption}
+
+        \includegraphics[scale=0.45]{images/ofb_dec.png}
+
+        \textit{OFB decryption}
+    \end{center}
+
+    The OFB mode gets usually used when error feedback is a problem or where it is necessary to do encryptions before the message is available. In order to be used, sender and receiver must remain synchronized, requiring the use of some recovery methods in case this occurs. Additionally, the same key can \underline{never} be used with the same IV due to security reasons.
+
+    \newpage
+    
+    At last, the \textbf{Counter (CTR)} mode is conceptually identical to OFB, but allows the encryption to be parallelized thanks to each partial values being the encryption of the current counter instead of the previous partial value, meaning that $O[i] = E_K(i)$ 
+
+    \begin{center}
+        \includegraphics[scale=0.45]{images/ctr.png}
+
+        \textit{CTR encryption}
+
+        \includegraphics[scale=0.45]{images/ctr_dec.png}
+
+        \textit{CTR decryption}
+    \end{center}
+
+    \newpage
+
+    \addtocontents{toc}{\protect\newpage}
+    \section{Message authentication}
+
+    \begin{frameddefn}{Message authentication}
+        We define \textbf{message authentication} as the process of verifying the source of a message and the integrity of said message.
+
+        Message authentication is used as a defense mechanism against active attacks. 
+    \end{frameddefn}
+
+    Typically, \textbf{message authentication} is a separate concept from \textbf{message encryption}. In fact, the first can also be used without the latter. Additionally, message encryption by itself doesn't provide a secure form of authentication. However, we can combine authentication and confidentiality in a single algorithm through the use of encryption and an authentication tag.
+
+    Message authentication is usually achieved through the use of a \textbf{Message Authentication Code (MAC)}, which gets generated with a secret key an algorithm. In particular, the process doesn't need to be reversible, allowing the use of unconventional encryption schemes.
+    
+    Thanks to this property, they can be generated through the use of an \textbf{hash function}, which can efficiently yield the \textit{fingerprint} (usually called \textbf{hash value}, message digest or checksum) of a file, message or other block of data without the use of a secret key. The hash value can be generated through a \textbf{secret value} used as padding for the message, uniquely identifying the sender.
+    
+    \begin{center}
+        \includegraphics[scale=0.45]{images/mac_hash.png}
+
+        \textit{MAC with encrypted one-way-hash}
+
+        \includegraphics[scale=0.575]{images/mac_hash_2.png}
+
+        \textit{MAC with secret value one-way-hash}
+    \end{center}
+
+    \newpage
+
+    The hash function used to generate a MAC \underline{must} have the following properties:
+    \begin{itemize}
+        \item It can be applied to a block of data of any size
+        \item It produces a fixed-length output
+        \item The hash value $H(x)$ is relatively easy to compute for any given $x$
+        \item \textbf{One-way or pre-image resistant}: for any given hash value $h$, it must be computationally infeasible to find an $x$ such that $H(x) = h$
+        \item \textbf{Second pre-image resistant}: for any given block $x$, it must be computationally infeasible to find another block $y$ such that $y \neq x$ and $H(y) = H(x)$
+        \item \textbf{Collision resistant}: it must be computationally infeasible to find a pair $(x,y)$ such that $H(x) = H(y)$
+    \end{itemize}
+
+    \begin{framedobs}{Second pre-image vs Collision}
+        The key difference between second pre-image resistance and collision resistance is the presence or not of a given block $x$
+    \end{framedobs}
+
+    \begin{framedobs}{}
+        The \textbf{strength of hash functions} depends \underline{solely} on the length of the hash code produced by the algorithm: a sufficient length will automatically ensure all the previous properties are satisfied
+    \end{framedobs}
+
+    One of the simplest hash functions is the bit-by-bit XOR of every block of the message, meaning that:
+    \[C_i = b_{i,1} \xor  b_{i,1} \xor \ldots \xor b_{i,m}\]
+    where:
+    \begin{itemize}
+        \item $m$ is the number of $n$-bit blocks in the input 
+        \item $C_i$ is the $i$-th bit of the hash code
+        \item $b_{i,j}$ is the $i$-th bit of the $j$-th block
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.55]{images/simple_hash.png}
+    \end{center}
+
+    The most widely used hash algorithm is the \textbf{Secure Hash Algorithm (SHA)}. There are multiple versions of SHA, ranging from the standard SHA-1 with 160-bit hash values to SHA-512 with 512-bit hash values
+
+    The first version SHA-1 was broken through the use of \textbf{birthday attacks}, a bruteforce collision attack that exploits the mathematics behind the birthday problem in probability theory.
+
+    \begin{center}
+        \includegraphics[scale=0.6]{images/sha.png}
+
+        \textit{Note: the security statistic refers to the fact that a birthday attack on a message digest of size $n$ produces a collision with a work factor of approximately $2^{\frac{n}{2}}$}
+    \end{center}
+
+    \quad
+
+    The second version, SHA-2, shares the same structure and mathematical operations as its predecessors, causing concern. Due to these reasons, a new algorithm to establish SHA-3 was chosen in 2015 to use in case SHA-2 becomes vulnerable.
+
+    The standard SHA algorithm generates the hash value through a sequence of applications called \textbf{rounds}, adding the result of each round
+
+    \begin{center}
+        \includegraphics[scale=0.65]{images/sha_512.png}
+
+        \textit{SHA-512 hash value generation}
+    \end{center}
+
+    As an example, SHA-512 with single 1024-bit processing calculates the $i$-th hash value block as follows:
+    \begin{itemize}
+        \item Each round $t$ makes use of a 64-bit value $W_t$ derived from the current 1024-bit message block being processed, namely $M_i$
+        \item Each round also makes use of an additive constant $K_t$
+        \item The operations performed during each round consist of circular shifts and primitive boolean functions
+    \end{itemize} 
+
+    \begin{center}
+        \includegraphics[scale=0.8]{images/sha_512_2.png}
+    \end{center}
+
+    Due to SHA-1 not being designed to be used as a MAC (since it doesn't rely on a secret key), a new algorithm was developed to establish the \textbf{Hash-based MAC (HMAC)}, which was chosen as the mandatory-to-implement MAC for IP layer security:
+    \begin{itemize}
+        \item Designed to use, without modification, available hash functions and to handle keys in a simple way
+        \item The embedded hash function is easy-replaceable in case faster or more secure hash functions are found or required
+        \item The cryptographic analysis of the strength of the authentication mechanism is well-understood and based on reasonable assumptions on the embedded hash function
+        \item Should execute in approximately the same time as the hash function for long messages
+    \end{itemize}
+
+    \newpage
+
+    The HMAC algorithm can be expressed as:
+    \[\mathrm{HMAC}(K,M) = H[(K^+ \xor \mathrm{opad}) || H[K^+ \xor \mathrm{ipad}] || M]\]
+    where ipad and opad are the input and output pads.
+
+    \begin{center}
+        \includegraphics[scale=0.6]{images/hmac.png}
+    \end{center}
+
+    The security of HMAC depends \textit{entirely} on the cryptographic strength of the underlying hash function. In particular, its designers have been able to prove an exact \textbf{relationship} between the \textbf{strength of the embedded hash function} and the \textbf{strength of HMAC}: for a given level of effort on messages generated by a legitimate user and seen by the attacker, the probability of successful attack on HMAC is equivalent to one of the following attacks on the embedded hash function.
+    
+    \newpage
+
+    \section{Public key cryptography}
+
+    In public key encryption schemes, each user generates a pair of keys to be used for the encryption and decryption fo messages. Additionally, each user places one of the two keys in a public register or other publicly accessible file. This key is refered to as the \textbf{public key}, while the second key is called \textbf{private key}.
+
+    Public key cryptography's main use is \textbf{confidentiality}: if Bob wishes to send a private message to Alice, Bob encrypts the message using Alice's public key. When Alice receives the encrypted message, she can decrypt it using the paired private key
+
+    \begin{center}
+        \includegraphics[scale=0.6]{images/public_key.png}
+    \end{center}
+
+    Public and private keys can also be used to establish \textbf{authentication} (without confidentiality): if Bob encrypts a message with his private key, Alice can decrypt it with his public key, ensuring the sender's identity.
+
+    \begin{center}
+        \includegraphics[scale=0.51]{images/public_key_2.png}
+    \end{center}
+
+    The main advantage of public key cryptography (PKC) is the absence of the need to communicate the private key due to the public key being already distributed. Additionally, a brute force attack on a message encrypted using public key cryptography is time consuming and nearly impossible.
+
+    However, PKC requires a significant amount of processing power, negatively affecting the efficiency of communication, limiting the possible usages of these schemes. Furthermore, the published keys may be altered by someone, requiring \textbf{additional measures} to ensure that a public key is valid.
+
+
+    \begin{frameddefn}{Digital signature}
+        We define as \textbf{digital signature} a signature that acknowledges some content by encrypting a message digest of the to-be-sign message with the owner's private key
+    \end{frameddefn}
+    
+    \textbf{Example:}
+
+    \begin{enumerate}
+        \item Bob applies the hash function to the message $M$, obtaining the message digest $h$
+        \item Bob encrypts the message digest $h$ with his private key, obtaining the digital signature $s$
+        \item Bob sends $M$ with $s$ attached to its end
+        \item Alice receives $M+s$, applying the hash function to $M$ and decrypting $s$
+        \item If the hash value calculated by Alice matches the decrypted signature, Bob's identity is considered valid
+    \end{enumerate}
+
+    \begin{center}
+        \includegraphics[scale=0.5]{images/digital_signature.png}
+    \end{center}
+
+    \begin{framedprop}{Uses of public key cryptography}
+        Public key cryptography can be used to obtain:
+        \begin{itemize}
+            \item \textbf{Confidentiality} by encrypting the message with the recipient's public key and decrypting it with the recipient's private key
+            \item \textbf{Authentication} by encrypting the message with the sender's private key and decrypting it with the sender's public key
+            \item \textbf{Message integrity} by attaching the message digest to the original message
+            \item \textbf{Authentication + Message integrity} through digital signature
+        \end{itemize}
+    \end{framedprop}
+
+    To maximize security and minimize the intensity of computation, \textbf{symmetric and asymmetric cryptography} are used together. Usually, asymmetric cryptography is used to safely exchange a symmetric key, which then gets used for the real communication.
+
+    However, this type of hybrid cryptography is weak against \textbf{man-in-the-middle attacks}: the attack impersonates both the sender and the receiver, hijacking the key exchange and obtaining the symmetric key. 
+
+    \begin{center}
+        \includegraphics[scale=0.55]{images/maninthemiddle.png}
+    \end{center}
+
+    \quad
+
+    \subsection{Digital certificates and PKI}
+
+    \begin{frameddefn}{Digital certificate}
+        A \textbf{digital certificate} is a document that certifies the relation between a public key and its owner through a digital signature. Every digital certificate gets signed by a trusted \textbf{Certification Authority (CA)}, ensuring the integrity of the certificate
+    \end{frameddefn}
+
+    \begin{center}
+        \includegraphics[scale=0.55]{images/certificate.png}
+    \end{center}
+
+    \newpage
+
+    The Certification Authority receives applications for keys, verifying the applicant's identity conducting due diligence appropriate to the trust level and then issue key pairs. The applicant's public key gets stored in a \textbf{register} of valid keys and protected from unauthorized modification, getting revoked and deleted if they become invalid or expired. When an used wants the public key of another user, he asks the CA for his public key. Revoked keys get stored
+    in a \textbf{Certificate Revocation List (CRL)}.
+
+    The usage of digital certificates \textbf{negates}  man-in-the-middle attacks thanks to verified keys. However, if the CA gets attacked, every stored key's integrity is at risk. To prevent this, CAs are organized in an \textbf{hierarchy}, forming what is known as \textbf{Public Key Infrastructure (PKI)}. To verify a certificate, one needs to verify all the signature up to the top of the hierarchy, the \textbf{Root CA}.
+
+    The \textbf{X.509} standard is the most widely accepted format for public-key certificates. In this standard, a certificate consists of a public key with the identity of the key's owner, signed by a trusted third party, which typically is a CA that is trusted by the user community.
+    
+    An user can present his or her public key to the authority in a secure manner and obtain a certificate. After this step, the user can publish the certificate or send it to others. Anyone needing that user's public key can obtain the certificate and verify that it's valid thanks to the attached \textbf{trusted signature}.
+
+    \begin{center}
+        \includegraphics[scale=0.7]{images/x509.png}
+    \end{center}
+
+    A number of specialized variants of digital certificates also exist, distinguished by particular element values or the presence of certain extensions:
+    \begin{itemize}
+        \item \textbf{Conventional/Long-lived certificates}, where the CA and the end user are certificated. Typically issued for validity periods of months to years.
+        \item \textbf{Short-lived certificates}, where the user provides authentication for applications such as grid computing, while avoiding some of the overheads and limitations of conventional certificates. They have validity periods of hours to days, which limits the period of misuse if compromised
+        \item Other types such as \textbf{proxy certificates} and \textbf{attribute certificates}
+    \end{itemize}
+
+    \quad
+    
+    \subsection{Public key algorithms}
+
+    One of the most widely used public key cryptography uses the \textbf{RSA algorithm} (named after the creators Rivest, Shamir and Adelman), based on the notion that a product of two large prime dumbers cannot be easily factored to determine the two prime numbers, meaning that although a public key is related to the his companion private key, it is nearly impossible to calculate the private key through the public key.  
+
+    The RSA algorithm considers message blocks as large numbers, encrypting and decrypting them through  \textbf{modular arithmetic}:
+    \begin{enumerate}
+        \item Choose two prime numbers $p,q \in \Primes$
+        \item Calculate their product $n = pq$
+        \item Use $n$ to calculate Euler's Totient Function (the number of positive integers less than $n$ and relatively prime to $n$), that is $\phi(n) = \phi(pq) = (p-1)(q-1)$
+        \item Choose a value $e \in \Z_{\phi(n)}$ such that $\gcd(e, \phi(n)) = 1$
+        \item Choose a value $d \in \Z_{\phi(n)}$ such that $\congmod{d}{e^{-1}}{\phi(n)}$, meaning that $\congmod{de}{1}{\phi(n)}$
+        \item The public key is $K_E = (n,e)$ and the private key is $K_D = (n,d)$
+        \item Given a plaintext $M \in \Z_n$, the generated ciphertext $C$ is obtained through the encryption $\congmod{C}{M^e}{n}$
+        \item Given a ciphertext $C \in \Z_n$, the original plaintext $M$ is obtained through the decryption $\congmod{M}{C^d}{n}$
+    \end{enumerate}
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item Suppose that $M = 19$
+        \item We choose $p,q \in \Primes$ as $p = 7$ and $q = 17$
+        \item We calculate $n = pq = 119$ and $\phi(n) = 96$
+        \item We choose $e \in \Z_{\phi(n)}$ as $e = 5$ in order to get $\gcd(e, \phi(n)) = \gcd(5,119)$
+        \item We choose $d \in \Z_{\phi(n)}$ as $d = 77$ in order to get $\congmod{de}{1}{\phi(n)} = \congmod{96 \cdot 5}{1}{96}$
+        \item The public key is $K_E = (119,5)$ and the private key is $K_D = (119,77)$
+        \item To encrypt $M$, we calculate:
+        \[\congmod{C}{M^e}{n} \iff \congmod{C}{19^5}{119} \iff \congmod{C}{66}{119}\]
+        \item To decrypt $C$, we calculate:
+        \[\congmod{M}{C^e}{n} \iff \congmod{M}{66^77}{119} \iff \congmod{C}{19}{119}\]
+    \end{itemize}
+
+    The RSA algorithm, like all public key algorithms, is \textbf{computationally intensive}, slowing down usage while also increasing security, due to attackers taking an infeasible amount of time to break it.
+    
+    However, in order to be secure, the two prime numbers $p$ and $q$ must be \underline{very large}:
+    \begin{itemize}
+        \item The value $n$ is contained in the public key
+        \item For every prime number $x \in \Primes$, we can divide $n$ by $x$. If the division generates no remainder, meaning that $\exists y \in \Primes$ such that $\frac{n}{x} = y$, we get that $p = x$ and $q = y$
+        \item Once $p$ and $q$ have been found, the private key can easily be calculated through $\congmod{de}{1}{\phi(n)}$
+        \item Thus, we need to test every prime number $x \in \Primes$ such that $x \leq \min(p,q)$ in order to find both $p$ and $q$
+    \end{itemize}
+
+    Another way to attack RSA cryptography is through \textbf{timing attacks}: the private key can be determined by keeping track of how long a computer takes to decipher messages, exploiting statistical analysis of the computations to find the value $d$ of the private key.
+    
+    Due to being ciphertext-only attacks, timing attacks are a huge problem. To counter them, algorithm must be executed in one of the following ways:
+    \begin{enumerate}
+        \item \textbf{Constant exponentiation time}: all exponentiations take the same amount of time before returning a result, nullifying timing attacks but also heavily degrading performance
+        \item \textbf{Random delay}: random delays are introduced in the algorithm in order to add enough noise to confuse timing attacks
+        \item \textbf{Blinding}: multiply the ciphertext by a random number before performing the exponentiation, preventing the attacker from knowing what ciphertext bits are being processed inside the computer, nullifying bit-by-bit analysis of timing attacks
+    \end{enumerate}
+
+    Another widely used algorithm is the \textbf{Diffie-Hellman key exchange}, the first published public-key algorithm. This algorithm introduced practical methods to exchange a secret symmetric key securely which can then be used for subsequent encryption of messages.
+
+    \begin{framedobs}{}
+        Differently from the RSA algorithm, the Diffle-Hellman algorithm \underline{is not} an encryption algorithm due to it being used only for the key exchange process 
+    \end{framedobs}
+
+    \newpage
+
+    The Diffie-Hellman key exchange relies on the difficulty of computing \textbf{discrete logarithms}:
+    \begin{enumerate}
+        \item The key exchange is based on the use of a prime number $q \in \Primes$ and one of his \textit{primitive roots}, that is a number $a$ such that for all numbers $b$ coprime with $q$, there exists a number $i \in \N$ such that $\congmod{b}{a^{i}}{q}$.
+        \item The users A and B select the secret keys $X_A$ and $X_B$
+        \item The user A computes $\congmod{Y_A}{a^{X_A}}{q}$ and the user B computes $\congmod{Y_B}{a^{X_B}}{q}$
+        \item After exchanging the previous two values, the user A computes $\congmod{K}{Y_B^{X_A}}{q}$ and $\congmod{K}{Y_A^{X_B}}{q}$
+        \item The value $K$ is then used to generate the secret symmetric key
+    \end{enumerate}
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item We choose $q \in \Primes$ as $q = 353$
+        \item We choose the primary root $a = 3$
+        \item A chooses the value $K_A = 97$ and B chooses the value $X_B = 233$
+        \item The user A computes
+        \[\congmod{Y_A}{a^{X_A}}{q} \iff \congmod{Y_A}{3^{97}}{353} \iff \congmod{Y_A}{40}{353}\]
+        and the user B computes 
+        \[\congmod{Y_B}{a^{X_B}}{q} \iff \congmod{Y_B}{3^{233}}{353} \iff \congmod{Y_B}{248}{353}\]
+        \item After the exchange, the user A computes:
+        \[\congmod{K}{Y_B^{X_A}}{353} \iff \congmod{K}{248^{97}}{353} \iff \congmod{K}{160}{353}\]
+        and the user B computes 
+        \[\congmod{K}{Y_A^{X_B}}{353} \iff \congmod{K}{40^{233}}{353} \iff \congmod{K}{160}{353}\]
+    \end{itemize}
+
+    The Diffie-Hellman key exchange is very susceptible to\textbf{ man-in-the-middle attacks}: the attacker can intercept $Y_A$ and $Y_B$, generate a pair of substitute keys $Z_A$ and $Z_B$ and use them to hijack the key exchange by sending $Z_A$ to B and $Z_B$ to A, obtaining the secret value $K$.
+
+    Other common public key algorithms include:
+    \begin{itemize}
+        \item \textbf{Digital Signature Standard (DSS)}, which makes use of SHA-1 and the Digital Signature Algorithm (DSA), designed to provide only the digital signature function, meaning it cannot be used for encryption or key exchange
+        \item \textbf{Elliptic-Curve Cryptography (ECC)}, based on mathematical properties of elliptic curves. This encryption algorithm provides a security level equal to RSA, needing however a smaller bit size
+        \item \textbf{El Gamal}, based on the Diffie-Hellman key exchange 
+    \end{itemize}
+
+    \chapter{Internet security protocols and standards}
+    
+    \section{Email security protocols}
+
+    One of the most widely used email protocols is the  \textbf{Multipurpose Internet Mail Extension (MIME)} protocol, an extension to the old RFC822 specification of an Internet mail format that provides a number of new header fields that define information about the body of the message. Since the MIME protocol doesn't provide security by default, the \textbf{S/MIME} protocol was established, providing the ability to sign and/or encrypt email messaged through technology such as RSA. In particular, S/MIME provides the following functions:
+    \begin{itemize}
+        \item \textbf{Enveloped data} through the encrypted content and associated keys
+        \item \textbf{Signed data} through the ciphertext and its signed digest
+        \item \textbf{Clear-signed data} through the plaintext message and its signed digest
+        \item \textbf{Signed and enveloped data} through nesting of signed and encrypted entities 
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.49]{images/smime_1.png}
+
+        \textit{S/MIME signature + encryption}
+
+        \includegraphics[scale=0.49]{images/smime_2.png}
+
+        \textit{S/MIME verification + decryption}
+    \end{center}
+
+    Te preferred algorithms used for signing S/MIME messages use either an RSA or DSA signature of a SHA-256 message hash:
+    \begin{enumerate}
+        \item The message gets mapped into a fixed-length digest of 256 bits using SHA-256. The digest is unique for this message, making it virtually impossible for someone to alter this message or substitute another message and still come up with the same digest
+        \item S/MIME encrypts the digest using RSA and the sender's private RSA key, appending the resulting digital signature to the message
+        \item Anyone who gets the message can recompute the message digest, decrypt the signature through the sender's public key and check if they match 
+    \end{enumerate}
+
+    To encrypt messages, instead, S/MIME uses AES and RSA:
+    \begin{enumerate}
+        \item S/MIME generates a pseudorandom secret key that is used to encrypt the message using AES or some other conventional encryption scheme. In particular, a new pseudorandom key is generated for each new message encryption
+        \item The secret key is used as input to the RSA algorithm, which encrypts the key with the recipient's public RSA key
+        \item On the receiving end, S/MIME uses the receiver's private RSA key to recover the secret key, then uses it with AES to recover the plaintext message
+    \end{enumerate}
+
+    Another email authentication method widely used is the \textbf{DomainKeys Identified Mail (DKIM)}, a specification for cryptographically signing email messages permitting a signing domain to claim responsibility for a message in the mail stream. DKIM is designed to provide an email authentication technique that is transparent to the end user:
+    \begin{itemize}
+        \item A user's email message is signed by a private key of the administrative domain from which the email originates
+        \item The signature covers all of the content of the message and some message headers
+        \item At the receiving end, the Mail Delivery Agent can access the corresponding public key via a DNS and verify the signature, authenticating that the message comes from the claimed administrative domain
+        \item A DKIM record stores the DKIM public key. Email servers queries
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.65]{images/dkim.png}
+    \end{center}
+
+    S/MIME depends on both the sending and receiving users while also signing only the message content, meaning that the header information concerning the origin can be compromised. Instead, DKIM is not implemented in the Mail User Agents and is therefore transparent to the user. It can also be applied to all mail from cooperating domains and allows good senders to prove that they did send a particular message, preventing forgers from executing masquerade attacks.
+
+    \quad
+
+    \section{Transport Layer Security (TLS)}
+
+    \textbf{Secure Socket Layer (SSL)} is one of the most widely used security services. It's a general purpose service implemented as a set of protocols that rely on TCP, being provided as a part of the underlying protocol suite or being embedded in specific packages. The SSL protocol became an Internet standard in RFC4336, being renamed to \textbf{Transport Layer Security (TLS)}.
+
+    The TLS suite is based on two main concepts:
+    \begin{itemize}
+        \item \textbf{TLS Session}: an association between a client and a server created through an \textbf{Handshake protocol}. It defines as a set of cryptographic security parameters, avoiding the expensive negotiation of new security parameters for each connection.
+        \item \textbf{TLS Connection}: a transport protocol that provides a suitable type of service. Ever connection is associated with one session, allowing for peer-to-peer relationships.
+    \end{itemize}
+    
+    \begin{center}
+        \includegraphics[scale=0.525]{images/tls_record.png}
+
+        \textit{Structure of the TLS Record Protocol}
+    \end{center}
+
+    \begin{frameddefn}{Cipher suite}
+        We define as \textbf{cipher suite} a set of cryptographic protocols and algorithms that can be used by two sources in order to establish a secure connection. The two sources must share the selected protocols and algorithms.
+    \end{frameddefn}
+    
+    The TLS Record Protocol is used by the following four specific TLS protocols:
+    \begin{itemize}
+        \item \textbf{Change Cipher Spec Protocol}: consists of a single message which contains a single byte with the value 1. The whole purpose of this message is to cause the pending state to be copied into the current state, updating the cipher suite in use
+        \item \textbf{Alert Protocol}: conveys TLS-related alters to a peer entity. Each alert message is compressed, encrypted and made up by two bytes:
+        \begin{itemize}
+            \item The first byte takes the value \textit{warning (1)} or \textit{fatal (2)} to convey severity of the message. If the level is set to \textit{fatal}, the TLS connection gets immediately terminated
+            \item The second byte contains a code that indicates the specific alert 
+        \end{itemize}
+
+        \item \textbf{Handshake protocol}: used before any application data is transmitted. It allows the server and client to authenticate each other, negotiate the encryption and MAC algorithms and then negotiate the cryptographic keys to be used. The protocol consists of a series of messages exchanged by client and server, being summarized in \textit{four phases}:
+        \begin{enumerate}
+            \item \textbf{Establish security capabilities} such as protocol version, session ID, cipher suite, compression method and initial random numbers
+            \item The server may send a certificate, a key exchange message and request the client's certificate
+            \item The client sends his certificate (if requested), while also sending his key exchange message and optionally a certificate verification
+            \item The change cipher messages are sent, setting the shared cipher suite and finishing the handshake
+        \end{enumerate}
+
+        \begin{center}
+            \includegraphics[scale=0.6]{images/tls_handshake.png}
+        \end{center}
+
+        \item \textbf{Heartbeat Protocol}: a periodic signal generated by hardware or software to indicate normal operation or to synchronize other parts of a system, being used to assure the sender that the recipient is still alive and to generate activity across the connection during idle periods. Its use is established during the first phase of the Handshake protocol. 
+    \end{itemize}
+
+    The SSL/TLS service is vulnerable to four general categories of attack:
+    \begin{itemize}
+        \item Attacks on the Handshake protocol
+        \item Attacks on the record and application data protocols
+        \item Attacks on the PKI
+        \item Other attacks
+    \end{itemize}
+
+    In particular, the \textbf{TLS Heartbleed exploit} abuses the underlying Heartbeat protocol used during communications:
+    \begin{itemize}
+        \item Normally, the client sends a heartbeat containing a large enough payload.
+        
+        Then, the server extracts the payload, puts it into a response message and sends back the heartbeat response.
+        
+        Once received, the client checks if the payload is the same as the one that he sent, repeating whole the process after a set amount of time
+        
+        \item During the attack, the client sends a heartbeat containing a very small payload. Once received, the server fills the response message with the small payload and other data currently saved in his memory. This happens due to the response message having a fixed size to be filled. The extracted data may even contain TLS private keys, authentication cookies or password credentials.
+    \end{itemize}
+
+    Common application level protocols usually do not implement security measures by themselves. Instead, they \textbf{directly rely on the TLS service}. Ad an example, the HTTPS protocol is simply a combination of the HTTP protocol and SSL. In particular, the closure of a HTTPS connection requires that TLS closes the connection with the peer TLS entity on the remote side, which will involve closing the underlying TCP connection (we can imagine the connection structure as if the HTTP connection is wrapped up by the TCP connection which itself is wrapped up by the TLS connection).
+
+    \quad
+
+    \section{IP security (IPsec)}
+
+    To implement security through the network itself for all applications, the \textbf{IP security (IPsec)} protocol was established. It grants authentication and encryption security features included in the next-generation IPv6, although it can also be used for IPv4. When implemented in a firewall or router, it provides strong security to all traffic crossi the perimeter. Additionally, due to being located below the transport layer, it is transparent to all applications and also to end users, securing the routing architecture.
+
+    IPsec provides basic functions through three separate sub protocols:
+    \begin{itemize}
+        \item \textbf{Authentication Header (HA)}: support for data integrity and authentication of IP packets
+        \item \textbf{Encapsulated Security Payload (EPS)}: support for encryption and optionally authentication
+        \item \textbf{Internet Key Exchange (IKEv2)}: support for key management and related issues
+    \end{itemize}
+
+    \begin{framedobs}{}
+        Due to message authentication being also provided by ESP, the use of AH is deprecated in modern versions (it's still included in IPsecv3 for backward compatibility)
+    \end{framedobs}
+
+    The IPsec protocol can use his basic functions to operate in two main modes:
+    \begin{itemize}
+        \item \textbf{Transport mode}: typically used for end-to-end communication between two hosts, extending the payload of a normal IP packet. ESP encrypts and optionally authenticates the IP payload but \underline{not} the IP header.
+        \item \textbf{Tunnel mode}: typically used when one or both ends of a security association are a secure gateway, allowing the packet to travel through a virtual \textit{tunnel} from one point of an IP network to another. It provides protection to the entire IP packet. A number of hosts on networks behind a firewall may engage in secure communications without implementing IPsec 
+    \end{itemize}
+
+    \begin{frameddefn}{Security association}
+        A \textbf{security association} is a one-way relationship between sender and receiver that affords security for traffic flow. They are defined by three parameters: \textbf{Security Parameter Index (SPI)}, \textbf{IP Destination Address} and \textbf{Protocol Identifier}
+    \end{frameddefn}
+        
+    Each association is uniquely identified by the Destination Address in the IPv4 or IPv6 header and the SPI in the enclosed extension header (through AH or ESP). Moreover, if a peer relationship is needed for a two-way secure exchange, two security associations are required. 
+
+    \begin{center}
+        \includegraphics[scale=0.6]{images/esp_packet.png}
+    \end{center}
+
+    \quad
+
+    \subsection{Virtual Private Network (VPN)}
+
+    \begin{frameddefn}{Virtual Private Network (VPN)}
+        A \textbf{Virtual Private Network (VPN)} is a virtual network built on top of an existing physical network infrastructure which can provide a secure communication mechanism for data and other information transferred between two endpoints
+    \end{frameddefn}
+
+    VPNs are typically based on the use of encryption, ranging from encrypting only parts of the communication to the whole communication. The security goals of VPNs are \textbf{confidentiality} and \textbf{integrity} of data along with \textbf{peer authentication}. Additionally, they can also provide replay protection, access control and traffic analysis protection and usability through transparency, flexibility and simplicity.
+    
+    The main concept underlying VPNs is \textbf{tunneling}, a virtual network connection on top of another physical connection, allowing for communications through another network that they don't want to directly access. Tunneling can be easily achieved through the \textbf{IPsec tunneling mode}. In particular, we distinguish three types of tunnel connection:
+    \begin{itemize}
+        \item \textbf{Host-to-Host}: the tunnel connects a host to another host on a different or same network
+        \item \textbf{Host-to-Site}: the tunnel connects a host to a specific network
+        \item \textbf{Site-to-Site}: the tunnel connects a network to another network
+    \end{itemize}
+    
+    Tunneling enables a \textbf{Protocol Data Unit (PDA)} to be transported from one site to another without its contents being processed by intermediate hosts on the route. The whole PDU gets encapsulated in another PDU sent on the network connecting the two sites. In particular, encapsulation takes place on the edge router of the source site, while decapsulation takes place on the edge router of the destination site.
+
+    \textbf{Secure tunneling}, on the other end, enables a PDU to be transported from one site to another without its contents being seen or changed by hosts on the route. This can be achieved by encrypting the PDU before its encapsulation.
+
+    \begin{center}
+        \begin{tabular}{ccc}
+            \includegraphics[scale=0.5]{images/tunneling.png}
+
+            &\qquad&
+
+            \includegraphics[scale=0.45]{images/tunneling_2.png}\\
+
+            \textit{Tunneling without encryption}
+
+            &\qquad&
+
+            \textit{Tunneling with encryption}
+
+        \end{tabular}
+    \end{center}
+
+    VPNs can also be implemented through SSL/TLS, offering:
+    \begin{itemize}
+        \item \textbf{Authentication} via two-factor auth, X.509 certificates, smart cards, etc...
+        \item \textnormal{Encryption and integrity protection} via the SSL/TLS protocol
+        \item \textbf{Access control}, which may be per-user, per-group or per-resource
+        \item \textbf{Endpoint security controls} through validation of the security compliance of clients attempting to use the VPN
+        \item \textbf{Intrusion prevention}, evaluating decrypted data to prevent malicious attacks and malwares
+    \end{itemize}
+
+    Through these services, SSL VPNs can be utilized to implement:
+    \begin{itemize}
+        \item \textbf{Proxying}: the intermediate device appears as true from the server to the client
+        \item \textbf{Application translation}: conversion of information from one protocol to another
+        \item \textbf{Network extension}: provision of partial or complete network access to remote users, typically via Tunnel VPN. It can be achieved through \textit{full tunneling}, where all the network traffic goes through the tunnel, or through \textit{split tunneling}, where the organization's traffic goes through the tunnel, while other traffic uses remote user's default gateway
+    \end{itemize}
+
+    \section{Anonymity with Tor}
+
+    \begin{frameddefn}{Anonymity}
+        We define as \textbf{anonymity} the property of a subject to not be identifiable within a set of subjects. In particular, anonymity includes unlinkability of action and identity and unobservability
+    \end{frameddefn}
+
+    Due to Internet's own structure, achieving anonymity is a very hard. As an example, every packet has a source and a destination IP address that gets analyzed by Internet Service Providers (ISPs) to achieve routing. It's mandatory for ISPs to store communication records, which then can be accessed by law enforcement.
+    
+    As seen in previous sections, encryption is not enough to achieve anonymity: the contents of the traffic is protected and well-hidden, but the packet headers are still visible. Additionally, just like ISPs, VPN service providers are forced to store communication records, granting no anonymity at all.
+
+    Over the years, independent users gave life to what is now known as the \textbf{Tor project} (where Tor stands for The Onion Router). The Tor project is a communicating system aimed to Internet anonymity based on the Onion Routing protocol, which uses techniques of tunneling on virtual circuits.
+
+    The idea behind Tor is based on the plain old \textit{"ask someone else to send it for you}:
+    \begin{itemize}
+        \item The messages are repeatedly encrypted and then sent through several network nodes that agree to be used for the Tor project (\textbf{Tor relays} or \textbf{onion routers})
+        \item Each relay removes a layer of encryption to uncover routing instruction,sending the message to the next router. In this way, intermediary nodes can't know the origin, the destination and the contents of the message
+        \item Only the first router knows the source, while only the last router  knows the destination. Anyone, including them, doesn't know the path taken by the message
+        \item Usually, \textbf{three encryption layers} are applied, implying that the message is sent across \textbf{three Tor relays} before being sent to the destination 
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.575]{images/tor.png}
+    \end{center}
+
+    We can distinguish the Tor nodes used in a Tor circuit (the chain of three nodes used for the communication) in three types:
+    \begin{itemize}
+        \item \textbf{Guard or Entry relay}: the first relay in the chain. It knows that the sender is using Tor and knows the identity of the middle relay, but not the destination
+        \item \textbf{Middle relay}: the second relay in the chain. It knows someone, but now who, is using Tor and knows the identity of the exit relay, but not the destination
+        \item \textbf{Exit relay}: the last relay in the chain. It knows someone, but not who, is using Tor to connect to the destination known by him
+    \end{itemize}
+
+    When receiving a packet, the \textbf{destination} knows only that a Tor user is connecting to it via the exit node.
+
+    \begin{framedobs}{}
+        Tor \underline{does not} provide encryption between the exit and destination nodes, but only through the path itself. This problem can be easily fixed by using SSL/TLS
+    \end{framedobs}
+
+    \textbf{Example:}
+
+    \begin{itemize}
+        \item When using pure HTTP connections, every host through which the packets travel is capable of acquiring the data of the packet
+        \item When using HTTPS connections, the contents of the packet are hidden thanks to SSL/TLS encryption, allowing other hosts to acquire only data used for the communication itself
+        \item When using HTTP with Tor, all the data concerning the packet is hidden to every host except for the final ISP of the destination. However, everyone is able to see that Tor is being used
+        \item When using HTTPS with Tor, all the data concerning the packet is hidden to every host except for the two end users.
+        The final ISP can only see the destination, but not the contents.
+        However, everyone is still able to see that Tor is being used
+    \end{itemize}
+
+    \begin{framedobs}{}
+        Due to its nature, Tor can only be used for TCP stream and applications with SOCKS support
+    \end{framedobs}
+
+\end{document}

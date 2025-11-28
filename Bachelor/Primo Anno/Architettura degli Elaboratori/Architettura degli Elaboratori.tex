@@ -1,0 +1,2850 @@
+\documentclass[a4paper, 12pt]{report}
+
+\usepackage[dvipsnames]{xcolor}
+
+%%%%%%%%%%%%%%%%
+% Set Variables %
+%%%%%%%%%%%%%%%%
+
+\def\useItalian{1}  % 1 = Italian, 0 = English
+
+\def\courseName{Architettura degli Elaboratori}
+
+\def\coursePrerequisites{Apprendimento del materiale relativo al corso \textit{Progettazione di Sistemi Digitali} e conoscenze discrete di programmazione}
+
+\def\book{\curlyquotes{Computer Organization and Design},\\ D. A. Patterson, J. L. Hennessy.}
+
+\def\authorName{Simone Bianco}
+\def\email{bianco.simone@outlook.it}
+\def\github{https://github.com/Exyss/university-notes}
+\def\linkedin{https://www.linkedin.com/in/simone-bianco}
+
+
+%%%%%%%%%%%%
+% Packages %
+%%%%%%%%%%%%
+
+\usepackage{../../../packages/Nyx/nyx-packages}
+\usepackage{../../../packages/Nyx/nyx-styles}
+\usepackage{../../../packages/Nyx/nyx-frames}
+\usepackage{../../../packages/Nyx/nyx-macros}
+\usepackage{../../../packages/Nyx/nyx-title}
+\usepackage{../../../packages/Nyx/nyx-intro}
+
+%%%%%%%%%%%%%%
+% Title-page %
+%%%%%%%%%%%%%%
+
+\logo{../../../packages/Nyx/logo.png}
+
+\if\useItalian1
+    \institute{\curlyquotes{\hspace{0.25mm}Sapienza} Università di Roma}
+    \faculty{Ingegneria dell'Informazione,\\Informatica e Statistica}
+    \department{Dipartimento di Informatica}
+    \ifdefined\book
+        \subtitle{Appunti integrati con il libro \book}
+    \fi
+    \author{\textit{Autore}\\\authorName}
+\else
+    \institute{\curlyquotes{\hspace{0.25mm}Sapienza} University of Rome}
+    \faculty{Faculty of Information Engineering,\\Informatics and Statistics}
+    \department{Department of Computer Science}
+    \ifdefined\book
+        \subtitle{Lecture notes integrated with the book \book}
+    \fi
+    \author{\textit{Author}\\\authorName}
+\fi
+
+
+\title{\courseName}
+\date{\today}
+
+% \supervisor{Linus \textsc{Torvalds}}
+% \context{Well, I was bored\ldots}
+
+%%%%%%%%%%%%
+% Document %
+%%%%%%%%%%%%
+
+\begin{document}
+    \maketitle
+
+    % The following style changes are valid only inside this scope 
+    {
+        \hypersetup{allcolors=black}
+        \fancypagestyle{plain}{%
+        \fancyhead{}        % clear all header fields
+        \fancyfoot{}        % clear all header fields
+        \fancyfoot[C]{\thepage}
+        \renewcommand{\headrulewidth}{0pt}
+        \renewcommand{\footrulewidth}{0pt}}
+
+        \romantableofcontents
+    }
+
+    \introduction
+
+    %%%%%%%%%%%%%%%%%%%%%
+
+    \chapter{Introduzione all'Architettura MIPS}
+    
+    \section{Istruzioni, Assemblatore e Compilatore}
+    
+    Per comunicare con un sistema elettronico è necessario inviare dei segnali elettrici, corrispondenti a due semplici azioni: far passare corrente attraverso un componente (\textit{on}) o non farla passare (\textit{off}). Cercando di astrarre in modo matematico tale concetto, queste due azioni possono facilmente essere tradotte in quello che è il \textbf{sistema numerico binario}, dove un 1 rappresenta un segnale attivo ed uno 0 un segnale spento. Ogni cifra binaria (dunque 1 o 0) viene definita col termine \textbf{bit}.
+    
+    A seconda di come vengono progettati, ogni componente di un calcolatore reagisce in base alle sequenze di 0 ed 1 che gli vengono impartite. Tali sequenze vengono dette \textbf{istruzioni} e possono essere interpretate da un calcolatore come un \textbf{comando} effettivo da svolgere o come un \textbf{numero}.
+    Ad esempio, la sequenza di bit $1000110010100000$ dice al calcolatore di effettuare la somma tra due numeri.
+    
+    \subsubsection{Linguaggio Assembly ed Assemblatori}
+    
+    I primi programmatori comunicavano con i calcolatori utilizzando direttamente i numeri binari, definendo sequenza per sequenza le istruzioni da svolgere. Ovviamente, tale processo risulta estremamente complesso, laborioso e soggetto a molti errori (anche un semplice bit errato può voler dire un output completamente diverso da quello desiderato).
+    
+    Per risolvere tale problema, si penso ad una soluzione geniale: \textbf{utilizzare i calcolatori stessi per programmare altri calcolatori}. Nacquero così dei programmi in grado di tradurre delle \textbf{notazioni simboliche molto più semplici} da utilizzare in vere ed effettive istruzioni. Tali programmi vengono chiamati \textbf{assemblatori}.
+    
+    Per esempio, l'istruzione \texttt{add A, B} viene tradotta dall'assemblatore in $1000110010100000$, ossia l'istruzione in grado di comunicare al calcolatore di sommare il numero A e il numero B. Questo \textbf{linguaggio simbolico} viene detto \textbf{Linguaggio Assembler (o Assembly Language)}.
+    
+    \newpage
+    
+    L'utilizzo del linguaggio assembly permise lo sviluppo agile e controllato di programmi avanzati, eliminando (parzialmente) fattori come l'\textbf{errore umano} (un calcolatore non può sbagliare a scrivere un bit al contrario di un umano) e la \textbf{lentezza} di progettazione.
+    
+    \subsubsection{Linguaggi ad Alto Livello e Compilatori}
+    
+    Nonostante esso risulti comunque estremamente più leggibile ed utilizzabile rispetto al \textbf{codice macchina} (ossia l'insieme di 0 ed 1 letto dal calcolatore), il \textbf{codice assembly} risulta comunque essere difficilmente interpretabile. Seguendo la stessa logica utilizzata in precedenza, gli esperti informatici decisero di sviluppare numerosi \textbf{linguaggi ancora più astratti} (Fortran, Cobol, C, ...) che permettessero di semplificare ulteriormente lo sviluppo del software. Tali linguaggi di programmazione vengono attualmente definiti col termine \textbf{linguaggi ad alto livello}.
+    
+    I linguaggi di programmazione vengono interpretati da un software chiamato \textbf{compilatore}, il quale \textbf{traduce il codice ad alto livello in codice assembly}, il quale verrà poi a sua volta tradotto dall'\textbf{assemblatore} in codice macchina.
+    
+    L'intera \textbf{catena di astrazione}, dunque, corrisponde a
+    
+    \begin{center}
+        \includegraphics[scale=0.95]{resources/images/chapter_1/assembly3.png}
+    \end{center}
+    
+    \section{Architettura di Von Neumann, CPU e Memorie}
+    \label{von_neumann}
+    
+    L'esempio classico di architettura generica di un computer è l'\textbf{Architettura di Von Neumann}, concepita da John Von Neumann, un noto matematico, fisico e informatico che visse nei tempi della seconda guerra mondiale. Neumann concepì un'architettura per i calcolatori \textbf{semplice e rivoluzionaria}, tanto che ancora oggi viene utilizzata come base per la realizzazione della maggior parte dei calcolatori comuni. Il modello prevedeva che il calcolatore dovesse essere costituito da \textbf{quattro elementi fondamentali}: 
+    
+    \begin{itemize}
+        \item \textbf{Central Processing Unit (CPU)}, ossia l'unità centrale di elaborazione (anche chiamato \textbf{processore}). Si occupa di eseguire una dopo l'altra tutte le istruzioni che compongono un \textbf{processo}, ossia un programma caricato in memoria. È a sua volta costituita da tre elementi:
+        \begin{itemize}
+            \item \textbf{Control Unit (CU)}, che svolge e coordina tutte le operazioni da svolgere
+            \item \textbf{Arithmetic Logic Unit (ALU)}, che svolge le operazioni aritmetiche e logiche
+            \item \textbf{Registri}, ossia delle piccole memorie interne utilizzate per salvare dati temporanei
+        \end{itemize}
+        
+        \item \textbf{Memoria}: permette di memorizzare le \textbf{istruzioni} e i \textbf{dati} utili all'esecuzione dei \textbf{programmi} e al funzionamento generale del calcolatore
+        
+        \item \textbf{Periferiche di Input/Output}, che permettono al computer di comunicare con l'esterno
+        
+        \item \textbf{Bus di Sistema}, ossia un \textbf{canale unico di comunicazione} fra tutti i componenti, suddiviso in tre sotto-canali:
+        \begin{itemize}
+            \item \textbf{Control Bus}, sul quale vengono comunicati i segnali di controllo che permettono ai componenti di coordinarsi
+            \item \textbf{Address Bus}, sul quale vengono comunicati gli indirizzi delle istruzioni da eseguire
+            \item \textbf{Data Bus}, sul quale vengono scambiati i dati all'interno del sistema
+        \end{itemize}
+    \end{itemize}
+    
+    \quad
+    
+    \begin{center}
+        \includegraphics[scale=0.65]{resources/images/chapter_1/von_neumann.png}
+    \end{center}
+    
+    \newpage
+    
+    I primi modelli di computer (incluso quello di Neumann), erano progettati per eseguire un solo processo alla volta, mentre i moderni modelli sono provvisti di sistemi di \textbf{parallelismo}, permettendo la gestione di più processi in contemporanea che, attraverso un sistema di \textbf{scheduling}: una volta \textbf{eseguita} l'istruzione di un processo, esso viene momentaneamente \textbf{sospeso}, permettendo l'esecuzione dell'istruzione di un \textbf{secondo processo attivo}. Grazie all'estrema \textbf{rapidità} con cui la CPU esegue le istruzioni dei programmi, ripetere tale ciclo tra molti processi risulta nell'illusione di star eseguendo \textbf{più processi contemporaneamente}.
+
+    Per eseguire ogni istruzione, la CPU compie un \textbf{ciclo perenne} composto da tre fasi:
+
+    \begin{itemize}
+        \item \textbf{Fetch}, ossia la lettura della prossima istruzione
+        \item \textbf{Decode}, ossia la decodifica dell'operazione da compiere
+        \item \textbf{Execute}, ossia l'esecuzione dell'istruzione 
+    \end{itemize}
+        
+    Il \textbf{modello di Von Neumann} prevede che, prima di essere eseguiti, i programmi vengano \textbf{spostati nella memoria} per essere eseguiti. Quando un programma si trova nella memoria prende il nome di \textbf{processo}, ossia un programma in esecuzione. Per della loro natura stessa, ogni processo ha un effettivo \textbf{ciclo di vita}, poiché durante la loro esecuzione essi si evolvono raggiungendo vari \textbf{stati}. 
+    
+    \begin{center}
+        \includegraphics[scale=0.7]{resources/images/chapter_1/cpu_memory.png}
+    \end{center}
+    \newpage
+    
+    \section{L'architettura MIPS 2000}
+    
+    \label{arch}
+    
+    In era moderna, possiamo individuare \textbf{due tipologie principali} di \textbf{architetture di calcolatori}:
+    \begin{itemize}
+        \item \textbf{Architettura CISC}:
+        
+        \begin{itemize}
+            \item Acronimo di \textbf{Complex Istruction Set Computer}
+            
+            \item Le istruzioni sono di \textbf{dimensione variabile}, dunque per il fetch della successiva è necessaria prima la decodifica dell'istruzione stessa
+            
+            \item Gli operandi vengono effettuati in memoria, necessitando \textbf{molti accessi alla memoria} per ogni istruzione
+            
+            \item \textbf{Pochi registri interni}, dunque viene utilizzata la memoria anche per conservare i dati temporanei
+            
+            \item \textbf{Modi di indirizzamento più complessi} e con parziali conflitti tra le istruzioni più complesse, necessitando una pipeline più articolata
+        \end{itemize}
+        
+        \item \textbf{Architettura RISC}:
+        
+        \begin{itemize}
+            \item Acronimo di \textbf{Reduced Istruction Set Computer}
+            
+            \item Le istruzioni sono di \textbf{dimensione fissa}, dunque non è necessario decodificarle prima del fetch della successiva
+            
+            \item Gli operandi vengono \textbf{effettuati dall'ALU e solo tra i registri}, dunque non è necessario accedere alla memoria
+            
+            \item \textbf{Molti registri interni}, dunque per risultati parziali non è necessario utilizzare la memoria 
+            
+            \item \textbf{Modi di indirizzamento semplici} poiché ogni istruzione ha una dimensione fissa, dunque non si verificano conflitti
+        \end{itemize}
+    \end{itemize}
+    
+    Riassumendo, possiamo dire che le \textbf{Architetture CISC} risultano più complesse ma ottimizzate per scopi singoli, mentre le \textbf{Architetture RISC}, in quanto più semplici, risultano adatte a scopi generici.
+    
+    Per via delle sue caratteristiche, l'\textbf{Architettura MIPS}, acronimo di \textbf{Microprocessor without Interlocked Pipelined Stages}, risiede all'interno delle Architetture RISC.
+    
+    In particolare, l'\textbf{Architettura MIPS 2000} è composta da:
+    
+    \begin{itemize}
+        \item Tutte le \textbf{word hanno una dimensione fissa} di 32 bit
+        
+        \item Lo \textbf{spazio di indirizzamento} è di $2^{30}$ word di 32 bit ciascuna, per un totale di 4 GB
+        
+        \item Una \textbf{memoria indicizzata al byte}, dunque, dato un indirizzo di memoria $t$ corrispondente all'inizio di una word, per leggere la word successiva è necessario utilizzare l'indirizzo $t+4$, poiché 4 byte corrispondono a 32 bit (ricordiamo che ogni word è composta da 32 bit)
+        
+        \item Gli interi vengono salvati utilizzando la notazione del \textbf{Complemento a 2} su 32 bit
+        
+        \item Dotata di \textbf{3 microprocessori}:
+        
+        \begin{itemize}
+            \item La \textbf{CPU principale}, dotata di ALU, di 32 registri HI/LO ed addetta all'esecuzione delle istruzioni
+            
+            \item Il \textbf{Coprocessore 0}, non è dotato di registri e non ha accesso alla memoria, ma è solo addetto alla gestione di "trap", eccezioni, Virtual Memory, Cause, EPC, Status, BadVAddr, ...
+            
+            \item Il \textbf{Coprocessore 1}, addetto ai calcoli in virgola mobile e dotato di 32 registri da 32 bit, utilizzabili anche come 64 registri da 16 bit
+        \end{itemize}
+        
+        \item I \textbf{32 Registri}, indicizzati da 0 a 31,  della CPU principale:
+        
+        \begin{itemize}
+            \item \textbf{Registro \$zero} (\$0), contenente un valore costante pari a 0 ed immutabile
+            
+            \item \textbf{Registro \$at} (\$1), usato dalle pseudoistruzioni e dall'assemblatore
+            
+            \item \textbf{Registri \$v0 e \$v1} (\$2, \$3), utilizzati per gli output delle funzioni utilizzate nel programma
+            
+            \item \textbf{Registri dall'\$a0 all'\$a3} (\$4, ..., \$7) utilizzati per gli input delle funzioni
+            
+            \item \textbf{Registri dal \$t0 al \$t7} (\$8, ..., \$15), utilizzati per valori temporanei
+            
+            \item \textbf{Registri dal \$s0 al \$s7} (\$16, ..., \$23), utilizzati per valori più ricorrenti
+            
+            \item \textbf{Registri dal \$t8 al \$t9} (\$24, \$25), utilizzati per valori temporanei
+            
+            \item \textbf{Registri \$k0 e \$k1} (\$26, \$27), utilizzati dal Kernel del Sistema Operativo
+            
+            \item \textbf{Registro \$gp} (\$28), ossia Global Pointer, utilizzato per la gestione della memoria dinamica
+            
+            \item \textbf{Registro \$sp} (\$29), ossia Stack Pointer, utilizzato per la gestione dello Stack delle funzioni
+            
+            \item \textbf{Registro \$fp} (\$30), ossia Frame Pointer, utilizzato dalle funzioni di sistema
+            
+            \item \textbf{Registro \$ra} (\$31), ossia Return Address, utilizzato come puntatore di ritorno dalle funzioni
+            \end{itemize}
+            
+    \end{itemize}
+    
+    \chapter{Il linguaggio Assembly MIPS}
+    
+    Come abbiamo visto, per impartire comandi ad un calcolatore, è necessario conoscere il suo linguaggio, in particolare le sue \textbf{istruzioni}. In queste sezioni, vedremo il \textit{"vocabolario"} di un reale computer, sia in forma umanamente leggibile (\textbf{linguaggio assembly}), sia in forma meccanicamente leggibile (\textbf{linguaggio macchina}).
+    
+    Nonostante tale concetto possa sembrare a prima vista complesso, è necessario ricordare che i computer sono macchine stupide in grado di eseguire \textbf{operazioni estremamente semplici} (sembrerà assurdo, ma in realtà quasi ogni istruzione corrisponde ad una somma tra valori) in modo estremamente veloce.
+    
+    \section{Formato delle istruzioni}
+    
+    \label{instruction_format}
+    
+    Le istruzioni della CPU dell'architettura MIPS, seguono (per lo più) una struttura molto semplice, ossia \texttt{<operazione> <destinazione>, <sorgenti>, <argomenti>}.
+    
+    Per comprendere meglio, vediamo direttamente un esempio pratico con l'istruzione \texttt{add \$s0, \$t0, \$t1}. Tale istruzione corrisponde nient'altro che alle seguenti \textbf{tre operazioni}:
+    
+    \begin{itemize}
+        \item \textbf{Leggi} il registro \$t0 e il registro \$t1 (sorgenti)
+        \item \textbf{Somma} i loro valori
+        \item \textbf{Scrivi} il risultato sul registro \$s0 (destinazione)
+    \end{itemize}
+    
+    Tale struttura è solo una \textbf{generalizzazione} poiché, come vedremo in seguito, non è pienamente rispettata da ogni istruzione.
+    
+    Ma non avevamo detto che \textbf{tutte le istruzioni} corrispondono ad una \textbf{word da 32 bit}? Come fanno ad avere una struttura variabile? Il motivo è semplice: ogni istruzione viene letta ed interpretata dall'assemblatore, il quale la tradurrà nel formato adeguato in \textbf{codice macchina}. Dunque, ad avere formato fisso non sono le istruzioni in linguaggio assembly, bensì le istruzioni in codice macchina.
+    
+    In particolare, tali istruzioni vengono tradotte dall'assemblatore in un \textbf{formato specifico} determinato dalla \textbf{tipologia stessa di istruzione}:
+    
+    \begin{itemize}
+        \item \textbf{Istruzioni R-Type (tipo Registro)}:
+        
+        \begin{itemize}
+            \item \textbf{Senza accesso alla memoria}
+            \item Istruzioni di tipo \textbf{aritmetico} e di tipo \textbf{logico}
+            \item Formato dei bit:
+            
+            \begin{center}
+                \includegraphics[scale=0.65]{resources/images/chapter_2/r_type.png}
+            \end{center}
+            
+            \item Esempio:
+            
+            \begin{center}
+                \begin{tabular}{c | c | c | c | c | c | c}
+                    Istruzione & OP & RS & RT & RD & SHAMT & FUNCT \\
+                    \hline
+                    \texttt{add \$t0, \$s1, \$s2} & 000000 & 10001 & 10010 & 01000 & 00000 & 100000 \\
+                    \texttt{sub \$t0, \$s1, \$s2} & 000000 & 10001 & 10010 & 01000 & 00000 & 100010 \\
+                \end{tabular}
+            \end{center}
+            
+            \quad
+            
+            Analizziamo pezzo per pezzo il contenuto delle due istruzioni:
+            \begin{itemize}
+                \item \textbf{Opcode (OP)}: rappresenta la categoria di operazione da eseguire. In questo caso, 000000 indica un'operazione aritmetica.
+                \item \textbf{First register (RS)}: rappresenta il primo registro sorgente da cui leggere il valore. In questo caso, 10001 corrisponde al registro \$s1
+                \item \textbf{Second register (RT)}: rappresenta il secondo registro sorgente da cui leggere il valore. In questo caso, 10010 corrisponde al registro \$s2
+                \item \textbf{Destination register (RD)}: rappresenta il registro su cui scrivere il risultato. In questo caso, 01000 corrisponde al registro \$t0
+                \item \textbf{Shift amount (SHAMT)}: rappresenta la quantità di bit da shiftare. In questo caso vale 0 poiché non stiamo effettuando uno shift
+                \item \textbf{Function code (FUNCT)}: rappresenta la specifica secondaria dell'operazione da eseguire, dunque corrisponde ad un'\textit{estensione} dell'opcode. In questo caso, nella prima istruzione viene specificato che la tipologia di operazione aritmetica da eseguite è una somma, mentre nel secondo viene specificato di eseguite una sottrazione
+            \end{itemize}
+            
+            Notiamo quindi come anche \textbf{solo 2 bit invertiti} possano corrispondere ad un'operazione totalmente diversa, motivo per cui utilizzare un assembler per programmare un calcolatore risulta \textbf{essenziale}.
+            
+        \end{itemize}
+        
+        \item \textbf{Istruzioni I-Type (tipo Immediato)}:
+        
+        \begin{itemize}
+            \item Operazioni di \textbf{Load} e \textbf{Store}
+            \item Utilizzate dai \textbf{salti condizionati} (ossia relativi al Program Counter)
+            
+            \item Formato dei bit:
+            
+            \begin{center}
+                \includegraphics[scale=0.65]{resources/images/chapter_2/i_type.png}
+            \end{center}
+            
+            \item Esempio:
+            
+            \begin{center}
+                \begin{tabular}{c | c | c | c | c }
+                    Istruzione & OP & RS & RT & IMMEDIATE \\
+                    \hline
+                    \texttt{addi \$t2, \$s2, 17} & 001000 & 10010 & 01010 & 0000000000010001 \\
+                \end{tabular}
+            \end{center}
+            
+            \quad
+            
+            \begin{itemize}
+                \item \textbf{Opcode (OP)}: viene specificata l'operazione di addizione immediata, ossia non tra due registri ma tra un registro e un valore costante (immediato)
+                \item \textbf{Source register (RS)}: viene letto il valore del registro \$s2
+                \item \textbf{Destination register(RT)}: viene specificato di scrivere il risultato della somma nel registro \$t2
+                \item \textbf{Immediate}: viene specificato il valore costante con cui effettuare la somma immediata, in questo caso 17 (10001 in binario)
+            \end{itemize}
+            
+        \end{itemize}
+        
+        \item \textbf{Istruzioni J-Type (tipo Jump)}:
+        
+        \begin{itemize}
+            \item Utilizzate dai \textbf{salti \underline{non} condizionati} (ossia assoluti)
+            
+            \item Formato dei bit:
+            
+            \begin{center}
+                \includegraphics[scale=0.65]{resources/images/chapter_2/j_type.png}
+            \end{center}
+            
+            \item Esempio:
+            
+            \begin{center}
+                \begin{tabular}{c | c | c | c | c | c | c}
+                    Istruzione & OP & ADDRESS \\
+                    \hline
+                    \texttt{j 2500} & 000010 & 00000000000010011100010000 \\
+                \end{tabular}
+            \end{center}
+            
+            \quad 
+            
+            \begin{itemize}
+                \item \textbf{Opcode (OP)}: viene specificata l'operazione di jump incondizionato
+                \item \textbf{Address}: viene specificato l'indirizzo su cui effettuare il jump. Il valore indicato, in realtà, rappresenta  $2500 \cdot 4$ (oppure $2500 << 2$), poiché ricordiamo che l'architettura MIPS è indicizzata al byte, dunque la 2500-esima parola corrisponde all'indirizzo 10000 della memoria
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+    
+    \section{Lista delle istruzioni}
+    
+    \begin{center}
+        \includegraphics[scale=0.725]{resources/images/chapter_2/instruction_set.png}
+    \end{center}
+    
+    
+    \section{Organizzazione della Memoria}
+    
+    Come abbiamo già detto, nell'architettura MIPS la memoria è \textbf{indicizzata al byte}, dove ogni \textbf{word} è composta da \textbf{4 byte} (ossia 32 bit). A livello teorico, possiamo immaginare la memoria come una tabella composta da \textbf{4 colonne}, dove ogni colonna rappresenta un \textbf{byte}, e $2^{30}$ \textbf{righe}, dove ogni riga rappresenta una \textbf{word}. Dunque, possiamo dire che la memoria è composta da un totale di $4 \text{ Byte} \cdot 2^{30} \text{ Word} = 4 \text{ GigaByte}$.
+    
+    Ad ogni byte della memoria è associato un \textbf{indirizzo}, rappresentato da un \textbf{8 cifre esadecimali}, poiché ricordiamo che ogni cifra esadecimale corrisponde esattamente a 4 bit, dunque due cifre esadecimali corrispondono ad un byte.
+    
+    \begin{center}
+        \includegraphics[scale=0.8]{resources/images/chapter_2/memory_mips2.png}
+
+        \textit{Ogni cella dell'immagine mostrata corrisponde ad un byte di memoria, mentre \\il valore esadecimale ad esso associato corrisponde al suo indirizzo} 
+    \end{center}
+    
+    
+    Poiché ogni word corrisponde a 4 byte, ogni word risulta \textbf{indicizzata con uno sfalzamento di 4 byte} (la prima word sarà all'indirizzo \texttt{0x00000000}, la seconda all'indirizzo \texttt{0x00000004}, ...).
+    
+    Generalizzando il tutto, possiamo dire che il \textbf{k-esimo} byte si trova all'indirizzo di memoria $(k-1)$, mentre la \textbf{j-esima} word si trova all'indirizzo $4 \cdot (j-1)$.
+    
+    Dunque, se volessimo leggere il contenuto della 1000esima word, l'indirizzo di memoria corrispondente sarebbe
+    
+    \[ M = 4 \cdot (1000-1) = 3996_{10} = \text{0x00000F9C}\]
+    
+    Nel linguaggio assembly MIPS, per leggere il contenuto di una word in memoria viene utilizzata la seguente \textbf{notazione}:
+    \[ \texttt{offset(\$indirizzo)}\]
+    
+    Dove \textbf{\$indirizzo} corrisponde ad un registro all'interno del quale è stato caricato un \textbf{valore}, il quale verrà interpretato come l'indirizzo di memoria da cui prelevare la word, mentre l'\textbf{offset} corrisponde al \textbf{numero di byte successivi} all'indirizzo indicato.
+    
+    Ad esempio, immaginiamo la seguente catena di istruzioni
+    
+    \begin{verbatim}
+    li $t0, 3996     //carico in $t0 il valore 3996 all'interno di t0
+    
+    lw $t1, 0($t0)   //carico in $t1 la word all'indirizzo $t0
+    
+    lw $t1, 4($t0)   //carico in $t1 la word all'indirizzo ($t0 + 4 byte)
+    \end{verbatim}
+    
+    Nella prima istruzione, viene utilizzato il comando \textbf{Load Immediate}, che permette di \textbf{caricare un valore immediatamente} (dunque senza leggere il valore da un altro registro).
+    
+    Successivamente, viene utilizzato due volte il comando \textbf{Load Word}, che permette \textbf{caricare un'intera word} all'interno del registro indicato (ricordiamo che sia la word e sia il registro sono formati da 32 bit).
+    
+    \begin{itemize}
+        \item Nel primo utilizzo, viene prelevata dalla memoria la \textbf{word} di indirizzo corrispondente al \textbf{valore caricato nel registro \$t0}, poiché l'\textbf{offset definito è 0}, leggendo quindi la 1000-esima word in memoria, poiché l'indirizzo indicato è 3996 (0x00000F9C).
+        
+        \item Nel secondo utilizzo viene prelevata la word di \textbf{indirizzo \$t0 + 4 byte}, poiché l'\textbf{offset definito è 4}, leggendo quindi \textbf{la parola direttamente successiva} a quella indicata da \$t0, ossia la 1001-esima parola, corrispondente all'indirizzo 4000 (0x00000FA0)
+    \end{itemize}
+    
+    L'utilizzo dei registri come "puntatore" degli indirizzi di memoria permette un utilizzo estremamente \textbf{flessibile} della memoria stessa, evitando al programmatore di poter compiere operazioni sui valori stessi corrispondenti ad un indirizzo di memoria, senza dover scrivere ogni volta manualmente l'indirizzo che si vuole leggere. In seguito, esploreremo maggiormente tale concetto.
+    
+    \newpage
+    
+    \subsection{Parti della memoria}
+    \label{memory_parts}
+    
+    Una volta compreso il modo in cui viene indicizzata la memoria, possiamo vedere la sua \textbf{struttura nel completo}, definendone quelle che sono le \textbf{parti principali}.
+    
+    \begin{center}
+        \includegraphics[scale=0.7]{resources/images/chapter_2/memory_mips.png}
+    \end{center}
+    
+    \quad
+    
+    \begin{itemize}
+        \item \textbf{Stack}: viene utilizzata per operazioni relative alle funzioni (o procedure), salvandone le chiamate ricorsive e le variabili locali. Non ha una dimensione fissa, dunque si può espandere nella \textbf{sezione di memoria libera condivisa}. Il registro \$sp, ossia \textbf{Stack Pointer}, viene utilizzato per operare all'interno di tale zona di memoria
+        \item \textbf{Dynamic Data (o Heap)}: contiene tutti i dati dinamici che vengono immagazzinati durante l'esecuzione del programma. Anch'essa si può espandere nella \textbf{sezione di memoria libera condivisa}
+        \item \textbf{Static Data}: contiene tutti i dati statici che vengono definiti all'avvio del programma (etichettate sotto la direttiva \textbf{.data}). Il registro \$gp, ossia \textbf{Global Pointer}, viene utilizzato dall'assemblatore stesso per gestire gli indicizzamenti all'interno di questa zona
+        \item \textbf{Program Instructions}: contiene tutte le istruzioni del programma (etichettate sotto la direttiva \textbf{.text}). All'interno di tale zona opera il P\textbf{rogram Counter}, ossia il registro che memorizza la posizione in memoria dell'istruzione successiva da eseguire
+        \item \textbf{Kernel-reserved}: corrisponde ad uno spazio di memoria \textbf{inutilizzabile} dal programmatore, poiché riservato al Kernel del Sistema Operativo. Tentare di accedere a tale zona di memoria risulterà in un'eccezione (ossia un "blocco" o "divieto") generata dal sistema operativo stesso.
+
+    \end{itemize}
+    
+    
+    \section{Direttive principali ed Esempi di codice}
+    
+    Prima di vedere alcuni esempi di codice, è necessario discutere di quelle che sono le \textbf{direttive principali} di un codice in linguaggio assembly. Tali direttive non corrispondono in modo diretto ad una particolare istruzione in linguaggio macchina, bensì vengono \textbf{interpretate esclusivamente dall'assemblatore}, il quale si occuperà poi di \textbf{tradurre} il tutto in istruzioni più complesse.
+    
+    Le direttive principali del linguaggio assembly MIPS sono:
+    \begin{itemize}
+        \item \textbf{.data}: utilizzata per definire dei dati statici
+        \item \textbf{.text}: utilizzata per definire le istruzioni del programma
+        \item \textbf{.asciiz}: utilizzata per definire una stringa di caratteri terminata da un byte null, ossia "\textbackslash 0", indicante la fine della stringa stessa
+        \item \textbf{.byte}: utilizzata per definire una sequenza di byte
+        \item \textbf{.double}: utilizzata per definire una sequenza di valori double, ossia a doppia precisione
+        \item \textbf{.float}: utilizzata per definire una sequenza di valori float, ossia a singola precisione
+        \item \textbf{.half}: utilizzata per definire una sequenza di half word, ossia metà word
+        \item \textbf{.word}: utilizzata per definire una sequenza di word
+    \end{itemize}
+    
+    Vediamo ora un \textbf{primissimo esempio di codice assembly}:
+    
+    \begin{verbatim}
+    .text
+    
+    main:
+        li $t0, 5
+        li $t1, 0x10
+        add $s0, $t0, $t1
+    \end{verbatim}
+    
+    In questo breve codice, abbiamo utilizzato la direttiva \textbf{.text}, indicante l'inizio delle istruzioni da eseguire, l'istruzione \textbf{Load Immediate}, per \textbf{caricare} il valore decimale 5 in \$t0 e il valore esadecimale 0x10 (corrispondente a 16 in decimale) in \$t1, per poi salvare la \textbf{somma} dei due in \$s0.
+    
+    Notiamo però anche la presenza della linea di codice contente \textbf{main:}, corrispondente ad un altro concetto fondamentale da introdurre, ossia il concetto di \textbf{label (etichetta)}, definita come \texttt{nome\_etichetta:} (inclusi i due punti).
+    
+    Le etichette vengono \textbf{poste accanto ad istruzioni (anche vuote) e dati statici} e svolgono una funzione di "segnalibro" per l'assemblatore, il quale, in fase di compilazione, andrà a \textbf{tradurre tali etichette con l'indirizzo di memoria corrispondente} all'istruzione o dato statico a cui essa è stata associata.
+    
+    \quad
+    
+    Per comprendere meglio l'uso delle direttive e delle etichette, vediamo subito un \textbf{esempio più articolato}:
+    
+    \begin{verbatim}
+    .data
+    
+    vettore: 10, 2, 0x12
+    stringa: .asciiz "Sono una stringa"
+    vettore_float: .float 10.2, 3.33333
+    
+    .text
+    
+    main:
+        la $s0, vettore     //carico in $s0 l'indirizzo del dato "vettore"
+        
+        lw $s1, 0($s0)
+        lw $s2, 4($s0)
+        lw $s3, 8($s0)
+        
+        add $t0, $s1, $s2   // $t0 = $s1 + $s2 ossia $t0 = 10 + 2
+        sub $t0, $t0, $s3   // $t0 = $t0 - $s3 ossia $t0 = 12 - 18
+    \end{verbatim}
+    
+    Analizziamo pezzo per pezzo tale codice:
+    \begin{enumerate}
+        \item Vengono definiti dei \textbf{dati statici} sotto la direttiva \textbf{.data}. In particolare, viene definito un vettore di interi (indicabili sia in decimale sia in esadecimale), una stringa di caratteri ed un vettore di valori float.
+        
+        \item Viene utilizzata la direttiva \textbf{.text}, indicando l'inizio delle istruzioni del programma
+        
+        \item Viene usato il comando \textbf{Load Address}, che carica in \$s0 l'indirizzo di memoria associato all'etichetta "vettore"
+        
+        \item Vengono caricati tutti i valori del vettore utilizzando il comando Load Word. Da tali istruzioni, possiamo notare come un \textbf{vettore di valori} (indipendentemente dal tipo) corrisponda esattamente ad un insieme di word messe una di fila all'altra, dunque distanti 4 byte ciascuna in memoria. Lo stesso discorso si applica anche per le \textbf{stringhe}, poiché esse non sono nient'altro che un vettore di caratteri.
+        
+        \item Vengono svolte operazioni numeriche tra i registri in cui sono stati caricati i valori del vettore
+    \end{enumerate}
+    
+    Notiamo quindi l'estrema comodità dell'utilizzo delle \textbf{direttive} e delle \textbf{etichette}, permettendoci di utilizzare ed accedere in maniera facile ai dati statici presenti in memoria.
+    \newpage
+    
+    \section{Salti condizionati e Salti assoluti}
+    \label{jumps}
+    
+    Introduciamo ora quello che è un concetto fondamentale e alla base dello sviluppo di ogni programma articolato, ossia i \textbf{salti condizionati e assoluti}.
+    
+    In generale, con il termine \textbf{"salto"} si intende un'operazione che va a \textbf{modificare il Program Counter}, cambiando l'indirizzo di memoria contenuto al suo interno. Ricordiamo che il PC si occupa di tenere traccia dell'indirizzo di memoria della \textbf{prossima istruzione da eseguire}, dunque andando ad operare su tale indirizzo possiamo "spostarci" all'interno del programma, cambiandone il \textbf{flusso delle istruzioni}.
+    
+    
+    \begin{itemize}
+        \item \textbf{Salti assoluti}: non appena viene raggiunta l'istruzione di salto assoluto, il PC verrà modificato con l'indirizzo definito all'interno dell'istruzione.
+        
+    \begin{verbatim}
+    
+    .text
+    
+    main:
+        li $t0, 0           //carico 0 in $t0
+    loop:
+        addi $t0, $t0, 1    //aggiungo uno a $t0
+        j loop              //salto alla label "loop"
+    \end{verbatim}
+        
+        Nell'esempio superiore, una volta raggiunta l'istruzione "\texttt{j loop}" il PC verrà aggiornato con l'indirizzo di memoria corrispondente alla \textbf{label} "\texttt{loop}" (ricordiamo che le label sono sostanzialmente solo un \textbf{"segnalibro" di un indirizzo di memoria}).
+        
+        Dunque, la prossima istruzione che verrà eseguita sarà "\texttt{addi \$t0, \$t0, 1}, per poi procedere con il normale flusso del programma, dunque eseguendo tutte le istruzioni successive (in questo caso verrà eseguita nuovamente l'istruzione "\texttt{j loop}", andando quindi a creare un \textbf{loop infinito}).
+        
+        \item \textbf{Salti condizionati}: seguono la stessa logica dei salti assoluti, ma con l'aggiunta di un \textbf{controllo logico di una condizione}. Ne esistono varie \textbf{tipologie}, ognuna associata ad un'istruzione diversa:
+        
+    \begin{itemize}
+        \item \textbf{Branch on Equal}: il salto viene effettuato se e solo se il valore contenuto in \$s1 \textbf{è uguale} al valore contenuto in \$s2
+        \[\texttt{beq \$s1,\$s2, label}\]
+        
+        \item \textbf{Branch on Not Equal}: il salto viene effettuato se e solo se il valore contenuto in \$s1 \textbf{non è uguale} al valore contenuto in \$s2
+        \[\texttt{bne \$s1,\$s2, label}\]
+        
+        \item \textbf{Branch on Less Than or Equal Zero}: il salto viene effettuato se e solo se il valore contenuto in \$s1 \textbf{minore o uguale a zero}
+        \[\texttt{blez \$s1, label}\]
+        
+        \item \textbf{Branch on Greater Than or Equal Zero}: il salto viene effettuato se e solo se il valore contenuto in \$s1 \textbf{maggiore o uguale a zero}
+        \[\texttt{bgez \$s1, label}\]
+        
+        \item \textbf{Branch on Less Than Zero}: il salto viene effettuato se e solo se il valore contenuto in \$s1 \textbf{minore di zero}
+        \[\texttt{bltz \$s1, label}\]
+        
+        \item \textbf{Branch on Greater Than Zero}: il salto viene effettuato se e solo se il valore contenuto in \$s1 \textbf{maggiore di zero}
+        \[\texttt{bgtz \$s1, label}\]
+    
+    \end{itemize}
+    
+    Vediamo ora un esempio di uso dei salti condizionati:
+    \begin{verbatim}
+    
+    .text
+    
+    main:
+        li $t0, 0             //carico 0 in $t0
+        li $t1, 100           //carico 100 in $t1
+    loop:
+        addi $t0, $t0, 1      //aggiungo uno a $t0
+        bne $t0, $t1, loop    //salto se e solo se $t0 == $t1
+    \end{verbatim}
+    
+    Al contrario del codice precedente, questa volta l'istruzione di salto è stata sostituita con un \textbf{Branch on Not Equal}, dove vengono comparati i registri \$t0 e \$t1. Il loop verrà quindi ripetuto \textbf{finché \$t0 e \$t1 non conterranno lo stesso valore}, ossia 100.
+    
+    Notiamo tuttavia l'assenza di alcune istruzioni che potrebbero essere comode, ad esempio un ipotetico "Branch if Less Than", dove viene eseguito il controllo \$t0 > \$t1. L'assenza di tali istruzioni è dovuta al concetto base della progettazione dei circuiti digitali, ossia \textbf{ridurre al minimo possibile il numero di componenti}. 
+    
+    Difatti, l'assenza di tale condizione di salto è dovuta all'esistenza di un'istruzione simile, ossia l'istruzione \textbf{Set if Less Than}:
+    \[ \texttt{slt \$t0, \$s0, \$s1} \]
+    In questo caso, tale istruzione modifica il valore contenuto nel registro \$t0 in base al risultato del controllo condizionale \$s0 < \$s1, modificandolo in \textbf{1 se il risultato è vero} o in \textbf{0 se il risultato è falso}. Dunque, se volessimo eseguire la nostra ipotetica istruzione "Branch if Less Than", dovremmo eseguire la seguente catena di istruzioni
+    
+    \begin{verbatim}
+        slt $t0, $s0, $s1           //$t0 = 1 se e solo se $s0 < $s1
+        bne $t0, $zero, Check       //salto solo se $t0 != 0
+    \end{verbatim}
+    
+    \end{itemize}
+    
+    \newpage
+    
+    \textbf{Esempio complesso di uso dei salti}
+    
+    Vediamo adesso un esempio molto più complesso di codice rispetto ai precedenti visti fino ad ora. Si tratta di un programma che cerca il valore massimo all'interno di un vettore di 4 valori
+
+    \begin{verbatim}
+    .data
+    
+    values: 10, 13, 99, 9
+    maxValue: 0
+    
+    .text
+    
+    main:
+            lw $s0, values                  //carico values[0] in $s0
+            lw $s1, values+4                //carico values[1] in $s1
+            lw $s2, values+8                //carico values[2] in $s2
+            lw $s3, values+12               //carico values[3] in $s3
+    
+    CopyA:  move $t0, $s0                   //copio $s0 in $t0
+    
+    CheckB: slt $t1, $t0, $s1               //metto 1 in $t1 se $t0 < $s1
+            beq $t1, $zero, CheckC          //salto a CheckC se $t1 == 0
+            
+            move $t0, $s1                   //copio $s1 in $t0
+    
+    CheckC: slt $t1, $t0, $s2               //metto 1 in $t1 se $t0 < $s2
+            beq $t1, $zero, CheckD          //salto a CheckD se $t1 == 0
+            
+            move $t0, $s2                   //copio $s2 in $t0
+    
+    CheckD: slt $t1, $t0, $s3               //metto 1 in $t1 se $t0 < $s3
+            beq $t1, $zero, End             //salto a End se $t1 == 0
+            
+            move $t0, $s3                   //copio $s3 in $t0
+    
+    End:    sw $t0, maxValue                //salvo $t0 in memoria
+    \end{verbatim} 
+    
+    Notiamo come in questo esempio siano stati usati i salti condizionati come metodo per \textbf{evitare di eseguire alcune istruzioni} e non come metodo per eseguire dei loop. Questa funzione evidenzia notevolmente l'\textbf{estrema flessibilità} delle istruzioni di salto.
+    
+    Tuttavia, notiamo come, nonostante si tratti di un semplice programma che cerca il massimo tra 4 valori, il codice risulti \textbf{lungo e ridondante}. Possiamo provare a \textbf{migliorare} tale codice sfruttando un uso migliore dei registri e dei salti condizionati.
+    
+    \newpage
+    
+    Possiamo realizzare la versione migliorata del programma salvando nel registro \$s0 il valore dell'\textbf{indirizzo in memoria} corrispondente al vettore "values" tramite l'istruzione Load Address, in modo da poter operare \textbf{direttamente su tale registro} per poter accedere agli altri valori del vettore, senza dover usare più volte l'istruzione Load Immediate.
+    
+    Successivamente, andremo a caricare in \$s1 il valore 3, corrispondente a $LunghezzaVettore - 1$, per poi andare a generare un \textbf{ciclo condizionato} che verrà terminato solo quando il valore in \$s1 avrà raggiunto zero, venendo decrementato ad ogni iterazione del ciclo. 
+    
+    \quad
+    
+    \begin{verbatim}
+    .data
+
+    values: 10, 13, 99, 1000
+    maxValue: 0
+    
+    .text
+    
+    main:
+            la $s0, values              //carico l'indirizzo in $s0
+            li $s1, 3                   //carico 3 in $s1
+    
+            lw $s2, 0($s0)              //carico MEM[$s0+0] in $s2
+    
+    CheckNext:
+            subi $s1, $s1, 1            //decremento il contatore
+            addi $s0, $s0, 4            //incremento di 4 l'indirizzo
+    
+            lw $t0, 0($s0)              //carico il nuovo MEM[$s0+0] in $s2
+    
+            slt $t1, $s2, $t0           
+            beq $t1, $zero, CheckEnd    //salto solo se $s2 > $t0
+    
+            move $s2, $t0               //altrimenti copio $st0 in $s2
+            
+    CheckEnd:
+            bne $s1, $zero, CheckNext   //salto se il contatore non è zero
+    
+            sw $s2, maxValue            //salvo il massimo trovato
+    \end{verbatim}
+    
+    Sebbene la prima versione del codice risulti leggermente \textbf{più leggibile ed intuitiva}, la nuova versione risulta \textbf{più compatta e generalizzata}: se volessimo trovare il massimo tra 5, 7 o 100 numeri, ci basterebbe modificare il valore iniziale di \$s1 ed aggiungere dei numeri in coda al vettore "values".
+    
+    \newpage
+    
+    \section{Vettori e Matrici}
+    
+    Nei codici precedenti, abbiamo già introdotto il concetto di \textbf{vettore}, ossia una \textbf{collezione di elementi della stessa dimensione posti in memoria uno dopo l'altro}. Tale concetto, seppur banale, è \textbf{fondamentale} nella gestione della memoria in contesti come cicli o ottimizzazioni di codice.
+    
+    Consideriamo i seguenti due vettori:
+    
+    \begin{verbatim}
+    vector1: .word  100, 55, 4      (o anche solo vector1: 100, 55, 4)
+    vector2: .half  100, 55, 4
+    vector3: .byte  100, 55, 4
+    \end{verbatim}
+    
+    L'unica \textbf{differenza} tra i tre vettori, in questo caso, è la \textbf{dimensione dei loro elementi}. All'interno della memoria, quindi, i tre vettori saranno conservati nel seguente modo:
+    
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_2/vector1.png}
+    \end{center}
+    
+    Tale differenza implica anche una \textbf{gestione diversa} all'interno del codice assembly:
+    
+    \begin{verbatim}
+    .data
+    
+    vector1: .word  100, 55, 4
+    vector2: .half  100, 55, 4
+    vector3: .byte  100, 55, 4
+        
+    .text
+    
+    main:
+        li $s0, vector1             //$s0 = vector1[0]
+        li $s1, vector1 + 4         //$s1 = vector1[1]
+        
+        li $s0, vector2             //$s0 = vector2[0]
+        li $s1, vector2 + 2         //$s1 = vector2[1]
+        
+        li $s0, vector3             //$s0 = vector2[0]
+        li $s1, vector3 + 1         //$s1 = vector2[1]
+    \end{verbatim}
+    
+    Notiamo come, per via dell'\textbf{indicizzazione al byte} dell'architettura MIPS, per accedere al secondo elemento di un \textbf{vettore di half word} è necessario incrementare l'indirizzo in memoria di 2 byte, mentre nel caso di un \textbf{vettore di byte} è necessario incrementarlo di 1 byte.
+    
+    Convertendo il tutto in termini di bit, notiamo come i tre vettori risultano \textbf{molto differenti}, nonostante essi stiano svolgendo la stessa identica funzione, ossia conservare i tre valori 100, 55 e 4, occupando però \textbf{quantità} molto differenti di memoria, ad esempio nel caso del primo vettore stiamo utilizzando il \textbf{quadruplo dello spazio necessario}, sprecando molta memoria.
+    
+    \begin{center}
+        \includegraphics[scale=0.45]{resources/images/chapter_2/vector3.png}
+    \end{center}
+    
+    Estendiamo ora il concetto di vettore al mondo delle \textbf{stringhe di caratteri}. Come sappiamo, o\textbf{gni singolo dato}, indipendentemente dalla sua forma, complessità ed utilizzo, all'interno della memoria e dei registri deve essere rappresentato sottoforma di \textbf{insieme di bit}.
+    
+    Lo stesso vale anche per i \textbf{caratteri alfanumerici}, difatti ogni carattere viene codificato in un \textbf{valore binario di 8 bit} (utilizzando la famosa \textbf{codifica ASCII}). Dunque, ogni carattere corrisponde esattamente ad un byte.
+    
+    Una volta precisato ciò, è facile intuire come una \textbf{stringa di testo}, ossia una frase, parola o un qualsiasi insieme di più caratteri, non sia nient'altro che un \textbf{vettore di caratteri}, dove ogni carattere corrisponde in realtà al suo \textbf{valore intero} rispettivo della codifica ASCII.
+    
+    \begin{center}
+    
+        \texttt{stringa: .asciiz  "Hello, World!"}
+        
+        \includegraphics[scale=0.5]{resources/images/chapter_2/vector2.png}
+    \end{center}
+    
+    Notiamo la presenza di un \textbf{carattere aggiuntivo} alla fine della stringa, ossia \textbf{\textbackslash 0}, chiamato \textbf{Null Byte}. Tale carattere \textbf{viene aggiunto alla fine di ogni stringa} di caratteri per indicare la fine della stringa stessa, evitando che i valori in memoria che la seguono vengano interpretati anche essi come caratteri della stringa.
+    
+    Principalmente, per accedere agli elementi dei vettori vi sono due modi:
+    
+    \begin{itemize}
+        \item \textbf{Accesso tramite puntatore}: L'indirizzo in memoria viene caricato in un registro che farà da \textbf{puntatore} all'indirizzo di memoria degli elementi del vettore, permettendo di raggiungere gli elementi del vettore \textbf{modificando il valore del puntatore}.
+        
+        Per raggiungere il \textbf{k-esimo elemento del vettore}, l'indirizzo del puntatore dovrà valere
+        \[ \texttt{indirizzo\_k\_esimo\_elem = indirizzo\_base\_vett + k $\cdot$ dim\_elementi}\]
+        
+        \textbf{Esempio:}
+        
+    \begin{verbatim}
+    .data
+    vector: 10, 123, 33
+    
+    .text
+    main:
+        la $s0, vector          //carico l'indirizzo del vettore
+        
+        li $t0, 2               //carico il valore di k
+        sll $t1, $t0, 2         //$t1 = $t0 << 2  (molt. per 4)
+        
+        add $s0, $s0, $t1       //$s0 = $s0 + $t1
+    \end{verbatim}
+        
+        \textit{Nota: in questo esempio è stato usato uno shift sinistro di 2 bit per effettuare la moltiplicazione $k \cdot 4$}
+        
+        \item \textbf{Accesso tramite indice}: Nel caso in cui il vettore sia stato creato come \textbf{dato statico} (quindi sotto .data) e non durante l'esecuzione del programma, è possibile accedervi usando direttamente un valore come \textbf{indice del vettore}.
+        
+        \textbf{Esempio}
+        
+    \begin{verbatim}
+    .data
+    vector: 10, 123, 33
+    
+    .text
+    main:
+        li $t0, 2               //carico il valore di k
+        sll $t1, $t0, 2         //$t1 = $t0 << 2  (molt. per 4)
+        
+        lw $s0, vector($t1)     //leggo dall'indirizzo vector+$t1
+    \end{verbatim}
+    \end{itemize}
+    
+    \newpage
+    
+    \subsubsection{Matrici: vettori di vettori}
+    
+    Un modo molto semplice per comprendere il funzionamento delle matrici, è immaginare un \textbf{vettore di M elementi} dove ogni elemento è un \textbf{vettore di N elementi}. Possiamo quindi fare alcune assunzioni:
+    
+    \begin{itemize}
+        \item Il numero totale di elementi è $M \cdot N$
+        \item La dimensione totale in byte è $M \cdot N \cdot dim\_elem$
+        \item Poiché si tratta di un vettore di vettori, all'interno della memoria verrà immagazzinato come una serie composta da M serie composte a loro volta da N elementi, risultando quindi in un'\textbf{unica serie di $M \cdot N$ elementi adiacenti}
+    \end{itemize}
+    
+    \begin{center}
+        \includegraphics[scale=0.5]{resources/images/chapter_2/matrix.png}
+    \end{center}
+    
+    Difatti, nel linguaggio assembly (a differenza degli altri linguaggi più ad alto livello) non ci sono modi per specificare il numero di colonne e di righe di una matrice, bensì essa viene definita come un unico vettore di grandi dimensioni:
+    
+    \begin{verbatim}
+    .data
+    matrix: .word 0:36      //matrice di 36 elementi
+    \end{verbatim}
+    
+    Nell'esempio qui sopra abbiamo creato una \textbf{matrice di 36 elementi}, dove ogni elemento viene inizializzato con il valore di default, ossia zero. Essendo una matrice di 36 elementi, \textbf{starà a noi decretare che tipo di matrice essa sia}, gestendo di conseguenza il programma, poiché ad esempio:
+    \[36 = 1 \cdot 36 = 2 \cdot 13 = 3 \cdot 12 = 4 \cdot 9 = 6 \cdot 6\]
+    
+    \section{System Calls}
+    
+    Con il termine \textbf{System Call} (ossia Chiamata al Sistema, abbreviato come \textbf{syscall}), si intende un \textbf{set di servizi complessi} messi a disposizione del programmatore da parte del \textbf{Kernel del Sistema Operativo stesso}. L'esempio tipico di una syscall è la \textbf{stampa su terminale} (print) di un valore numerico o una stringa.
+    
+    Ogni sistema operativo gestisce le proprie syscall in modo diverso. Generalmente, ogni architettura, MIPS inclusa, segue una struttura del seguente formato:
+    
+    \begin{itemize}
+        \item \textbf{Input}:
+            \begin{itemize}
+                \item \textbf{Registro \$v0}, al cui interno viene inserito il \textbf{codice della syscall} che si vuole richiedere
+                \item \textbf{Registri \$a0, \$a1, \$a2, \$f0}, dove vengono inseriti eventuali parametri aggiuntivi che verranno letti dalla syscall
+            \end{itemize}
+            \item \textbf{Output}:
+            \begin{itemize}
+                \item \textbf{Registri \$v0 e \$f0}, al cui interno vengono restituiti eventuali valori dalla syscall stessa
+            \end{itemize}
+    \end{itemize}
+    
+    \quad
+    
+    \subsubsection{Hello, World!}
+    
+    La syscall che utilizzeremo di più sarà sicuramente il \textbf{print di una stringa o valore}. Vediamo come viene implementato in ASM MIPS il classico programma che stampa la stringa "Hello, World!":
+    
+    \begin{verbatim}
+    .data
+    stringa: .asciiz "Hello, World!"
+    
+    .text
+    main:
+        la $a0, stringa     //carico l'indirizzo della stringa in $a0
+    
+        li $v0, 4           //carico il valore 4 in $v0
+        syscall             //eseguo la syscall
+    \end{verbatim}
+    
+    Analizziamo il programma: abbiamo definito in memoria statica la stringa "Hello, World!", per poi andare a caricare l'indirizzo di tale stringa all'interno del \textbf{registro \$a0}, che ricordiamo essere uno dei registri in cui vengono \textbf{passati parametri aggiuntivi} che verranno letti dalle syscall.
+    
+    Successivamente, abbiamo caricato il valore 4 nel \textbf{registro \$v0}, che ricordiamo essere il registro il cui valore definisce il \textbf{tipo di syscall} che verrà eseguita (in questo caso, 4 corrisponde al codice del servizio \textbf{"print\_string"}). Infine, effettuiamo la richiesta al sistema operativo tramite l'istruzione syscall.
+    
+    \newpage
+    
+    \subsubsection{Elenco delle Syscall in MIPS}
+    \begin{center}
+        \includegraphics[scale=0.8]{resources/images/chapter_2/syscalls.png}
+    \end{center}
+    
+    \quad
+    
+    \subsection{Pseudoistruzioni}
+    
+    Le \textbf{pseudoistruzioni} sono istruzioni "fittizie" utilizzabili nel linguaggio assembly MIPS ma che tuttavia non sono implementate a livello hardware. Tali pseudoistruzioni vengono \textbf{tradotte dall'assembler in una sequenza di istruzioni realmente implementate nella CPU}. Esse, quindi, risultano essere per lo più una \textbf{comodità per il programmatore}, permettendogli di scrivere del codice più compatto e leggibile.
+    
+    Nella sezione \ref{jumps}, abbiamo già discusso di come \textbf{non esista} un'istruzione "Branch if Less Than", costringendoci a dover utilizzare due istruzioni (\texttt{slt} e \texttt{bne}) per svolgere un controllo del tipo $\$s0 < \$s1$.
+    
+    Tuttavia, ciò è in parte falso, poiché in realtà \textbf{tale istruzione esiste sottoforma di pseudoistruzione}, ossia \texttt{blt}, la quale viene tradotta dall'assembler nelle due istruzioni \texttt{slt} e \texttt{bne}.
+    
+    \begin{center}
+        \includegraphics[scale=1]{resources/images/chapter_2/pseudoinstructions.png}
+    \end{center}
+
+    Notiamo, inoltre, come anche le istruzioni \texttt{li} e \texttt{move} siano in realtà \textbf{pseudoistruzioni}, nonché l'uso del \textbf{registro di appoggio \$1}, corrispondente al \textbf{registro \$at.}
+    
+    \section{Funzioni e Procedure}
+    
+    Come negli altri linguaggi di programmazione, una \textbf{funzione} (o procedura) è un \textbf{frammento di codice che riceve degli argomenti e calcola un risultato}. Esse sono utili per rendere il codice riusabile e modulare.
+    
+    Una funzione è strutturata :
+    
+    \begin{itemize}
+        \item Possiede un \textbf{indirizzo di partenza}
+        \item Legge uno o più registri scelti come \textbf{argomenti in input}
+        \item Svolge un calcolo ed altre operazioni
+        \item Carica il risultato delle operazioni in uno o più registri scelti come \textbf{output}
+        \item Una volta terminata,\textbf{ ritorna all'istruzione da cui è stata chiamata}, riprendendo l'esecuzione del codice principale
+    \end{itemize}
+    
+    \begin{center}
+        \includegraphics[scale=0.7]{resources/images/chapter_2/procedures.png}
+    \end{center}
+    
+    Per \textbf{richiamare una funzione} viene utilizzata l'istruzione \texttt{jal <label>}, ossia \textbf{Jump And Link}, la quale, prima di effettuare il salto incondizionato, salva nel registro \$ra l'indirizzo di memoria dell'istruzione successiva (dunque \$ra <- PC+4).
+    
+    Una volta terminata la funzione, è possibile \textbf{tornare all'istruzione chiamante} (ossia \texttt{jal}) tramite l'istruzione \texttt{jr <registro>}, ossia \textbf{Jump to Register}. Poiché l'indirizzo dell'istruzione successiva alla chiamante è contenuto nel registro \$ra, eseguendo \texttt{jr \$ra} torneremo ad eseguire il codice principale.
+
+    \newpage
+
+    Nell'\textbf{uso dei registri all'interno delle funzioni}, vi sono alcune convenzioni, tra cui:
+    
+    \begin{itemize}
+        \item \textbf{Registri di input (\$a0, \$a1, \$a2, \$a3)}:  usati come argomenti della funzione 
+        \item \textbf{Registri di output (\$v0, \$v1)}: usati per restituire i risultati della funzione
+        \item \textbf{Registri temporanei (\$t0, \$t1, ...)}: possono cambiare tra una chiamata e l'altra
+        \item \textbf{Registri salvati (\$s0, \$s1, ...)}: non cambiano tra una chiamata e l'altra
+    \end{itemize}
+    
+    Vediamo ora come realizzare una funzione \texttt{somma\_con\_quadrato} in grado di addizionare due numeri ed una funzione \texttt{stampa\_intero} in grado di stampare un intero:
+    
+    \label{without_stack}
+    \begin{verbatim}
+        .text
+        
+        main:
+            li $a0, 5         //carico il primo argomento della funzione
+            li $a1, 7         //carico il secondo argomento della funzione
+            
+            jal somma_con_quadrato           //eseguo il salto alla funzione
+            
+            move $a0, $v0     //sposto in $a0 il risultato della somma
+            jal stampa_intero //stampo il risultato
+            
+            li $v0, 10        // eseguo la syscall che
+            syscall           // termina il programma
+            
+        somma_con_quadrato:     // somma(int $a0, int $a1) => int $v0
+        
+            mult $t0, $a1, $a1  //$t0 = $a1 * $a1
+            add $v0, $a0, $t0   //uso $v0 come registro di output
+            
+            jr $ra              //ritorno all'indirizzo chiamante
+        
+        stampa_intero:          // stampa_intero(int $a0) => null
+
+            //stampo il valore contenuto in $a0
+            li $v0, 1
+            syscall
+            
+            jr $ra              //ritorno all'indirizzo chiamante    
+    \end{verbatim}
+    
+    Tuttavia, tale struttura di implementazione delle funzioni presenta alcune \textbf{falle}: ogni funzione modifica il contenuto di alcuni registri, comportamento che potrebbe generare grandi problemi all'interno del codice, richiedendo di dover salvare in un ulteriore registro lo \textbf{stato precedente alla chiamata della funzione}. 
+    Tale anomalia viene risolta tramite l'uso dello \textbf{stack di memoria}.
+    
+    \subsection{Stack di memoria}
+    
+    Come abbiamo visto nella sezione precedente, prima di poter effettuare una chiamata ad una funzione è necessario dover \textbf{preservare} il contenuto precedente dei \textbf{registri utilizzati} all'interno della funzione stessa, per poi \textbf{ripristinarlo} una volta terminata.
+    
+    Effettuare tali operazioni fornisce anche la possibilità di poter \textbf{chiamare altre funzioni all'interno di una funzione stessa} tramite la conservazione dell'indirizzo contenuto nel \textbf{registro \$ra}, il quale altrimenti verrebbe sovrascritto una volta chiamata la seconda funzione.
+    
+    \begin{itemize}
+        \item Viene salvato lo stato dei registri precedente alla prima funzione
+        \begin{itemize}
+            \item Viene salvato lo stato dei registri precedente alla seconda funzione
+            
+            \begin{itemize}
+                \item ...
+            \end{itemize}
+            
+            \item Viene ripristinato lo stato dei registri precedente alla seconda funzione
+        \end{itemize}
+        
+        \item Viene ripristinato lo stato dei registri precedente alla prima funzione
+    \end{itemize}
+    
+    
+    Tale comportamento coincide con quello di una \textbf{pila} (o \textbf{Stack}), in cui viene aggiunto un elemento in cima ad essa (\textbf{push}) e viene rimosso l'elemento in cima ad essa (\textbf{pop}).
+    
+    Per realizzare ciò, quindi, viene utilizzata una zona della memoria adibita a tale funzionamento, chiamata \textbf{stack di memoria} (sezione \ref{memory_parts}), la quale cresce verso il basso, tenendo traccia dell'ultimo elemento preservato nella funzione tramite il \textbf{registro \$sp}, ossia lo \textbf{stack pointer}.
+    
+    \quad
+    
+    \subsubsection{Apertura e Chiusura dello Stack}
+    
+    Immaginiamo di voler salvare nello stack il contenuto del registro \$t0, in modo da poterne modificare il contenuto all'interno di una funzione per poi ripristinarlo.
+    
+    Poiché lo stack di memoria \textbf{cresce verso il basso} e poiché il registro \$sp deve puntare all'\textbf{ultimo elemento salvato} nello stack, è necessario \textbf{sottrarre a \$sp} la dimensione in byte dell'elemento che si vuole salvare, per poi poi andare a salvare in memoria l'elemento stesso a tale indirizzo puntato da \$sp (\textit{apertura dello stack}). Una volta terminate le operazioni nella nostra funzione, possiamo ripristinare lo stato precedente dei registri eseguendo le \textbf{operazioni inverse} (\textit{chiusura dello stack}).
+    
+    \begin{verbatim}
+        subi $sp, $sp, 4    //faccio spazio per una word
+        sw $t0, 0($sp)      //salvo $t0 all'ind. in memoria puntato da $sp
+        
+        // corpo della funzione
+        
+        lw $t0, 0($sp)      //carico il valore precedente di $t0
+        addi $sp, $sp, 4    //rimuovo lo spazio per una word
+    \end{verbatim}
+    
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_2/stack_pointer.png}
+    \end{center}
+    
+    L'insieme totale degli elementi da salvare nello stack viene detto \textbf{Stack Frame} (o Activation Record) ed è composto da:
+    
+    \begin{itemize}
+        \item \textbf{Argomenti} passati alla funzione (contenuti in \$a0, ..., \$a3)
+        \item \textbf{Indirizzo di ritorno} (contenuto in \$ra)
+        \item \textbf{Frame pointer}, ossia l'indirizzo in memoria da cui parte lo stack frame (contenuto in \$fp). Spesso non viene salvato poiché ridondante o non necessario.
+        \item \textbf{Registri utilizzati} all'interno della funzione (ad esempio \$t0, \$s0, ...)
+        \item \textbf{Variabili locali} create nella funzione, in modo da essere "eliminate" una volta che quest'ultima si è chiusa 
+    \end{itemize}
+    
+    \begin{center}
+        \includegraphics[scale=0.8]{resources/images/chapter_2/stack_frame.png}
+    \end{center}
+    
+    Una volta definito l'\textbf{uso corretto dello stack} come metodo di conservazione e ripristino dello stato precedente, riscriviamo nel modo corretto le due funzioni dell'esempio della sezione \ref{without_stack}, salvando il valore dei registri \$t0 e \$v0, che altrimenti verrebbero alterati:
+    
+    \begin{verbatim}
+    .text
+    
+    main:
+        li $a0, 5           //carico il primo argomento della funzione
+        li $a1, 7           //carico il secondo argomento della funzione
+        
+        jal somma_con_quadrato      //eseguo il salto alla funzione
+        
+        move $a0, $v0        //sposto in $a0 il risultato della somma
+        
+        jal stampa_intero    //stampo il risultato
+        
+        // eseguo la syscall che termina il programma
+        li $v0, 10
+        syscall
+        
+    somma_con_quadrato:
+        //somma(int $a0, int $a1) => int $v0
+        
+        //apertura dello stack
+        subi $sp, $sp, 8
+        sw $ra, 0($sp)
+        sw $t0, 4($sp)
+        
+        mult $t0, $a1, $a1  //$t0 = $a1 * $a1
+        add $v0, $a0, $t0   //uso $v0 come registro di output
+        
+        //chiusura dello stack
+        lw $t0, 4($sp)
+        lw $ra, 0($sp)
+        addi $sp, $sp, 8
+        
+        jr $ra
+    
+    stampa_intero:
+        //stampa_intero(int $a0) => null
+        
+        //apertura dello stack
+        subi $sp, $sp, 8
+        sw $ra, 0($sp)
+        sw $v0, 4($sp)
+        
+        li $v0, 1
+        syscall
+        
+        //chiusura dello stack
+        lw $v0, 4($sp)
+        lw $ra, 0($sp)
+        addi $sp, $sp, 8
+        
+        jr $ra              
+    \end{verbatim}
+    
+    \newpage
+    
+    \subsection{Funzioni ricorsive}
+    
+    Come in ogni altro linguaggio di programmazione, in alcuni casi risulta più efficace sviluppare una versione \textbf{ricorsiva} di un programma per via della natura stessa del problema (esempio tipico: il calcolo di un numero di Fibonacci). Una volta in grado di realizzare funzioni nel modo corretto anche in Assembly MIPS, l'implementazione di una funzione ricorsiva risulta essere \textbf{analoga} all'implementazione di una soluzione ricorsiva in \textbf{qualsiasi altro linguaggio di programmazione}.
+    
+    \quad
+    
+    \subsubsection{Esempio - Fibonacci Ricorsivo}
+    
+    \begin{verbatim}
+    .text
+    
+    main:
+        li $a0, 3               //dichiarazione argomenti della funzione
+        jal Fibonacci           //chiamata alla funzione
+        
+        move $a0,$v0            //printa risultato
+        li $v0,1
+        syscall
+        
+        li $v0, 10              //chiudi il programma
+        syscall
+        
+        Fibonacci:
+            // Fib(int $a0) => int $v0
+            // -- Se $a0 == 0, allora $v0 = 0
+            // -- Se $a0 == 1, allora $v0 = 1
+            // -- Se $a0 > 1, allora $v0 = Fib($a0 - 1) + Fib($a0 - 2)
+        
+            beq $a0, 0, BaseCase_0      // Se $a0 == 0
+            
+            beq $a0, 1, BaseCase_1      // Se $a0 == 1 
+            
+            j RecursiveStep             // Else
+            
+            BaseCase_0:
+                li $v0, 0
+                jr $ra                  // return
+                
+            BaseCase_1:
+                li $v0, 1
+                jr $ra                  // return
+            
+
+            RecursiveStep:
+                //apertura dello stack
+                subi $sp,$sp,12
+                sw $ra,0($sp)
+                sw $a0,4($sp)
+                sw $v1,8($sp)
+            
+                subi $a0,$a0,1          
+                jal Fibonacci           
+                move $v1, $v0           // $v1 = fib($a0 - 1)
+            
+                subi $a0,$a0,1          
+                jal Fibonacci           // $v0 = fib($a0 - 2)
+                
+                add $v0,$v1,$v0         // $v0 = $v0 + $v1
+            
+                //chiusura dello stack
+                lw $v1,8($sp)
+                lw $a0,4($sp)           
+                lw $ra,0($sp)
+                addi $sp,$sp,12         
+            
+                jr $ra                  // return
+    \end{verbatim}
+    
+    \chapter{L'Architettura MIPS}
+    
+    \section{Struttura della CPU}
+    
+    Vogliamo progettare una CPU semplice in grado di poter svolgere le seguenti \textbf{istruzioni di base}:
+    
+    \begin{itemize}
+        \item \textbf{Accesso alla memoria}: lw, sw
+        \item \textbf{Salti condizionati} (branch): beq, bne
+        \item \textbf{Salti incondizionati} (jump): j, jal
+        \item \textbf{Operazioni aritmetico-logiche tra registri}: add, sub, and, or, slt, ...
+        \item \textbf{Operazioni aritmetico-logiche con costanti}: addi, subi, andi, ori, ...
+    \end{itemize}
+    
+    Ricordando l'\textbf{architettura di base} di un calcolatore definita da Von Neumann (sezione \ref{von_neumann}), siamo in grado di stabilire che, affinché si possano implementare tali istruzioni, siano necessari alcuni "ingredienti fondamentali":
+    
+    \begin{itemize}
+        \item Un \textbf{registro Program Counter (PC)}, che possa tenere traccia dell'indirizzo in memoria dell'istruzione successiva da eseguire
+        \item Un \textbf{Banco di Registri (Register File)}, contenenti i dati e gli argomenti necessari alle istruzioni
+        \item Una \textbf{memoria}, che d'ora in poi vedremo come divisa (solo dal punto di vista teorico) tra \textbf{memoria dati} e \textbf{memoria istruzioni}, in modo da poterne semplificare l'interpretazione logica.
+        \item Un \textbf{Arithmetic-Logic Unit (ALU)} in grado di svolgere tutte le operazioni aritmetico-logiche necessarie
+        \item Una \textbf{Control Unit (CU)} in grado di gestire tutti i segnali necessari all'esecuzione di un'istruzione
+        \item Un \textbf{Datapath}, ossia l'insieme delle interconnessioni tra i vari componenti
+    \end{itemize}
+    
+    \subsection{Fase di Instruction Fetch}
+    
+    Per prima cosa, è necessario progettare la fase di \textbf{Instruction Fetch}, ossia il prelevamento dell'istruzione successiva da eseguire. I componenti necessari sono:
+    
+    \begin{itemize}
+        \item Il \textbf{Program Counter} , ossia il registro (32 bit) contenente l'indirizzo in memoria dell'istruzione successiva
+        \item La \textbf{memoria istruzioni}, avente in input l'indirizzo (32 bit) in memoria dell'istruzione da prelevare e in output l'istruzione (32 bit) corrispondente a tale indirizzo
+    \end{itemize}
+    
+    Sapendo che l'indirizzo di memoria dell'istruzione successiva è contenuto all'interno del \textbf{Program Counter}, ci basta semplicemente connettere quest'ultimo all'input della \textbf{memoria istruzioni}, in modo da poter prelevare l'istruzione corrispondente a tale \textbf{indirizzo}.
+    
+    Successivamente, poiché ogni istruzione corrisponde ad una \textbf{word}, sarà necessario \textbf{incrementare l'indirizzo contenuto del PC di 4 byte}, in modo da poter prelevare al prossimo ciclo di clock l'istruzione direttamente \textbf{successiva} a quella precedentemente eseguita.
+    
+    Dunque, sarà necessario aggiungere all'architettura anche un \textbf{Sommatore (Adder)} avente in input il \textbf{PC} e un \textbf{valore costante pari a 4}, in modo da poter eseguire tale somma ad ogni ciclo di clock:
+    
+    \begin{center}
+        \includegraphics[scale=0.75]{resources/images/chapter_3/fetch.png}
+    \end{center}
+    
+    \newpage
+
+    \subsection{Fase di Instruction Decode}
+    
+    Successivamente, viene eseguita la fase di \textbf{Instruction Decode}, dove l'istruzione in output dalla fase di \textbf{fetch} viene \textbf{scomposta} in ognuno dei suoi \textbf{campi}, in modo da poterne prelevare i contenuti.
+    
+    \begin{center}
+        \includegraphics[scale=0.75]{resources/images/chapter_3/instruction_types.png}
+    \end{center}
+    
+    Poiché l'architettura deve essere in grado di poter lavorare con tutti e tre i formati di istruzioni, saranno necessari alcuni \textbf{multiplexer (mux)} e \textbf{segnali di controllo}, in modo che ne modifichino in comportamento a seconda del tipo di istruzione:
+    
+    \begin{center}
+        \includegraphics[scale=0.8]{resources/images/chapter_3/decode.png}
+    \end{center}
+    
+    \begin{itemize}
+        \item \textbf{Registro di Lettura 1}: prenderà in input i bit corrispondenti al \textbf{campo \$rs} dell'istruzione, ossia i bit nel range [25-21]
+        \item \textbf{Registro di Lettura 2}: prenderà in input i bit corrispondenti al \textbf{campo \$rt} dell'istruzione, ossia i bit nel range [20-16]
+        \item \textbf{RegDst}: un segnale di controllo utilizzato come selettore di un Mux avente in input il \textbf{campo \$rt e il campo \$rd} dell'istruzione, ossia i bit nei range [20-16] e [15-11]
+        \item \textbf{Registro di Scrittura}: prenderà in input i bit corrispondenti al \textbf{campo selezionato} dal mux avente come selettore \textbf{RegDst}, scrivendo all'interno del registro corrispondente il contenuto del dato da scrivere passato in input
+        \item \textbf{RegWrite}: un segnale di controllo che, se asserito (ossia vale 1), \textbf{abilità la scrittura} sul Register File, ignorandola altrimenti.
+        \item \textbf{Estensione del Segno}: prenderà in input i bit corrispondenti alla \textbf{parte immediata} dell'istruzione, ossia i bit nel range [15-0], \textbf{estendendone il segno fino a 32 bit} copiando il valore del bit più a sinistra (ricordiamo che i numeri utilizzati sono in Complemento a 2)
+    \end{itemize}
+    
+    \quad
+    
+    \subsection{Fase di Instruction Execute}
+    
+    Una volta decodificata l'istruzione prelevando i dati ad essa necessari, l'istruzione procederà con la fase di esecuzione, andando ad utilizzare l'\textbf{ALU} ed eventualmente ad accedere alla \textbf{memoria dati}.
+    
+    \begin{center}
+        \includegraphics[scale=1]{resources/images/chapter_3/execute.png}
+    \end{center}
+    
+    L'implementazione delle \textbf{operazioni sull'ALU} risulta di facile intuizione:
+    
+    \begin{itemize}
+        \item Sono presenti \textbf{4 bit di controllo} che stabiliscono l'operazione svolta dall'ALU
+        
+        \begin{center}
+            \begin{tabular}{c|c}
+                \textbf{Segnali ALU} & \textbf{Operazione} \\
+                \hline
+                0000 & AND \\
+                0001 & OR  \\
+                0010 & ADD \\
+                0110 & SUB \\
+                0111 & SLT \\
+                1100 & NOR \\
+            \end{tabular}
+        \end{center}
+        
+        \newpage
+        
+        \item Sono presenti \textbf{2 segnali di input a 32 bit} corrispondenti agli argomenti dell'operazione da svolgere: se l'istruzione da eseguire è di Tipo R, allora verranno usati i \textbf{due dati letti dai registri} come input, altrimenti verranno utilizzati il dato letto dal \textbf{registro \$rs} e la \textbf{parte immediata estesa}.
+        
+        Per svolgere ciò, dunque, è necessario aggiungere un mux controllato da un segnale \textbf{ALUSrc} in grado di selezionare la fonte del secondo input dell'ALU.
+        
+        \item Sono presenti \textbf{2 segnali di output}, uno corrispondente al \textbf{risultato dell'operazione svolta} (32 bit) ed uno corrispondente ad una \textbf{segnale di flag} chiamato \textbf{Zero} (1 bit), il quale risulterà asserito (ossia valente 1) solo nel caso in cui il \textbf{risultato} dell'ALU sia esattamente \textbf{pari a 0}. Tale segnale risulterà fondamentale per le istruzioni di branch.
+    \end{itemize}
+    
+    L'implementazione dell'accesso alla \textbf{memoria dati}, invece, risulta leggermente più complesso, poiché ogni istruzione necessità di svolgere \textbf{operazioni diverse} su di essa:
+    
+    \begin{itemize}
+        \item L'ALU viene utilizzata per calcolare gli indirizzi di memoria con cui interagire, dunque il risultato dell'operazione svolta verrà utilizzato come input d'indirizzo
+        
+        \item Solo l'istruzione \texttt{lw} è in grado di leggere dalla memoria, dunque nel caso in cui essa venga eseguita sarà necessario restituire il \textbf{dato prelevato dalla memoria} stessa come dato da scrivere all'interno del registro di scrittura selezionato, mentre in qualsiasi altro caso sarà necessario restituire il \textbf{risultato stesso dell'ALU}.
+        
+        Ciò determina quindi la necessità di dover inserire un mux avente come selettore un segnale di controllo \textbf{MemToReg} in grado di determinale quale dei due dati andare a scrivere nei registri.
+        
+        \item Solo l'istruzione \texttt{lw} deve essere in grado di poter \textbf{leggere} dalla memoria, mentre solo l'istruzione \texttt{sw} deve essere in grado di poter \textbf{scrivere} su di essa.
+        
+        Ciò determina quindi la necessità di dover inserire un segnale di controllo \textbf{MemRead} abilitante la \textbf{lettura} ed un segnale di controllo abilitante la \textbf{scrittura} sulla memoria dati.
+        
+    \end{itemize}
+    
+    \newpage
+    
+    \subsubsection{Unità di Controllo dell'ALU}
+    
+    Per semplificare l'uso dei segnali di controllo che determinano l'operazione da eseguire nell'ALU, possiamo implementare un'\textbf{unità di controllo} avente come input il \textbf{campo funct} dell'istruzione (ossia i bit nel range [5-0]), contenente la vera operazione da eseguire, e due segnali di controllo \textbf{ALUOp}, i quali determinano se eseguire tale operazione.
+    
+    \quad
+    
+    \begin{center}
+        \begin{tabular}{c |p{0.7cm}  p{0.7cm} | c  c  c  c  c | c | c}
+            \textbf{Istruzione} & \multicolumn{2}{c|}{\textbf{ALUOP}} & \multicolumn{5}{c|}{\textbf{Campo funct}} & \textbf{Segnali ALU} & \textbf{Operazione} \\
+            \hline
+            \texttt{lw} e
+            \texttt{sw}  & \centering{0} & \centering{0} & - & - & - & - & - & 0010 & ADD\\
+            \texttt{beq} & \centering{-} & \centering{1} & - & - & - & - & - & 0110 & SUB\\
+            \texttt{add} & \centering{1} & \centering{-} & - & 0 & 0 & 0 & 0 & 0010 & ADD\\
+            \texttt{sub} & \centering{1} & \centering{-} & - & 0 & 0 & 1 & 0 & 0110 & SUB\\
+            \texttt{and} & \centering{1} & \centering{-} & - & 0 & 1 & 0 & 0 & 0000 & AND\\
+            \texttt{or}  & \centering{1} & \centering{-} & - & 0 & 1 & 0 & 1 & 0001 & OR\\
+            \texttt{slt} & \centering{1} & \centering{-} & - & 1 & 0 & 1 & 0 & 0111 & SLT\\
+        \end{tabular}
+        
+        \quad
+        
+        \textit{Nota: con il segno "-" viene indicato un segnale Don't Care}
+    \end{center}
+    
+    \quad
+
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_3/alu_control.png}
+    \end{center}
+    
+    \quad
+    
+    \subsection{Aggiunta di Salti Condizionati e Incondizionati}
+    
+    \subsubsection{Implementazione dei Salti Condizionati (Branch)}
+    
+    Per poter implementare un'architettura in grado di eseguire un \textbf{salto condizionato} del tipo Branch if Equal (beq) e Branch if Not Equal (bne), i quali ricordiamo essere \textbf{salti relativi} all'istruzione corrente (ossia in grado di saltare solo un determinato numero di istruzioni prima o dopo l'istruzione corrente), è possibile utilizzare l'ALU stessa come \textbf{comparatore}, eseguendo una \textbf{sottrazione tra i due argomenti in input}.
+    
+    In tal modo, la \textbf{flag Zero} risulterà asserita (ossia pari ad 1) se il risultato della sottrazione è 0, situazione possibile se e solo se i due argomenti sono esattamente equivalenti tra di loro. Il salto, dunque, verrà effettuato \textbf{solo se la flag Zero risulta asserita}.
+    
+    \[ \texttt{beq \$rs, \$rt, offset} \longrightarrow \text{ Salta di \texttt{offset} istruzioni solo se }\$rs - \$rt == 0\]
+    
+    \quad
+    
+    \textbf{\textit{CHIARIMENTO}}: fino ad ora, ci siamo abituati a vedere il formato \texttt{beq \$rs, \$rt, label}. Tuttavia, durante la compilazione viene sostituito il valore indicato dalla label dal valore \texttt{label - PC}, ottenendo la vera quantità di istruzioni da saltare.
+    
+    \[ \texttt{beq \$rs, \$rt, offset} \longrightarrow \texttt{beq \$rs, \$rt, (label - PC)}\]
+    
+    Difatti, è in realtà possibile utilizzare le istruzioni di branch senza dover necessariamente indicare una label (Es: \texttt{beq \$rs, \$rt, 14} corrisponde ad un salto in avanti di 14 istruzioni).
+    
+    Una volta definita la logica necessaria alla \textbf{verifica della condizione} da soddisfare per effettuare il branch, sarà necessario modificare l'architettura per renderla in grado di calcolare l'\textbf{indirizzo relativo a cui effettuare il salto}.
+    
+    Poiché la \textbf{parte immediata} dell'istruzione contiene il numero di istruzioni da saltare, sarà necessario \textbf{shiftare a sinistra di due posti} tale numero (dunque moltiplicandolo per 4), in modo da poter ottenere il \textbf{numero di byte corrispondenti} da saltare. Successivamente, ci basterà \textbf{sommare} tale quantità di byte da saltare all'indirizzo pre-calcolato dell'istruzione successiva, ossia \textbf{PC+4}.
+    
+    \[ \texttt{beq \$rs, \$rt, offset} \longrightarrow PC = PC+4+(\texttt{offset} << 2) \text{ solo se }\$rs - \$rt == 0\]
+    
+    Infine, sarà necessario introdurre un mux avente come selettore l'\textbf{AND} tra la \textbf{flag Zero} e il segnale di controllo \textbf{Branch}, il quale sarà asserito solo se l'istruzione eseguita è un branch. 
+    
+    \quad
+    
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_3/branch.png}
+    \end{center}
+    
+    \quad
+
+    \subsubsection{Implementazione dei Salti Incondizionati (Jump)}
+    
+    L'implementazione di un salto incondizionato risulta estremamente simile a quella della sua variante condizionata, richiedendo tuttavia una manipolazione più accurata dei bit trattandosi di un \textbf{salto assoluto}, ossia non relativo all'istruzione corrente.
+    
+    Per poter calcolare l'\textbf{indirizzo assoluto} a cui effettuare il salto è necessario fare alcune considerazioni:
+    
+    \begin{itemize}
+        \item Essendo un salto assoluto, è necessario che l'indirizzo calcolato sia un indirizzo di memoria \textbf{confinato} all'interno della \textbf{zona di memoria dedica alla memoria istruzioni} (sezione \ref{memory_parts}). Per mantenere tale condizione sempre valida, i \textbf{4 bit} nel range [31-28] del PC rimangono \textbf{invariati} durante il calcolo
+        
+        \item La parte immediata dell'istruzione \texttt{jump}, ossia i bit nel range [25-0] dell'istruzione, contiene il numero dell'istruzione a cui saltare, dunque è necessario \textbf{shiftare a sinistra di due posti} tale valore, in modo da ottenere l'indirizzo di memoria in byte, ottenendo così i \textbf{28 bit} indicanti l'effettiva istruzione a cui saltare 
+    \end{itemize}
+    
+    L'indirizzo calcolato, quindi, sarà formato dall'\textbf{unione dei 4 bit invariati} (ossia \texttt{PC+4[31-28]}) \textbf{ai 28 bit calcolati tramite lo shift} a sinistra della parte immediata (ossia \texttt{Istruzione[25-0]} $<<$ 2).
+    \[ \texttt{j label} \longrightarrow \texttt{PC = PC+4[31-28] OR (label $<< 2$)} \]
+    \[\longrightarrow \texttt{PC = PC+4[31-28] OR (Istr[25-0] $<< 2$)}\]
+    
+    \begin{center}
+        \includegraphics[scale=0.62]{resources/images/chapter_3/jump.png}
+    \end{center}
+    
+    \newpage
+
+    \subsection{Control Unit ed Esecuzione delle istruzioni di base}
+    
+    Abbiamo visto come all'interno dell'architettura sia necessario implementare dei \textbf{segnali di controllo} in grado di dettarne il \textbf{comportamento} a seconda dell'\textbf{istruzione} da eseguire.
+    
+    Tali segnali di controllo vengono gestiti dalla \textbf{Control Unit (CU)}, la quale prenderà in input l'\textbf{opcode} dell'istruzione (ossia i bit nel range[31-26]) per poi attivare i segnali necessari all'esecuzione dell'istruzione stessa.
+    
+    \quad
+    
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_3/control_signals.png}
+        
+        \quad
+        
+        \includegraphics[scale=0.66]{resources/images/chapter_3/standard_arch.png}
+    \end{center}
+    
+    
+    \newpage
+    
+    \subsubsection{Segnali, Datapath e Tempo di esecuzione di una \texttt{Type R}}
+    
+    \begin{center}
+        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/type_r.png}
+        
+        \quad
+        
+        \includegraphics[scale=0.55]{resources/images/chapter_3/paths/type_r_controls.png}
+        
+    \end{center}
+    
+    \quad
+        
+    Supponendo che:
+    \begin{center}
+        \begin{itemize}
+            \item L'accesso alla \textbf{Memoria} impieghi \textbf{150ns}
+            \item L'accesso al \textbf{Register File} impieghi \textbf{50ns}
+            \item L'utilizzo dell'\textbf{ALU} e dei \textbf{Sommatori} impieghi \textbf{100ns}
+        \end{itemize}
+        
+        \quad
+        
+        \includegraphics[scale=0.57]{resources/images/chapter_3/paths/type_r_time.png}
+    \end{center}
+    
+    \newpage
+    
+    \subsubsection{Segnali, Datapath e Tempo di esecuzione di una \texttt{Type I}}
+    
+    \begin{center}
+        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/type_i.png}
+        
+        \quad
+        
+        \includegraphics[scale=0.55]{resources/images/chapter_3/paths/type_i_controls.png}
+        
+    \end{center}
+    
+    \quad
+        
+    Supponendo che:
+    \begin{center}
+        \begin{itemize}
+            \item L'accesso alla \textbf{Memoria} impieghi \textbf{150ns}
+            \item L'accesso al \textbf{Register File} impieghi \textbf{50ns}
+            \item L'utilizzo dell'\textbf{ALU} e dei \textbf{Sommatori} impieghi \textbf{100ns}
+        \end{itemize}
+        
+        \quad
+        
+        \includegraphics[scale=0.57]{resources/images/chapter_3/paths/type_i_time.png}
+    \end{center}
+    
+    
+    \newpage
+    
+    \subsubsection{Segnali, Datapath e Tempo di esecuzione di una \texttt{lw}}
+    
+    \begin{center}
+        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/lw.png}
+        
+        \quad
+        
+        \includegraphics[scale=0.55]{resources/images/chapter_3/paths/lw_controls.png}
+        
+    \end{center}
+    
+    \quad
+        
+    Supponendo che:
+    \begin{center}
+        \begin{itemize}
+            \item L'accesso alla \textbf{Memoria} impieghi \textbf{150ns}
+            \item L'accesso al \textbf{Register File} impieghi \textbf{50ns}
+            \item L'utilizzo dell'\textbf{ALU} e dei \textbf{Sommatori} impieghi \textbf{100ns}
+        \end{itemize}
+        
+        \quad
+        
+        \includegraphics[scale=0.57]{resources/images/chapter_3/paths/lw_time.png}
+    \end{center}
+    
+    \newpage
+    
+    \subsubsection{Segnali, Datapath e Tempo di esecuzione di una \texttt{sw}}
+    
+    \begin{center}
+        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/sw.png}
+        
+        \quad
+        
+        \includegraphics[scale=0.55]{resources/images/chapter_3/paths/sw_controls.png}
+        
+    \end{center}
+    
+    \quad
+        
+    Supponendo che:
+    \begin{center}
+        \begin{itemize}
+            \item L'accesso alla \textbf{Memoria} impieghi \textbf{150ns}
+            \item L'accesso al \textbf{Register File} impieghi \textbf{50ns}
+            \item L'utilizzo dell'\textbf{ALU} e dei \textbf{Sommatori} impieghi \textbf{100ns}
+        \end{itemize}
+        
+        \quad
+        
+        \includegraphics[scale=0.57]{resources/images/chapter_3/paths/sw_time.png}
+    \end{center}
+    
+    \newpage
+    
+    \subsubsection{Segnali, Datapath e Tempo di esecuzione di una \texttt{beq}}
+    
+    \begin{center}
+        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/beq.png}
+        
+        \quad
+        
+        \includegraphics[scale=0.55]{resources/images/chapter_3/paths/beq_controls.png}
+        
+    \end{center}
+    
+    \quad
+        
+    Supponendo che:
+    \begin{center}
+        \begin{itemize}
+            \item L'accesso alla \textbf{Memoria} impieghi \textbf{150ns}
+            \item L'accesso al \textbf{Register File} impieghi \textbf{50ns}
+            \item L'utilizzo dell'\textbf{ALU} e dei \textbf{Sommatori} impieghi \textbf{100ns}
+        \end{itemize}
+        
+        \quad
+        
+        \includegraphics[scale=0.57]{resources/images/chapter_3/paths/beq_time.png}
+    \end{center}
+    \newpage
+    
+    \subsubsection{Segnali, Datapath e Tempo di esecuzione di una \texttt{j}}
+    
+    \begin{center}
+        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/j.png}
+        
+        \quad
+        
+        \includegraphics[scale=0.55]{resources/images/chapter_3/paths/j_controls.png}
+        
+    \end{center}
+    
+    \quad
+        
+    Supponendo che:
+    \begin{center}
+        \begin{itemize}
+            \item L'accesso alla \textbf{Memoria} impieghi \textbf{150ns}
+            \item L'accesso al \textbf{Register File} impieghi \textbf{50ns}
+            \item L'utilizzo dell'\textbf{ALU} e dei \textbf{Sommatori} impieghi \textbf{100ns}
+        \end{itemize}
+        
+        \quad
+        
+        \includegraphics[scale=0.57]{resources/images/chapter_3/paths/j_time.png}
+    \end{center}
+    
+    \section{Aggiungere nuove istruzioni}
+    
+    \subsubsection{L'istruzione \texttt{jal}}
+    
+    Vogliamo aggiungere l'istruzione di Tipo J \texttt{jal} (Jump and Link) in grado di:
+    \begin{itemize}
+        \item \textbf{Effettuare un salto} all'indirizzo indicato dalla parte immediata dell'istruzione (ossia i bit nel range [25-0])
+        \item \textbf{Salvare} nel registro \$ra (codificato come registro \texttt{111111}, ossia 31) il valore PC+4 
+    \end{itemize}
+    
+    Poiché la prima parte dell'istruzione corrisponde ad un normale salto incondizionato, non sono necessarie modifiche all'architettura per la sua implementazione.
+    
+    La seconda parte, invece, richiede l'aggiunta di due mux aventi come selettore un nuovo segnale di controllo chiamato \textbf{Link}:
+    \begin{itemize}
+        \item Un mux che vada a selezionare tra l'output del mux controllato dal segnale \textbf{RegDst} e il \textbf{valore fisso 31}, in modo da poter utilizzare il registro \$ra come registro di scrittura
+        \item Un mux che vada a selezionare tra l'output del mux controllato dal segnale \textbf{MemToReg} e il \textbf{valore PC+4}, in modo da poterlo utilizzare come dato da scrivere nel registro \$ra
+    \end{itemize}
+    
+    \begin{center}
+        \includegraphics[scale=0.5]{resources/images/chapter_3/paths/jal.png}
+        
+        \quad
+        
+        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/jal_controls.png}
+        \end{center}
+    
+    \quad
+        
+    Supponendo che:
+    \begin{center}
+        \begin{itemize}
+            \item L'accesso alla \textbf{Memoria} impieghi \textbf{150ns}
+            \item L'accesso al \textbf{Register File} impieghi \textbf{50ns}
+            \item L'utilizzo dell'\textbf{ALU} e dei \textbf{Sommatori} impieghi \textbf{100ns}
+        \end{itemize}
+        
+        \quad
+        
+        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/jal_time.png}
+    \end{center}
+    
+    \quad
+    
+    \quad
+    
+    \quad
+    
+    \subsubsection{L'istruzione \texttt{jr}}
+    
+    Vogliamo aggiungere l'istruzione di Tipo J \texttt{jr} (Jump to Register) in grado di:
+    \begin{itemize}
+        \item \textbf{Effettuare un salto} all'indirizzo contenuto nel registro indicato dal campo \$rs dell'istruzione
+    \end{itemize}
+    
+    L'esecuzione di tale istruzione richiede l'aggiunta di un mux avente come selettore un nuovo segnale di controllo chiamato \textbf{JumpToReg}:
+    \begin{itemize}
+        \item Dobbiamo selezionare tra l'output del mux controllato dal segnale \textbf{RegDst} e il \textbf{valore fisso 31}, in modo da poter selezionare tra l'output del mux controllato dal segnale \textbf{Jump} e il \textbf{valore del registro \$rs}.
+    \end{itemize}
+    
+    \begin{center}
+        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/jr.png}
+        
+        \quad
+        
+        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/jr_controls.png}
+        \end{center}
+    
+    \quad
+        
+    Supponendo che:
+    \begin{center}
+        \begin{itemize}
+            \item L'accesso alla \textbf{Memoria} impieghi \textbf{150ns}
+            \item L'accesso al \textbf{Register File} impieghi \textbf{50ns}
+            \item L'utilizzo dell'\textbf{ALU} e dei \textbf{Sommatori} impieghi \textbf{100ns}
+        \end{itemize}
+        
+        \quad
+        
+        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/jr_time.png}
+    \end{center}
+    
+    \subsubsection{L'istruzione \texttt{vj}}
+    
+    Vogliamo aggiungere l'istruzione di Tipo I \texttt{vj} (Vectorized Jump) avente la seguente sintassi Assembly MIPS:
+    \[ \texttt{vj \$indice, vettore}\]
+    
+    Tale istruzione è in grado di:
+    \begin{itemize}
+        \item \textbf{Effettuare un salto} all'indirizzo contenuto contenuto nell'elemento \textbf{\$indice-esimo del vettore} di word.
+    \end{itemize}
+    
+    \quad
+    
+    Esempio:
+    \begin{itemize}
+        \item Se in memoria si è definito staticamente il
+        \[ \texttt{vettore: .word 16, 24, 312, 44} \]
+        
+        e al registro \$t0 è assegnato il valore 3 allora
+        \[ \texttt{vj \$t0, vettore} \]
+        
+        salterà all'indirizzo 44 (che è l'elemento con indice 3 del vettore)
+    \end{itemize}
+    
+    \quad
+    
+    L'esecuzione di tale istruzione richiede l'aggiunta di due mux aventi come selettore un nuovo segnale di controllo chiamato \textbf{VecJump}:
+    \begin{itemize}
+        \item Un mux per selezionare tra il valore del registro \$rs e una versione shiftata di due posti a sinistra dello stesso valore, in modo da poter ottenere l'\textbf{offset in byte} corrispondente all'indice del vettore da \textbf{sommare} all'indirizzo del \textbf{vettore} stesso (ad esempio, l'indirizzo dell'elemento in posizione 3 corrisponde a $\texttt{vector}+(3 << 2)$
+        \item Un mux per selezionare tra l'output del mux controllato dal segnale \textbf{Jump} e la \textbf{word in memoria} all'indirizzo $\texttt{vector}+(3 << 2)$
+    \end{itemize}
+    
+    \begin{center}
+        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/vj.png}
+        
+        \quad
+        
+        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/vj_controls.png}
+        \end{center}
+    
+    \quad
+        
+    Supponendo che:
+    \begin{center}
+        \begin{itemize}
+            \item L'accesso alla \textbf{Memoria} impieghi \textbf{75ns}
+            \item L'accesso al \textbf{Register File} impieghi \textbf{25ns}
+            \item L'utilizzo dell'\textbf{ALU} e dei \textbf{Sommatori} impieghi \textbf{100ns}
+        \end{itemize}
+        
+        \quad
+        
+        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/vj_time.png}
+    \end{center}
+    
+    \subsubsection{L'istruzione \texttt{badd}}
+    
+    Vogliamo aggiungere l'istruzione di Tipo I \texttt{badd} (Branch with Add) avente la seguente sintassi Assembly MIPS:
+    \[ \texttt{badd \$rs, \$rt, offset}\]
+    
+    Tale istruzione è in grado di:
+    \begin{itemize}
+        \item \textbf{Effettuare un salto relativo} di $\texttt{offset} << 2 +\texttt{\$rs}+\texttt{\$rt}$ byte
+    \end{itemize}
+    
+    \quad
+    
+    Esempio:
+    \begin{itemize}
+        \item Se viene eseguita l'istruzione $\texttt{badd \$t0, \$t1, 15}$, dove ai registri \$t0 e \$t1 sono assegnati rispettivamente i valori 50 e 12, allora il programma salterà all'istruzione
+        $\texttt{PC}+4+50+12+(15 << 2)$
+    \end{itemize}
+    
+    \quad
+    
+    L'esecuzione di tale istruzione richiede l'aggiunta di un mux avente come selettore un nuovo segnale di controllo chiamato \textbf{BAdd}:
+    \begin{itemize}
+        \item Dobbiamo selezionare tra l'output del \textbf{Sommatore} $\texttt{PC} + 4 + (offset << 2)$ e l'output di una \textbf{seconda ALU} da aggiungere avente in input l'output dello stesso Sommatore e l'output della \textbf{prima ALU}, avente in input i registri \$rs e \$rt
+        
+        \item Dobbiamo inoltre aggiungere una \textbf{porta OR} avente in input il segnale \texttt{Branch AND Zero} e il segnale \texttt{BAdd}, il cui output verrà usato come selettore del mux avente in precedenza il segnale \texttt{Branch AND Zero}
+    \end{itemize}
+    
+    \begin{center}
+        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/badd.png}
+        
+        \quad
+        
+        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/badd_controls.png}
+        \end{center}
+    
+    \quad
+        
+    Supponendo che:
+    \begin{center}
+        \begin{itemize}
+            \item L'accesso alla \textbf{Memoria} impieghi \textbf{100ns}
+            \item L'accesso al \textbf{Register File} impieghi \textbf{50ns}
+            \item L'utilizzo dell'\textbf{ALU} e dei \textbf{Sommatori} impieghi \textbf{200ns}
+        \end{itemize}
+        
+        \quad
+        
+        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/badd_time.png}
+    \end{center}
+    
+    \newpage
+    
+    \section{Control Unit malfunzionante}
+    
+    Si ha il dubbio che in alcune CPU MIPS la Control Unit sia rotta, producendo il segnale di controllo \textbf{\texttt{Jump} attivo se e solo se è attivo il segnale \texttt{MemRead}}, dunque \texttt{Jump} = \texttt{MemRead}.
+    
+    Si assume che:
+    
+    \begin{itemize}
+        \item \texttt{MemToReg} = 1 solo per l'instruzione \texttt{lw} ed altrimenti valga 0 (dunque non è mai un valore Don't Care)
+        \item \texttt{MemRead} = 1 solo per l'istruzione \texttt{lw} ed altrimenti valga 0 (dunque non è mai un valore Don't Care)
+        \item \texttt{RegDst} = 1 solo per le istruzioni di \texttt{Tipo R} ed altrimenti valga 0 (dunque non è mai un valore Don't Care)
+    \end{itemize}
+    
+    \quad
+    
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_3/jump_mem_init.png}
+    \end{center}
+    
+    \quad
+    
+    Prima di tutto, individuiamo quali siano le \textbf{istruzioni malfunzionanti} nel caso in cui la nostra ipotesi si verifichi vera:
+    
+    \begin{itemize}
+        \item \texttt{Tipo R, Tipo I, sw, beq}: poiché normalmente in tali istruzioni il segnale \texttt{Jump} è posto a 0 e il segnale \texttt{MemRead} è posto a 0, esse non verrebbero influenzate dal malfunzionamento poiché \texttt{Jump = MemRead = 0} risulta essere già vero
+        \item \texttt{lw}: poiché normalmente in tale istruzione il segnale \texttt{Jump} è posto a 0 e il segnale \texttt{MemRead} è posto a 1, il segnale \texttt{Jump} verrebbe sovrascritto dal malfunzionamento, implicando che \texttt{Jump = MemRead = 1}, andando quindi ad eseguire un \textbf{jump involontario} all'indirizzo indicato dai bit nel range [25-0] dell'istruzione
+        \item \texttt{j}: poiché normalmente in tale istruzione il segnale \texttt{Jump} è posto a 1 e il segnale \texttt{MemRead} è posto a 0, il segnale \texttt{Jump} verrebbe sovrascritto dal malfunzionamento, implicando che \texttt{Jump = MemRead = 0}, andando quindi a \textbf{non eseguire il jump richiesto} 
+    \end{itemize}
+    
+    
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_3/jump_mem_err.png}
+    \end{center}
+    
+    \quad
+    
+    Una volta individuate le istruzioni malfunzionanti, decidiamo di scrivere un breve \textbf{programma di test} in Assembly MIPS che vada a scrivere il valore 0x00000001 nel registro \$s0 nel caso in cui il processore sia \textbf{guasto} o il valore 0x00000000 nel caso in cui il processore funzioni \textbf{correttamente}.
+    
+    In questo caso, possiamo realizzare il nostro programma di testing utilizzando entrambe le istruzioni malfunzionanti. Tuttavia, l'uso dell'\textbf{istruzione \texttt{j}} risulta essere molto più semplice: se l'ipotesi è \textbf{vera} allora il salto non avverrà, altrimenti verrà eseguito come richiesto.
+    
+    \begin{verbatim}
+    
+    .text
+    
+    main:
+        li $s0, 1       \\ $s0 = 0x00000001
+        
+        j no_error      \\ se l'ipotesi è vera allora il salto non avverrà,
+                        \\ dunque $s0 manterrà il valore 0x00000001
+        
+        li $v0, 10      \\ esci dal programma
+        syscall
+        
+    no_error:
+        li $s0, 0       \\ se l'ipotesi è falsa allora $s0 = 0x00000000
+        
+        li $v0, 10      \\ esci dal programma
+        syscall
+        
+    \end{verbatim}
+    
+    \newpage
+    
+    Nel caso in cui scegliessimo di utilizzare l'\textbf{istruzione \texttt{lw}} per realizzare il nostro programma di testing, le cose risulterebbero molto più \textbf{complesse}:
+    \begin{itemize}
+        \item Trattandosi di un'istruzione di Tipo I (sezione \ref{instruction_format}), dovremmo impostare attentamente l'istruzione in modo che i suoi bit nel range [25-0] corrispondano ad un \textbf{indirizzo noto}.
+        \item L'\textbf{esecuzione normale} dell'istruzione (ossia la lettura dalla memoria dati e il salvataggio del dato letto nel registro \$rt) \textbf{non viene alterata} dal malfunzionamento, generando alcune possibili problematiche, ad esempio l'alterazione del registro \$s0
+    \end{itemize}
+    
+    Immaginiamo quindi di avere la seguente situazione:
+    
+    \begin{center}
+        \begin{tabular}{c | c}
+            \textbf{Indirizzo} & \textbf{Istruzione} \\
+            \hline
+            \texttt{0x42f03100} & \texttt{lw \$rt, offset(\$rs)} \\
+            ... & ... \\
+            \texttt{0x42f0311c} & \texttt{li \$s0, 1}
+        \end{tabular}
+    \end{center}
+    
+    \quad
+    
+    Ricordando che i \textbf{primi 4 bit} dell'indirizzo a cui viene effettuato il salto corrispondono a PC+4[31-28] (che in questo caso corrispondono al valore \texttt{0x40000000}), ci resta da impostare attentamente i bit nel range [25-0] dell'istruzione in modo che dopo lo shift a sinistra di due posti corrispondano al valore \texttt{0x02f0311c}:
+    
+    \begin{itemize}
+        \item Convertiamo il valore \texttt{0x02f0311c} in binario
+        \[ \texttt{0x02f0311c = 0000 0010 1111 0000 0011 0001 0001 1100}\]
+        
+        \item Shiftiamo di due posti a destra per togliere i due bit aggiunti con lo shift a sinistra, ottenendo così i bit nel range [25-0]
+        
+        \[ \texttt{0x02f0311c} >> 2 = \texttt{00 0000 1011 1100 0000 1100 0100 0111} \]
+        
+        \item In un'istruzione di Tipo I, i bit nel range [25-0] sono a loro volta suddivisi in:
+        
+        \[ \underbrace{\texttt{00 000}}_{\text{\$rs}} \underbrace{\texttt{0 1011}}_{\text{\$rt}}  \underbrace{\texttt{1100 0000 1100 0100 0111}}_{\text{Parte Immediata}} \]
+        
+        \item Dunque, per poter effettuare un jump all'istruzione avente indirizzo \texttt{0x42f0311c}, è necessario che:
+        \begin{itemize}
+            \item Il Registro \$rs selezionato sia \$0, ossia \$zero (sezione \ref{arch})
+            \item Il Registro \$rs selezionato sia \$11, ossia \$t3 (sezione \ref{arch})
+            \item La Parte Immediata valga \texttt{0xc0c47}, ossia 789575
+        \end{itemize}
+        
+        \item L'istruzione fallacea da eseguire sarà:
+        \[ \texttt{lw \$t3, 789575(\$zero)}\]
+    \end{itemize}
+    
+    \newpage
+    
+    Il codice da eseguire per effettuare il test sarà dunque:
+    
+    \begin{verbatim}
+    .text
+    
+    main:
+        li $s0, 0                   \\ $s0 = 0x00000000
+        
+        lw $t3, 789575($zero)       \\ se l'ipotesi è vera,
+                                    \\ allora il salto avverrà
+        
+        li $v0, 10                   \\ esci dal programma
+        syscall
+        
+        ...
+        
+        li $s0, 1                   \\ se il salto è avvenuto,
+                                    \\ allora $s0 = 0x00000001
+        
+        li $v0, 10                  \\ esci dal programma
+        syscall
+        
+    \end{verbatim}
+    
+    \addtocontents{toc}{\protect\newpage}
+    \chapter{Pipeline e parallelismo}
+    
+    Fino ad ora, abbiamo visto come in generale l'esecuzione di un'istruzione corrisponde una successione ciclica di tre fasi: \textbf{Instruction Fetch}, \textbf{Instruction Decode} e \textbf{Instruction Execute}.
+    
+    Tuttavia, considerando la struttura dell'architettura MIPS, possiamo individuare altre due fasi all'interno della fase di Execute: l'accesso alla memoria (\textbf{Memory Access}) e la scrittura del risultato dell'ALU o del dato letto da memoria all'interno del registro selezionato (\textbf{Write Back}).
+    
+    Ognuna delle seguenti 5 fasi viene svolta in sequenza all'interno di un \textbf{singolo ciclo di clock}. Tuttavia, affinché il dato possa essere trattato adeguatamente, è necessario che \textbf{solo una fase sia attiva alla volta}, rendendo quindi le altre \textbf{4 fasi temporaneamente inutilizzabili}.
+    
+    Per rendere il più efficiente possibile la nostra architettura, dunque, possiamo scomporre l'esecuzione di un'istruzione in una \textbf{catena di montaggio (Pipeline)}, dove ogni fase svolge il compito ad essa assegnatogli per poi \textbf{passare il risultato alla fase successiva}, procedendo ad elaborare già la \textbf{stessa fase} dell'istruzione successiva:
+    
+    \begin{center}
+        \includegraphics[scale=0.55]{resources/images/chapter_4/pipeline_1.png}
+    \end{center}
+    
+    La \textbf{parallelizzazione delle istruzioni} (ossia la loro esecuzione in contemporanea) permette di sovrapporre le 5 fasi, \textbf{riducendo il periodo di clock} dalla durata dell'istruzione più lenta alla durata della fase più lenta.
+    
+    Nel \textbf{caso ideale} in cui \textbf{ogni fase impieghi lo stesso tempo,} dunque, si otterrebbe una \textbf{velocità quintuplicata}. Ad ogni colpo di clock, quindi, un'istruzione viene completata, quintuplicando (sempre idealmente) il throughput della CPU (ossia il numero di istruzioni per fase), mantenendo uguale il tempo totale impiegato per l'esecuzione di un'istruzione.
+    
+    Immaginiamo che le 5 fasi abbiano le seguenti tempistiche:
+    
+    \begin{itemize}
+        \item \textbf{Instruction Fetch}: 200ps
+        \item \textbf{Instruction Decode}: 100ps
+        \item \textbf{Instruction Execute}: 200ps
+        \item \textbf{Memory Access}: 200ps
+        \item \textbf{Write Back}: 100ps
+    \end{itemize}
+    
+    Normalmente, per poter eseguire l'\textbf{istruzione più lenta} possibile, ossia richiedente il completamento di tutte e 5 le fasi (ad esempio Load Word), sarebbe necessario utilizzare un \textbf{periodo di clock} pari a 800ps.
+    
+    \begin{center}
+        \includegraphics[scale=0.8]{resources/images/chapter_4/pipeline_3.png}
+    \end{center}
+    
+    Tramite l'implementazione della pipeline, invece, tale periodo può essere \textbf{ridotto} a quello della \textbf{fase più lenta}, ossia 200ps, aumentando quindi la velocità dell'architettura.
+    
+    \begin{center}
+        
+        \includegraphics[scale=0.8]{resources/images/chapter_4/pipeline_4.png}
+    \end{center}
+    
+    \section{Modifiche all'architettura}
+    
+    Per poter dividere l'esecuzione nelle 5 fasi individuate, quindi, è necessario interporre dei \textbf{banchi di registri} tra di esse, in modo da rendere ogni fase indipendente dall'esecuzione corrente delle altre.
+    
+    \begin{center}
+        \includegraphics[scale=0.85]{resources/images/chapter_4/pipeline_5.png}
+    \end{center}
+    
+    I \textbf{quattro banchi di registri} introdotti (ossia IF/ID, ID/EXE, EXE/MEM e MEM/WB) si occuperanno di \textbf{memorizzare temporaneamente} tutti i dati e segnali di controllo processati da ogni fase durante l'ultimo ciclo di clock.
+    
+    \quad
+    
+    \subsection{Gestione di Lettura e Scrittura dal Register File}
+    
+    Poiché sia la \textbf{fase di ID} (lettura) sia la \textbf{fase di WB} (scrittura) lavorano sul \textbf{Register File} ed entrambe impiegano una quantità di \textbf{tempo molto inferiore} rispetto alle altre 3 fasi, possiamo eseguire entrambe le fasi nello \textbf{stesso ciclo di clock}: se le fasi IF, EXE e MEM impiegano 200ns e le fasi ID e WB impiegano 100ns, allora possiamo eseguire ID e WB nello stesso clock con periodo 200ns, suddividendolo in \textbf{lettura} e \textbf{scrittura}.
+    
+    Avendo un periodo di clock di 200ns, quindi, possiamo eseguire la \textbf{scrittura sul Register File} durante l'innalzamento del clock (\textbf{Rising Edge}), ossia durante l'inizio della prima metà del periodo, ed eseguire la \textbf{lettura sul Register File} durante l'abbassamento del clock (\textbf{Falling Edge}), ossia durante l'inizio della seconda metà del periodo.
+    
+    \begin{center}
+        \includegraphics[scale=0.7]{resources/images/chapter_4/wb_id.png}
+    \end{center}
+    
+    \quad
+    
+    \section{Criticità nell'esecuzione}
+    
+    L'implementazione della pipeline all'interno dell'architettura comporta anche la nascita di alcune criticità (\textbf{hazard}) dovute alla suddivisione in fasi delle istruzioni.
+    
+    Immaginiamo il caso in cui l'istruzione 1 \textbf{modifichi} il valore di un registro e l'istruzione 2 \textbf{legga} il valore di tale registro. Per via della suddivisione in fasi, durante la \textbf{fase di ID dell'istruzione 2} non è ancora stata eseguita la \textbf{fase di WB dell'istruzione 1}, generando quindi una \textbf{situazione critica} in cui il dato del registro non sia ancora stato modificato. Di conseguenza, l'istruzione 2 leggerà il \textbf{dato non ancora aggiornato}.
+    
+    Gli \textbf{hazard} verificabili possono essere di tre tipi:
+    
+    \begin{itemize}
+        \item \textbf{Structural Hazard}: le risorse hardware sono insufficienti, ad esempio se la memoria istruzioni e la memoria dati sono condivise in una singola memoria
+        \item \textbf{Data Hazard}: il dato richiesto non è ancora stato aggiornato, leggendo il valore precedente alla modifica
+        \item \textbf{Control Hazard}: l'esecuzione di un salto modifica il flusso delle istruzioni
+    \end{itemize}
+    
+    \newpage
+    
+    \subsection{Data Hazard e Forwarding}
+    
+    Immaginiamo di avere la seguente sequenza di istruzioni:
+    \[ \texttt{addi \$s0, \$s1, 5}\]
+    \[ \texttt{sub \$s2, \$s0, \$t0}\]
+    
+    Per via della scomposizione in fasi dell'esecuzione dell'istruzione, si verifica un \textbf{Data Hazard sul registro \$s0}, il cui valore aggiornato non risulta ancora scritto nel Register File, poiché la fase di WB dell'istruzione modificante non è ancora stato portato a termine. Di conseguenza, la fase di ID dell'istruzione direttamente successiva leggerà il \textbf{valore errato}. 
+    
+    \begin{center}
+        \includegraphics[scale=0.7]{resources/images/chapter_4/data_hazard_1.png}
+    \end{center}
+    
+    \quad
+    
+    Per risolvere la criticità, dunque, possiamo \textbf{allineare le fasi di WB e ID} delle due istruzioni introducendo \textbf{due stalli} nella pipeline, ossia un'istruzione fantoccio, detta \textbf{NOP (No-Operation)}, che funga da "rallentamento" nel caricamento della pipeline, risolvendo il data hazard.
+    
+    \begin{center}
+        \includegraphics[scale=0.7]{resources/images/chapter_4/data_hazard_2.png}
+    \end{center}
+    
+    \textit{\textbf{Chiarimento}}: ricordiamo che la scrittura sul Register File viene eseguita nella \textit{prima metà del periodo di clock}, mentre la lettura nella \textit{seconda metà}, dunque è sufficiente sovrapporre le due fasi affinché venga letto il dato corretto, senza la necessità di dover inserire un \textbf{terzo stallo}.
+    
+    Dunque, per poter risolvere i possibili data hazard che si possono verificare nell'esecuzione del codice è necessario inserire una sufficiente quantità di stalli nella pipeline affinché le fasi di WB e ID delle istruzioni coinvolte siano \textbf{allineate tra di loro}.
+    
+    \newpage
+    
+    Tuttavia, in alcuni casi l'informazione aggiornata necessaria è \textbf{già presente} all'interno di uno dei \textbf{banchi di registri precedenti al WB}. Immaginiamo quindi che nell'architettura sia presente una \textbf{"scorciatoia"} in grado di sovrascrivere il dato errato con il dato aggiornato, senza dover attendere la fase di WB.
+    
+    \begin{center}
+        \includegraphics[scale=0.65]{resources/images/chapter_4/data_hazard_3.png}
+    \end{center}
+    
+    L'uso di questa scorciatoia rimuove la necessità di dover inserire due stalli all'interno della pipeline, \textbf{velocizzando} l'esecuzione del programma. Tale tecnica di \textbf{propagazione del dato} viene detta \textbf{Forwarding} (o Bypassing)
+    
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_4/forwarding1.png}
+    \end{center}
+    
+    Nel caso in cui la fase che necessità il dato aggiornato si trova \textbf{prima della fase in cui viene aggiornato il dato}, sarà comunque necessario introdurre qualche stallo, in modo da rallentare l'esecuzione in attesa che il dato venga generato, per poi leggerlo subito dopo attraverso il forwarding.
+    
+    Nel seguente esempio, il dato aggiornato viene generato in \textbf{fase di accesso alla memoria} (per via dell'istruzione Load Word), dunque il dato rimarrà conservato nel banco di registri MEM/WB. Tuttavia, durante tale fase di MEM viene svolta in \textbf{contemporanea} la fase di EXE dell'istruzione successiva, la quale necessiterebbe del dato aggiornato. Poiché \textbf{il dato non può essere contemporaneamente generato e propagato} tramite il forwarding, è necessario introdurre \textbf{almeno uno stallo}.
+    
+    \begin{center}
+        \includegraphics[scale=0.55]{resources/images/chapter_4/data_hazard_4.png}
+    \end{center}
+    
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_4/forwarding2.png}
+    \end{center}
+    
+    \subsubsection{Esecuzione di un programma senza forwarding}
+    
+    \begin{center}
+        \includegraphics[scale=0.45]{resources/images/chapter_4/forwarding3.png}
+    \end{center}
+    
+    \subsubsection{Esecuzione di un programma con forwarding}
+    
+    \begin{center}
+        \includegraphics[scale=0.45]{resources/images/chapter_4/forwarding4.png}
+    \end{center}
+    
+    Per implementare il forwarding dei dati verso la \textbf{fase di EXE}, quindi, è necessario aggiungere dell'hardware, in particolare due \textbf{mux} (uno a testa per entrambi gli input dell'ALU) che vadano a selezionare tra \textbf{tre casi}:
+    
+    \begin{itemize}
+        \item \textbf{Nessun forwarding}: il valore proviene dal banco ID/EXE, come di consueto
+        \item \textbf{Forwarding dall'istruzione precedente}: il valore proviene dal banco EXE/MEM
+        \item \textbf{Forwarding dalla seconda istruzione precedente}: il valore proviene dal banco MEM/WB
+    \end{itemize}
+    
+    Tali mux vengono controllati dall'\textbf{Unità di Propagazione}, una nuova unità funzionale che si occuperà di effettuare i vari controlli dei casi in cui possono verificarsi i data hazard, risolvendoli con i necessari forwarding e/o stalli.
+    
+    \begin{center}
+        \includegraphics[scale=0.65]{resources/images/chapter_4/forwarding5.png}
+        
+    \end{center}
+    
+    \quad
+    
+    Riassumendo, quindi, l'unità di propagazione attiverà un \textbf{forwarding per la fase EXE solo se} quando si ha \texttt{RegWrite == 1}, \texttt{EX/MEM.rd != 0} e \texttt{MemRead == 0} si verifica che:
+        
+    \begin{itemize}
+        \item \texttt{ID/EX.rs == EX/MEM.rd} oppure \texttt{ID/EX.rt == EX/MEM.rd} (\textbf{forwarding dall'istruzione precedente})
+        
+        \item \texttt{ID/EX.rs == MEM/WB.rd} oppure \texttt{ID/EX.rt == MEM/WB.rd} (\textbf{forwarding dalla seconda istruzione precedente})
+    \end{itemize}
+    
+    Seguendo la stessa logica, possiamo aggiungere altri componenti all'architettura per implementare anche un \textbf{forwarding per la fase di MEM}, necessaria ad eliminare i tre stalli che verrebbero inseriti eseguendo un'istruzione \texttt{sw} seguita da una \texttt{lw} (o viceversa) nel caso in cui si verifichi un data hazard.
+    
+    Tale data hazard, quindi, si può verificare \textbf{solo se} quando si ha \texttt{MemToReg == 1}, \texttt{RegWrite == 1} e \texttt{MemWrite == 1} si verifica che \texttt{MEM/WB.rt == EX/MEM.rt}
+    
+    \newpage
+    
+    \subsection{Control Hazard e Politiche di Salto}
+    
+    Come sappiamo, l'esecuzione di un programma prevede la \textbf{lettura sequenziale} delle operazioni da svolgere, le quali vengono caricate man mano all'interno della pipeline. Tuttavia, ciò può risultare problematico nel caso in cui debba essere effettuato un \textbf{salto}, poiché possono verificarsi due casistiche:
+    \begin{itemize}
+        \item Il salto \textbf{non viene eseguito}, non modificando il flusso di esecuzione delle istruzioni, procedendo normalmente con l'istruzione sottostante al branch appena validato.
+        
+        In tal caso, non sarà necessario andare a lavorare sulla pipeline, poiché tale istruzione risulterà \textbf{già caricata} in essa per via della lettura sequenziale.
+        
+        \item Il salto \textbf{viene eseguito}, modificando il flusso di istruzioni, procedendo normalmente con l'istruzione associata all'etichetta data al branch appena validato.
+        
+        In tal caso, sarà necessario andare a lavorare sulla pipeline, poiché sarà necessario \textbf{rimpiazzare l'istruzione attualmente caricata} nella pipeline (ossia quella sottostante al branch) con l'istruzione su cui viene effettuato il salto.
+    \end{itemize}
+    
+    \quad
+    \quad
+    
+    Immaginiamo di star eseguendo il seguente codice:
+    
+    \begin{verbatim}
+        
+        .text
+        
+        main:
+            li $s0, 4
+            li $s1, 7
+            
+            ...
+            altre istruzioni
+            ...
+            
+            beq $s0, $s1, lab
+            
+            subi $s0, $s0, 4
+            
+        lab:
+            addi $s0, $s0, 4
+    \end{verbatim}
+    
+    \quad
+    
+    
+    \begin{center}
+        \includegraphics[scale=0.65]{resources/images/chapter_4/control_hazard1.png}
+    \end{center}
+    
+    \newpage
+    
+    \begin{itemize}
+        \item Caso in cui il controllo del branch sia \textbf{falso}:
+    \end{itemize}
+    \begin{center}
+        \includegraphics[scale=0.65]{resources/images/chapter_4/control_hazard2.png}
+    \end{center}
+    
+    \begin{itemize}
+        \item Caso in cui il controllo del branch sia \textbf{vero}:
+    \end{itemize}
+    \begin{center}
+        \includegraphics[scale=0.65]{resources/images/chapter_4/control_hazard3.png}
+    \end{center}
+    
+    \begin{center}
+        \includegraphics[scale=0.7]{resources/images/chapter_4/control_hazard4.png}
+    \end{center}
+    
+    \newpage
+    
+    Tale \textbf{politica di salto}, ossia la modalità di gestione dei salti, viene detta \textbf{politica Branch not Taken} e si basa sull'\textbf{assunzione} che il salto venga sempre considerato come falso, dunque \textbf{non preso}, caricando quindi l'\textbf{istruzione direttamente successiva}, per poi essere eventualmente scartata e rimpiazzata nel caso in cui tale assunzione si verifichi sbagliata, effettuando quindi il salto.
+    
+    Un'ulteriore politica di salto utilizzabile è la politica \textbf{Branch Taken}, ossia l'inversa della precedente, basata sull'\textbf{assunzione} che il salto venga sempre considerato come vero, dunque \textbf{preso}, caricando quindi l'\textbf{istruzione su cui viene effettuato il salto}, per poi essere eventualmente scartata e rimpiazzata nel caso in cui tale assunzione si verifichi sbagliata, annullando quindi il salto.
+    
+    \quad
+    
+    \subsubsection{Confronto tra le due politiche}
+    
+    Immaginiamo di eseguire il seguente codice:
+    
+    \begin{verbatim}
+    .text
+        
+        li $s0, 0
+        li $s1, 10
+        
+    loop:
+        beq $s0, $s1, fine_loop
+        
+        ...
+        altre istruzioni
+        ...
+        
+        addi $s0, $s0, 1
+        j loop
+        
+    fine_loop:
+        ...
+        altre istruzioni
+        ...
+    \end{verbatim}
+    
+    A seconda della politica di salto utilizzata, l'esecuzione del codice risulta essere \textbf{completamente diversa}:
+    
+    \begin{itemize}
+        \item Se la politica è di \textbf{Branch not Taken}, l'\textbf{unico caso} in cui è necessario scartare l'istruzione caricata in IF e ID risulta essere quando viene effettuato il \textbf{controllo uscente del ciclo}, ossia quando \texttt{\$s0 == \$s1}, poiché viola l'assunzione
+        \item Se la politica è di \textbf{Branch Taken}, è necessario scartare l'istruzione caricata in IF e ID durante \textbf{ogni esecuzione del ciclo}, fatta eccezione del controllo uscente, poiché è l'\textbf{unico caso} in cui non viene violata l'assunzione
+    \end{itemize}
+    
+    In questo caso, quindi, risulta estremamente più efficace l'uso di una politica di Branch not Taken.
+    
+    Vediamo ora il confronto tra le due politiche nel seguente caso:
+    
+    \begin{verbatim}
+    .text
+        
+        li $s0, 0
+        li $s1, 10
+        
+    loop:
+        ...
+        altre istruzioni
+        ...
+        
+        addi $s0, $s0, 1
+        bne $s0, $s1, loop
+        
+    fine_loop:
+        ...
+        altre istruzioni
+        ...
+    \end{verbatim}
+    
+    Anche in questo caso, la politica di salto scelta risulta essere cruciale:
+    
+    \begin{itemize}
+        \item Se la politica è di \textbf{Branch not Taken}, è necessario scartare l'istruzione caricata in IF e ID durante \textbf{ogni esecuzione del ciclo}, fatta eccezione del controllo uscente, ossia quando \texttt{\$s0 == \$s1}, poiché è l'\textbf{unico caso} in cui non viene violata l'assunzione
+        
+        \item Se la politica è di \textbf{Branch Taken}, l'\textbf{unico caso} in cui è necessario scartare l'istruzione caricata in IF e ID risulta essere quando viene effettuato il \textbf{controllo uscente del ciclo}, poiché viola l'assunzione
+    \end{itemize}
+    
+    In questo secondo caso, quindi, risulta estremamente più efficace l'uso di una politica di Branch Taken.
+    
+    La scelta della politica di salto, dunque, risulta essere estremamente impattante sulla \textbf{modalità di scrittura del codice}, in particolare su dove posizionare i controlli d'uscita di un ciclo.
+    
+    Nelle sezioni successive, \textbf{daremo per assunta la scelta di una politica di Branch not Taken}, poiché la scrittura del codice risulta essere più analoga a quella di linguaggi più ad alto livello.
+    
+    \newpage
+    
+    \section{Anticipazione dei salti}
+    
+    Abbiamo visto come l'implementazione della pipeline introduca alcune problematiche all'interno dell'architettura, necessitando la gestione di eventuali data hazard e control hazard attraverso l'aggiunta di stalli o tramite l'uso del forwarding.
+    
+    Nonostante il forwarding sia in grado di risolvere la maggior parte dei data hazard che si verificano, esso non è in grado di risolvere alcune problematiche relative ai control hazard:
+    
+    \begin{itemize}
+        \item L'\textbf{istruzione Jump} viene eseguita in \textbf{fase di ID} (poiché non necessita dell'ALU e della Memoria), caricando nella pipeline IF l'istruzione sottostante, piuttosto che l'istruzione su cui viene effettuato il salto
+        \item Indipendentemente dalla politica di salto usata, l'\textbf{istruzione Branch} genera ancora \textbf{due stalli} all'interno della pipeline
+    \end{itemize}
+    
+    \subsection{Anticipare il Jump in fase IF}
+    
+    \begin{tabular}{p{1 \textwidth}}
+        La problematica relativa al Jump può già essere risolta con uno strumento che conosciamo, ossia la politica di Branch Taken, poiché il salto dell'istruzione Jump viene \textbf{sempre effettuato}. Tuttavia, l'uso di tale politica come regola generale avrebbe effetto anche sull'istruzione Branch, la quale invece preferisce l'uso della politica Branch not Taken.
+    \end{tabular}
+    
+    \begin{center}
+    \begin{tabular}{cc}
+        \begin{tabular}{p{0.45 \textwidth}}
+        
+        La soluzione a questo dilemma può essere trovata all'interno del funzionamento dell'istruzione Jump stessa, poiché essa non ha né bisogno di accedere al \textbf{Register File} (fasi ID e WB), né di utilizzare l'\textbf{ALU} (fase EXE) e né di accedere alla \textbf{Memoria Dati} (fase MEM).
+        
+        \\
+        
+        Dunque, l'unica delle cinque fasi realmente \textbf{necessaria} all'istruzione Jump risulta essere la \textbf{fase IF}. Possiamo quindi modificare l'architettura in modo da \textbf{anticipare ogni istruzione Jump}, la quale verrà direttamente \textbf{eseguita in fase di IF.}
+        
+        \\
+        
+        In questo modo, indipendentemente dalla politica di salto utilizzata, l'\textbf{istruzione Jump non necessiterà di alcuna operazione di scarto} delle istruzioni caricate, poiché eseguita nella prima fase della pipeline.
+        \end{tabular}
+        
+        &
+        \begin{tabular}{p{0.5 \textwidth}}
+            \includegraphics[scale=1]{resources/images/chapter_4/jump.png}
+        \end{tabular}
+    \end{tabular}
+    \end{center}
+    
+    \textbf{Chiarimento}: nella figura a destra notiamo la presenza di un comparatore (indicato dal segno \texttt{=}) avente in input l'opcode dell'istruzione letta e il valore \texttt{0x00000002}, ossia l'opcode corrispondente all'istruzione Jump.
+    
+    \subsection{Anticipare il Branch in fase ID}
+    
+    A differenza dell'istruzione Jump, l'istruzione Branch utilizza \textbf{tre delle cinque fasi della pipeline}: la fase IF per la lettura dell'istruzione, la fase ID per la lettura dei registri da confrontare durante il branch e la fase EXE per utilizzare l'ALU come sottrattore, attivando la flag Zero nel caso in cui i due valori siano uguali. Per questo motivo, quindi, non possiamo anticipare l'istruzione Branch in fase di IF.
+    
+    Tuttavia, poiché l'unico compito svolto dall'ALU è quello di comparare i due valori letti dai registri, possiamo \textbf{anticipare} tale operazione nella \textbf{fase di ID} tramite l'aggiunta di un \textbf{comparatore}.
+    
+    \begin{center}
+        \includegraphics[scale=1]{resources/images/chapter_4/branch.png}
+    \end{center}
+    
+    Notiamo quindi (in basso a destra nella figura) il comparatore in grado di effettuare il confronto in fase di ID, il cui output \textbf{sostituirà} la flag Zero, la quale non è più necessaria per l'esecuzione del branch. L'uso di un comparatore rispetto ad un'ALU, tuttavia, impone la necessità di dover \textbf{separare in due il segnale Branch della CU}, poiché le istruzioni \texttt{beq} e \texttt{bne} possiedono necessità diverse, che in precedenza venivano gestite tramite la flag Zero e l'operazione svolta dall'ALU per la comparazione.
+    
+    Poiché abbiamo anticipato l'esecuzione del Branch in fase di ID, necessitiamo anche dell'aggiunta di ulteriori scorciatoie per quanto riguarda l'\textbf{Unità di propagazione (forwarding)} per poter gestire i potenziali \textbf{data hazard} che si possono verificare:
+    
+    \begin{itemize}
+        \item Un \textbf{forwarding dalla fase EXE} dell'istruzione precedente alla fase ID del branch da eseguire richiede l'aggiunta di \textbf{uno stallo}
+        \item Un \textbf{forwarding dalla fase MEM} dell'istruzione precedente alla fase ID del branch da eseguire richiede l'aggiunta di \textbf{due stalli}
+    
+    \end{itemize}
+
+    \subsubsection{Forwarding da EXE a ID}
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_4/branch3.png}
+    \end{center}
+        
+    \subsubsection{Forwarding da MEM a ID}
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_4/branch2.png}
+    \end{center}
+    
+    \textbf{ATTENZIONE}: è necessario puntualizzare che l'anticipazione del Branch in fase di ID \underline{non elimina la necessità di scartare l'istruzione caricata in fase IF}. Dunque, la gestione dei rimpiazzi tramite le due politiche rimane inalterata, tuttavia viene \textbf{ridotta la quantità di stalli da inserire da due ad uno}.
+    
+    Nella pagina successiva viene riportata l'\textbf{architettura finale}, contenente tutti i componenti necessari ad eseguire le operazioni e i controlli descritti in questo capitolo.
+    
+    \newpage
+    
+    \begin{center}
+        \includegraphics[scale=0.575, angle=90]{resources/images/chapter_4/full_arch.png}
+    \end{center}
+    
+    \chapter{Cache e Memoria virtuale}
+    
+    Abbiamo visto come la suddivisione dell'architettura in fasi possa velocizzare notevolmente l'esecuzione delle istruzioni. Tuttavia, possiamo identificare un ultimo \textbf{collo di bottiglia}: la \textbf{memoria} è circa 10 o anche 100 volte \textbf{più lenta del processore}.
+    
+    Utilizzare una memoria più rapida di dimensioni equivalenti risulta essere estremamente dispendioso, dunque non sempre sostituire una memoria lenta con una veloce è fattibile. Solitamente, quindi, una \textbf{memoria piccola} risulta essere \textbf{più veloce di una memoria grande}. Cerchiamo quindi un altro approccio sfruttando due particolari principi legati agli \textbf{accessi in memoria}:
+    \begin{itemize}
+        \item \textbf{Principio di località temporale}: un programma tende ad accedere allo stesso elemento in momenti temporali vicini tra loro
+        \item \textbf{Principio di località spaziale}: un programma tende ad accedere successivamente elementi di memoria vicini tra loro
+    \end{itemize}
+    
+    Per sfruttare al massimo questi due principi, implementiamo le seguenti idee: poiché le memorie piccole sono più veloci, \textbf{interponiamo una memoria piccola} (chiamata \textbf{cache}) tra la CPU e la memoria, in cui conserveremo \textbf{solo i dati più usati} (primo principio). Inoltre, assieme ai dati memorizzati, memorizzeremo anche i \textbf{dati vicini ad essi} (secondo principio).
+    
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_5/cache.png}
+    \end{center}
+    
+    Suddividiamo, solo in maniera logica, la memoria in \textbf{blocchi} di dimensioni uguali. Nel momento in cui viene richiesto dalla CPU un \textbf{indirizzo di memoria} appartenente ad un blocco, le possibilità sono due:
+    
+    \begin{itemize}
+        \item Si verifica un \textbf{HIT}, ossia il blocco \textbf{è già presente nella cache}, dunque il dato all'indirizzo richiesto viene restituito immediatamente
+        \item Si verifica un \textbf{MISS}, ossia il blocco \textbf{non è presente nella cache}, dunque il dato viene richiesto il dato alla memoria, caricando all'interno nella cache l'\textbf{intero blocco} a cui esso appartiene
+    \end{itemize}
+    
+    Supponiamo che un programma effettui \textbf{un milione di accessi} in memoria e che ogni accesso impieghi \textbf{100ns}. Il tempo totale impiegato dal programma per effettuare gli accessi sarà quindi $10^6 \cdot 100 ns = 100 ms$.
+    
+    Supponiamo ora di interporre una cache con tempo di accesso pari a \textbf{1ns} e con una \textbf{percentuale di MISS del 10\%}.
+    
+    \begin{itemize}
+        \item Il \textbf{10\% degli accessi è un MISS}, richiedendo quindi che venga effettuato comunque l'accesso alla memoria, impiegando quindi $10^6 \cdot 10\% \cdot 100ns = 10ms$
+        \item Il restante \textbf{90\% degli accessi è un HIT}, impiegando quindi un totale di $10^6 \cdot 90\% \cdot 1ns = 0.9ms$
+    \end{itemize}
+    
+    Il \textbf{tempo totale impiegato} dal programma per effettuare gli accessi, quindi, sarà pari a $10ms + 0.9ms = 10.9 ms$, con un \textbf{tempo medio d'accesso} pari a $10.9 ms / 10^6 = 10.9ns$, risultando in un \textbf{aumento delle performance di circa 9 volte} ($100 ns / 10.9 ns \approx 9.17$)
+    
+    \section{Cache Direct-Mapped}
+    
+    Poiché una cache deve contenere solo i dati più richiesti utilizzando dimensioni limitate, è necessario che più blocchi di memoria vengano \textbf{salvati nello stesso spazio}, sovrascrivendosi a vicenda.
+    
+    \begin{center}
+        \includegraphics[scale=0.65]{resources/images/chapter_5/direct_map.png}
+    \end{center}
+    
+    Strutturiamo quindi la nostra cache come composta da un \textbf{numero $N$ di linee}, corrispondenti agli spazi occupabili dai blocchi, dove ogni linea è composta da:
+    
+    \begin{itemize}
+        \item Un \textbf{bit di validità (Validity Bit)}, indicante se i dati contenuti nella linea siano validi o meno. Se tale bit vale 0, allora la linea viene considerata come "vuota"
+        \item Un \textbf{campo Tag}, in grado di distinguere quale blocco della memoria sia caricato nella linea. Tale campo risulta fondamentale poiché più blocchi di memoria vengono mappati sulla stessa linea, prevenendo la lettura del blocco sbagliato
+        \item Il \textbf{blocco} stesso memorizzato all'interno della linea
+    \end{itemize}
+    
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_5/cache2.png}
+    \end{center}
+    
+    A questo punto, ci serve un modo matematico per poter calcolare i singoli valori che ci permettono di lavorare sulle linee della cache a partire dall'\textbf{indirizzo di memoria richiesto}.
+    
+    Prima, però, è necessario puntualizzare che:
+    
+    \begin{itemize}
+        \item Per praticità, realizziamo la nostra cache con $\textbf{2}^{\textbf{n}}$ \textbf{linee}, associando ad ognuna di esse un \textbf{indice}. Per selezionare uno di tali indici, quindi, sono necessari \textbf{$n$ bit}.
+        
+        \item Scomponiamo la memoria in \textbf{blocchi da \textbf{$2^m$ word}}, dove ogni word corrisponde a 4 byte. La \textbf{dimensione di ogni blocco}, quindi, risulta essere \textbf{$2^m \cdot 4 \cdot 8$ bit}.
+        
+        \item Abbiamo bisogno di un valore, chiamato \textbf{offset di word}, che possa indicare quale word interna al blocco corrisponda a quella richiesta dall'indirizzo di memoria. Tale valore, quindi, avrà una dimensione di \textbf{$m$ bit}, che ci permettono di selezionare una delle $2^m$ word.
+        
+        \item Analogamente, abbiamo bisogno di un valore, chiamato \textbf{offset di byte} che vada a selezionare quale dei 4 byte componenti tale word corrisponda al byte specifico richiesto dall'indirizzo di memoria. Poiché ogni word è sempre composta da 4 byte, saranno necessari \textbf{2 bit} per tale valore.
+    \end{itemize}
+    
+    \newpage
+
+    Partendo dall'indirizzo di memoria, quindi, possiamo scomporlo nel seguente modo:
+    
+    \begin{center}
+        \includegraphics[scale=0.65]{resources/images/chapter_5/direct_map5.png}
+    \end{center}
+    
+    \begin{itemize}
+        \item La \textbf{dimensione dell'indice di linea} corrisponde a $n = 5$ bit, dunque la nostra cache sarà composta da \textbf{$2^n = 2^5 = 32$ linee}
+        
+        \item La \textbf{dimensione dell'offset di word} corrisponde a $m = 4$ bit, dunque ogni blocco sarà composto da \textbf{$2^m = 2^4 = 16$ word}
+        
+        \item La \textbf{dimensione di un blocco} corrisponde a $2^m \cdot 4 \cdot 8 = 2^{m+5} = 2^{9} = 512$ bit
+        
+        \item La \textbf{dimensione del tag} corrisponde a $32 - n - m - 2 = 21$ bit
+        
+        \item La \textbf{dimensione di una linea} corrisponde a $\texttt{V.Bit + Tag + Dim. Blocco}$, dunque a $1 + 21 + 512 = 534$ bit
+        
+        \item La \textbf{dimensione totale della cache}, infine, corrisponderà a \\$\texttt{Num.Linee } \cdot \texttt{ Dim.Linea} = 32 \cdot (1 + 21 + 512) = 17088$ bit $= 2136$ byte $\approx 2.1$ KB
+    \end{itemize}
+    
+    \subsubsection{Determinare un HIT o un MISS}
+    
+    Una volta identificata la struttura dei campi, possiamo utilizzarli per realizzare la vera e propria cache, il cui funzionamento può essere riassunto nella seguente schematica:
+    
+    \begin{center}
+        \includegraphics[scale=0.75]{resources/images/chapter_5/cache3.png}
+    \end{center}
+    
+    \subsection{Calcolo dei campi di una linea}
+    
+    Oltre all'uso della circuiteria, possiamo calcolare matematicamente se venga effettuato un HIT o un MISS utilizzando le \textbf{dimensioni dei vari campi individuati} (si consiglia di seguire l'immagine contenente la suddivisione dell'indirizzo riportata nella sezione precedente):
+    
+    \begin{itemize}
+        \item Per calcolare il \textbf{numero di blocco}, è necessario \textbf{shiftare a destra l'indirizzo di memoria} di una quantità di bit pari alla \textbf{dimensione dell'offset di blocco}, ossia $m + 2$, in modo da poterli "scartare", considerando così solo i $32 - m - 2$ bit riservati al numero di blocco:
+        \[ \texttt{\#Blocco} = \texttt{Address} >> m + 2\]
+        
+        Tuttavia, ricordiamo che uno shift a destra di $x$ posizioni su un valore \textbf{equivale} a dividere il valore stesso per $2^x$ (arrotondando per difetto):
+        
+         \[ \texttt{\#Blocco} = \texttt{Address} >> m + 2 = \left \lfloor \frac{\texttt{Address}}{2^{m+2}} \right \rfloor\]
+         
+         Di fatti, notiamo come $2^{m+2}$ corrisponda esattamente al \textbf{numero di byte per blocco} ($2^{m+2} = 2^{m} \cdot 4$, dove $2^m$ ricordiamo essere il numero di word del blocco). Dunque, il numero di blocco dell'indirizzo di memoria richiesto dall'accesso corrisponde a:
+         
+         \[ \texttt{\#Blocco} = \left \lfloor \frac{\texttt{Address}}{2^{m+2}}  \right \rfloor = \left \lfloor  \frac{\texttt{Address}}{\texttt{Num. byte blocco}}  \right \rfloor \]
+         
+         \item Poiché il numero di blocco corrisponde all'indirizzo diviso il numero di byte del blocco stesso, per ottenere il \textbf{valore dell'offset di blocco} (che ricordiamo essere i restanti $m + 2$ bit) ci basta prendere il \textbf{resto di tale divisione}:
+         
+         \[ \texttt{Offset blocco} = \texttt{Address } \% \texttt{ Num. byte blocco}\]
+         
+         \item Analogamente al numero di blocco, per calcolare il \textbf{valore dell'offset di word} dell'indirizzo ci basta "scartare" dall'offset di blocco i 2 bit corrispondenti all'offset di byte:
+         
+         \[ \texttt{Offset word} = \texttt{Offset blocco} >> 2 = \left \lfloor \frac{\texttt{Offset blocco}}{4} \right \rfloor\]
+         
+         \item Poiché il numero di word in un blocco è $2^m$, per trovare la \textbf{dimensione dell'offset di word} ci basta calcolare il \textbf{logaritmo in base 2} di tale numero, arrotondando per eccesso il valore calcolato in modo da prevenire i casi i cui il numero di word non sia esattamente una potenza di 2 (esempio: per selezionare tra 3 word abbiamo comunque bisogno di 2 bit):
+         
+         \[ m = \lceil log_2(\texttt{Num. Word per blocco}) \rceil \]
+         
+         \item Il calcolo della \textbf{dimensione dell'indice di linea} risulta analogo al precedente:
+         
+         \[ n = \lceil log_2(\texttt{Num. Linee}) \rceil \]
+         
+         \item Per trovare il \textbf{valore del tag}, "scartiamo" dal numero di blocco gli $n$ bit corrispondenti alla \textbf{dimensione dell'indice di linea}:
+         
+         \[ \texttt{Tag} = \texttt{Num. Blocco} >> n =  \left \lfloor \frac{\texttt{Num. Blocco}}{2^n}  \right \rfloor\]
+         
+         Notiamo come effettuare tale operazione corrisponde a dividere per $2^n$, che ricordiamo essere il \textbf{numero di linee della cache}. Dunque, otteniamo che:
+        
+         \[ \texttt{Tag} = \left \lfloor \frac{\texttt{Num. Blocco}}{2^n}  \right \rfloor = \left \lfloor \frac{\texttt{Num. Blocco}}{\texttt{Num. Linee}} \right \rfloor\]
+         
+         \item Analogamente a prima, poiché il valore del tag corrisponde al numero di blocco diviso il numero di linee, per ottenere l'\textbf{indice della linea} ci basta prendere il r\textbf{esto di tale divisione}:
+         
+         \[ \texttt{Indice Linea} = \texttt{Num. Blocco } \% \texttt{ Num. Linee}\]
+    \end{itemize}
+    
+    \quad
+    
+    \subsection{Sequenza di accessi alla cache}
+    
+    Proviamo ora a vedere il comportamento di una \textbf{cache direct-mapped a 4 linee e con blocchi da 8 word} con la seguente sequenza di accessi:
+    
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_5/cache_ex1.png}
+    \end{center}
+    
+    Viste le caratteristiche della cache in uso, siamo in grado di calcolare i campi necessari di ogni indirizzo richiesto:
+    
+    \begin{itemize}
+        \item \textbf{Numero di blocco}:
+        \[ \texttt{\#Blocco} = \frac{\texttt{Address}}{\texttt{\#Byte per blocco}} = \frac{\texttt{Address}}{8 \cdot 4}\]
+        
+        \item \textbf{Indice di linea}:
+        \[ \texttt{Index} = \texttt{\#Blocco } \% \texttt{ \#Linee} = \texttt{\#Blocco } \% 4\]
+        
+        \item \textbf{Tag del blocco}:
+        \[ \texttt{Tag} = \frac{\texttt{\#Blocco}}{\texttt{\#Linee}} = \frac{\texttt{\#Blocco}}{4}\]
+    \end{itemize}
+    
+    Applicando tali formule ad ogni indirizzo richiesto nella sequenza di accessi, otteniamo i seguenti campi:
+
+    \begin{center}
+        \includegraphics[scale=0.575]{resources/images/chapter_5/cache_ex2.png}
+    \end{center}
+    
+    \quad
+    
+    A questo punto, analizziamo il comportamento della cache in modo sequenziale, in modo da poter determinare il numero di HIT e di MISS:
+    
+    \begin{center}
+        \includegraphics[scale=0.575]{resources/images/chapter_5/cache_ex3.png}
+    \end{center}
+    
+    \begin{itemize}
+        \item La cache viene inizializzata con tutti i valid bit posti su 0
+        \item Viene richiesto l'\textbf{indirizzo 128} (Index = 0, Tag = 1). La linea 0 ha il \textbf{valid bit posto a 0}, dunque il dato viene prelevato dalla memoria e salvato nella cache, restituendolo anche alla CPU \textbf{(MISS)}
+        \item Viene richiesto l'\textbf{indirizzo 130} (Index = 0, Tag = 1). La linea 0 ha il \textbf{valid bit posto a 1} e il \textbf{Tag dell'indirizzo corrisponde} a quello salvato nella linea, quindi il dato è presente nella cache \textbf{(HIT)}
+        \item Viene richiesto l'\textbf{indirizzo 162} (Index = 1, Tag = 1). La linea 1 ha il \textbf{valid bit posto a 0}, dunque il dato viene prelevato dalla memoria e salvato nella cache, restituendolo anche alla CPU \textbf{(MISS)}
+        \item Viene richiesto l'\textbf{indirizzo 40} (Index = 1, Tag = 0). La linea 1 ha il valid bit posto a 1, ma il \textbf{Tag dell'indirizzo è diverso} da quello salvato nella linea, quindi il dato non è presente nella cache \textbf{(MISS)}. Preleviamo il dato dalla memoria, \textbf{rimpiazzando il tag e il blocco} precedentemente salvati all'interno della linea 1
+    \end{itemize}
+    
+    \begin{center}
+        \includegraphics[scale=0.525]{resources/images/chapter_5/cache_ex5.png}
+    \end{center}
+    
+    Applicando la stessa logica con gli indirizzi rimanenti, la sequenza di accessi risulta:
+    
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_5/cache_ex6.png}
+    \end{center}
+    
+    \section{Cache Set-Associative}
+    
+    Abbiamo visto come l'uso di una \textbf{cache direct-mapped} sia in grado di ridurre la quantità di accessi alla memoria che vengono svolti da un programma. Tuttavia, tale tipologia di cache risulta avere una \textbf{struttura troppo rigorosa}: ogni linea può contenere un solo blocco, generando una \textbf{continua sovrascrittura dei dati} per rimpiazzare i blocchi.
+    
+    Le \textbf{cache set-associative}, invece, permettono di salvare \textbf{più blocchi sullo stesso set} (ossia le linee), i quali sono divisi in \textbf{$S$ vie}, dove ogni via può contenere un blocco.
+    
+    \begin{center}
+        \includegraphics[scale=0.45]{resources/images/chapter_5/set_associative.png}
+    \end{center}
+    
+    \subsubsection{Modifiche alla cache per più vie}
+    
+    \begin{center}
+        \includegraphics[scale=0.9]{resources/images/chapter_5/set_associative_circ.png}
+    \end{center}
+
+    
+    Nel caso in cui si verifichi un MISS in qualsiasi tipologia di cache (inclusa la cache direct mapped), possiamo identificare \textbf{tre tipologie di MISS}:
+    \begin{itemize}
+        \item Il blocco richiesto da un accesso non è mai stato richiesto prima (\textbf{Cold MISS})
+        \item Il MISS non si sarebbe verificato con una cache fully-associative il cui numero di vie corrisponde al prodotto tra il numero di vie e il numero di set/linee della cache utilizzata (\textbf{Conflict MISS}).
+        \item Il MISS si sarebbe verificato anche con una cache fully-associative il cui numero di vie corrisponde al prodotto tra il numero di vie e il numero di set/linee della cache utilizzata (\textbf{Capacity MISS})
+    \end{itemize}
+    
+    I parametri in grado di influenzare le performance della cache sono:
+    \begin{itemize}
+        \item \textbf{Dimensione del blocco (numero di word)}
+        \begin{itemize}
+            \item ↑ Tempo di MISS, ↓ Percentuale di MISS di tipo cold start
+        \end{itemize}
+        
+        \item \textbf{Dimensione della cache (numero di linee)}
+        \begin{itemize}
+            \item ↑ Costo (più memoria), ↓ Percentuale di MISS di capacità
+        \end{itemize}
+
+        \item \textbf{Associatività (numero di vie)}
+        \begin{itemize}
+            \item ↑ Costo (più comparatori), ↓ Percentuale di MISS di conflitto
+        \end{itemize}
+    \end{itemize}
+
+    \section{Politiche di rimpiazzo e scrittura}
+
+    Nel caso in cui si debba andare ad inserire un nuovo blocco all'interno di un set di una cache set-associative e tale set sia pieno, è necessario selezionare quale blocco andrà ad essere \textbf{rimpiazzato}. Principalmente, vengono utilizzate tre \textbf{politiche di rimpiazzo}:
+    \begin{itemize}
+        \item \textbf{Rimpiazzo Random}, dove viene rimpiazzato un blocco casuale
+        \item \textbf{Least Recently Used (LRU)}, dove viene rimpiazzato il blocco il cui ultimo accesso risulta il più vecchio
+        \begin{itemize}
+            \item Viene approssimato tramite l'uso di uno \textbf{used bit} associato a ciascun blocco.
+            \item Ogni volta che viene effettuato un accesso ad una linea, il suo used bit viene posto ad 1.
+            \item Allo scadere di un intervallo di tempo, il quale viene azzerato ad ogni accesso, il bit viene posto a 0
+        \end{itemize}
+        \item \textbf{Least Frequently Used (LFU)}, dove viene rimpiazzato il blocco il cui ultimo accesso risulta il meno frequente
+    \end{itemize}
+
+    Oltre al rimpiazzo, è necessario utilizzare una \textbf{politica di scrittura} per poter aggiornare la memoria principale nel caso in cui un dato venga modificato nella cache:
+    \begin{itemize}
+        \item \textbf{Write through}, dove ad ogni modifica viene direttamente aggiornato anche il blocco di memoria
+        \item \textbf{Write back}, dove la memoria viene aggiornata solo nel momento in cui il blocco sta per essere rimpiazzato nella cache
+    \end{itemize}
+
+    Per ottimizzare tali politiche di scrittura, viene associato ad ogni blocco un \textbf{dirty bit}, il quale verrà posto ad 1 nel caso in cui il blocco sia stato modificato, mentre verrà posto a 0 nel caso in cui non abbia subito alcune modifiche.
+
+    \newpage
+    
+    \section{Cache Multilivello}
+    
+    Per mitigare i problemi relativi ai colli di bottiglia generati dalla troppa differenza di performance e dimensione tra una cache e la memoria principale, vengono utilizzate \textbf{più cache}, dove ogni cache è meno veloce ma più capiente della cache precedente, creando una struttura a \textbf{cache multilivello}.
+    
+    \begin{center}
+        \includegraphics[scale=0.45]{resources/images/chapter_5/multilivello.png}
+    \end{center}
+    
+    Nel caso delle cache multilivello, quindi, ogni HIT fornisce dati a tutti i \textbf{livelli superiori}, mentre solo le MISS effettuano richieste al \textbf{livello direttamente inferiore}, implicando che il tempo necessario ad effettuare un accesso corrisponda al tempo impiegato dal livello più basso nella quale si verifica l'HIT.
+
+    \textbf{Esempio:}
+    
+    \begin{itemize}
+        \item Consideriamo un sistema a cache multilivello dove la \textbf{cache L1} è una cache direct mapped con 4 set e blocchi da 2 word, mentre la \textbf{cache L2} è una cache a 8 set con 2 vie, blocchi da 16 word ed una politica di rimpiazzo LRU.
+        
+        \item Vengono effettuate le seguenti serie di accessi:
+    \end{itemize}
+    
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            & \textbf{Address} & \textbf{1120} & \textbf{531} & \textbf{1100} & \textbf{2056} & \textbf{512} & \textbf{95} & \textbf{2060} & \textbf{317} & \textbf{101} & \textbf{315} & \textbf{1099}\\
+            \hline
+            \multirow{4}*{\textbf{L1}} & \textbf{\#Blocco}&  &  &  &  &  &  &  & &  &  &\\
+            \cline{2-13}
+            & \textbf{\textbf{Index}}&  &  &  &  &  &  &  & &  &  &\\
+            \cline{2-13}
+            & \textbf{\textbf{Tag}}&  &  &  &  &  &  &  &  & &  &\\
+            \cline{2-13}
+            & \textbf{\textbf{H/M}}&  &  &  &  &  &  &  &  & &  &\\
+            \cline{2-13}
+            \hline
+            \multirow{4}*{\textbf{L2}} & \textbf{\#Blocco}&  &  &  &  &  &  &  & &  &  &\\
+            \cline{2-13}
+            & \textbf{\textbf{Index}}&  &  &  &  &  &  &  & &  &  &\\
+            \cline{2-13}
+            & \textbf{\textbf{Tag}}&  &  &  &  &  &  &  &  & &  &\\
+            \cline{2-13}
+            & \textbf{\textbf{H/M}}&  &  &  &  &  &  &  &  & &  &\\
+            \hline
+        \end{tabular}
+    \end{center}
+    
+    \quad
+    
+    \begin{itemize}
+        \item Per la cache L1 si ha che:
+        \begin{itemize}
+            \item $\texttt{\#Blocco} = \left \lfloor \frac{\texttt{Address}}{\texttt{Num. byte blocco}} \right \rfloor = \left \lfloor \frac{\texttt{Address}}{2 \cdot 4} \right \rfloor$
+            \item $\texttt{Index} = \texttt{\#Blocco} \;\%\; \texttt{Num. set} = \texttt{\#Blocco} \;\%\; 4$
+            \item $\texttt{Tag} = \left \lfloor \frac{\texttt{\#Blocco}}{\texttt{Num. set}} \right \rfloor = \left \lfloor \frac{\texttt{\#Blocco}}{4} \right \rfloor$
+        \end{itemize}
+        
+        \item Calcoliamo quindi le informazioni relative ad ogni accesso richiesto su L1:
+    \end{itemize}
+    
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            & \textbf{Address} & \textbf{1120} & \textbf{531} & \textbf{1100} & \textbf{2056} & \textbf{512} & \textbf{95} & \textbf{2060} & \textbf{317} & \textbf{101} & \textbf{315} & \textbf{1099}\\
+            \hline
+            \multirow{4}*{\textbf{L1}} & \textbf{\#Blocco}&  140 & 66 &137 &257 &64 &11 &257 &39 &12 &39 &137\\
+            \cline{2-13}
+            & \textbf{\textbf{Index}}&  0 &2 &1 &1 &0 &3 &1 &3 &0 &3 &1\\
+            \cline{2-13}
+            & \textbf{\textbf{Tag}}&  35 &16 &34 &64 &16 &2 &64 &9 &3 &9 &34\\
+            \cline{2-13}
+            & \textbf{\textbf{H/M}}&  &  &  &  &  &  &  &  & &  &\\
+            \cline{2-13}
+            \hline
+            \multirow{4}*{\textbf{L2}} & \textbf{\#Blocco}&  &  &  &  &  &  &  & &  &  &\\
+            \cline{2-13}
+            & \textbf{\textbf{Index}}&  &  &  &  &  &  &  & &  &  &\\
+            \cline{2-13}
+            & \textbf{\textbf{Tag}}&  &  &  &  &  &  &  &  & &  &\\
+            \cline{2-13}
+            & \textbf{\textbf{H/M}}&  &  &  &  &  &  &  &  & &  &\\
+            \hline
+        \end{tabular}
+    \end{center}
+
+    \quad
+    
+    \begin{itemize}
+        \item A questo punto, calcoliamo gli HIT e i MISS effettuati nella cache L1:
+        \begin{itemize}
+            \item Per le richieste 1120, 531, 1100, 2056, 512, 95, 317 e 101 si verificheranno dei \textbf{Cold MISS}, poiché i blocchi a loro corrispondenti non sono mai stati acceduti prima
+            
+            \item Per gli indirizzi 2060 e 315 si verificheranno degli \textbf{HIT}, poiché al momento in cui vengono effettuate le due richieste le loro linee associate (1 e 3) contengono il tag richiesto
+            
+            \item Per quanto riguarda l'indirizzo 1099, è necessario determinare se il MISS verificatosi sia di tipo Capacity o Conflict, poiché il blocco richiesto era stato già riferito precedentemente:
+            
+            \begin{itemize}
+                \item Supponiamo di effettuare le stesse richieste con una cache fully associative equivalente alla cache L1 (dunque una cache 1x4)
+                \item Dopo le prime quattro richieste, i blocchi contenuti nell'unico set della cache corrisponde a $[140, 66, 137, 257]$
+                \item Una volta richiesto il blocco $64$,
+                si verifica un Cold MISS lo stato della cache diventa $[64, 66, 137, 257]$
+                \item Una volta richiesto il blocco $11$, si verifica un Cold MISS e lo stato della cache diventa $[64, 11, 137, 257]$
+                \item Una volta richiesto il blocco $257$, si verifica un HIT
+                \item Una volta richiesto il blocco $39$, si verifica un Cold MISS e lo stato della cache diventa $[64, 11, 39, 257]$
+                \item Una volta richiesto il blocco $12$, si verifica un Cold MISS e lo stato della cache diventa $[12, 11, 39, 257]$ (viene utilizzata una politica di rimpiazzo LRU)
+                \item Una volta richiesto il blocco $39$, si verifica un HIT
+                \item Una volta richiesto il blocco $137$, si verifica un Cold MISS, implicando che il MISS generatosi nella cache L1 sia dovuto alle dimensioni troppo piccole della cache, dunque un \textbf{Capacity MISS}
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+    
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            & \textbf{Address} & \textbf{1120} & \textbf{531} & \textbf{1100} & \textbf{2056} & \textbf{512} & \textbf{95} & \textbf{2060} & \textbf{317} & \textbf{101} & \textbf{315} & \textbf{1099}\\
+            \hline
+            \multirow{4}*{\textbf{L1}} & \textbf{\#Blocco}&  140 & 66 &137 &257 &64 &11 &257 &39 &12 &39 &137\\
+            \cline{2-13}
+            & \textbf{\textbf{Index}}&  0 &2 &1 &1 &0 &3 &1 &3 &0 &3 &1\\
+            \cline{2-13}
+            & \textbf{\textbf{Tag}}&  35 &16 &34 &64 &16 &2 &64 &9 &3 &9 &34\\
+            \cline{2-13}
+            & \textbf{\textbf{H/M}}&  CLD &  CLD &  CLD & CLD  & CLD & CLD & HIT & CLD & CLD & HIT & CAP\\
+            \cline{2-13}
+            \hline
+            \multirow{4}*{\textbf{L2}} & \textbf{\#Blocco}&  &  &  &  &  &  &  & &  &  &\\
+            \cline{2-13}
+            & \textbf{\textbf{Index}}&  &  &  &  &  &  &  & &  &  &\\
+            \cline{2-13}
+            & \textbf{\textbf{Tag}}&  &  &  &  &  &  &  &  & &  &\\
+            \cline{2-13}
+            & \textbf{\textbf{H/M}}&  &  &  &  &  &  &  &  & &  &\\
+            \hline
+        \end{tabular}
+    \end{center}
+
+    \quad
+    
+    \begin{itemize}
+        \item Per la cache L2 si ha che:
+        \begin{itemize}
+            \item $\texttt{\#Blocco} = \left \lfloor \frac{\texttt{Address}}{\texttt{Num. byte blocco}} \right \rfloor = \left \lfloor \frac{\texttt{Address}}{16 \cdot 4} \right \rfloor$
+            \item $\texttt{Index} = \texttt{\#Blocco} \;\%\; \texttt{Num. set} = \texttt{\#Blocco} \;\%\; 8$
+            \item $\texttt{Tag} = \left \lfloor \frac{\texttt{\#Blocco}}{\texttt{Num. set}} \right \rfloor = \left \lfloor \frac{\texttt{\#Blocco}}{8} \right \rfloor$
+        \end{itemize}
+        
+        \item Calcoliamo quindi le informazioni relative ad ogni accesso richiesto su L2:
+    \end{itemize}
+    
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            & \textbf{Address} & \textbf{1120} & \textbf{531} & \textbf{1100} & \textbf{2056} & \textbf{512} & \textbf{95} & \textbf{2060} & \textbf{317} & \textbf{101} & \textbf{315} & \textbf{1099}\\
+            \hline
+            \multirow{4}*{\textbf{L1}} & \textbf{\#Blocco}&  140 & 66 &137 &257 &64 &11 &257 &39 &12 &39 &137\\
+            \cline{2-13}
+            & \textbf{\textbf{Index}}&  0 &2 &1 &1 &0 &3 &1 &3 &0 &3 &1\\
+            \cline{2-13}
+            & \textbf{\textbf{Tag}}&  35 &16 &34 &64 &16 &2 &64 &9 &3 &9 &34\\
+            \cline{2-13}
+            & \textbf{\textbf{H/M}}&  CLD &  CLD &  CLD & CLD  & CLD & CLD & HIT & CLD & CLD & HIT & CAP\\
+            \cline{2-13}
+            \hline
+            \multirow{4}*{\textbf{L2}} & \textbf{\#Blocco}&  17&  8&  17&  32& 8 & 1 &  & 4& 1 &  &17\\
+            \cline{2-13}
+            & \textbf{\textbf{Index}}& 1 & 0 & 1 & 0 & 0 & 1 &  & 4 & 1 &  &1\\
+            \cline{2-13}
+            & \textbf{\textbf{Tag}}&  2&  1&  2& 4 & 1 &0  &  & 0 & 0&  &2\\
+            \cline{2-13}
+            & \textbf{\textbf{H/M}}&  &  &  &  &  &  &  &  & &  &\\
+            \hline
+        \end{tabular}
+    \end{center}
+    
+    \quad
+    
+    \begin{itemize}
+        \item A questo punto, calcoliamo gli HIT e i MISS effettuati nella cache L2:
+        \begin{itemize}
+            \item Per le richieste 1120, 531, 2056, 95 e 317 si verificheranno dei \textbf{Cold MISS}, poiché i blocchi a loro corrispondenti non sono mai stati acceduti prima
+            \item Per gli indirizzi 1100, 512, 101, 315 si verificheranno degli HIT, poiché al momento in cui vengono effettuate le due richieste le loro linee associate (1 e 0) contengono il tag richiesto
+        \end{itemize}
+    \end{itemize}
+
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            & \textbf{Address} & \textbf{1120} & \textbf{531} & \textbf{1100} & \textbf{2056} & \textbf{512} & \textbf{95} & \textbf{2060} & \textbf{317} & \textbf{101} & \textbf{315} & \textbf{1099}\\
+            \hline
+            \multirow{4}*{\textbf{L1}} & \textbf{\#Blocco}&  140 & 66 &137 &257 &64 &11 &257 &39 &12 &39 &137\\
+            \cline{2-13}
+            & \textbf{\textbf{Index}}&  0 &2 &1 &1 &0 &3 &1 &3 &0 &3 &1\\
+            \cline{2-13}
+            & \textbf{\textbf{Tag}}&  35 &16 &34 &64 &16 &2 &64 &9 &3 &9 &34\\
+            \cline{2-13}
+            & \textbf{\textbf{H/M}}&  CLD &  CLD &  CLD & CLD  & CLD & CLD & HIT & CLD & CLD & HIT & CAP\\
+            \cline{2-13}
+            \hline
+            \multirow{4}*{\textbf{L2}} & \textbf{\#Blocco}&  17&  8&  17&  32& 8 & 1 &  & 4& 1 &  &17\\
+            \cline{2-13}
+            & \textbf{\textbf{Index}}& 1 & 0 & 1 & 0 & 0 & 1 &  & 4 & 1 &  &1\\
+            \cline{2-13}
+            & \textbf{\textbf{Tag}}&  2&  1&  2& 4 & 1 &0  &  & 0 & 0&  &2\\
+            \cline{2-13}
+            & \textbf{\textbf{H/M}}&  CLD & CLD & HIT & CLD &  HIT & CLD &  & CLD & HIT &  & HIT\\
+            \hline
+        \end{tabular}
+    \end{center}
+    
+    \begin{itemize}
+        \item Supponiamo quindi ora che:
+        \begin{itemize}
+            \item Disponiamo di una CPU con frequenza a $2$ GHz e che impieghi 4 colpi di clock per eseguire completamente un'istruzione completa (\textbf{CPI - Clock per Instruction})
+            \item Un \textbf{HIT nella cache L1} impieghi 1 ns
+            \item Un \textbf{HIT nella cache L2} impieghi 20 ns
+            \item Un \textbf{accesso alla memoria principale} impieghi 100 ns
+        \end{itemize}
+
+        \item Avendo effettuato 2 HIT nella cache L1, 4 HIT nella cache L2 e 5 accessi alla memoria principale (dovuti ai 5 MISS nella cache L2), il \textbf{tempo totale} per gli 11 accessi effettuati e il \textbf{tempo medio per accesso} sono pari a:
+        \[T_{tot} = 2 \cdot 1 \, ns + 4 \cdot 20 \, ns + 5 \cdot 100 \, ns = 582 \, ns \implies T_{avg} = \frac{T_{tot}}{\# \text{Accessi}} = \frac{582 \, ns}{11} = 52.9 \, ns\]
+
+        \item A questo punto, possiamo calcolare anche il \textbf{numero di istruzioni eseguite} durante tale tempo medio:
+        \[\text{Ist. Eseguite} = \frac{T_{avg} \cdot \text{Freq. CPU}}{\text{CPI CPU}} = \frac{52.9 \, ns \cdot 2 \, GHz}{4} = 26.45\]
+    \end{itemize}
+
+    \newpage
+
+    \section{Memoria virtuale}
+
+    In un sistema multi-processo, il problema della gestione della memoria risulta complesso, in quanto la memoria principale possa non essere sufficiente. Per tale motivo, un requisito fondamentale risulta essere la necessità di rendere lo spazio di memoria per i processi \textbf{indipendente dal limite disponibile della memoria stessa}.
+
+    A tal scopo, viene utilizzata la \textbf{memoria virtuale}:
+    \begin{itemize}
+        \item Gli \textbf{indirizzi} (per istruzioni e dati) prodotti dalla CPU sono \textbf{"virtuali"}, venendo trasformati in indirizzi \textbf{fisici} per accedere alla vera posizione dei dati
+        \item Ogni programma può utilizzare gli stessi indirizzi virtuali, ottenendo l'illusione di aver a disposizione per se l'intera memoria
+        \item La memoria viene divisa in \textbf{"pagine"}, le quali vengono mantenute nella memoria principale \textbf{solo quando richieste}, venendo invece conservate sulla memoria secondaria in ogni altro istante
+        \item La memoria principale può contenere solo un determinato numero di pagine, pertanto esse vengono alternate molto frequentemente
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.7]{resources/images/chapter_5/mem_virt.png}
+    \end{center}
+
+    Ogni indirizzo virtuale è dotato di un campo \textbf{numero di pagina virtuale} e un campo \textbf{offset}. Il primo viene tradotto  in un \textbf{numero di pagina fisica} tramite una \textbf{Memory Management Unit (MMU)}, mentre l'offset non viene modificato.
+    \[\texttt{Indirizzo Virtuale} = \texttt{\# Pag. Virtuale} + \texttt{Offset}\]
+    \[\downarrow \qquad \qquad \downarrow \qquad \qquad \downarrow\]
+    \[\texttt{Indirizzo Fisico} = \texttt{\# Pag. Fisica} + \texttt{Offset}\]
+
+    Per tradurre il numero di pagina virtuale al numero di pagina fisica, ogni \textbf{processo} possiede una propria \textbf{page table}, simile ad una cache:
+    \begin{itemize}
+        \item Ogni \textbf{numero di pagina virtuale} fa riferimento ad un'entrata della page table
+        \item Ogni entrata possiede un \textbf{valid bit}, un \textbf{dirty bit} e uno \textbf{used bit}
+        \item Ogni entrata possiede il \textbf{numero di pagina fisica} associato
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=0.45]{resources/images/chapter_5/page_table.png}
+    \end{center}
+
+    Al momento della richiesta di un dato, si possono verificare due situazioni:
+
+    \begin{itemize}
+        \item Se il \textbf{valid bit} è posto ad 1, allora la pagina sarà \textbf{già presente in memoria principale} implicando che la tabella indichi l'indirizzo in memoria principale corrispondente.
+        
+        Per tanto, in tal caso sono necessari comunque \textbf{2 accessi per ottenere il dato richiesto}, ossia un accesso alla page table ed un accesso alla memoria principale.
+
+        \item Se il \textbf{valid bit} è posto a 0, allora la pagina \textbf{non sarà presente in memoria principale} implicando che la tabella indichi l'indirizzo in memoria secondaria corrispondente.
+        
+        Per tanto, in tal caso viene generata un'eccezione di \textbf{"page fault"}, richiedendo al sistema operativo che la pagina sia recuperata ed inserita all'interno della memoria principale (operazione molto costosa).
+    \end{itemize}
+
+    Inoltre, in modo del tutto analogo alle cache, all'interno della page table viene utilizzata una \textbf{politica di rimpiazzo}, tra cui rimpiazzo random, LRU e LFU, e una \textbf{politica di scrittura}, tra cui write back e write through. In particolare, tuttavia, l'utilizzo della politica write through risulta estremamente \textbf{inefficiente} per la page table, in quanto richiederebbe di accedere sempre alla memoria di massa, operazione che ricordiamo essere molto costosa. 
+
+    \subsection{Translation Lookaside Buffer (TLB)}
+
+    Come già discusso, anche nel caso in cui la pagina sia già presente all'interno della memoria principale è necessario effettuare due accessi, richiedendo quindi l'implementazione di \textbf{metodi più efficaci}. Per tanto, la CPU gestisce una \textbf{Translation Lookaside Buffer (TLB)}, una \textbf{cache fully-associative} utilizzata esclusivamente per la page table.
+
+    \begin{center}
+        \includegraphics[scale=0.475]{resources/images/chapter_5/tlb.png}
+    \end{center}
+
+    Inoltre, per rendere ancor più veloce l'accesso ai dati, viene utilizzata assieme alla TLB la \textbf{normale cache per la memoria principale}, creando una vera e propria \textbf{struttura gerarchica} per la memoria. Tale cache può essere implementata in più modi:
+    \begin{itemize}
+        \item Una cache a livello di \textbf{indirizzo fisico} (come visto precedentemente all'introduzione della memoria virtuale), la quale viene svuotata al caricamento di una nuova pagina
+        \item Una cache a livello di \textbf{indirizzo virtuale}, la quale viene svuotata ogni volta che un processo prende il controllo della CPU (Context Switch) 
+    \end{itemize}
+    
+    Di seguito, vengono riportati alcuni approcci possibili, partendo dal più lento (e meno costoso) al più veloce (ma più costoso):
+    \begin{itemize}
+        \item CPU $\xrightarrow{\text{virtuale}}$ Page Table $\xrightarrow{\text{fisico}}$ RAM
+        \item CPU $\xrightarrow{\text{virtuale}}$ Page Table $\xrightarrow{\text{fisico}}$ Cache $\xrightarrow{\text{fisico}}$ RAM
+        \item CPU $\xrightarrow{\text{virtuale}}$  TLB $\xrightarrow{\text{virtuale}}$ Page Table $\xrightarrow{\text{fisico}}$ RAM
+        \item CPU $\xrightarrow{\text{virtuale}}$  Cache $\xrightarrow{\text{virtuale}}$ TLB $\xrightarrow{\text{virtuale}}$  Page Table $\xrightarrow{\text{fisico}}$ RAM
+        \item CPU $\xrightarrow{\text{virtuale}}$ TLB $\xrightarrow{\text{virtuale}}$ Page Table $\xrightarrow{\text{fisico}}$ Cache $\xrightarrow{\text{fisico}}$ RAM
+        \item CPU $\xrightarrow{\text{virtuale}}$ 
+        Cache $\xrightarrow{\text{virtuale}}$ TLB $\xrightarrow{\text{virtuale}}$ Page Table $\xrightarrow{\text{fisico}}$ Cache $\xrightarrow{\text{fisico}}$ RAM
+    \end{itemize}
+    
+    A svantaggio di ciò, ovviamente, possono crearsi \textbf{situazioni sfortunate} (ma poco probabili) in cui l'accesso ad un dato richieda maggior tempo rispetto al caso in cui nessuno di tali mezzi sia implementato. (ad esempio, se l'entrata non è presente in nessuna delle memorie interposte).
+
+    \begin{center}
+        \includegraphics[scale=0.6]{resources/images/chapter_5/tlb_2.png}
+    \end{center}
+
+    Per quanto riguarda eventuali situazioni con \textbf{combinazioni di HIT e MISS} per le varie tipologie di memorie interposte, si ha che:
+
+    \quad
+    
+    \begin{center}
+        \includegraphics[scale=0.675]{resources/images/chapter_5/tlb_4.png}
+    \end{center}
+
+\end{document}

@@ -1,0 +1,630 @@
+\documentclass[a4paper, 12pt]{report}
+
+\usepackage[dvipsnames]{xcolor}
+
+%%%%%%%%%%%%%%%%
+% Set Variables %
+%%%%%%%%%%%%%%%%
+
+\def\useItalian{0}  % 1 = Italian, 0 = English
+
+\def\courseName{Distributed Systems}
+
+\def\coursePrerequisites{Computer Networks}
+
+\def\bool{}
+
+\def\authorName{Simone Bianco}
+\def\email{bianco.simone@outlook.it}
+\def\github{https://github.com/Exyss/university-notes}
+\def\linkedin{https://www.linkedin.com/in/simone-bianco}
+
+% \def\authorName{Alessio Bandiera}
+% \def\email{alessio.bandiera02@gmail.com}
+% \def\github{https://github.com/aflaag-notes}
+% \def\linkedin{https://www.linkedin.com/in/alessio-bandiera-a53767223}
+
+%%%%%%%%%%%%
+% Packages %
+%%%%%%%%%%%%
+
+\usepackage{../../packages/Nyx/nyx-packages}
+\usepackage{../../packages/Nyx/nyx-styles}
+\usepackage{../../packages/Nyx/nyx-frames}
+\usepackage{../../packages/Nyx/nyx-macros}
+\usepackage{../../packages/Nyx/nyx-title}
+\usepackage{../../packages/Nyx/nyx-intro}
+
+%%%%%%%%%%%%%%
+% Title-page %
+%%%%%%%%%%%%%%
+
+\logo{../../packages/Nyx/logo.png}
+
+\if\useItalian1
+    \institute{\curlyquotes{\hspace{0.25mm}Sapienza} Università di Roma}
+    \faculty{Ingegneria dell'Informazione,\\Informatica e Statistica}
+    \department{Dipartimento di Informatica}
+    \ifdefined\book
+        \subtitle{Appunti integrati con il libro \book}
+    \fi
+    \author{\textit{Autore}\\\authorName}
+\else
+    \institute{\curlyquotes{\hspace{0.25mm}Sapienza} University of Rome}
+    \faculty{Faculty of Information Engineering,\\Informatics and Statistics}
+    \department{Department of Computer Science}
+    \ifdefined\book
+        \subtitle{Lecture notes integrated with the book \book}
+    \fi
+    \author{\textit{Author}\\\authorName}
+\fi
+
+
+\title{\courseName}
+\date{\today}
+
+% \supervisor{Linus \textsc{Torvalds}}
+% \context{Well, I was bored\ldots}
+
+%%%%%%%%%%%%
+% Document %
+%%%%%%%%%%%%
+
+\begin{document}
+    \maketitle
+
+    % The following style changes are valid only inside this scope 
+    {
+        \hypersetup{allcolors=black}
+        \fancypagestyle{plain}{%
+        \fancyhead{}        % clear all header fields
+        \fancyfoot{}        % clear all header fields
+        \fancyfoot[C]{\thepage}
+        \renewcommand{\headrulewidth}{0pt}
+        \renewcommand{\footrulewidth}{0pt}}
+
+        \romantableofcontents
+    }
+
+    \introduction
+
+
+    \chapter{Note from the author (PLEASE READ)}
+
+    These notes were quickly -- \underline{very} quickly -- put together during my preparation for the first midterm of the Distributed System course of a.y. 2025-26 (I stopped writing them due to sickness, I couldn't waste time).
+    
+    Therefore, it's pretty clear that these are very bad notes. Like really bad. Completely out of my standard. I think that they're still somewhat useful/understandable, but please keep this in mind.
+
+    On the other hand, the solutions proposed in the Solved Exercises chapter are well written (and well tought) since my sickness was gone by that time.
+
+    \textit{Final note:} as announced on the readme page of the repository, the source code is soon going to be public. If anyone is interested in helping me complete these notes, you're welcome!
+
+    Good luck!
+
+    \chapter{Introduction to distributed system (WIP)}
+
+
+    \section{Computations in distributed systems}
+    
+    We define a \textbf{distributed system} as a collection of processes $p_1, p_2, \ldots, p_n$ that run on different computers and cooperate to solve a problem. The processes comunicate using \textbf{channels} and we assume the system is fully connected, meaning that every pair of processes can excange messages between them. The channels are assumed to be \textbf{reliable}, in the sense that te message arrive, but may delivered messages out of order.
+
+    We say that a distributed system is \textit{asynchronous} when the computation between processes has no upper bounds for speed or message delay. If these upper bounds exists the,  system is called \textit{synchronous}. Clearly, synchronous systems are more strict compared to asynchronous ones. Nonetheless, it's easy to see that every computation executed on a synchronous system can also run on an asynchronous system, while the opposite isn't always true.
+
+    A distributed system can have different properties:
+    \begin{itemize}
+        \item \textbf{Consistency}: every part of the system has the same information at every time
+        \item \textbf{Avilability}: the information are available at every time
+        \item \textbf{Partiotion tolerance}: if one part of the system goes offline the system can continue to run
+    \end{itemize}
+    
+    Each distributed system can have up to two of these properties (otherwise, they conflict with each other).
+
+    \textbf{Distributed computations} are defined by a collection of \textbf{events}, which can be \textit{internal}, i.e. executed internally by the process, or \textit{external}, i.e. involve comunication with another process. For our interests, we consider only two types of external events: sending a message $m$ to process $j$, written as $\mathrm{send}_j(m)$, and receiving a message $m$ from process $j$, written as $\mathrm{receive}_j(m)$. For each process $p_i$, we denote its $k$-internal event with $e_i^k$.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.85]{images/dist_comp.png}
+
+        \caption{An example of distibuted computation. Arrows correspond to messages exchanged by processes.}
+    \end{figure}
+
+    \begin{frameddefn}{Local and global history}
+        We define the local history $h_i$ of a process $p_i$ as the sequence of its events, meaning that $h_i = e_i^1 e_i^2 \ldots$. We denote with $h_i^k$ the restriction of $h_i$ up the the $k$-th event, i.e. $h_i^k = e_i^1 e_i^2 \ldots e_i^k$. The global history $H$ is defined as the union of the histories of all processes $H = h_1 \cup \ldots \cup h_n$.
+    \end{frameddefn}
+
+    We observe that the global history gives us no information about the time in which these events are executed: in an asynchronous system there is no global clock that governates the processes, thus we cannot associate a global timestamp to the events. The ordered sequence of all the events of the system is referred to as \textbf{run} and it must preserve the sequences of the histories.
+
+    \begin{frameddefn}{Run}
+        We define a run as an ordering $R = e_1^1 e_2^1 \ldots e_1^2 e_1^2 \ldots$ of $H$ that preserves the orderings of the local histories $h_1, \ldots, h_n$.
+    \end{frameddefn}
+    
+    To infer informations about which events $e$ of the past influenced an event $e'$ in the future, we define a \textbf{cause-effect relation}, where $e \to e'$ means that event $e$ affects event $e'$. 
+
+    \begin{frameddefn}{Cause-effect relation}
+        Given the global history $H$ of a system, we define the cause-effect relation $\to \subset H \times H$ as follows:
+        \begin{itemize}
+            \item \textit{Internal sequencing}: $\forall i \in [n]$ and $\forall e_i^k, e_i^{k'} \in h_i$ with $k < k'$ it holds that $e_i^k \to e_i^{k'}$
+            \item \textit{External sequencing}: $\forall i,j \in [n]$ and $\forall (e_i^k, e_j^{k'}) \in h_i \times h_j$ if $e_i^k = \mathrm{send}_j(m)$ and $e_j^{k'} = \mathrm{receive}_i(m)$ then $e_i^k \to e_j^{k'}$
+            \item \textit{Transitivity}: $\forall e, e', e'' \in H$, if $e \to e'$ and $e' \to e''$ then $e \to e''$
+        \end{itemize}
+    \end{frameddefn}
+
+    Clearly, some events may never influence each other, meaning that $e \not\to e'$ and $e' \not\to e$. When this happens, the events are said to be \textbf{concurrent}.
+
+    \begin{frameddefn}{Concurrent events}
+        We say that two events $e,e' \in H$ are concurrent, written as $e \mid\mid e'$, when $e \not\to e'$ and $e' \not\to e$.
+    \end{frameddefn}
+
+    \section{System monitoring}
+
+    We denote the local state of process $p_i$ after the execution of event $e_i^k$ with $\sigma_i^k$. The $n$-uple of local states $\Sigma = (\sigma_1, \ldots, \sigma_n)$ represents the global state of the system. 
+
+    \begin{frameddefn}{Cut}
+        We define a cut $C$ as a collection of all the local histories restricted up to the events $e_1^{k_1}, \ldots, e_n^{k_n}$
+        \[C = \abk{h_1^{k_1}, \ldots, h_n^{k_n}}\]
+    \end{frameddefn}
+
+    Consider the following distributed computation.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.5]{images/cut.png}
+
+        \caption{The blue an red lines represent the cuts $C = \abk{h_1^1, h_2^3, h_3^6}$ and $C' = \abk{h_1^6, h_2^2, h_3^4}$}
+    \end{figure}
+
+    To monitor the computation or to compute a global problem (for example knowing if the system is in \textit{deadlock}) we add a process $p_0$ called \textbf{monitoring process}. A simple idea is to make $p_0$ send a message to every process $p_j$ to which a process $p_i$ will respond with the current state $\sigma_i$. After all the responses, $p_0$ can construct a global state that defines a cut.
+
+    For instance, consider the following computation with a cut $C$.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.75]{images/ex_deadlock.png}
+
+        \caption{The dashed arrows represent message response messages sent to process $p_0$.}
+        \label{ex_deadlock}
+    \end{figure}
+
+    Based on the histories contain in $C$, we can expect that in the future process $p_1$ is going to send a response to $p_2$, process $p_2$ is going to send a response to $p_3$ and process $p_3$ is going to send a response to $p_1$. Does this imply that cut $C$ found a deadlock? The answer is no because the global state defined by cut $C$ can actually never happen since $e_1^5 = \mathrm{send}_3(Q)$ happens after the cut and $e_3^4 = \mathrm{receive}_1(Q)$ happens before it. In order to use cuts as proper monitoring tools, we have to ensure that they are \textit{consistent}.
+
+    \begin{frameddefn}{Consistent cuts and runs}
+        A cut $C$ is said to be consistent when $\forall e' \in C$ it holds that if $e \to e'$ then $e \in C$. Similarly, a run $R$ is said to be consistent when forall $e \to e'$ it holds that $e$ comes before $e'$ in $R$.
+    \end{frameddefn}
+
+    \begin{framedprop}{}
+        If a run is consistent then every cut is consistent.
+    \end{framedprop}
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+
+    After defining consistency, a natural question arises: which tools can be used to certify it? The simplest idea is to consider a \textbf{timestamp} function $T$ that associates an incremental timestamp to each new event.
+
+    \begin{framedobs}{}
+        In order to be algorithmically implemented, the timestamp function $T$ requires that the system has a global clock and that the processes are synchronized.
+    \end{framedobs}
+    
+    By imposing that $\mathrm{T}(e) < \mathrm{T}(e')$ whenever $e \to e'$, we can ensure that the system is consistent. The generalization of the above property is called \textbf{clock condition}.
+
+    \begin{frameddefn}{Weak and strong clock condition}
+        Given a time function $f$, we say that $f$ satisfies the (weak) clock condition if whenever $e \to e'$ it holds that $f(e) < f(e')$. Similarly, we say that $f$ satisfies the strong clock condition when $e \to e'$ if and only if $f(e) < f(e')$.
+    \end{frameddefn}
+
+    We observe that the clock condition doesn't ensure that the opposite direction of the statement is true, i.e. that whenever $f(e) < f(e')$ it also holds that $e \to e'$. This is only true for the strong clock condition.
+
+    \begin{framedprop}{Property of real time}
+        A run is consistent if and only if the function $T$ satisfies the clock condition.
+    \end{framedprop}
+
+    Even thought the above proposition states that timestamps are a sufficient time metric to certify consistency, we recall that an asynchronous distributes system isn't provided with a global clock, making this metric useless. Therefore, we need a new metric that can be algorithmically implemented without requiring a global clock. The easiest way to solve this issue is to use a \textit{local clock} instead of a global one, such as the \textbf{Lamport clock}.
+
+    \begin{frameddefn}{Lamport clock}
+        For each process $p_i$ and each event $e_i^k \in h_i$, we define the Lamport clock of $p_i$ as the value $\mathrm{LC}_i^k$ given by:
+        \[\mathrm{LC}_i^{k} = \soe{ll}{
+            0 & \text{if } k = 0 \\ 
+            \mathrm{LC}_i^{k-1} + 1 & \text{if $e_i^k$ is an internal or send event}\\
+            \max(\mathrm{LC}_i^{k-1}, \mathrm{LC}(e_{i'}^{k'})) + 1 & \text{if $e_i^k$ receives from $e_{i'}^{k'}$}
+        }\]
+
+        where $\mathrm{LC}(e_h^t) = \mathrm{LC}_h^t$ for all $h \in [n]$ and $e_h^t \in h_h$.
+    \end{frameddefn}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.75]{images/lamport_clocks.png}
+
+        \caption{The Lamport clocks of the example in \Cref{ex_deadlock}.}
+    \end{figure}
+
+    \begin{framedprop}{}
+        The Lamport clock satisfies the clock condition.
+    \end{framedprop}
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+
+    We observe that, even tought they require to share clock information between processes, the Lamport clock can be algorithmically implemented by an asynchronous distributed system: all that we have to do is to send the clock information together with the message. However, this still requires that the processes are synchronized.
+
+    \begin{framedobs}{}
+        In order to be algorithmically implemented, the timestamp function $T$ requires  that the processes are synchronized.
+    \end{framedobs}
+
+    To remove the synchronization assumption, the easiest idea is to remove the need to send the clock values altogether. To achieve this, each process keeps track of the local clocks of the other processes using a \textbf{vector clock}.
+
+    \begin{frameddefn}{Vector clock}
+        For each process $p_i$ and each event $e_i^k \in h_i$, we define the vector clock of $p_i$ as the vector $\mathrm{VC}_i^k$ where each entry $j \in [n]$ is given by:
+        \[\mathrm{VC}_i^{k}[j] = \soe{ll}{
+            0 & \text{if } k = 0 \\ 
+            \mathrm{VC}_i^{k-1}[i] + 1 & \text{if $j = i$}\\
+            \mathrm{VC}_i^{k-1}[j] & \text{if $j \neq i$ and $e_i^k$ is internal or send} \\
+            \max(\mathrm{VC}_i^{k-1}[j], \mathrm{VC}(e_{i'}^{k'})[j]) + 1 & \text{if $j \neq i$ and $e_i^k$ receives from $e_{i'}^{k'}$}
+        }\]
+
+        where $\mathrm{VC}(e_h^t) = \mathrm{VC}_h^t$ for all $h \in [n]$ and $e_h^t \in h_h$.
+    \end{frameddefn}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.5]{images/vector_clocks.png}
+
+        \caption{The vector clocks of the example in \Cref{ex_deadlock}.}
+    \end{figure}
+
+    \begin{framedprop}{}
+        The vector clock satisfies the strong clock condition.
+    \end{framedprop}
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+
+    To know when to deliver a notification, the process $p_0$ uses a counter vector $D$ in which each entry $D[i]$, with $i \in [n]$, is the number of messages delivered to $p_i$. In particular, the monitor process knows that it can safely deliver a notification of event $e_i^k \in H$ if $\mathrm{VC}(e_{i}^k)[i] = D[i]+1$ and $\mathrm{VC}(e_i^k)[j] \leq D[j]$ for each $j \in [n]-\{i\}$ (assuming FIFO is used).
+
+    Together with the strong clock condition, the vector clock also satisfies another important property called \textbf{weak gap detection}.
+
+    \begin{framedprop}{Weak gap detection}
+        Given an event $e_i^k \in h_i$ and an event $e_j^{k'} \in h_j$, if $\mathrm{VC}(e_i^k)[h] < \mathrm{VC}(e_j^{k'})[h]$ for some $k \neq j,i$ then $\exists e_h^{k''} \in h_h$ such that $e_h^{k''} \not\to e_i^k$ and $e_h^{k''} \to e_j^{k'}$. 
+    \end{framedprop}
+
+    \section{System snapshots}
+
+    A global snapshot consists of local states of each process in the system along with the in-transit messages on the communication channels. The system snapshot problem tries to determine the \textit{current} global snapshot \underline{without} stopping the system. There are two main issues in determining the global snapshot:
+    \begin{enumerate}
+        \item Process states cannot be catched all at the same time
+        \item Messages that are on the way cannot be seen
+    \end{enumerate}
+    
+    For each protocol pair $p_i, p_j$, we define the \textbf{channel state} frpm $p_i$ to $p_j$, denoted with $\chi_{i,j}$, as the messages sent by $p_i$ to $p_j$ and that have not yet been reached.
+
+    \textbf{Chandy-Lamport protocol}:
+
+    \begin{enumerate}
+        \item The process $p_0$ starts the protocol by sending the message \curlyquotes{take snapshot} to itself
+        \item For each process $p_i$, let $p_{f_i}$ be the process from which $p_i$ receives a \curlyquotes{take snapshot} message for the first time. Upon receiving the message, $p_i$ records its local state $\sigma_i$ and relays the message on all of its outgoing channels (o intervening events on behalf of the underlying computation are executed between these steps). The channel state $\chi_{f_i, i}$ is set to empty and $p_i$ starts recording messages recorded over each of its other incoming channels.
+        \item For each process $p_i$, let $p_{j_i}$ be any process from which $p_i$ receives a \curlyquotes{take snapshot} message after the first time. Process $p_i$ stops recording messages along the channel frm $p_{j_i}$ and declares channel state $\chi_{j_i, i}$ with the messages that have been recorder. Since a \curlyquotes{take snapshot} message is relayed only upon the first receipt and since the network is strongly connected, a \curlyquotes{take snapshot} message traverses each channel exactly once. When $p_i$ has received a \curlyquotes{take snapshot} message from all of its incoming channels, its contribution to the global state is complete and its partecipation in the snapshot protocol ends.
+    \end{enumerate}
+
+    %%%%%%%%%%%%%%%%%%%%%
+
+    \chapter{Solved exercises}
+
+    \begin{framedprob}{}
+        Let $C_1$ and $C_2$ be two consistent cuts. Show that the intersection of $C_1$ and $C_2$ is a consistent cut.
+    \end{framedprob}
+
+    \begin{proof}
+        Fix $e' \in C_1 \cap C_2$ and suppose that $e \to e'$ for some event $e$. Since $e' \in C_1$ and $e' \in C_2$, by consistency of both cuts we have that $e \in C_1$ and $e \in C_2$, concluding that $e \in C_1 \cap C_2$.
+    \end{proof}
+
+    \begin{framedprob}{}
+        Let $C_1$ and $C_2$ be two consistent cuts. Show that the union of $C_1$ and $C_2$ is a consistent cut.
+    \end{framedprob}
+
+    \begin{proof}
+        Fix $e' \in C_1 \cup C_2$ and suppose that $e \to e'$ for some event $e$. Without loss of generality, assume that $e' \in C_1 \cup C_2$ holds because $e' \in C_1$. By consistency of the cut, it must hold that $e \in C_1$, therefore $e \in C_1 \cup C_2$.
+    \end{proof}
+
+    \begin{framedprob}{}
+        Show that every consistent global state can be reached by some consistent run.
+    \end{framedprob}
+
+    \begin{proof}
+        We proceed by induction on the number $m$ of events in the consistent global state. If $m = 0$, the consistent run with no events reaches the state. Assume the inductive hypothesis holds for any consistent global state with $m$ events and consider a consistent global state $\Sigma$ with $m+1$ events.
+        
+        Let $C$ be cut associated with $\Sigma$ and consider an event $e \in C$ such that $e \notin H(e')$ for all $e' \in C-\{e\}$, i.e. an event that isn't the cause of any other event. We observe that such an event must always exist, otherwise there would be at least one looping chain $e^{(1)} \to \ldots \to e^{(\ell)} \to e^{(1)}$ in $C$, which is impossible.
+
+        Consider now the cut $C-\{e\}$ and the global state $\Sigma'$ associated with it. By choice of $e$, it trivially holds that $C-\{e\}$ is consistent, therefore by inductive hypothesis $\Sigma'$ can be reached by a consistent run $R'$. Then, $R = R'e$ is a consistent run that reaches $\Sigma$.
+    \end{proof}
+
+    \begin{framedprob}[label={extension_run}]{}
+        Let $C_1$ and $C_2$ be two consistent cuts. Prove that if $C_1$ is a subset of $C_2$, then $C_2$ is reachable from $C_1$. (there exists a consistent run that reaches $C_1$ and then reaches $C_2$.)
+    \end{framedprob}
+
+    \begin{proof}
+        Let $\abs{C_1} = m_1$ and let $\abs{C_2} = m_2$. Let also $\Sigma^1$ be the consistent global states associated with cut $C_1$. Through the previous exercise, we know that there is a consistent run $R$ that reaches $\Sigma_1$ (hence it reaches $C_1$.).
+
+        We define a series of cuts $C^{(0)}, \ldots, C^{(\ell)}$, where $\ell = m_2 -m_1-1$, defined through the following inductive construction:
+        \begin{itemize}
+            \item Set $C^{(0)} = C_1$
+            \item For each $i$ such that $1 \leq i \leq \ell$, set $C^{(i)} = C^{(i-1)} \cup \{e_{i}\}$ where $e_{i}$ is any event $e_{i} \in C_2 - C^{(i-1)}$ such that $H(e_i) \subseteq C^{(i-1)} \cup \{e_i\}$, i.e. any event that isn't caused by events outside of $C^{(i-1)}$. 
+        \end{itemize}
+
+        We observe that $C^{(0)} = C_1$ and $C^{(\ell)} = C_2$ by construction of the sequence. Moreover, it's easy to see that there is a consistent run that reaches $C^{(0)}, \ldots, C^{(\ell)}$ in that order. This can be proven by induction on the sequence index $i$ of $C^{(i)}$. If $i = 0$, we know that $C^{(0)}= C_1$ and, by the previous example, that there is a consistent run that reaches $C^{(0)}$. Assume by inductive hypothesis that there is a consistent run $R$ that reaches the cuts $C^{(0)}, \ldots, C^{(i)}$ in that order and consider index $i+1$. Then, $R' = Re_{i+1}$ is a consistent run that reaches the cuts $C^{(0)}, \ldots, C^{(i+1)}$ in that order.
+    \end{proof}
+
+    \begin{framedprob}{}
+        Label all the events of the distributed computation represented in the below image first by using the Lampert clock and then by using the vector clock (you can consider events that receive a message and immediately send it as single events.)
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.5]{images/ex.pdf}
+        \end{figure}
+    \end{framedprob}
+
+    \textit{Solution:}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.39]{images/ex_lamp.pdf}
+        \includegraphics[scale=0.39]{images/ex_vec.pdf}
+    \end{figure}
+
+    \begin{framedprob}{}
+        Show that the Chandy-Lamport Snapshot Protocol builds a consistent global state.
+    \end{framedprob}
+
+    \begin{proof}
+        We observe that the transitivity of the $\to$ relation makes proving this result tricky.
+
+        Let $\Sigma$ be the global state derived through the protocol. For each process $p_i$, let $e_i^*$ be the recording event (i.e. when the process receives its first "take snapshot" message). Let $C = <h_1^*, \ldots, h_n^*>$ be the cut associated with $\Sigma$. In order to show that $C$ is consistent, we prove the following stronger claim.
+
+        \textbf{Claim}: For every chain $e^{(1)} \to \ldots \to e^{(\ell)}$ such that $e^{(\ell)} \in C$ it holds that $e^{(1)}, \ldots, e^{(\ell)} \in C$. 
+
+        \begin{proof}[Proof of the claim.]
+            By way of contradiction, suppose that there is at least a chain for which the claim is false. Then, there must be a chain $\mathcal{C} = e^{(1)} \to \ldots \to e^{(\ell)}$ of minimal length for which the claim doesn't hold. Let $p_i$ be the process of $e^{(\ell)}$. We may assume that at least one relation of the chain comes from a send-receive pair, otherwise each event $e^{(j)}$ of the chain is an event of $p_i$ that occurred before $c^{(\ell)}$, concluding that $e^{(j)} \to e_i^*$, hence $e^{(j)} \in h_i^*$ and thus $e^{(j)} \in C$.
+
+            Let $t$ be the minimal index of the chain such that $e^{(t)} \to e^{(t+1)}$ comes from the fact that $e^{(t)}$ is a send event in process $p_j$ and $e^{(t+1)}$ is its corresponding receive event in process $p_k$.
+
+            Since $e^{(t+1)} \to \ldots \to e^{(\ell)}$ is a chain smaller than $\mathcal{C}$, it must satisfy the property of the claim, concluding that  $e^{(t+1)}, \ldots,  e^{(\ell)} \in C$. Since $e^{(t+1)} \in h_k^*$, it must hold that $e^{(t+1)} \to e_k^*$. We observe that $e^{(t)} \notin C$ must hold, otherwise $e^{(1)}, \ldots,  e^{(t)} \in C$ by the same minimality argument, but this is impossible since at least one event of $\mathcal{C}$ must be outside of $C$.
+            Since $e^{(t)} \notin C$, it must hold that $e_j^* \to e^{(t)}$. However, this implies that process $p_j$ sent the "take snapshot" message  to every process ($p_k$ included) before sending the message of event $e^{(t)}$. Since the protocol uses the FIFO assumption, this  "take snapshot" message must have been received by $p_k$ before of $e^{(t+1)}$, meaning that $e_k^* \to e^{(t+1)}$ and thus raising a contradiction. Therefore, the only possibility is that the claim must hold for every chain.
+        \end{proof}
+
+        The claim directly concludes that the global state derived by the protocol is consistent.
+    \end{proof}
+
+
+    \begin{framedprob}{}
+        Show that the Chandy-Lamport Snapshot Protocol can build a global state that never happened.
+    \end{framedprob}
+
+    \textit{Solution:}
+
+    Consider the execution of the protocol represented by the picture below. Let $R$ be the run obtained by ignoring the \curlyquotes{take snapshot} messages, i.e. $R = e_2^1e_1^1$ with $e_2^1 \mid\mid e^1_1$. It's easy to see that the cut $C = \abk{ e_1^1, \cdot}$ produced by the protocol is associated with a global state that is never reached by $R$ since it only reaches the states $\Sigma^0, \Sigma^1, \Sigma^2$ given by the cuts $C_0 = \abk{\cdot, \cdot}, C_1 = \abk{\cdot, e_2^1 }, C_2 = \abk{e_1^1, e_2^1}$.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.85]{images/ex_never_happened.pdf}
+    \end{figure}
+
+    \begin{framedprob}{}
+        What good is a distributed snapshot when the system was never in the state represented by the distributed snapshot? Give an application of distributed snapshots.
+    \end{framedprob}
+
+    \textit{Solution:}
+
+    Even though a snapshot may not correspond to a global state that really happened, the global state retrieved by it is still logically consistent (meaning it still could have happened, according to the causal order of events). This allows us to reason about the global properties of the system without requiring synchronization and detect stable properties (conditions that, once true, remain true thereafter), such as deadlocks, consistent recovery point, the total amount of money or messages in a system.
+
+    \begin{framedprob}{}
+        Consider a distributed system where every node has its physical clock and all physical clocks are perfectly synchronized. Give an algorithm to record global state assuming the communication network is reliable. (note that your algorithm should be simpler than the Chandy-Lamport algorithm.)
+    \end{framedprob}
+
+    \textit{Solution:}
+
+    Consider the following protocol:
+    \begin{enumerate}
+        \item The monitor process $p_0$ starts the protocol by broadcasting a \curlyquotes{take snapshot at time $t+\Delta$} where $t$ is the current time and $\Delta$ is the maximum time required by a message to reach every node.
+        \item Upon receiving the \curlyquotes{take snapshot at time $t+\Delta$}, process $p_i$ waits until time $t+\Delta$ (ignoring all events) to then record and send its local state $\sigma_i$ back to $p_0$
+    \end{enumerate}
+
+    \begin{framedprob}{}
+        What modifications should be done to the Chandy-Lamport snapshot protocol so that it records a strongly consistent snapshot (i.e., all channel states are recorded empty).
+    \end{framedprob}
+
+    \textit{Solution:}
+
+    Consider the following protocol:
+    \begin{enumerate}
+        \item The monitor process $p_0$ starts the protocol by broadcasting a \curlyquotes{STOP}.
+        \item Upon receiving the \curlyquotes{STOP} flag, process $p_i$ stops sending messages and broadcasts an \curlyquotes{ACK} message.
+        \item Upon receiving $n-1$ \curlyquotes{ACK} messages, process $p_i$ records and sends its local state $\sigma_i$ back to $p_0$.
+        \item Every process resumes sending messages.
+    \end{enumerate}
+
+    Under the FIFO assumption, the above protocol ensures that all the incoming channels and outgoing channels of each process are empty once every process receives $n-1$ \curlyquotes{ACK}s: each \curlyquotes{ACK} message will be the last incoming message on each incoming channel and the last outgoing message on every outgoing channel.
+
+    \begin{framedprob}{}
+        Show that, if channels are not FIFO, then Chandy-Lamport snapshot algorithm does not work.
+    \end{framedprob}
+
+    \textit{Solution:}
+
+    Consider the execution of the protocol represented by the picture below. It's easy to see that the output global state $\Sigma$ associated with cut $C$ is not consistent since $e_1^1 \to e_2^1$ and $e_2^1 \in C$ but $e_1^1 \notin C$.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.85]{images/ex_fifo.pdf}
+    \end{figure}
+
+    \begin{framedprob}{}
+        Let $\Sigma^0$ be the global state when the Chandy-Lamport snapshot protocol starts, $\Sigma$ be the global state built by the protocol, and $\Sigma_1$ be the global state when the protocol ends. Show that $\Sigma$ is reachable from $\Sigma^0$ and that $\Sigma^1$ is reachable from $\Sigma$. Remember that $\Sigma$ might not have happened.
+    \end{framedprob}
+
+    \begin{proof}
+        Let $C_0, C, C_1$ be the consistent cuts associated, respectively, with $\Sigma^0, \Sigma, \Sigma^1$. We observe that, even thought $\Sigma$ may not have happened, it still holds that $C^0 \subseteq C \subseteq C_1$. Thus, using the same idea of \Cref{extension_run} we can extend a consistent run for $\Sigma^0$ first to a consistent run for $\Sigma$ and then to a consistent run for $\Sigma^1$.
+    \end{proof}
+
+    \begin{framedprob}{}
+        Give an AC protocol that also satisfies the converse of condition AC3. That is, if all processes vote Yes, then the decision must be Commit. Why is it not a good idea to enforce this condition?
+    \end{framedprob}
+
+    \textit{Solution:}
+
+    We observe that the standard 2-Phase Commit protocol already has this converse property. Enforcing this property gives us a protocol for which the decision is a Commit if and only if every process votes Yes. Therefore, the protocol will enter a livelock if there is at least one failure on each round.
+
+    \begin{framedprob}{}
+        Consider 2-Phase Commit with the cooperative termination protocol. Describe a scenario (a particular execution) involving site failures only, which causes operational sites to become blocked.
+    \end{framedprob}
+
+    \textit{Solution:}
+
+    In a cooperative termination 2PC protocol, if a process $p$ voted yes but hasn't received any decision from the coordinator, it may ask to another process $q$ if they received the decision or not. Once $q$ receives the request, it will always in one of two ways:
+    \begin{itemize}
+        \item It answers with the decision if they received it
+        \item It answers with their vote if they also didn't receive the decision
+    \end{itemize} 
+
+    In the first case, $p$ copies the decision and executes it. In the second case, if $q$'s vote was a No then $p$ immediately Aborts since it knows that the decision couldn't have been a Commit. If $q$'s vote was a Yes, $p$ cannot infer any information, thus it keeps waiting. In the last case, $p$ also cannot infer any information.
+
+    Therefore, if on every round of the protocol each process votes Yes but the coordinator always fails (after receiving the votes and before sending the decision), each process will be stuck waiting for the coordinator since they cannot infer any information from each other. This creates a livelock.
+
+    \begin{framedprob}{}
+        Show that Paxos is not live.
+    \end{framedprob}
+
+    \begin{proof}
+        Suppose that proposer $p_1$ sends the message $\abk{\texttt{PREPARE } i}$ to all $n$ acceptors and that everyone of them receives the message. Each acceptor $a_j$ will answer with the message $\abk{\texttt{PROMISE } i, \ell_j, v_j}$, ignoring every message coming from rounds previous to round $i$. Then, proposer $p_1$ sends the message $\abk{\texttt{ACCEPT } i, v^{(i)}}$ to all acceptors.
+        
+        Suppose now that another proposer $p_2$ sends the message $\abk{\texttt{PREPARE } i+1}$ to all $n$ acceptors and that everyone of them receives the message before receiving the last message sent by $p_1$. Now, each acceptor promises to ignore every message coming from rounds previous to round $i+1$, including the accept message of round $i$.
+        
+        If this behaviour repeats alternating between the two proposers, the acceptors will never receive an accept message, reaching a livelock. 
+    \end{proof}
+
+    \begin{framedprob}{}
+        Assume that acceptors do not change their vote. In other words, if they vote for value $v$ in round $i$, they will not send learn messages with value different from $v$ in larger rounds. Show that Paxos, with this modification, is safe. Unfortunately, the modification introduces a severe liveness problem (the protocol can reach a livelock).
+    \end{framedprob}
+
+    \begin{proof}
+        To prove the safety of the protocol, we prove the usual C1, C2 and C3 properties:
+        \begin{enumerate}
+            \item[C1.] Only a proposed value may be chosen.
+            \item[C2.] Only a single value is chosen.
+            \item[C3.] Only a chosen value may be learned by a correct learner.
+        \end{enumerate}
+
+        Properties C1 and C3 trivially follow from the definition of the protocol. Suppose now by way of contradiction that two different values $v_i$ and $v_j$ are chosen respectively on round $i$ and $j$. Without loss of generality, assume that $i < j$. In order to be chosen, both values must have reached a quorum of learn messages. Let $Q_i$ and $Q_j$ be the respective quorums, both with $\abs{Q_i}, \abs{Q_j} \geq n-f$. Through the modification introduced, we know that each acceptor of quorum $Q_i$ will keep voting the value $v_i$ in following rounds. However, this implies that in round $j$ we'll have at least $2n-2f > n$ votes (at least $n-f$ votes for $v_i$ and at least $n-f$ votes for $v_j$), which is absurd. This concludes that property C2 must also hold.
+
+        The livelock can be very easily reached by any round in which no learn quorum is reached but every acceptor as voted since they'll keep voting those values forever, thus never reaching a learn quorum again.
+    \end{proof}
+
+    \begin{framedprob}{}
+        How many messages are used in Paxos if no message is lost and in the best case? Is it possible to reduce the number of messages without losing tolerance to failures and without changing the number of proposers, acceptors, and learners?
+    \end{framedprob}
+
+    \textit{Solution:}
+
+    In the best case, each round of the Paxos protocol requires exactly $3n+\ell n$ messages, where $\ell$ is the number of learners: $n$ proposes, $n$ promises, $n$ accepts and $\ell n$ learns.
+    
+    The number of messages can be reduced (assuming the best case) to $3(n-f)+n \ell$, the bare minimum in order to make the protocol chose a value: $n-f$ proposes, $n-f$ promises, $n-f$ accepts (sent to the same acceptors that received the $n-f$ proposes) and $(n-f)\ell$ learns.
+
+    \begin{framedprob}{}
+        Assume that you remove the property that every round is associate to a unique proposer. After collecting a quorum of $n-f$ promises (where $n$ is the number of acceptors and $f$ is such that $n=2f+1$), the proposer chooses one of the values voted in max round in the promises (of course it is not unique, the proposer chooses just one in an arbitrary way). Show that Paxos is not safe any more.
+    \end{framedprob}
+
+    \begin{proof}
+        Assume that $n$ is odd and suppose that two different proposers $p_1$ and $p_2$ send the message $\abk{\texttt{PREPARE } 1}$ -- where $1$ is the first round of the protocol -- to all $n$ acceptors and that everyone of them receives the message. Each acceptor $a_j$ will answer with the message $\abk{\texttt{PROMISE } 1, -1, -1}$. Then, each proposers will send, respectively, the message $\abk{\texttt{ACCEPT } 1, x}$ and $\abk{\texttt{ACCEPT } 1, y}$, for some newly generated values $x$ and $y$ such that $x \neq y$.
+    
+        Suppose that a quorum of the acceptors receive the message $\abk{\texttt{ACCEPT } 1, x}$, while the others receive $\abk{\texttt{ACCEPT } 1, y}$, therefore implying that the value $x$ will be chosen in round $1$.
+
+        Suppose now that a new proposer sends $\abk{\texttt{PREPARE } 2}$. Some acceptors will answer with the message $\abk{\texttt{PROMISE } 2, 1, x}$ while some others will answer with $\abk{\texttt{PROMISE } 2, 1, y}$. Through the max round rule, the proposer choses a random value between $x$ and $y$. If $y$ is selected and a learn quorum is reached, the learners will choose the value $y$. Hence, we conclude that two different values have been chosen, breaking safety.
+
+    \end{proof}
+
+    \begin{framedprob}{}
+        Assume that all proposers are learners as well. Let even rounds be assigned to proposers with the rules that we know. Moreover, If round $2i$ is assigned to proposer $p$, then also round $2i+1$ is assigned to proposer $p$. Odd rounds are \curlyquotes{recovery} rounds. If round $2i$ is a fast round and if the proposer of round $2i$ sees a conflict (it is also a learner), then the proposer immediately sends an accept for round $2i+1$ with the value that has been most voted in round $2i$, without any prepare and any promise. Is safety violated? If yes, show an example. If not, demonstrate safety.
+    \end{framedprob}
+
+    \textit{Solution:} (TODO)
+
+    \begin{framedprob}{}
+        You are an optimization freak. You realize that in Fast Paxos, in some cases, it is not necessary that the proposer collects $n-f'$ (the Fast Paxos quorum) promises to take a decision. Which is the minimum quorum and under what hypothesis this minimum quorum is enough to take a decision?
+    \end{framedprob}
+
+    \textit{Solution:} (TODO)
+
+    \begin{framedprob}{}
+        Show that Raft is not live.
+    \end{framedprob}
+
+    \begin{proof}
+        This can be easily proven in various ways:
+        \begin{enumerate}
+            \item The messages may always timeout, reaching a livelock.
+            \item The election may never reach a quorum, reaching a livelock.
+            \item The elected leader may crash after each election.
+        \end{enumerate}
+    \end{proof}
+
+    \begin{framedprob}{}
+        In Raft, it is sometimes possible that the elected leader for term t has not all the log entries that are stored in the followers. Show that, in that case, the log entries missing at the leader are actually not committed and so they can be overwritten by the new leader.
+    \end{framedprob}
+
+    \begin{proof}
+        By way of contradiction, suppose that a leader $\ell$ elected on term $i$ is missing a Commit entry that happened in term $j$, with $j < i$. In order to be committed, a quorum $Q$ of processes must have agreed to such transaction, saving it as committed in their logs.
+        
+        Then, all the processes in $Q$ couldn't have voted for $\ell$ during the election since their log is more up-to-date. Since $Q$ forms a quorum, this concludes that $\ell$ couldn't have been elected on round $i$.
+    \end{proof}
+
+    \begin{framedprob}{}
+        Show that the Ben-Or randomised consensus algorithm terminates with high probability (i.e. that the probability that it does not terminate goes to zero as the number of rounds goes to infinity).
+    \end{framedprob}
+
+    \begin{proof}
+        First, we recall that:
+        \[\Pr[\text{exit on round $i$}] \geq \frac{1}{2^{n-f-1}}\]
+        Let $X$ be the random variable whose value is the total number of rounds executed. Then, we have that:
+        \[\begin{split}
+            \Pr[\text{no termination}] &= \lim_{i \to +\infty} \Pr[X \geq i] \\
+            &= \lim_{i \to +\infty} \Pr[\text{no exit on rounds $1, \ldots, i-1$}] \\
+            &\leq \lim_{i \to +\infty} \rbk{1-\frac{1}{2^{n-f-1}}}^{i-1} \\
+            &= 0
+        \end{split}\]
+
+        Thus the protocol must almost surely terminate.
+    \end{proof}
+
+    \begin{framedprob}{}
+        Build a run of the Ben-Or randomised consensus algorithm that never terminates.
+    \end{framedprob}
+
+    \textit{Solution:}
+
+    Suppose that the number $n$ of partecipating processes is even. For each round $i$, let $p^{(i)} = [p_1^{(i)}, \ldots, p_n^{(i)}]$ be the preference vector of round $i$, where $p_j^{(i)}$ is the preference of process $j$ for round $i$. Consider now the two following properties:
+    \begin{enumerate}
+        \item The initial vector $p^{(1)}$ contains $\frac{n}{2}$ zeros and $\frac{n}{2}$ ones
+        \item For each $i > 1$ it holds that $p^{(i)} = p^{(i-1)} \oplus [1, \ldots, 1]$, where $\oplus$ is the bitwise XOR
+    \end{enumerate}
+
+    By construction of the Ben-Or algorithm, a run with both properties will never terminate (when $n$ is even): on each round every process will send a type 2 message containing \curlyquotes{?}, making every process flip a coin.  Finally, we observe that such a run can indeed exist: if we start with a vector satisfying property (1), there is a non-zero chance for the coin tosses to always respect property (2). 
+
+
+    \begin{framedprob}{}
+        Consider an asynchronous system of 5 processes that run the Ben-Or randomised consensus algorithm. The number of failures that the system allows is 2. Show that, if at most 2 failures occurs, than the probability that the protocol terminates after $x$ rounds (or more) is smaller than $\alpha^x$, for some $\alpha$.
+    \end{framedprob}
+
+
+    \begin{proof}
+        First, we recall that:
+        \[\Pr[\text{exit on round $i$}] \geq \frac{1}{2^{n-f-1}} = \frac{1}{2^{5-2-1}} = \frac{1}{4}\]
+        
+        Let $X$ be the random variable whose value is the total number of rounds executed. Then, we have that:
+        \[\begin{split}
+            \Pr[X \geq x] &= \Pr[\text{no exit on rounds $1, \ldots, x-1$}] \\
+            &\leq \rbk{1-\frac{1}{4}}^{x-1} \\
+            &= \rbk{\frac{3}{4}}^{x-1} \\
+        \end{split}\]
+
+    \end{proof}
+
+\end{document}

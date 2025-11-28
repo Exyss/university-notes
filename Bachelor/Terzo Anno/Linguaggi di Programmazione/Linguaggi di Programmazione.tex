@@ -1,0 +1,3925 @@
+\documentclass[a4paper, 12pt]{report}
+
+\usepackage[dvipsnames]{xcolor}
+
+%%%%%%%%%%%%%%%%
+% Set Variables %
+%%%%%%%%%%%%%%%%
+
+\def\useItalian{1}  % 1 = Italian, 0 = English
+
+\def\courseName{Linguaggi di Programmazione}
+
+\def\coursePrerequisites{Apprendimento del materiale relativo al corso \textit{Algebra}.}
+
+\def\book{}
+
+\def\authorName{Simone Bianco}
+\def\email{bianco.simone@outlook.it}
+\def\github{https://github.com/Exyss/university-notes}
+\def\linkedin{https://www.linkedin.com/in/simone-bianco}
+
+
+%%%%%%%%%%%%
+% Packages %
+%%%%%%%%%%%%
+
+\usepackage{../../../packages/Nyx/nyx-packages}
+\usepackage{../../../packages/Nyx/nyx-styles}
+\usepackage{../../../packages/Nyx/nyx-frames}
+\usepackage{../../../packages/Nyx/nyx-macros}
+\usepackage{../../../packages/Nyx/nyx-title}
+\usepackage{../../../packages/Nyx/nyx-intro}
+
+%%%%%%%%%%%%%%
+% Title-page %
+%%%%%%%%%%%%%%
+
+\logo{../../../packages/Nyx/logo.png}
+
+\if\useItalian1
+    \institute{\curlyquotes{\hspace{0.25mm}Sapienza} Università di Roma}
+    \faculty{Ingegneria dell'Informazione,\\Informatica e Statistica}
+    \department{Dipartimento di Informatica}
+    \ifdefined\book
+        \subtitle{Appunti integrati con il libro \book}
+    \fi
+    \author{\textit{Autore}\\\authorName}
+\else
+    \institute{\curlyquotes{\hspace{0.25mm}Sapienza} University of Rome}
+    \faculty{Faculty of Information Engineering,\\Informatics and Statistics}
+    \department{Department of Computer Science}
+    \ifdefined\book
+        \subtitle{Lecture notes integrated with the book \book}
+    \fi
+    \author{\textit{Author}\\\authorName}
+\fi
+
+
+\title{\courseName}
+\date{\today}
+
+% \supervisor{Linus \textsc{Torvalds}}
+% \context{Well, I was bored\ldots}
+
+%%%%%%%%%%%%
+% Document %
+%%%%%%%%%%%%
+
+\begin{document}
+    \maketitle
+
+    % The following style changes are valid only inside this scope 
+    {
+        \hypersetup{allcolors=black}
+        \fancypagestyle{plain}{%
+        \fancyhead{}        % clear all header fields
+        \fancyfoot{}        % clear all header fields
+        \fancyfoot[C]{\thepage}
+        \renewcommand{\headrulewidth}{0pt}
+        \renewcommand{\footrulewidth}{0pt}}
+
+        \romantableofcontents
+    }
+
+    \introduction
+
+    %%%%%%%%%%%%%%%%%%%%%
+
+    \chapter{Algebre e strutture dati induttive}
+
+    \section{Assiomi di Peano e Principio di induzione}
+
+    \begin{frameddefn}{Assiomi di Peano}
+        L'insieme dei numeri naturali $\N$ è definito secondo i seguenti \textbf{assiomi di Peano}:
+        \begin{enumerate}
+            \item $0 \in \N$
+            \item $n \in \N \implies \mathrm{succ}(n) \in \N$, dove $\func{\mathrm{succ}}{\N}{\N}$ è la funzione successore
+            \item $\forall n,m \in \N \;\; \mathrm{succ}(n) = \mathrm{succ}(m) \implies n = m$, ossia $\mathrm{succ}$ è iniettiva
+            \item $\nexists n \in \N \mid \mathrm{succ}(n)=0$
+            \item $\forall S \subseteq \N\;\; 0 \in S \land (n \in S \implies \mathrm{succ}(n) \in S) \implies S = \N$
+        \end{enumerate}
+    \end{frameddefn}
+    
+
+    \begin{framedprinc}{Principio di induzione}
+        Sia $P$ una proprietà che vale per $n= 0$. Dato $n \in \N$, se si verifica che la veridicità di $P$ per $n$ implica che $P$ sia vera anche per $n+1$, allora $P$ vale per ogni $m \in \N$.
+        
+        In simboli, abbiamo che:
+        \[P(0) \land (P(n) \implies P(n+1)) \implies \forall m \in \N \;\; P(m)\]
+    \end{framedprinc}
+
+    \newpage
+
+    \begin{framedprop}{Induzione assiomatizzata}
+        Il quinto assioma di Peano è equivalente al principio di induzione
+    \end{framedprop}
+
+    \proofenv{
+        \begin{itemize}
+            \item Data una proprietà $P$, definiamo il seguente insieme:
+            \[S = \{n \in \N \mid P(n) \text{ è vera}\}\]
+            \item Affermare che valga il caso base per $P$ e che assumendo l'ipotesi induttiva si riesca a dimostrare il passo induttivo, equivale a dire che $0 \in S$ e che $n \in S \implies n+1 \in S$
+            \item Di conseguenza, tramite il quinto assioma, ne segue che $S = A$, dunque che $P$ valga per ogni $m \in \N$
+        \end{itemize}
+    }
+
+    \begin{framedobs}{}
+        Dato $k \in \N$, il principio di induzione può essere utilizzato per dimostrare che una proprietà $P$ valga $\forall n \in \N \mid n \geq k$
+    \end{framedobs}
+
+    \proofenv{
+        \begin{itemize}
+            \item Sia $P$ la proprietà da voler dimostrare $\forall n \in \N \mid n \geq k$
+            \item Definendo la proprietà $Q$ come $Q(m-k) = P(n)$, dimostrare che $P$ valga $\forall n \in \N \mid n \geq k$ equivale a dimostrare che $Q$ valga $\forall n \in \N$, rispettando il quinto assioma di Peano
+        \end{itemize}
+    }
+
+    \begin{framedprop}{Numeri naturali di Von Neumann}
+        I numeri naturali di Von Neumann, indicati con $\mathcal{N}$, definiti come:
+        \[0_{\mathcal{N}} := \{\}\]
+        \[1_{\mathcal{N}} := \{\, \{\} \, \}\]
+        \[2_{\mathcal{N}} := \{\, \{\}, \{\{\}\} \, \}\]
+        \[3_{\mathcal{N}} := \{\, \{\}, \{\{\}\}, \{\{\}, \{\{\}\}\} \, \}\]
+        \[...\]
+        assieme alla funzione $\funcmap{\mathrm{succ_{\mathcal{N}}}}{\mathcal{N}}{\mathcal{N}}{n}{n \cup \{n\}}$ soddisfano gli assiomi di Peano
+    \end{framedprop}
+
+    \newpage
+    
+    \proofenv{
+        \begin{enumerate}
+            \item $0_{\mathcal{N}} \in \mathcal{N}$ per definizione stessa di $\mathcal{N}$
+            \item $n \in \mathcal{N} \implies \mathrm{succ}_{\mathcal{N}}(n) \in \mathcal{N}$ per definizione stessa di $\mathrm{succ}_{\mathcal{N}}$
+            \item Siano $n,m \in \mathcal{N}$ tali che $n \neq m$. In tal caso, ne segue automaticamente che:
+            \[n \neq m \implies n \cup \{n\} \neq m \cup \{m\} \iff \mathrm{succ}_{\mathcal{N}}(n) \neq \mathrm{succ}_{\mathcal{N}}(m)\]
+
+            Per contro-nominale, dunque, otteniamo che:
+            \[\mathrm{succ}_{\mathcal{N}}(n) = \mathrm{succ}_{\mathcal{N}}(m) \implies n = m\]
+
+            \item Supponiamo per assurdo che $\exists n \in \N \mid \mathrm{succ}_{\mathcal{N}}(n) = 0_{\mathcal{N}}$. In tal caso, avremmo che:
+            \[\mathrm{succ}(n) = 0_{\mathcal{N}} \iff n \cup \{n\} = 0_{\mathcal{N}} \iff n \cup \{n\} = \{\}\]
+            ma ciò risulta assurdo poiché implicherebbe che l'insieme $\{\}$ contenga degli elementi. Di conseguenza, l'unica possibilità è che $\nexists n \in \N \mid \mathrm{succ}_{\mathcal{N}}(n) = 0_{\mathcal{N}}$
+
+            \item Dato $S \subseteq \mathcal{N}$, supponiamo che $(0_{\mathcal{N}} \in S \land (n \in S \implies \mathrm{succ}_{\mathcal{N}}(n) \in S))$
+            
+            Considerato $n \in \mathcal{N}$, possiamo esprimere $n$ come $\mathrm{succ}_{\mathcal{N}}(\mathrm{succ}_{\mathcal{N}}(\ldots \mathrm{succ}_{\mathcal{N}}(\mathrm{0}_{\mathcal{N}}))) = \mathrm{succ}_{\mathcal{N}}^k(0_{\mathcal{N}})$ per qualche $k \in \N$. Procediamo quindi per induzione sul numero $k \in \N$ di applicazioni della funzione $\mathrm{succ}_{\mathcal{N}}$ per ottenere $n$
+
+            \textit{Caso base $(k = 0)$.}
+
+            \begin{itemize}
+                \item Se $k = 0$, allora $n = \mathrm{0}_{\mathcal{N}}$. Poiché per ipotesi si ha che $\mathrm{0}_{\mathcal{N}} \in S$, ne segue che $n \in S$
+            \end{itemize}
+
+            \textit{Ipotesi induttiva.}
+
+            \begin{itemize}
+                \item Dato un $k \in \N$, preso $n = \mathrm{succ}_{\mathcal{N}}^k(0_{\mathcal{N}}) \in \mathcal{N}$ si ha che $n \in S$
+            \end{itemize}
+
+            \textit{Passo induttivo.}
+
+            \begin{itemize}
+                \item Dato $n = \mathrm{succ}_{\mathcal{N}}^{k+1}(0_{\mathcal{N}}) \in \mathcal{N}$, si ha che:
+                \[n = \mathrm{succ}_{\mathcal{N}}^{k+1}(0_{\mathcal{N}}) = \mathrm{succ}_{\mathcal{N}}^{k+1}(\mathrm{succ}_{\mathcal{N}}^{k}(0_{\mathcal{N}}))\]
+                \item Per ipotesi induttiva, sappiamo che $\mathrm{succ}_{\mathcal{N}}^{k}(0_{\mathcal{N}}) \in S$. Di conseguenza, per ipotesi si ha che:
+                \[\mathrm{succ}_{\mathcal{N}}^{k}(0_{\mathcal{N}}) \in S \implies \mathrm{succ}_{\mathcal{N}}^{k+1}(\mathrm{succ}_{\mathcal{N}}^{k}(0_{\mathcal{N}})) = \mathrm{succ}_{\mathcal{N}}^{k+1}(0_{\mathcal{N}}) = n \in S\]
+            \end{itemize}
+
+            Di conseguenza, concludiamo che $n \in \mathcal{N} \implies n \in S$ e dunque che $S = \mathrm{N}$
+        \end{enumerate}
+    }
+
+    \newpage
+
+    \section{Algebre induttive}
+
+    \begin{frameddefn}{Insieme unità}
+        Definiamo come \textbf{insieme unità} l'insieme
+        \[\1 = \{()\}\]
+        ossia l'insieme composto da una zerupla
+    \end{frameddefn}
+
+    \begin{frameddefn}{Funzione nullaria}
+        Dato un insieme $A$ e una funzione $f$, definiamo una $f$ come \textbf{funzione nullaria} (o \textit{funzione costante}) se
+        \[\funcmap{f}{\1}{A}{()}{a}\]
+        dove $a \in A$.
+        
+        Inoltre, per comodità, indichiamo $f(())$ direttamente con $f$
+    \end{frameddefn}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Data la funzione $\funcmap{\mathrm{zero}}{\1}{\N}{()}{0}$, indichiamo $\mathrm{zero}(())$ direttamente come $\mathrm{zero}$
+    \end{itemize}
+
+    \begin{framedobs}{}
+        Una funzione nullaria è sempre \textbf{iniettiva} in quanto esiste un solo elemento nel dominio.
+    \end{framedobs}
+
+    \begin{frameddefn}{Segnatura di una funzione}
+        Data una funzione $f$ definiamo $\func{f}{D}{C}$ come \textbf{segnatura di $f$} dove $D$ è il \textbf{dominio di $f$} e $C$ è il \textbf{codominio di $f$}
+    \end{frameddefn}
+
+    \begin{frameddefn}{Algebra}
+        Definiamo come \textbf{algebra} (o struttura algebrica) una n-upla $(A, \gamma_1, \ldots, \gamma_n)$ dove $A$ è un insieme non vuoto, detto \textbf{dominio}, e $\gamma_1, \ldots, \gamma_n$ sono delle operazioni definite su $A$, ossia la cui segnatura contiene $A$ 
+    \end{frameddefn}
+
+    \textbf{Esempi:}
+
+    \begin{itemize}
+        \item La coppia $(\N, \mathrm{succ})$ è un'algebra
+        \item La coppia $(\N, \mathrm{zero})$ è un'algebra
+    \end{itemize}
+
+    \begin{frameddefn}{Chiusura di un'operazione}
+        Sia $A$ un insieme e sia $\gamma$ un'operazione definita su $A$ come:
+        \[\func{\gamma}{A \times \ldots \times A \times K_1 \times \ldots K_m}{A}\]
+        
+        Dato un sottoinsieme $S \subseteq A$, diciamo che $\gamma$ è \textbf{chiusa rispetto ad $S$} se:
+        \[a_1, \ldots, a_n \in S \implies \gamma(a_1, \ldots, a_n, k_1, \ldots, k_m) \in S\]
+    \end{frameddefn}
+
+    \textbf{Esempi:}
+
+    \begin{itemize}
+        \item La funzione $\mathrm{succ}$ è chiusa per $A \subseteq \N$ solo se $A = \N$
+        \item Dato l'insieme dei booleani $B = \{0,1\}$, la funzione $\funcmap{\mathrm{not}}{B}{B}{b}{\overline{b}}$ è chiusa su $B \subseteq B$ ma non su $\{0\} \subseteq B$ in quanto dato $0 \in \{0\}$ si ha che $\mathrm{not}(0) \notin \{0\}$
+    \end{itemize}
+
+    \begin{framedobs}{Chiusura di una funzione nullaria}
+        Dato un insieme $A$ e una funzione nullaria $\funcmap{\gamma}{\1}{B}{()}{b}$, tale funzione risulta chiusa rispetto ad $A$ se e solo se $b \in A$, poiché $\gamma$ non prende in input alcun parametro di $A$
+    \end{framedobs}
+
+    \textbf{Esempio:}
+    \begin{itemize}
+        \item La funzione $\mathrm{zero}$ è chiusa su $\{0\} \subseteq \N$ poiché non richiede alcun parametro, ma non è chiusa su $\{1\} \subseteq \N$ in quanto $\mathrm{zero} \notin \{1\}$
+    \end{itemize}
+
+    \begin{frameddefn}{Algebra induttiva}
+        Definiamo l'algebra $(A, \gamma_1, \ldots, \gamma_n)$ come \textbf{induttiva} (o \textbf{iniziale}) se:
+        \begin{itemize}
+            \item $\gamma_1, \ldots, \gamma_n$ sono iniettive
+            \item $\forall i \neq j \;\; \im(\gamma_i) \cap \im(\gamma_j) = \varnothing$, ossia le immagini delle operazioni sono due a due disgiunte
+            \item Dato $S \subseteq A$, se $\gamma_1, \ldots, \gamma_n$ sono chiuse su $S$ allora $S = A$
+        \end{itemize}
+
+        \textbf{Nota:} la terza condizione è equivalente a dire che:
+        \[\nexists S \subsetneq A \mid (S, \gamma_1, \ldots, \gamma_n) \text{ è algebra induttiva}\]
+    \end{frameddefn}
+
+    \begin{frameddefn}{Costruttori di un'algebra induttiva}
+        Data l'algebra induttiva $(A, \gamma_1, \ldots, \gamma_n)$, definiamo $\gamma_1, \ldots, \gamma_n$ come \textbf{costruttori} di $A$.
+
+        In particolare, dato $\gamma_i$ dove $i \in [1,n]$, se $\func{\gamma_i}{\1}{A}$, ossia è una funzione nullaria, definiamo $\gamma_i$ come \textbf{costruttore base} di $A$
+    \end{frameddefn}
+
+    \textbf{Esempio di algebra non induttiva:}
+    \begin{itemize}
+        \item Dato l'insieme dei Booleani $B = \{0, 1\}$, consideriamo l'algebra $(B,\mathrm{not})$, dove $\funcmap{\mathrm{not}}{B}{B}{b}{\overline{b}}$
+        \item Per definizione stessa, notiamo che $\mathrm{not}$ sia iniettiva e che, essendo l'unica operazione dell'algebra, la sua immagine sia disgiunta da quelle di tutte le altre operazioni
+        \item Consideriamo quindi il sottoinsieme $\varnothing \subsetneq B$. Poiché $\nexists x \in \varnothing$, l'implicazione $x \in \varnothing \implies \mathrm{not}(x) \in \varnothing$ risulta vera a vuoto in quanto l'ipotesi sia falsa.
+        \item Tuttavia, l'implicazione:
+        \[(x \in \varnothing \implies \mathrm{not}(x) \in \varnothing) \implies \varnothing = B\]
+        risulta falsa poiché $\varnothing \neq B$
+        \item Difatti, procedendo analogamente, potremmo dimostrare che $(\varnothing, \mathrm{not})$ sia un'algebra induttiva, concludendo che $(B, \mathrm{not})$ non lo sia in quanto $\varnothing \subsetneq B$
+    \end{itemize}
+
+    \begin{framedthm}[label={base_con}]{Esistenza di un costruttore base}
+        Se $(A, \gamma_1, \ldots, \gamma_n)$ è un algebra induttiva e $A \neq \varnothing$, allora $\exists i \in [1,n]$ per cui $\gamma_i$ è un costruttore base di $A$
+    \end{framedthm}
+
+    \proofenv{
+        \begin{itemize}
+            \item Supponiamo che $(A, \gamma_1, \ldots, \gamma_n)$ sia un'algebra induttiva
+            \item Considerato il sottoinsieme $\varnothing \neq A$, per ogni $i \in [1,n]$ si ha che:
+            \begin{itemize}
+                \item Se $\gamma_i$ è un costruttore di base, si ha che $\gamma_i \notin \varnothing$, implicando che $(\varnothing, \gamma_1, \ldots, \gamma_n)$ non possa essere un'algebra induttiva
+                \item Se $\gamma_i$ non è un costruttore di base, l'implicazione:
+                \[a_1, \ldots, a_k \in \varnothing \implies \gamma_i(a_1, \ldots, a_k) \in \varnothing\]
+                risulta vera a vuoto, implicando che $\gamma_i$ sia chiusa per $\varnothing$
+            \end{itemize}
+            \item Supponiamo quindi per assurdo che $\exists i \in [1,n]$ per cui $\gamma_i$ è un costruttore base di $A$
+            \item In tal caso, dato $\varnothing \subsetneq A$, si avrebbe che $\gamma_1 ,\ldots, \gamma_n$ siano tutte chiuse in $S$ ma che $\varnothing \neq A$, contraddicendo l'ipotesi per cui $(A, \gamma_1, \ldots, \gamma_n)$ sia induttiva
+            \item Di conseguenza, ne segue necessariamente che $\exists i \in [1,n]$ per cui $\gamma_i$ è un costruttore base di $A$
+        \end{itemize}
+    }
+    
+    \newpage
+
+    \begin{framedprop}{Algebra induttiva dei naturali}
+        La tripla $(\N, \mathrm{zero}, \mathrm{succ})$ è un'\textbf{algebra induttiva}
+    \end{framedprop}
+
+    \proofenv{
+        \begin{itemize}
+            \item $\mathrm{zero}$ risulta essere iniettiva poiché funzione nullaria, mentre $\mathrm{succ}$ risulta essere iniettiva grazie al secondo assioma di Peano
+            \item $\im(\mathrm{zero}) \cap \im(\mathrm{succ}) = \{0\} \cap (\N-\{0\})= \varnothing$
+            \item Dato $S \subseteq \N$, supponiamo che $\mathrm{zero}$ e $\mathrm{succ}$ siano chiuse su $S$, implicando che $\mathrm{zero} = 0 \in S$ e che $n \in \N \implies \mathrm{succ}(n) \in S$. Per il quinto assioma di Peano, segue automaticamente che $S = \N$
+        \end{itemize}
+    }
+
+    \begin{framedthm}{Algebre induttive finite}
+        Dato un \textbf{insieme finito $A$}, tale insieme è sempre definibile come algebra induttiva  
+    \end{framedthm}
+
+    \proofenv{
+        \begin{itemize}
+            \item Dato $A = \{a_1, \ldots, a_n\}$, per ogni $i \in [1,n]$, definiamo $\funcmap{\gamma_i}{\1}{A}{()}{a_i}$
+            \item Considerata l'algebra $(A, \gamma_1, \ldots, \gamma_n)$, per costruzione stessa abbiamo che:
+            \begin{itemize}
+                \item $\gamma_1, \ldots, \gamma_n$ sono iniettive poiché sono tutte funzioni nullarie
+                \item $\forall i \neq j \;\; \im(\gamma_i) \cap \im(\gamma_j) = \{a_i\} \cap \{a_j\} = \varnothing$, dunque le immagini sono tutte disgiunte tra loro
+                \item Dato $S \subseteq A$, si ha che:
+                \begin{itemize}
+                    \item Se $S = A$, allora per ogni $i \in [1,n]$ si ha che $\gamma_i \in S = A$, soddisfacendo la terza condizione
+                    \item Se $S \subsetneq A$ allora $\exists a_i \in A-S$ per cui si ha che $\gamma_i \notin S$, implicando che $\gamma_i$ non sia chiusa in $S$ e quindi che la terza condizione sia soddisfatta a vuoto 
+                \end{itemize}
+            \end{itemize}
+            \item Dunque, concludiamo che $(A, \gamma_1, \ldots, \gamma_n)$ sia un'algebra induttiva
+        \end{itemize}
+    }
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Dato l'insieme dei Booleani $B = \{0, 1\}$, la tupla $(B, \mathrm{true}, \mathrm{false})$ dove 
+        \[\funcmap{\mathrm{true}}{\1}{B}{()}{1}\]
+        \[\funcmap{\mathrm{false}}{\1}{B}{()}{0}\]
+        è un'algebra induttiva
+    \end{itemize}
+
+    \quad
+
+    \subsection{Lemma di Lambek}
+
+    \begin{frameddefn}{Omomorfismo}
+        Date due strutture algebriche $(A, \gamma_1, \ldots, \gamma_k)$ e $(B, \delta_1, \ldots, \delta_k)$ dello stesso tipo, definiamo $\func{f}{A}{B}$ come \textbf{omomorfismo} se
+        \[\forall a_1, \ldots, a_n \in A, i \in [1,k] \quad f(\gamma_i(a_1, \ldots, a_k)) = \delta_i(f(a_1), \ldots, f(a_k))\]
+    \end{frameddefn}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Date le due algebre $(\R, +)$ e $(\R_{> 0}, \cdot)$, la funzione $\funcmap{\mathrm{exp}}{\R}{\R_{> 0}}{x}{e^x}$ è un omomorfismo:
+        \[\mathrm{exp}(x+y) = e^{x+y} = e^xe^y = \mathrm{exp}(x) \cdot \mathrm{exp}(y)\]
+    \end{itemize}
+
+    \begin{frameddefn}{Isomorfismo}
+        Definiamo come \textbf{isomorfismo} un omomorfismo biettivo. Inoltre, definiamo due algebre $(A, \gamma_1, \ldots, \gamma_n)$, $(B, \delta_1, \ldots, \delta_n)$ come \textbf{isomorfe}, indicato con $A \cong B$, se esiste un isomorfismo tra loro.
+    \end{frameddefn}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Date le due algebre $(\R, +)$ e $(\R_{> 0}, \cdot)$, sappiamo giò che $\funcmap{\mathrm{exp}}{\R}{\R_{> 0}}{x}{e^x}$ sia un omomorfismo
+        \item Poiché $\exists \; \func{\mathrm{ln}}{\R_{> 0}}{\R} \mid \mathrm{ln}(\mathrm{exp}(x)) = x$, ne segue che $\mathrm{exp}$ sia invertibile, dunque che essa sia biettiva
+        \item Di conseguenza, $\mathrm{exp}$ risulta essere un isomorfismo, concludendo che $\R \cong \R_{>0}$
+    \end{itemize}
+
+    \begin{frameddefn}{Segnatura di un'algebra}
+        Data un'algebra $(A, \gamma_1, \ldots, \gamma_n)$, definiamo come \textbf{segnatura dell'algebra} l'insieme delle segnature delle operazioni definite su essa.
+
+        Inoltre, date due algebre $(A, \gamma_1, \ldots, \gamma_n)$ e $(B, \delta_1, \ldots, \delta_n)$, diciamo che tali algebre hanno \textbf{segnature equivalenti} se $\forall i \in [1,n]$ sostituendo $A$ con $B$ all'interno della segnatura di $\gamma_i$ si ottiene la segnatura di $\delta_i$
+    \end{frameddefn}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Date le due algebre $(\N, \mathrm{zero}, \mathrm{succ})$ e $(\mathcal{N}, \mathrm{zero}_{\mathcal{N}}, \mathrm{succ}_{\mathcal{N}})$, si ha che:
+        \begin{itemize}
+            \item La segnatura di $\func{\mathrm{zero}}{\1}{\N}$ è equivalente alla segnatura di $\func{\mathrm{zero}_{\mathcal{N}}}{\1}{\mathcal{N}}$
+            \item La segnatura di $\func{\mathrm{succ}}{\N}{\N}$ è equivalente alla segnatura di $\func{\mathrm{succ}_{\mathcal{N}}}{\mathcal{N}}{\mathcal{N}}$
+        \end{itemize}
+        dunque le segnature di tali algebre sono equivalenti
+
+        \newpage
+
+        \item Date le due algebre $(\N, \mathrm{zero}, \mathrm{succ})$ e $(B, \mathrm{true}, \mathrm{not})$, dove $B = \{0,1\}$ si ha che:
+        \begin{itemize}
+            \item La segnatura di $\func{\mathrm{zero}}{\1}{\N}$ è equivalente alla segnatura di $\func{\mathrm{true}}{\1}{B}$
+            \item La segnatura di $\func{\mathrm{succ}}{\N}{\N}$ è equivalente alla segnatura di $\func{\mathrm{not}}{B}{B}$
+        \end{itemize}
+        dunque le segnature di tali algebre sono equivalenti
+    \end{itemize}
+
+    \begin{framedprop}[label=signature]{Segnatura equivalente ad un'algebra induttiva}
+        Data un'algebra induttiva $(A, \gamma_1, \ldots, \gamma_n)$, per ogni algebra $(B, \delta_1, \ldots, \delta_n)$ con la stessa segnatura di $A$ si ha che
+        \[\exists! \text{ omomorfismo } \func{f}{A}{B}\]
+
+        \textbf{Nota:} l'algebra di $B$ non deve necessariamente essere induttiva
+
+        (\textit{dimostrazione omessa})
+    \end{framedprop}
+
+    \textbf{Esempio:}
+    \begin{itemize}
+        \item Poiché le due algebre $(\N, \mathrm{zero}, \mathrm{succ})$ e $(B, \mathrm{true}, \mathrm{not})$, dove $B = \{0,1\}$, hanno segnature equivalenti ne segue che $\exists! \text{ omomorfismo } \func{f}{\N}{B}$ per cui si ha che:
+        \[f(\mathrm{succ}(n)) = \mathrm{not}(f(n))\]
+    \end{itemize}
+
+    \begin{framedlem}[label=lambek_lemma]{Lemma di Lambek (versione ridotta)}
+        Date due algebre induttive  $(A, \gamma_1, \ldots, \gamma_n)$ e $(B, \delta_1, \ldots, \delta_n)$ con la stessa segnatura, si ha che $A \cong B$
+    \end{framedlem}
+
+    \proofenv{
+        \begin{itemize}
+            \item Per la proposizione precedente, si ha che:
+            \[\exists! \text{ omomorfismo } \func{f}{A}{B} \qquad\qquad \exists! \text{ omomorfismo } \func{g}{B}{A}\]
+
+            \item Consideriamo quindi la funzione $\funcmap{g \circ f}{A}{A}{x}{g(f(x))}$ e verifichiamo che essa sia un omomorfismo
+            \[g \circ f (x+y) = g(f(x+y)) = g(f(x)+f(y)) = g(f(x))+g(f(y)) = g \circ f(x) + g \circ f(y)\]
+
+            \item Notiamo che per ogni algebra esiste sempre l'isomorfismo identità $\funcmap{\mathrm{id}}{A}{A}{x}{x}$ e poiché per il lemma precedente esiste necessariamente un unico omomorfismo tra $A$ e $A$, ne segue necessariamente che $g \circ f = \mathrm{id}$
+            
+            \item Di conseguenza, si ha che
+            \[g \circ f = \mathrm{id} \iff g = f^{-1} \implies g, f \text{ biettive} \implies g, f \text{ isomorfismi} \implies A \cong B\]
+        \end{itemize}
+    }
+
+    \newpage
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Date le due algebre induttive $(\N, \mathrm{zero}, \mathrm{succ})$ e $(\mathcal{N}, \mathrm{zero}_{\mathcal{N}}, \mathrm{succ}_{\mathcal{N}})$ sono isomorfe tra loro poiché aventi la stessa segnatura algebrica
+        \item Difatti, come già dimostrato, $\N$ e $\mathcal{N}$ sono solamente due modi diversi per rappresentare lo stesso identico concetto algebrico
+    \end{itemize}
+
+    \quad
+
+    \section{Strutture dati induttive}
+
+    \begin{frameddefn}{Insieme delle liste finite}
+        Definiamo $\ttt{List<T>}$ come l'insieme delle liste finite di elementi di $T$:
+        \[\ttt{List<T>} = \{\abk{a_1, \ldots, a_k} \mid a_1, \ldots, a_k \in T\}\]
+    \end{frameddefn}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Dato $\ttt{List<Int>}$, si ha che $\abk{3,5,1} \in \ttt{List<Int>}$
+    \end{itemize}
+
+    \begin{framedprop}{Algebra induttiva delle liste finite}
+        La tripla $(\ttt{List<T>}, \mathrm{empty}, \mathrm{cons})$, dove:
+
+        \begin{itemize}
+            \item $\funcmap{\mathrm{empty}}{\1}{\ttt{List<T>}}{()}{\abk{\;}}$ è la funzione nullaria che restituisce la \textbf{lista vuota}
+            \item $\funcmap{\mathrm{cons}}{\ttt{List<T>} \times \ttt{T}}{\ttt{List<T>}}{(x, \abk{x_1, \ldots, x_n})}{\abk{x, x_1, \ldots , x_n}}$ è la funzione di \textbf{costruzione delle liste}
+        \end{itemize}
+
+        è un'algebra induttiva
+    \end{framedprop}
+
+    \proofenv{
+        \begin{enumerate}
+            \item \begin{itemize}
+                \item Poiché $\mathrm{empty}$ è una funzione nullaria, ne segue che:
+                \[\forall x,y \in \1 \;\; f(x) = f(y) \implies \abk{\;} = \abk{\;}\]
+                poiché $x = y = ()$ dato che $\1 = \{()\}$
+
+                \item Date $(x, \ell), (y, \ell') \in \ttt{T} \times \ttt{List<T>}$, dove $\ell = \abk{x_1, \ldots, x_k}$ e $\ell' = \abk{y_1, \ldots, y_k}$,   supponiamo che $(x, \ell)\neq (y, \ell')$.
+                
+                In tal caso, le uniche possibilità sono:
+                \begin{itemize}
+                    \item Se $x = y$ ma $(x, \ell) = (y, \ell')$, si ha che:
+                    \[\mathrm{cons}(x, \ell) = \abk{x, x_1, \ldots, x_k} = \abk{y, x_1, \ldots, x_k} \neq \abk{y, y_1, \ldots, y_k} = \mathrm{cons}(y, \ell')\]
+
+                    \item Se $x \neq y$ ma $\ell = \ell'$, si ha che:
+                    \[\mathrm{cons}(x, \ell) = \abk{x, x_1, \ldots, x_k} = \abk{x, y_1, \ldots, y_k} \neq \abk{y, y_1, \ldots, y_k} = \mathrm{cons}(y, \ell')\]
+
+                    \item Se $x \neq y$ e $\ell \neq \ell'$, si ha che:
+                    \[\mathrm{cons}(x, \ell) = \abk{x, x_1, \ldots, x_k} \neq \abk{y, y_1, \ldots, y_k} = \mathrm{cons}(y, \ell')\]
+                \end{itemize}
+
+                Di conseguenza, concludiamo che:
+                \[(x, \ell) \neq (y, \ell') \implies \mathrm{cons}(x, \ell) \neq \mathrm{cons}(y, \ell')\]
+                e dunque che $\mathrm{cons}$ sia iniettiva
+            \end{itemize}
+
+            \item \begin{itemize}
+                \item Per definizione stessa di $\mathrm{empty}$ si ha che $\im(\mathrm{empty}) = \{\abk{\;}\}$. Inoltre, per definizione stessa di $\mathrm{cons}$, si ha che $\nexists (x, \ell) \in \ttt{T} \times \ttt{List<T>} \mid \mathrm{cons}(x,\ell) = \mathrm{empty}$, implicando che $\mathrm{empty} \notin \im(\mathrm{cons})$. Dunque, otteniamo che $\im(\mathrm{empty}) \cap \im(\mathrm{cons}) = \varnothing$
+            \end{itemize}
+
+            \item \begin{itemize}
+                \item Sia $S \subseteq \ttt{List<T>}$ tale che $\mathrm{empty} \in S$ e $(x, \ell) \in T \times \ttt{List<T>} \implies \mathrm{cons}(x, \ell) \in S$
+            
+                \item Dimostriamo per induzione sulla lunghezza $n \in N$ delle liste che $\ell \in \ttt{List<T>} \implies \ell \in S$
+                
+                \textit{Caso base $(n = 0)$}
+
+                \begin{itemize}
+                    \item Se $n = 0$, allora $\ell \in \ttt{List<T>} \implies \ell =  \abk{\;} = \empty \in S$
+                \end{itemize}
+
+                \textit{Ipotesi induttiva.}
+
+                \begin{itemize}
+                    \item Per ogni lista $\ell \in \ttt{List<T>}$ di lunghezza $n \in \N$, si ha che $\ell \in S$
+                \end{itemize}
+
+                \textit{Passo induttivo.}
+
+                \begin{itemize}
+                    \item Data una lista $\ell \in \ttt{List<T>}$ di lunghezza $n+1$, si ha che:
+                    \[\ell = \abk{x_1, \ldots, x_n} = \mathrm{cons}(x_1, \abk{x_2, \ldots, x_n})\]
+
+                    \item Di conseguenza, poiché $\abk{x_2, \ldots, x_n}$ ha lunghezza $n$, per ipotesi induttiva si ha che $\abk{x_2, \ldots, x_n} \in S$
+                    
+                    \item A questo punto, per chiusura su $S$ di $\mathrm{cons}$, si ha che:
+                    \[(x_1, \abk{x_2, \ldots, x_n}) \in \ttt{T} \times \ttt{List<T>} \implies \ell = \mathrm{cons}(x_1, \abk{x_2, \ldots, x_n}) \in S\]
+                \end{itemize}
+                
+                \item Dunque, concludiamo che $\ttt{List<T>} \subseteq S$ e dunque che $S = \ttt{List<T>}$
+            \end{itemize}
+        \end{enumerate}
+    }
+
+    \newpage
+
+
+    \begin{framedobs}{}
+        Tramite i costruttori di un'algebra induttiva è possibile definire altre operazioni più complesse per l'algebra 
+    \end{framedobs}
+
+    \textbf{Esempio:}
+    \begin{itemize}
+        \item Data l'algebra induttiva $(\ttt{List<T>}, \mathrm{empty}, \mathrm{cons})$, consideriamo l'operazione
+        \[\func{\mathrm{concat}}{\ttt{List<T>} \times \ttt{List<T>}}{\ttt{List<T>}}\]
+
+        definita come:
+        \[\mathrm{concat}(\ell_1, \ell_2) = \soe{ll}{
+            \ell_2 & \text{se } \ell_1 = \mathrm{empty}\\
+            \mathrm{cons}(n, \mathrm{concat}(\ell_3, \ell_2)) & \text{se } \ell_1 = \mathrm{cons}(n, \ell_3)
+        }\]
+
+        \item Ad esempio, in \ttt{List<Int>}, abbiamo che:
+        \[\mathrm{concat}(\abk{1, 5}, \abk{7, 2}) =
+        \mathrm{concat}(\mathrm{cons}(1, \abk{5}), \abk{7, 2}) =
+        \mathrm{cons}(1, \mathrm{concat}(\abk{5}, \abk{7, 2})) = \]
+        \[\mathrm{cons}(1, \mathrm{cons}(5, \mathrm{concat}(\abk{ \;}, \abk{7, 2}))) =
+        \mathrm{cons}(1, \mathrm{cons}(5, \abk{7, 2})) = \abk{1,5,7,2}\]
+    \end{itemize}
+
+    \begin{frameddefn}{Insieme delle liste infinite}
+        Definiamo $\ttt{List<T>}^{\infty}$ come l'insieme delle liste infinite di elementi di $T$:
+        \[\ttt{List<T>}^{\infty} = \{\abk{a_1, a_2, \ldots} \mid a_1, a_2, \ldots \in T\}\]
+    \end{frameddefn}
+
+    \begin{framedprop}{}
+        L'insieme $\ttt{List<T>}^{\infty}$ non è \textbf{mai definibile} come algebra induttiva
+
+        \textbf{Nota:} viene assunto che un'algebra non possa avere infinite operazioni
+    \end{framedprop}
+
+    \proofenv{
+        \begin{itemize}
+            \item Supponiamo per assurdo che $\exists \gamma_1, \ldots, \gamma_n$ tali che $(\ttt{List<T>}^{\infty}, \gamma_1, \ldots, \gamma_n)$ sia un'algebra induttiva. Poiché $\ttt{List<T>}^{\infty} \neq \varnothing$, per l'\nameref{base_con} si ha che $\exists i \in [1,n]$ per cui $\gamma_i$ sia un costruttore base di $\ttt{List<T>}^{\infty}$
+            \item Sia quindi $\ell = \abk{x_1, x_2, \ldots,} \in \ttt{List<T>}^{\infty}$ tale che $\gamma_i = \ell$ e sia $\ell\ttt{-List<T>}^{\infty}$ l'insieme delle liste infinite che estendono $\ell$:
+            \[\ell\ttt{-List<T>}^{\infty} = \{\abk{y_1, \ldots, y_k, x_1, x_2, \ldots} \mid y_1, \ldots, y_2 \in T\}\]
+            \item Risulta evidente che $\ell\ttt{-List<T>}^{\infty} \subseteq \ttt{List<T>}^{\infty}$ e che $\gamma_1, \ldots, \gamma_n$ siano chiuse per $\ell\ttt{-List<T>}^{\infty}$, contraddicendo l'ipotesi per cui $\ttt{List<T>}^{\infty}$ sia un'algebra induttiva
+            \item Di conseguenza, l'unica possibilità è che $\nexists \gamma_1, \ldots, \gamma_n$
+        \end{itemize}
+    }
+
+    \newpage
+
+    \begin{frameddefn}{Insieme degli alberi binari finiti}
+        Definiamo \ttt{BinTree} come l'insieme degli alberi binari finiti:
+        \[\ttt{BinTree} = \cbk{t \left | \begin{array}{c}
+            t = \circ \text{ ossia è una foglia oppure }\\
+            t = \abk{t_1,t_2} \text{ dove } t_1, t_2 \in \ttt{BinTree}
+        \end{array} \right .}\]
+
+    \end{frameddefn}
+
+    \begin{framedprop}{Algebra induttiva degli alberi binari finiti}
+        La tripla $(\ttt{BinTree}, \mathrm{leaf}, \mathrm{branch})$, dove:
+
+        \begin{itemize}
+            \item $\funcmap{\mathrm{leaf}}{\1}{\ttt{BinTree}}{()}{\circ}$ è la funzione nullaria che restituisce una \textbf{foglia}
+            \item $\funcmap{\mathrm{branch}}{\ttt{BinTree} \times \ttt{BinTree}}{\ttt{BinTree}}{(t_{sx}, t_{dx})}{t}$ è la funzione di \textbf{costruzione dei rami}, ossia tale che $t_{sx}$ e $t_{dx}$ siano i due sottoalberi di $t$
+        \end{itemize}
+
+        è un'algebra induttiva
+
+        (\textit{dimostrazione omessa})
+    \end{framedprop}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Il seguente albero binario
+        \[\mathrm{branch}(\mathrm{leaf}, \mathrm{branch}(\mathrm{leaf}, \mathrm{leaf}))\]
+
+        può essere rappresentato graficamente come:
+        
+        \begin{center}
+            \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2cm,thick,main node/.style={scale=0.9,circle,draw,font=\sffamily\normalsize}]
+                \node (1) {$\circ$};
+                \node (2) [below left of=1] {$\circ$};
+                \node (3) [below right of=1] {$\circ$};
+                \node (4) [below left of=3] {$\circ$};
+                \node (5) [below right of=3] {$\circ$};
+     
+                \path[every node/.style={font=\sffamily\small}]
+                    (1) edge (2)
+                    (1) edge (3)
+                    (3) edge (4)
+                    (3) edge (5)
+                 ;
+             \end{tikzpicture}
+        \end{center}
+    \end{itemize}
+    
+    \begin{framedprinc}{Induzione strutturale}
+        Definiamo come \textbf{induzione strutturale} il metodo dimostrativo generalizzante il principio di induzione e basato sulle proprietà di un'algebra induttiva.
+
+        In particolare, viene ipotizzato che una proprietà $P$ valga per ogni argomento di ogni costruttore dell'algebra e tramite il terzo assioma viene dimostrato che tale proprietà valga per tutti gli elementi dell'algebra stessa
+    \end{framedprinc}
+
+    \newpage
+
+    \begin{framedthm}{Relazione tra nodi e foglie}
+        Dato $t \in \ttt{BinTree}$ avente $n$ foglie, il numero di nodi di $t$ è pari a $2n-1$
+    \end{framedthm}
+
+    \proofind[Dimostrazione per induzione strutturale]{
+        \begin{itemize}
+            \item Definiamo l'operazione 
+            \[\funcmap{\mathrm{leaves}}{\ttt{BinTree}}{\N}{t}{\text{Numero di foglie in }b}\]
+
+            dove:
+            \[\soe{l}{
+                \mathrm{leaves}(\mathrm{leaf}) = 1\\
+                \mathrm{leaves}(\mathrm{branch}(b_1, b_2)) = \mathrm{leaves}(b_1) + \mathrm{leaves}(b_2)
+            }\]
+
+            \item Dato $t \in \ttt{BinTree}$, sia $k$ il numero di nodi di $t$ e sia $n = \mathrm{leaves(t)}$
+        \end{itemize}
+    }
+    {
+
+    \begin{itemize}
+        \item Se $t = \mathrm{leaf}$, allora $t$ è composto da $k = 1$ nodi e $n = \mathrm{leaves}(\mathrm{leaf}) = 1$ foglie. Difatti, si ha che $k = 1 = 2n-1$
+    \end{itemize}
+        
+    }
+    {
+        \begin{itemize}
+            \item Ogni argomento $t$ di ogni costruttore possiede $2 \cdot \mathrm{leaves}(t')-1$ nodi
+        \end{itemize}
+    } 
+    {
+        \begin{itemize}
+            \item Se $t \neq \mathrm{leaf}$, allora $\exists t_1, t_2 \in \ttt{BinTree} \mid t = \mathrm{branch(t_1,t_2)}$ dove $t_1$ e $t_2$ possiedono rispettivamente $k_1$ e $k_2$ nodi. Inoltre, si ha che $k = k_1 + k_2 + 1$
+        
+            \item In quanto $t_1$ e $t_2$ sono argomenti del costruttore $\mathrm{branch}$, per ipotesi induttiva si ha che:
+            \[k = k_1 + k_2 + 1 = 2 \cdot \mathrm{leaves}(t_1)-1 + 2 \cdot \mathrm{leaves}(t_2)-1 +1 = 2(\mathrm{leaves}(t_1)+\mathrm{leaves}(t_2)) -1 \]
+            \[= 2(\mathrm{leaves}(\mathrm{branch}(t_1, t_2))) -1 = 2 \cdot (\mathrm{leaves}(t))-1 \]
+        \end{itemize}
+    }
+
+    \newpage
+
+    \section{Sintassi astratta dei linguaggi}
+
+    \begin{frameddefn}{Linguaggio}
+        Definiamo come \textbf{linguaggio} un insieme di stringhe
+    \end{frameddefn}
+    \begin{frameddefn}{Grammatica}
+        Definiamo come \textbf{grammatica} un insieme di regole, dette \textbf{termini}, che definiscono come poter manipolare le stringhe di un linguaggio.
+
+        La \textbf{forma di Backus-Naur} è una notazione utilizzata per descrivere grammatiche ed è definita come:
+        \[\ttt{<symbol>} ::= \ttt{\_expression\_}\]
+        dove:
+        \begin{itemize}
+            \item \ttt{<symbol>} è una simbolo non-terminale espresso dalla grammatica
+            \item L'operatore $::=$ indica che ciò che si trova alla sua sinistra possa essere sostituito con ciò che si trova alla sua destra
+            \item \ttt{<\_expression\_>} consiste in una o più sequenze di simboli terminali o non-terminali dove ogni sequenza è separata da una barra verticale (ossia |) indicante una scelta possibile per l'operatore $::=$
+        \end{itemize}
+    \end{frameddefn}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Consideriamo il linguaggio $L$ espresso dalla grammatica:
+        \[M,N ::= 0 \smid 1 \smid \ldots \smid M+N \smid M*N\]
+        
+        Tale grammatica indica che i simboli non-terminali $M$ e $N$ possono essere sostituiti con:
+        \begin{itemize}
+            \item Un numero naturale
+            \item Un'espressione $M+N$ o $M*N$ dove $M$ e $N$ sono due ulteriori simboli terminali o non-terminali
+        \end{itemize}
+        \item Ad esempio, abbiamo che la stringa \ttt{"5 + 7"} sia ben definita dalla grammatica, mentre la stringa \ttt{"5 + +"} non lo sia
+    \end{itemize}
+
+    \begin{frameddefn}{Sintassi astratta}
+        La \textbf{sintassi astratta} di un linguaggio è una definizione induttiva di un insieme $T$ di termini, permettendo di definire strutture algebriche senza dover necessariamente definire concretamente le sue operazioni
+    \end{frameddefn}
+
+    \newpage
+    
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Consideriamo ancora il linguaggio $L$ definito dalla grammatica
+        \[M,N ::= 0 \smid 1 \smid \ldots \smid M + N \smid M * N\]
+        \item Definiamo quindi la funzione $\func{\mathrm{eval}}{L}{\N}$ in grado di valutare le espressioni del linguaggio:
+        \[\mathrm{eval}(\ttt{"0"}) = 0\]
+        \[\mathrm{eval}(\ttt{"1"}) = 1\]
+        \[\ldots\]
+        \[\mathrm{eval}(\ttt{"M + N"}) = \mathrm{eval}(\ttt{"M"})+\mathrm{eval}("N")\]
+        \[\mathrm{eval}(\ttt{"M * N"}) = \mathrm{eval}(\ttt{"M"})+\mathrm{eval}("N")\]
+
+        \item Notiamo quindi che la grammatica definisca in modo astratto (ma concretamente tramite $\mathrm{eval}$) le seguenti operazioni:
+        \[\funcmap{0}{\1}{\N}{()}{0}\]
+        \[\funcmap{1}{\1}{\N}{()}{1}\]
+        \[\ldots\]
+        \[\funcmap{\mathrm{plus}}{\N \times \N}{\N}{(m,n)}{m+n}\]
+        \[\funcmap{\mathrm{times}}{\N \times \N}{\N}{(m,n)}{m \cdot n}\]
+
+        \item Notiamo però che le operazioni $\mathrm{plus}$ e $\mathrm{times}$ non risultano essere né iniettive né con immagini disgiunte. Di conseguenza, la funzione $\mathrm{eval}$ non ci permette di definire un'algebra induttiva.
+        \item Tuttavia, per tale linguaggio è comunque possibile definire (in qualche modo, ad esempio fissando una precedenza per le operazioni rompendo proprietà come l'associatività e la commutatività) una funzione che possa descrivere un'algebra induttiva.
+     \end{itemize}
+
+    \begin{framedthm}{Algebra induttiva dei termini}
+        Dato un linguaggio $L$ con una sintassi astratta con termini definiti in $T$, esiste sempre un'algebra induttiva $(T, \alpha)$. Di conseguenza, \textbf{tutte le proprietà} di un linguaggio sono dimostrabili tramite l'induzione strutturale sulla sua algebra dei termini.
+
+        (\textit{dimostrazione omessa})
+    \end{framedthm}
+
+    \chapter{Paradigma funzionale}
+    
+    \section{$Exp$: un semplice linguaggio funzionale}
+
+    \begin{frameddefn}{Il linguaggio $Exp$}
+        Definiamo come $Exp$ il linguaggio rappresentato dalla seguente grammatica:
+        \[M,N ::= k \ \mid x \ \mid M+N \ \mid \letin{x}{M}{N} \]
+        dove:
+        \begin{itemize}
+            \item $k \in \{0, 1, \ldots\}$ ossia è una \textbf{costante}
+            \item $x \in Var = \{x,y,z, \ldots\}$ ossia è una \textbf{variabile}
+            \item $\func{+}{Exp \times Exp}{Exp}$ la quale \textbf{somma le due espressioni}
+            \item $\func{let}{Var \times Exp \times Exp}{Exp}$ la quale \textbf{assegna} alla variabile $x$ l'espressione $M$ all'interno della \textbf{valutazione} di $N$. Inoltre, $x$ prende il nome di variabile locale all'interno di $N$.
+            \item $Val = \{0, 1, \ldots\}$ è l'\textbf{insieme dei valori} in cui un'espressione può essere valutata
+        \end{itemize}
+    \end{frameddefn}
+
+    \textbf{Esempi:}
+
+    \begin{itemize}
+        \item L'espressione $\letin{x}{3}{x+1}$ indica che la variabile $x$ assuma valore $3$ all'interno della valutazione di $x+1$. Di conseguenza, il risultato della valutazione dell'espressione è $4$
+        \item L'espressione $\letin{x}{3}{7}$ viene valutata come $7$
+        \item L'espressione $\letin{y}{9}{(\letin{x}{(\letin{y}{2}{y+1})}{x+y})}$ viene valutata come $12$ (si consiglia di cercare di capire come le clausole interne sovrascrivano i valori delle clausole esterne. Se ciò risultasse complesso, più avanti verranno forniti strumenti matematici per valutare in modo corretto le clausole $let$ annidate)
+    \end{itemize}
+
+    \begin{frameddefn}{Scope di una variabile}
+        Data un'espressione e una variabile $x$, definiamo come \textbf{scope di $x$} la porzione la porzione dell'espressione all'interno della quale una variabile può essere riferita, ossia per cui ne è definito il valore.
+
+        Una variabile il cui valore non è assegnato in una porzione dell'espressione viene detta \textbf{variabile libera}
+    \end{frameddefn}
+
+    \begin{frameddefn}{Variabile libera}
+        Data un'espressione $expr \in Exp$, definiamo $x \in expr$ come \textbf{libera} se $x$ non ha un valore assegnato durate la valutazione di $expr$.
+    \end{frameddefn}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item L'espressione $\letin{x}{(\letin{y}{2}{y+1})}{x+y}$ non è coerente con la grammatica di $Exp$, poiché $y$ non è definito durante la valutazione di $x+y$. Di conseguenza, non è possibile valutare tale espressione.
+    \end{itemize}
+    
+    \begin{framedprop}{Variabili libere in $Exp$}
+        Dato il linguaggio $Exp$, la funzione 
+        \[\func{\mathrm{free}}{Exp}{\mathcal{P}(Var)}\]
+        restituisce l'insieme di tutte le \textbf{variabili libere} di un'espressione dove:
+        \[\soe{l}{
+            \mathrm{free}(k) = \varnothing\\
+            \mathrm{free}(x) = \{x\}\\
+            \mathrm{free}(M+N) = \mathrm{free}(M) \cup \mathrm{free}(N)\\
+            \mathrm{free}(\letin{x}{M}{N}) = \mathrm{free}(M) \cup (\mathrm{free}(N)-\{x\})
+        }\]
+
+        \textbf{Nota}: $\mathcal{P}(Var)$ è l'insieme delle parti di $Var$, ossia l'insieme contenente tutti i suoi sottoinsiemi possibili 
+    \end{framedprop}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Riprendendo l'esempio precedente, notiamo che:
+        \[\mathrm{free}(\letin{x}{(\letin{y}{2}{y+1})}{x+y}) =\]
+        \[= \mathrm{free}(\letin{y}{2}{y+1}) \cup (\mathrm{free}(x+y)-\{x\}) =\]
+        \[= \mathrm{free}(\letin{y}{2}{y+1}) \cup ((\mathrm{free}(x) \cup \mathrm{free}(y))-\{x\}) = \]
+        \[= \mathrm{free}(\letin{y}{2}{y+1}) \cup ((\{x\} \cup \{y\})-\{x\}) = \]
+        \[= \mathrm{free}(\letin{y}{2}{y+1}) \cup \{y\} = \]
+        \[= (\mathrm{free}(2) \cup (\mathrm{free}(y+1) - \{y\})) \cup \{y\} = \]
+        \[= ((\mathrm{free}(y)) - \{y\}) \cup \{y\} = \]
+        \[= \{y\}\]
+
+        dunque l'espressione è invalutabile
+    \end{itemize}
+    
+    \begin{frameddefn}{Insieme degli ambienti in $Exp$}
+        Dato il linguaggio $Exp$, definiamo come \textbf{insieme degli ambienti di $Exp$}, indicato con $Env$, l'insieme delle funzioni parziali (ossia \underline{non necessariamente} definite su tutto il dominio) che associano ogni variabile al proprio valore:
+        \[Env = \{f \mid f : Var \stackrel{fin}{\to} Val\}\]
+    \end{frameddefn}
+
+    \begin{frameddefn}{Concatenazione di ambienti}
+        Dato il linguaggio $Exp$, definiamo l'operazione di \textbf{concatenazione di ambienti}, ossia:
+        \[\func{\cdot}{Env \times Env}{Env}\]
+        dove:
+        \[(E_1E_2)(x) = \soe{ll}{
+            E_2(x) & \text{ se } x \in dom(E_1)\\
+            E_1(x) & \text{ altrimenti }\\
+        }\]
+        \textbf{Nota}: tale operazione può essere interpretata come una sovrascrittura in $E_1$ di tutte le variabili definite in $E_2$
+    \end{frameddefn}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Dati gli ambienti $E_1 = \{(x,4), (y,3)\}$ e $E_2 = \{(x,5)\}$, si ha che
+        \[(E_1E_2)(x) = 5\]
+        \[(E_1E_2)(y) = 3\]
+    \end{itemize}
+
+    \begin{framedprop}{Regola di inferenza}
+        Date delle proposizioni $P_1, \ldots, P_n, C$, indichiamo la seguente proposizione:
+        \[P_1 \land \ldots \land P_n \land ((P_1 \land \ldots \land P_n) \implies C)\]
+        con la seguente notazione alternativa, detta \textbf{regola di inferenza}:        
+        \[\frac{P_1 \quad \ldots \quad P_n}{C}\]
+        dove $P_1, \ldots, P_n$ vengono dette \textbf{premesse} e $C$ viene detta \textnormal{conclusione}
+    \end{framedprop}
+
+    \begin{frameddefn}{Semantica operazionale di $Exp$}
+        Data la seguente relazione detta \textbf{semantica operazionale}, ossia:
+        \[\leadsto \ \subseteq Env \times Exp \times Val\]
+        definiamo come \textbf{giudizio operazionale} la tripla $(E, M, v) \in \ \leadsto$ descritta dalla notazione
+        \[\opjud{E}{M}{v}\]
+        la quale viene letta come "nell'ambiente $E$, $M$ viene valutato come $v$".
+    \end{frameddefn}
+
+    \begin{framedprop}{Regole operazionali di $Exp$}
+        Definiamo come \textbf{regole operazionali} le regole di inferenza che dettano le valutazioni effettuate dalla semantica operazionale:
+        \begin{itemize}
+            \item Per le \textbf{costanti} si ha che:
+            \[\forall E \in Env \quad \opjud{E}{k}{k}\]
+            \item Dato $E \in Env$, per le \textbf{variabili} si ha che:
+            \[\opjud{E}{x}{v} \quad (\text{se } E(x) = v)\]
+            \item Dato $E \in Env$, per la \textbf{somma} si ha che:
+            \[\frac{\opjud{E}{M}{v} \quad \opjud{E}{N}{v'}}{\opjud{E}{M+N}{u}} \quad (\text{se } u = v+v')\]
+            \item Per l'espressione \textbf{\textit{let}} si ha che:
+            \[\frac{\opjud{E}{M}{v} \quad \opjud{E\{(x,v)\}}{N}{v'}}{\opjud{E}{\letin{x}{M}{N}}{v'}}\]
+        \end{itemize}
+    \end{framedprop}
+
+    \begin{framedobs}{Ambiente iniziale}
+        A meno che non vi siano variabili esternamente assegnate, all'interno di un'espressione l'\textbf{ambiente iniziale} corrisponde sempre a $\varnothing \subseteq Env$.
+
+    \end{framedobs}
+
+    \begin{framedobs}{Variabili invalutabili}
+        Dato un ambiente $E \in Env$, se $x \notin dom(E)$, ossia se $x$ non è definita nell'ambiente $E$, allora $x$ è una \textbf{variabile libera} e dunque è \textbf{invalutabile} in $E$, ossia:
+        \[\nexists v \in Val \text{ t.c. } \opjud{E}{x}{v}\]
+    \end{framedobs}
+
+    \newpage
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item L'espressione $x+4$ è invalutabile, poiché $x \notin dom(\varnothing)$, dunque:
+        \[\nexists v' \in Val \text{ t.c. } v = v'+1 \land \frac{
+            \opjud{\varnothing}{x}{v'} \quad \opjud{\varnothing}{1}{1}
+        }{
+            \opjud{\varnothing}{x+1}{v}
+        }\]
+
+        \item L'espressione $\letin{x}{1}{x+4}$ è valutabile, poiché $x \in dom(\{(x,1)\})$, dunque:
+        \[\frac{
+            \opjud{\varnothing}{1}{1} \quad
+            \dfrac{
+                \opjud{\{(x,1)\}}{x}{1} \quad \opjud{\{(x,1)\}}{4}{4}
+            }{
+                \opjud{\{(x,1)\}}{x+1}{5}
+            }
+        }{
+            \opjud{\varnothing}{\letin{x}{1}{x+4}}{5}  
+        }\]
+    \end{itemize}
+
+    \begin{frameddefn}{Albero di derivazione}
+        Definiamo come \textbf{albero di derivazione} l'albero generato dalla valutazione concatenata di più regole di inferenza.
+    \end{frameddefn}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item L'espressione $\letin{y}{3}{(\letin{x}{7}{x+y})}$ viene valutata dal seguente albero di derivazione:
+        \[\frac{
+            \opjud{\varnothing}{3}{3} \quad
+            \dfrac{
+                \opjud{\{y,3\}}{7}{7} \quad
+                \dfrac{
+                    \opjud{\{(y,3), (x,7)\}}{x}{7} \quad \opjud{\{(y,3), (x,7)\}}{y}{3}
+                }
+                {
+                    \opjud{\{(y,3), (x,7)\}}{x+y}{10}
+                }
+            }{
+                \opjud{\{(y,3)\}}{\letin{x}{7}{x+y}}{10}
+            }
+        }{
+            \opjud{\varnothing}{\letin{y}{3}{(\letin{x}{7}{x+y})}}{10}
+        }\]
+        
+        \item Notiamo quindi come, per valutare l'intera espressione, ci basti in realtà valutare i termini "più in alto" dell'albero di derivazione
+    \end{itemize}
+
+    \quad
+
+    \section{Valutazione Eager vs Lazy}
+
+    Consideriamo la seguente espressione per il linguaggio $Exp$:
+    \[\letin{x}{\sqrt{397^5+\int_{3}^{15}y^2 \; dy} + \log_{\sqrt{37}}(479)}{3}\]
+
+    Notiamo come nonostante l'espressione assegnata ad $x$ sia di grandi dimensioni, richiedendo un enorme albero di derivazione, la valutazione dell'espressione sia totalmente indipendente da tale valutazione in quanto la variabile $x$ non venga neanche utilizzata per la valutazione del secondo termine dell'espressione \textit{let}.
+
+    Utilizzando le regole di valutazione previste dalla metodologia di valutazione, detta \textbf{eager} (trad: \textit{affrettata}), vista nella sezione precedente, andremmo a valutare delle espressioni del tutto inutili.
+
+    Una metodologia di valutazione alternativa, detta \textbf{lazy} (trad: \textit{pigra}), è costituita da regole operazionali atte al \textit{ritardare} la valutazione dei termini fino a quando non sia strettamente necessario. 
+
+    \begin{frameddefn}{Valutazione eager}
+        Definiamo una modalità di valutazione come \textbf{eager} se la valutazione di una sua espressione viene effettuata non appena essa viene legata ad una variabile, associandone immediatamente il risultato alla variabile stessa.
+    \end{frameddefn}
+
+    \begin{frameddefn}{Valutazione lazy}
+        Definiamo una modalità di valutazione come \textbf{lazy} se la valutazione di una sua espressione viene effettuata solo quando si richiede il valore di un'espressione che da essa dipende.
+    \end{frameddefn}
+
+    \begin{framedprop}{Linguaggio $Exp$ lazy}
+        L'uso di una valutazione lazy necessita la ridefinizione dell'insieme $Env$ e di alcune regole operazionali definite per la valutazione eager:
+        \begin{itemize}
+            \item L'insieme $Env$ viene ridefinito come:
+            \[Env = \{f \mid f : Var \stackrel{fin}{\to} Exp\}\]
+            \item Dato $E \in Env$, per le variabili si ha che:
+            \[\dfrac{\opjud{E}{M}{v}}{\opjud{E}{x}{v}} \quad (\text{se } E(x) = M)\]
+            \item Per l'espressione \textit{let} si ha che:
+            \[\dfrac{
+                \opjud{E\{(x,M)\}}{N}{v}
+            }{
+                \opjud{E}{\letin{x}{M}{N}}{v}
+            }\]
+        \end{itemize}
+    \end{framedprop}
+
+    \begin{framedobs}{}
+        È necessario puntualizzare che non sempre la valutazione lazy sia più ottimale della eager
+    \end{framedobs}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Consideriamo la seguente espressione
+        \[\letin{x}{M}{x+x}\]
+        \item Utilizzando la valutazione eager otteniamo il seguente albero di derivazione:
+        \[\dfrac{
+            \dfrac{
+                \ldots
+            }
+            {
+                \opjud{\varnothing}{M}{v'}
+            } \quad
+            \dfrac{
+                \opjud{\{(x,v')\}}{x}{v'} \quad \opjud{\{(x,v')\}}{x}{v'}
+            }{
+                \opjud{\{(x,v')\}}{x+x}{v}
+            }
+        }{
+            \opjud{\varnothing}{\letin{x}{M}{x+x}}{v}
+        }\]
+
+        dove $v = v'+v'$
+
+        \item Utilizzando la valutazione lazy, invece, otteniamo il seguente albero di derivazione:
+        \[\dfrac{
+            \dfrac{
+                \dfrac{
+                    \dfrac{
+                        \ldots
+                    }{
+                        \opjud{\{(x,M)\}}{M}{v'}
+                    }
+                }{
+                    \opjud{\{(x,M)\}}{x}{v'}
+                } \quad
+                \dfrac{
+                    \dfrac{
+                        \ldots
+                    }{
+                        \opjud{\{(x,M)\}}{M}{v'}
+                    }
+                }{
+                    \opjud{\{(x,M)\}}{x}{v'}
+                }
+            }{
+                \opjud{\{(x,M)\}}{x+x}{v}
+            }
+        }{
+            \opjud{\varnothing}{\letin{x}{M}{x+x}}{v}
+        }\]
+
+        dove $v = v'+v'$
+        \item Notiamo quindi che l'espressione $M$ venga valutata una sola volta nella valutazione eager ma due volte nella valutazione lazy
+    \end{itemize}
+
+    \quad
+
+    \section{Scoping Statico vs Dinamico}
+
+    Consideriamo la seguente espressione:
+    \[\letin{x}{3}{(\letin{y}{x}{(\letin{x}{7}{y+x})})}\]
+    
+    Prima di tutto, valutiamo tale espressione tramite valutazione eager:
+    \[\dfrac{
+        \opjud{\varnothing}{3}{3} \quad
+        \dfrac{
+            \opjud{\{(x,3)\}}{x}{3} \quad
+            \dfrac{
+                \opjud{E}{7}{7} \quad
+                \dfrac{
+                    \opjud{E\{(x,7)\}}{y}{3} \quad
+                    \opjud{E\{(x,7)\}}{x}{7} \quad
+                }{
+                    \opjud{E\{(x,7)\}}{y+x}{10}
+                }
+            }{
+                \opjud{\{(x,3), (y,3)\}}{\letin{x}{7}{y+x}}{10}
+            }
+        }{
+            \opjud{\{(x,3)\}}{\letin{y}{x}{(\letin{x}{7}{y+x})}}{10}
+        }
+    }{
+        \opjud{\varnothing}{\letin{x}{3}{(\letin{y}{x}{(\letin{x}{7}{y+x})})}}{10}
+    }\]
+
+    dove $E := \{(x,3), (y,3)\}$
+
+    Valutiamo ora invece tale espressione utilizzando una valutazione lazy:
+    \[
+    \dfrac{
+        \dfrac{
+            \dfrac{
+                \dfrac{
+                    \dfrac{
+                        \dfrac{
+                            \opjud{E\{(x,7)\}}{7}{7}
+                        }
+                        {
+                            \opjud{E\{(x,7)\}}{x}{7}
+                        }
+                    }{
+                        \opjud{E\{(x,7)\}}{y}{7}
+                    } \quad
+                    \dfrac{
+                        \opjud{E\{(x,7)\}}{7}{7}
+                    }
+                    {
+                        \opjud{E\{(x,7)\}}{x}{7}
+                    }
+                }{
+                    \opjud{E\{(x,7)\}}{y+x}{14}
+                }
+            }{
+                \opjud{\{(x,3), (y,x)\}}{\letin{x}{7}{y+x}}{14}
+            }
+        }
+        {
+            \opjud{\{(x,3)\}}{\letin{y}{x}{(\letin{x}{7}{y+x})}}{14}
+        }
+    }{
+        \opjud{\varnothing}{\letin{x}{3}{(\letin{y}{x}{(\letin{x}{7}{y+x})})}}{14}
+    }\]
+    
+    dove $E := \{(x,3),(y,x)\}$
+
+    \newpage
+
+    Notiamo quindi che le due valutazioni abbiano prodotto un risultato diverso. Tuttavia, vorremmo che le due valutazioni siano differenti solo a livello \textit{"implementativo"}, ossia che venga solo ritardata la valutazione dei termini.    Difatti, tale problematica non è dovuta alla metodologia di valutazione utilizzata ma bensì dal tipo di \textit{scoping}.
+
+    \begin{frameddefn}{Scoping statico}
+        Definiamo un linguaggio come linguaggio a \textbf{scoping statico} se durante la valutazione di un'espressione viene utilizzato l'ambiente definito al tempo in cui viene interpretata (ma non valutata) l'espressione stessa.
+    \end{frameddefn}
+
+    \begin{frameddefn}{Scoping dinamico}
+        Definiamo un linguaggio come linguaggio a \textbf{scoping statico} se durante la valutazione di un'espressione viene utilizzato l'ambiente definito al tempo di valutazione stesso.
+    \end{frameddefn}
+
+    Difatti, nell'esempio precedente ci troviamo in due situazioni:
+    \begin{itemize}
+        \item Nella valutazione eager, la variabile $y$ viene valutata con l'ambiente $\{(x,3),(y,x)\}$ definito al tempo in cui viene interpretata l'espressione $\letin{y}{x}{\ldots}$ (scoping \textit{statico})
+        \item Nella valutazione lazy, la variabile $y$ viene valutata con l'ambiente $\{(x,3),(y,x), (x,7)\}$ definito al tempo della sua valutazione (scoping \textit{dinamico})
+    \end{itemize}
+
+    Per tanto, è necessario precisare che le due precedenti versioni viste del linguaggio $Exp$ siano rispettivamente la versione \textbf{eager statica} e la versione $Exp$ \textbf{lazy dinamica}.
+
+    \begin{framedprop}{Linguaggio $Exp$ lazy statico}
+        L'uso di una semantica lazy statica necessita la ridefinizione dell'insieme $Env$ e di alcune regole operazionali definite per la semantica lazy dinamica:
+        \begin{itemize}
+            \item L'insieme $Env$ viene ridefinito come:
+            \[Env = \{f \mid f : Var \stackrel{fin}{\to} Exp \times Env\}\]
+            \item Dato $E \in Env$, per le variabili si ha che:
+            \[\dfrac{\opjud{E'}{M}{v}}{\opjud{E}{x}{v}} \quad (\text{se } E(x) = (M, E'))\]
+            \item Per l'espressione \textit{let} si ha che:
+            \[\dfrac{
+                \opjud{E\{(x,(M,E))\}}{N}{v}
+            }{
+                \opjud{E}{\letin{x}{M}{N}}{v}
+            }\]
+        \end{itemize}
+    \end{framedprop}
+
+    Valutiamo quindi l'espressione precedente utilizzando una semantica lazy statica:
+    \[
+    \dfrac{
+        \dfrac{
+            \dfrac{
+                \dfrac{
+                    \dfrac{
+                        \dfrac{
+                            \opjud{\varnothing}{3}{3}
+                        }
+                        {
+                            \opjud{E}{x}{3}
+                        }
+                    }{
+                        \opjud{E''}{y}{3}
+                    } \quad
+                    \dfrac{
+                        \opjud{E'}{7}{7}
+                    }
+                    {
+                        \opjud{E''}{x}{7}
+                    }
+                }{
+                    \opjud{E'\{(x, (7, E'))\}}{y+x}{10}
+                }
+            }{
+                \opjud{E\{(y, (x, E))\}}{\letin{x}{7}{y+x}}{10}
+            }
+        }
+        {
+            \opjud{\{(x,(3, \varnothing))\}}{\letin{y}{x}{(\letin{x}{7}{y+x})}}{10}
+        }
+    }{
+        \opjud{\varnothing}{\letin{x}{3}{(\letin{y}{x}{(\letin{x}{7}{y+x})})}}{10}
+    }\]
+    
+    dove $E := \{(x,(3, \varnothing))\}$, $E' := E\{(y, (x, E))\}$ e $E'' := E'\{(x, (7, E'))\}$. Notiamo quindi che la valutazione nel caso di $Exp$ lazy statico coincida con la valutazione nel caso di $Exp$ eager statico.
+
+    \begin{framedobs}{Linguaggio $Exp$ eager dinamico}
+        All'interno del linguaggio $Exp$ \textbf{non vi è distinzione} tra semantica eager statica e eager dinamica, poiché nessuna delle valutazioni dei termini della grammatica di $Exp$ viene influenzata dal tipo di scoping.
+
+        Per tanto, all'interno di $Exp$ parliamo direttamente di \textbf{semantica eager}
+    \end{framedobs}
+
+    \begin{frameddefn}{Equivalenza tra semantiche operazionali}
+        Sia $L$ un linguaggio. Date due semantiche operazionali definite su $L$, definiamo tali semantiche come \textbf{equivalenti} se ogni espressione di $L$ restituisce lo stesso risultato per entrambe le semantiche a seguito della valutazione
+    \end{frameddefn}
+    
+    \begin{framedthm}{Equivalenze semantiche di $Exp$}
+        Dato il linguaggio $Exp$, si ha che:
+        \[Exp \text{ eager } \equiv Exp \text{ lazy statico } \not\equiv Exp \text{ lazy dinamico }\]
+    \end{framedthm}
+
+    \begin{framedobs}{}
+        In base alla semantica utilizzata, possono generarsi problemi diversi durante le valutazioni
+    \end{framedobs}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Consideriamo la seguente espressione $\letin{x}{x}{x}$
+        \item Utilizzando una semantica eager statica o lazy statica, otteniamo che il termine interno del \textit{let} sia invalutabile
+        \item Utilizzando una semantica lazy dinamica, la valutazione entrerà in un loop infinito (si consiglia di provare ad scrivere l'albero di derivazione)
+    \end{itemize}
+
+    \newpage
+
+    \section{$Fun$: un linguaggio con funzioni}
+
+    \begin{frameddefn}{Il linguaggio $Fun$}
+        Definiamo come $Fun$ il linguaggio rappresentato dalla seguente grammatica:
+        \[M,N ::= k \smid x \smid M+N \smid \letin{x}{M}{N} \smid \fn{x}{M} \smid MN\]
+        dove:
+        \begin{itemize}
+            \item $k \in \{0, 1, \ldots\}$ ossia è una \textbf{costante}
+            \item $x \in Var = \{x, y, z, \ldots\}$ ossia è una \textbf{variabile}
+            \item $\func{+}{Fun \times Fun}{Fun}$ la quale \textbf{somma le due espressioni}
+            \item $\func{let}{Var \times Fun \times Fun}{Fun}$ la quale \textbf{assegna} alla variabile $x$ l'espressione $M$ all'interno della \textbf{valutazione} di $N$. Inoltre, $x$ prende il nome di variabile locale all'interno di $N$
+            \item $\func{fn}{Var \times Fun}{Fun}$ la quale restituisce una \textbf{funzione} avente un parametro il quale influenza l'espressione valutata dalla funzione
+            \item Data l'espressione $\fn{x}{M}$, definiamo la coppia $(x,M) \in Var \times Fun$ come \textbf{chiusura} di tale espressione
+            \item $\func{\cdot}{Fun \times Fun}{Fun}$ la quale \textbf{applica} il termine sinistro al termine destro. In particolare, è \underline{necessario} che il termine sinistro sia una funzione
+            \item $Val = \{0, 1, \ldots\} \cup (Var \times Fun)$ è l'\textbf{insieme dei valori} in cui un'espressione può essere valutata, ossia costanti e chiusure
+        \end{itemize}
+    \end{frameddefn}
+
+    \textbf{Esempi:}
+
+    \begin{itemize}
+        \item L'espressione $(\fn{x}{x+1})\;7$ viene valutata come $8$, poiché la funzione sinistra $\fn{x}{x+1}$ viene applicata al termine destro $7$ (dunque $7$ viene utilizzato come argomento della funzione per il parametro $x$)
+        \item L'espressione $(\fn{x}{x \;3})\;7$ è invalutabile, poiché l'argomento $7$ viene passato come parametro $x$ della funzione, ma all'interno di quest'ultima non è possibile valutare $x\;3$ visto che $7$ non è applicabile a $3$
+        \item L'espressione $(\fn{x}{x\;3})(\fn{x}{x+1})$ viene valutata come $4$, poiché l'argomento $\fn{x}{x+1}$ viene passato come parametro $x$ della funzione $\fn{x}{x\;3}$, per poi valutare l'applicazione $x\;3$ passando l'argomento $3$ come parametro per la funzione contenuta in $x$ (ossia $\fn{x}{x+1}$).
+        
+        \underline{Informalmente}, possiamo dire che:
+        \[(\fn{x}{x\;3})(\fn{x}{x+1}) \longrightarrow (\fn{x}{x+1}) \; 3 \longrightarrow 4\]
+    \end{itemize}
+
+    \begin{framedobs}{}
+        Nel caso in cui si abbia un'espressione con doppio operatore di applicazione $MNL$, essa verrà valutata come $(MN)L$
+    \end{framedobs}
+
+    \textbf{Esempio:}
+    \begin{itemize}
+        \item Le due espressioni $(\fn{x}{x\;3})(\fn{x}{x+1})\;7$ e $[(\fn{x}{x\;3})(\fn{x}{x+1})]\;7$ sono equivalenti
+    \end{itemize}
+
+    \begin{frameddefn}{Insieme delle funzioni da $X$ ad $Y$}
+        Dati due insiemi $X$ e $Y$, indichiamo con $(X \to Y)$ l'insieme di tutte le funzioni da $X$ ad $Y$:
+        \[(X \to Y) = \{f \mid \func{f}{X}{Y}\}\]
+
+        dove $\abs{X \to Y} = \abs{Y}^{\abs{X}}$
+    \end{frameddefn}
+
+    \begin{framedthm}{Curryficazione}
+        Dati $X, Y$ e $Z$, la seguente funzione risulta essere biettiva:
+        \[\funcmap{\mathrm{curry}}{(X \times Y \to Z)}{(X \to (Y \to Z))}{f}{h}  \smid f(x,y) = h(x)(y)\]
+
+        Inoltre, definiamo come \textbf{curryficazione} l'applicazione di tale funzione
+    \end{framedthm}
+
+    \proofenv{
+        \begin{itemize}
+            \item La funzione risulta essere iniettiva:
+            \[\varphi(f) = \varphi(f') \implies \forall x \in X, y \in Y \;\;\varphi(f)(x)(y) = \varphi(f)(x)(y) \implies\]
+            \[\forall x \in X, y \in Y \;\; h(x)(y) = h'(x)(y) \implies \forall x \in X, y \in Y \;\; f(x,y) = f'(x,y) \implies f = f'\]
+
+            \item Inoltre, abbiamo che:
+            \[\abs{X \times Y \to Z} = \abs{Z}^{\abs{X \times Y}} = \abs{Z}^{\abs{X} \cdot \abs{Y}} = (\abs{Z}^{\abs{Y}})^{\abs{X}} = \]
+            \[\abs{Y \to Z}^{\abs{X}} = \abs{X \to (Y \to Z)}\]
+
+            \item Di conseguenza, $\varphi$ risulta essere biettiva
+        \end{itemize}
+    }
+    
+    \begin{framedobs}{Curryficazione in $Fun$}
+        Dato il linguaggio $Fun$, definiamo la seguente contrazione sintattica:
+        \[\fn{x_1x_2\ldots x_n}{M} \equiv \fn{x_1}{(\fn{x_2} \ldots (\fn{x_n}{M}) \ldots)}\]
+        data dalla curryficazione del primo termine
+    \end{framedobs}
+
+    \textbf{Esempi:}
+    \begin{itemize}
+        \item La curryficazione dell'espressione $(\fn{xy}{yx}) \ 7 \ (\fn{x}{x+1})$ corrisponde a:
+        \[(\fn{x}{\fn{y}{yx}}) \ 7 \ (\fn{x}{x+1})\]
+        e viene pertanto valutata come $8$:
+        \[(\fn{x}{\fn{y}{yx}}) \ 7 \ (\fn{x}{x+1}) \longrightarrow (\fn{y}{y \; 7})(\fn{x}{x+1}) \longrightarrow 8\]
+    \end{itemize}
+
+    \begin{framedobs}{}
+        Trattandosi di un'estensione del linguaggio $Exp$, il linguaggio $Fun$ \textbf{eredita le regole operazionali} delle semantiche di $Exp$
+    \end{framedobs}
+
+    \begin{framedprop}{Linguaggio $Fun$ eager dinamico}
+        La semantica eager dinamica del linguaggio $Fun$ prevede l'aggiunta di alcune regole operazionali:
+        \begin{itemize}
+            \item L'insieme $Env$ viene ridefinito come:
+            \[Env = \{f \mid f : Var \stackrel{fin}{\to} Val\}\]
+            \item Dato $E \in Env$, per le funzioni si ha che:
+            \[\opjud{E}{\fn{x}{M}}{(x,M)}\]
+            \item Dato $E \in Env$, per le applicazioni si ha che:
+            \[\dfrac{
+                \opjud{E}{M}{(x,L)} \quad \opjud{E}{N}{v'} \quad \opjud{E\{(x,v')\}}{L}{v}
+            }{
+                \opjud{E}{MN}{v}
+            }\]
+
+        \end{itemize}
+    \end{framedprop}
+
+    \begin{framedprop}{Linguaggio $Fun$ eager statico}
+        La semantica eager statica del linguaggio $Fun$ prevede l'aggiunta di alcune regole operazionali:
+        \begin{itemize}
+            \item L'insieme $Env$ viene ridefinito come:
+            \[Env = \{f \mid f : Var \stackrel{fin}{\to} Val \times Env\}\]
+            \item Dato $E \in Env$, per le funzioni si ha che:
+            \[\opjud{E}{\fn{x}{M}}{(x,M,E)}\]
+            \item Dato $E \in Env$, per le applicazioni si ha che:
+            \[\dfrac{
+                \opjud{E}{M}{(x,L,E')} \quad \opjud{E}{N}{v'} \quad \opjud{E'\{(x,v')\}}{L}{v}
+            }{
+                \opjud{E}{MN}{v}
+            }\]
+
+        \end{itemize}
+    \end{framedprop}
+
+    \begin{framedlem}{}
+        A differenza del linguaggio $Exp$, per la sua estensione $Fun$ si ha che:
+        \[Fun \text{ eager dinamico } \not\equiv Fun \text{ eager statico}\]
+    \end{framedlem}
+
+    \proofenv{
+        
+        \begin{itemize}
+            \item Consideriamo l'espressione $\letin{x}{7}{((\fn{y}{\letin{x}{3}{yx}})(\fn{z}{x}))}$
+            \item Utilizzando la semantica eager dinamica, l'albero di derivazione corrisponde a:
+        \end{itemize}
+        
+        \begin{center}
+            \begin{tabular}{lll}
+                \\
+                $(*)$ & &
+                $
+                \dfrac{
+                    \opjud{E'}{3}{3} \quad
+                    \dfrac{
+                        \opjud{E''}{y}{(z,x)} \quad \opjud{E''}{x}{3} \quad \opjud{E''\{(z,3)\}}{x}{3}
+                    }{
+                        \opjud{E''}{yx}{3}
+                    }
+                }{
+                    \opjud{E'}{M}{3}
+                }$
+            \end{tabular}
+        \end{center}
+        
+        \[\dfrac{
+            \opjud{\varnothing}{7}{7} \quad 
+            \dfrac{
+                \opjud{E}{\fn{y}{M}}{(y, M)} \quad \opjud{E}{\fn{z}{x}}{(z,x)} \quad (*)
+            }{
+                \opjud{E}{(\fn{y}{M})(\fn{z}{x})}{3}
+            }
+        }{
+            \opjud{\varnothing}{\letin{x}{7}{((\fn{y}{M})(\fn{z}{x}))}}{3}
+        }\]
+
+        \qquad dove $M := \letin{x}{3}{yx}, E := \{(x,7)\}$, $E' := E\{(y, (z,x))\}$ e $E'' := E'\{(x,3)\}$
+        
+        \begin{itemize}
+            \item Utilizzando la semantica eager statica, invece, l'albero di derivazione corrisponde a:
+        \end{itemize}
+        
+        \begin{center}
+            \begin{tabular}{lll}
+                \\
+                $(*)$ & &
+                $
+                \dfrac{
+                    \opjud{E'}{3}{3} \quad
+                    \dfrac{
+                        \opjud{E''}{y}{(z,x,E)} \quad \opjud{E''}{x}{3} \quad \opjud{E\{(z,3)\}}{x}{7}
+                    }{
+                        \opjud{E''}{yx}{7}
+                    }
+                }{
+                    \opjud{E'}{M}{7}
+                }$
+            \end{tabular}
+        \end{center}
+        \[\dfrac{
+            \opjud{\varnothing}{7}{7} \quad 
+            \dfrac{
+                \opjud{E}{\fn{y}{M}}{(y, M, E)} \quad \opjud{E}{\fn{z}{x}}{(z,x,E)} \quad (*)
+            }{
+                \opjud{E}{(\fn{y}{M})(\fn{z}{x})}{7}
+            }
+        }{
+            \opjud{\varnothing}{\letin{x}{7}{((\fn{y}{M})(\fn{z}{x}))}}{7}
+        }\]
+
+        \qquad dove $M := \letin{x}{3}{yx}, E := \{(x,7)\}$, $E' := E\{(y, (z,x,E))\}$ e $E'' := E'\{(x,3)\}$
+
+        \begin{itemize}
+            \item Poiché l'espressione restituisce due valutazioni diverse, le due semantiche non sono equivalenti
+        \end{itemize}
+    }
+
+    \begin{framedprop}{Linguaggio $Fun$ lazy dinamico}
+        La semantica lazy dinamica del linguaggio $Fun$ prevede l'aggiunta di alcune regole operazionali:
+        \begin{itemize}
+            \item L'insieme $Env$ viene ridefinito come:
+            \[Env = \{f \mid f : Var \stackrel{fin}{\to} Fun\}\]
+            \item Dato $E \in Env$, per le funzioni si ha che:
+            \[\opjud{E}{\fn{x}{M}}{(x,M)}\]
+            \item Dato $E \in Env$, per le applicazioni si ha che:
+            \[\dfrac{
+                \opjud{E}{M}{(x,L)} \quad \opjud{E\{(x,N)\}}{L}{v}
+            }{
+                \opjud{E}{MN}{v}
+            }\]
+
+        \end{itemize}
+    \end{framedprop}
+
+    \begin{framedprop}{Linguaggio $Fun$ lazy statico}
+        La semantica lazy statica del linguaggio $Fun$ prevede l'aggiunta di alcune regole operazionali:
+        \begin{itemize}
+            \item L'insieme $Env$ viene ridefinito come:
+            \[Env = \{f \mid f : Var \stackrel{fin}{\to} Fun \times Env\}\]
+            \item Dato $E \in Env$, per le funzioni si ha che:
+            \[\opjud{E}{\fn{x}{M}}{(x,(M,E))}\]
+            \item Dato $E \in Env$, per le applicazioni si ha che:
+            \[\dfrac{
+                \opjud{E}{M}{(x,(L,E'))} \quad \opjud{E'\{(x,(N,E))\}}{L}{v}
+            }{
+                \opjud{E}{MN}{v}
+            }\]
+
+        \end{itemize}
+    \end{framedprop}
+    
+    \begin{framedobs}{}
+        Come per il linguaggio $Exp$, per la sua estensione $Fun$ si ha che:
+        \[Fun \text{ lazy dinamico } \not\equiv Fun \text{ lazy statico}\]
+    \end{framedobs}
+
+    \begin{frameddefn}{Espressione $\omega$}
+        Dato il linguaggio $Fun$, definiamo come \textbf{espressione omega}, indicata con $\omega$, la seguente espressione:
+        \[\omega := (\fn{x}{xx})(\fn{x}{xx})\]
+
+        In particolare, l'espressione $\omega$ è \textbf{invalutabile per qualsiasi semantica}
+    \end{frameddefn}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Analizziamo l'albero di derivazione di $\omega$ utilizzando una semantica eager statica:
+    \end{itemize}
+    \begin{center}
+        \begin{tabular}{lll}
+            $(*)$ & &
+            $
+            \opjud{\varnothing}{x}{(x, xx, \varnothing)} \quad
+            \opjud{\varnothing}{x}{(x, xx, \varnothing)} \quad
+            \dfrac{
+                (*)
+            }{
+                \opjud{(x, \{(x, xx, \varnothing)\})}{xx}{v}
+            }
+            $
+        \end{tabular}
+    \end{center}
+    \[\dfrac{
+        \opjud{\varnothing}{\fn{x}{xx}}{(x, xx, \varnothing)} \quad
+        \opjud{\varnothing}{\fn{x}{xx}}{(x, xx, \varnothing)} \quad
+        \dfrac{
+            (*)
+        }{
+            \opjud{(x, \{(x, xx, \varnothing)\})}{xx}{v}
+        }
+    }{
+        \opjud{\varnothing}{(\fn{x}{xx})(\fn{x}{xx})}{v}
+    }\]
+
+    \begin{itemize}
+        \item Notiamo quindi che affinché la valutazione del termine $\opjud{(x, \{(x, xx, \varnothing)\})}{xx}{v}$ richieda che esso stesso venga valutato, creando così un albero di derivazione infinito.
+    \end{itemize}
+
+    \begin{framedlem}{}
+        Dato il linguaggio $Fun$, si ha che:
+        \[Fun \text{ eager statico } \not\equiv Fun \text{ lazy statico}\]
+        \[Fun \text{ eager dinamico } \not\equiv Fun \text{ lazy dinamico}\]
+    \end{framedlem}
+
+    \proofenv{
+        \begin{itemize}
+            \item Consideriamo l'espressione $\letin{x}{\omega}{42}$. Utilizzando una semantica eager (statica o dinamica), verrebbe richiesta immediatamente la valutazione del termine $\omega$, il quale tuttavia è invalutabile. Utilizzando una semantica lazy (statica o dinamica), invece, il termine $\omega$ non verrà mai valutato, restituendo $42$ come risultato.
+        \end{itemize}
+    }
+
+    \begin{framedthm}{Equivalenze semantiche di $Fun$}
+        Dato il linguaggio $Fun$, \textbf{non esistono due semantiche equivalenti}
+    \end{framedthm}
+
+    \begin{framedprop}{Variabili libere in $Fun$}
+        Dato il linguaggio $Fun$, la funzione $\func{\mathrm{free}}{Fun}{\mathcal{P}(Var)}$ è definita come:
+        \[\soe{l}{
+            \mathrm{free}(k) = \varnothing\\
+            \mathrm{free}(x) = \{x\}\\
+            \mathrm{free}(M+N) = \mathrm{free}(M) \cup \mathrm{free}(N)\\
+            \mathrm{free}(\letin{x}{M}{N}) = \mathrm{free}(M) \cup (\mathrm{free}(N)-\{x\}) \\
+            \mathrm{free}(\fn{x}{M}) = \mathrm{free}(M)-\{x\} \\
+            \mathrm{free}(MN) = \mathrm{free}(M) \cup \mathrm{free}(N) \\
+
+        }\]
+    \end{framedprop}
+
+    \quad
+
+    \subsection{$Fun$ in Standard ML}
+
+    La grammatica prevista dal linguaggio $Fun$ mostrato fino ad ora è utilizzabile all'interno del \textbf{linguaggio SML (Standard Model Language)}, il quale prevede una sintassi leggermente diversa:
+
+    \begin{itemize}
+        \item L'operatore $\letin{x}{M}{N}$ corrisponde a \ttt{let val x = M in N end}
+        \item L'operatore $\fn{x}{M}$ corrisponde a \ttt{fn x => M;}
+        \item L'operatore $MN$ corrisponde a \ttt{MN} (potrebbe essere necessario introdurre uno spazio tra \ttt{M} ed \ttt{N} affinché l'interprete riesca a distinguere i due termini)
+        \item L'espressione va terminata da un \textbf{punto e virgola}
+        \item La semantica utilizzata è \textbf{eager statica}
+    \end{itemize}
+
+    Ad esempio, l'espressione:
+    \[\letin{x}{7}{((\fn{y}{\letin{x}{3}{yx}})(\fn{z}{x}))}\]
+
+    corrisponde al comando:
+    \[\ttt{let val x = 7 in (fn y => let val x = 3 in y x end) end;}\]
+
+    Inoltre, il linguaggio SML permette di assegnare variabili, alle quali possono essere assegnate anche funzioni.
+    Ad esempio, definendo:
+    \[\ttt{val id = fn x => x;}\]
+    il seguente comando restituisce 7:
+    \[\ttt{id 7;}\]
+    
+    Per utilizzare il linguaggio SML, si consiglia l'uso del programma \ttt{smlnj} o dell'emulatore online \ttt{SOSML}.
+
+    \newpage
+
+    \section{Lambda calcolo}
+
+    \begin{frameddefn}{Lambda calcolo}
+        Il \textbf{lambda calcolo} è un sistema formale in logica matematica per esprimere il calcolo basato sull'\textbf{astrazione} e l'applicazione di \textbf{funzioni}.
+        
+        Nella forma più semplice di lambda calcolo, i termini sono costruiti utilizzando solo le seguenti regole:
+        \begin{itemize}
+            \item Una \textbf{variabile} è rappresentata da un carattere (es: $x$)
+            \item Una \textbf{funzione} è rappresentata da una \textbf{lambda astrazione}, ossia una stringa composta dal simbolo $\lambda$ seguito dai parametri della funzione separati con un punto dal corpo della funzione stessa (es: $\lambda x.M$)
+            \item L'\textbf{applicazione} di una funzione $M$ ad un argomento $N$ viene rappresentata come $M \; N$
+        \end{itemize}
+    \end{frameddefn}
+
+    \textbf{Esempi:}
+
+    \begin{itemize}
+        \item La lambda astrazione $\lambda x.x+1$ corrisponde alla funzione $f(x) = x+1$
+        \item La lambda astrazione $\lambda xy.x+y$ corrisponde alla funzione $f(x,y) = x+y$
+        \item La lambda astrazione $(\lambda x.x) \; 3$ corrisponde all'applicazione della funzione $f(x) = x$ all'argomento $3$, restituendo quindi $3$
+        \item La lambda astrazione $(\lambda x.x)(\lambda x.x)$ restituisce $\lambda x.x$
+        \item La lambda astrazione $\lambda xy.x(xy)$ applica due volte sull'argomento $y$ la funzione $x$ passata anch'essa come argomento 
+    \end{itemize}
+
+    \begin{framedobs}{Curryficazione in lambda calcolo}
+        La lambda astrazione $\lambda x_1 \ldots x_n.M$ è la contrazione sintattica della seguente lambda astrazione:
+        \[\lambda x_1. \; \ldots \lambda x_n.M\]
+    \end{framedobs}
+
+    \begin{frameddefn}[label=substitution]{Operatore di sostituzione}
+        Definiamo come \textbf{operatore di sostituzione}, indicata con $M[N/x]$, l'operazione tramite cui all'interno di un'espressione $M$ tutte le occorrenze di una variabile $x$ vengono rimpiazzate con il termine $N$ 
+    \end{frameddefn}
+
+    \textbf{Esempi:}
+
+    \begin{itemize}
+        \item La sostituzione $(xy)[\lambda z.z/x]$ corrisponde a $((\lambda z.z)y)$
+        \item La sostituzione $(\fn{x}{xy})[x/y]$ corrisponde a $(\fn{x}{xx})$
+    \end{itemize}
+
+    \begin{framedobs}{Cattura di variabili}
+        L'operazione di sostituzione potrebbe legare una variabile precedentemente libera o viceversa. Tale fenomeno viene detto \textbf{cattura di variabili} ed è necessario accertarsi che esso non si verifichi affinché la sostituzione sia corretta
+    \end{framedobs}
+
+    \textbf{Esempio:}
+    \begin{itemize}
+        \item L'espressione $(\lambda y.M)[N/x]$ è equivalente all'espressione  $\lambda y.(M[N/x])$ solo se $y \notin \mathrm{free}(N)$. Difatti, la sostituzione $(\lambda y.x)[y/x]$ risulta essere "scorretta" in quanto $(\lambda y.y)$ ha una valutazione differente rispetto all'espressione originale
+    \end{itemize}
+
+    \begin{frameddefn}{Alfa conversione}
+        Definiamo come \textbf{alfa conversione}, indicata con $\alphaconv$, la regola secondo cui all'interno di una lambda astrazione $\lambda x.M$ ogni occorrenza della variabile $x$ (incluso il parametro) possa essere rimpiazzata dalla variabile $y$:
+        \[\lambda x.M \alphaconv \lambda y.(M[y/x])\]
+    \end{frameddefn}
+
+    \textbf{Esempi:}
+
+    \begin{itemize}
+        \item Data la lambda astrazione $\lambda x.(xy)$, si ha che:
+        \[\lambda x.xy \alphaconv \lambda z.zy\]
+        \item Data la lambda astrazione $\lambda x.x(\lambda z.zw)$, si ha che:
+        \[\lambda x.x(\lambda z.zw) \alphaconv \lambda z.z(\lambda z.zw)\]
+    \end{itemize}
+
+    \begin{frameddefn}{Alfa equivalenza}
+        Due lambda astrazioni $\lambda x.M$ e $\lambda y.N$ vengono dette \textbf{alfa equivalenti}, indicato con $\stackrel{\alpha}{\equiv}$, se:
+        \[\lambda x.M \stackrel{\alpha}{\equiv} \lambda y.N \iff \lambda x.M \alphaconv \lambda y.N \land \lambda y.N \alphaconv \lambda x.M\]
+    \end{frameddefn}
+
+    \textbf{Esempi:}
+
+    \begin{itemize}
+        \item Date le due lambda astrazioni $\lambda x.(xy)$ e $\lambda z.zy$, si ha che:
+        \[\lambda x.xy \alphaconv \lambda z.zy \land \lambda z.zy \alphaconv \lambda x.xy \implies \lambda x.xy \stackrel{\alpha}{\equiv} \lambda z.zy\]
+
+        \item Date le due lambda astrazioni $\lambda x.x(\lambda z.zw)$ e $\lambda z.z(\lambda z.zw)$, si ha che:
+        \[\lambda x.x(\lambda z.zw) \alphaconv \lambda z.z(\lambda z.zw)\]
+        \[\lambda z.z(\lambda z.zw) \ \not\mathrel{\mkern-5mu\longrightarrow_{\alpha}} \lambda x.x(\lambda z.zw)\]
+        dunque ne concludiamo che:
+        \[\lambda x.x(\lambda z.zw) \not\stackrel{\alpha}{\equiv} \lambda z.z(\lambda z.zw)\]
+    \end{itemize}
+
+    \begin{frameddefn}{Beta conversione}
+        Definiamo come \textbf{beta conversione} (o \textit{beta riduzione}), indicata con $\betaconv$, la regola secondo cui all'interno di una lambda espressione $(\lambda x.M)N$ ogni occorrenza della variabile $x$ all'interno di $M$ possa essere rimpiazzata dal termine $N$:
+        \[(\lambda x.M)N \betaconv M[N/x]\]
+    \end{frameddefn}
+
+    \begin{framedobs}{}
+        La beta riduzione corrisponde esattamente ad singolo \textbf{passo computazionale}
+    \end{framedobs}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Data la lambda espressione $(\lambda x.xy)(\lambda z.z)$, si ha che:
+        \[(\lambda x.xy)(\lambda z.z) \betaconv (\lambda z.z)y \betaconv y\]
+    \end{itemize}
+
+    \begin{framedobs}{}
+        La beta riduzione utilizza implicitamente la \textbf{valutazione lazy}
+    \end{framedobs}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Data la lambda espressione $(\lambda x.7) \omega$, si ha che:
+        \[(\lambda x.7) \omega \betaconv 7\]
+        dunque la valutazione è necessariamente lazy, poiché altrimenti il termine $\omega$ sarebbe stato valutato (il quale ricordiamo essere invalutabile)
+    \end{itemize}
+
+    \begin{frameddefn}{Eta conversione}
+        Definiamo come \textbf{eta conversione}, indicata con $\etaconv$, la regola secondo cui la lambda espressione $(\lambda x.Mx)$ possa essere rimpiazzata con il termine $M$ solo se $x \notin \mathrm{free}(M)$:
+        \[x \notin \mathrm{free}(M) \implies \lambda x.Mx \etaconv M\]
+    \end{frameddefn}
+
+    \textbf{Esempi:}
+    \begin{itemize}
+        \item Consideriamo la lambda espressione $\lambda x.(\lambda y.y)x$.
+        \item Poiché:
+        \[\mathrm{free}(\lambda y.y) = \{\mathrm{free}(y) - \{y\}\} = \{y\} - \{y\} = \varnothing \implies x \notin \mathrm{free}(\lambda y.y)\]
+        è possibile applicare l'eta conversione:
+        \[\lambda x.(\lambda y.y)x \etaconv \lambda y.y\]
+    \end{itemize}
+
+    \newpage
+
+    \subsection{$Fun$ vs Lambda calcolo}
+
+    Avendo trattato le componenti principali del lambda calcolo, possiamo rappresentare quest'ultimo tramite la seguente grammatica:
+    \[M,N ::= x \smid \fn{x}{M} \smid MN\]
+
+    notiamo come il linguaggio $Fun$ corrisponda ad un \textbf{sovra-linguaggio} del lambda calcolo stesso. Difatti, essendo il lambda calcolo già \textbf{turing completo}, alcuni termini del linguaggio $Fun$ risultano "\textit{ridondanti}".
+    
+    In particolare, le seguenti due espressioni:
+    \[\letin{x}{M}{N} \qquad\qquad (\fn{x}{N})M\]
+
+    risultano essere \textbf{operativamente equivalenti}, ossia vengono sempre valutate nello stesso risultato indipendentemente dalla semantica utilizzata (sebbene esse differiscano in termini di "implementazione" delle loro regole operazionali, dunque \underline{non} sono effettivamente la stessa espressione).
+
+    \begin{framedobs}{}
+        La lambda astrazione $\lambda x_1. \, \ldots \; .x_n.M$, corrisponde all'espressione:
+        \[\fn{x_1 \ldots x_n}{M}\]
+    \end{framedobs}
+
+    In modo analogo a Von Neumann, il matematico Church diede una propria definizione alternativa dei \textbf{numeri naturali}: il numero $n \in \N$ corrisponde all'applicazione per $n$ volte di un'operazione $x$ su un valore $y$.
+
+    In particolare, notiamo che tale definizione data da Church possa essere espressa in termini di \textbf{lambda calcolo}. Ad esempio, il numero naturale $3$ corrisponderà alla lambda astrazione $\lambda xy.x(x(xy))$
+    
+    \begin{framedprop}{Numeri naturali di Church}
+        I numeri naturali di Church, indicati con $\mathcal{N}_{\lambda}$, definiti come:
+        \[0_{\mathcal{N}_{\lambda}} := \lambda xy.y\]
+        \[1_{\mathcal{N}_{\lambda}} := \lambda xy.xy\]
+        \[2_{\mathcal{N}_{\lambda}} := \lambda xy.x(xy)\]
+        \[3_{\mathcal{N}_{\lambda}} := \lambda xy.x(x(xy))\]
+        \[...\]
+        dove $\funcmap{\mathrm{succ_{\mathcal{N}_{\lambda}}}}{\mathcal{N}_{\lambda}}{\mathcal{N}_{\lambda}}{n}{n \cup \{n\}}$, soddisfano gli assiomi di Peano
+
+        (\textit{dimostrazione omessa})
+    \end{framedprop}
+
+    Utilizzando la definizione di Church dei numeri naturali, è possibile definire un modello di calcolo \textbf{interamente basato sul lambda calcolo} dove ogni operazione possibile è definibile in termini di lambda astrazioni che lavorano sui numeri di Church (i quali a loro volta sono delle lambda astrazioni).
+    
+    Di conseguenza, potremmo effettivamente ridurre la grammatica dell'intero linguaggio $Fun$ in quella del lambda calcolo.
+
+    Procediamo quindi definendo i numeri di Church all'interno del linguaggio $Fun$:
+    \begin{itemize}
+        \item $\ttt{zero} := \fn{x}{\fn{y}{y}}$ oppure $\fn{xy}{y}$
+        \item $\ttt{one} := \fn{x}{\fn{y}{xy}}$ oppure $\fn{xy}{xy}$
+        \item $\ttt{two} := \fn{x}{\fn{y}{x(xy)}}$ oppure $\fn{xy}{x(xy)}$
+        \item $\ttt{three} := \fn{x}{\fn{y}{x(x(xy))}}$ oppure $\fn{xy}{x(x(xy))}$
+        \item $\ldots$
+    \end{itemize}
+
+    Definiamo inoltre una funzione $\ttt{eval}$ in grado di convertire un numero di Church nel suo equivalente nei numeri naturali:
+    \[\ttt{eval} := \fn{z}{z(\fn{x}{x+1}) \; 0}\]
+
+    Ad esempio, l'espressione \ttt{eval two} viene valutata come:
+    \[\ttt{eval two} \betaconv\]
+    \[\{\fn{z}{z(\fn{x}{x+1}) \; 0}\}[\fn{x}{\fn{y}{x(xy)}}] \betaconv\]
+    \[\{[\fn{x}{\fn{y}{x(xy)}}](\fn{x}{x+1}) \; 0\} \betaconv\]
+    \[\{[\fn{y}{(\fn{x}{x+1})((\fn{x}{x+1})y)}] \; 0\} \betaconv\]
+    \[[(\fn{x}{x+1})\{(\fn{x}{x+1}) \;0\}] \betaconv\]
+    \[[(\fn{x}{x+1}) \; 1] \betaconv\]
+    \[2\]
+
+    A questo punto, definiamo la funzione \ttt{succ} che restituisce il successore del numero di Church dato in input:
+    \[\ttt{succ} := \fn{z}{(\fn{x}{\fn{y}{z x (x y)}})}\]
+
+    Ad esempio, l'espressione \ttt{succ one} viene valutata come:
+    \[\ttt{succ one} \betaconv\]
+    \[ [\fn{z}{(\fn{x}{\fn{y}{z x (x y)}})}](\fn{x}{\fn{y}{xy}})\betaconv\]
+    \[ [\fn{x}{\fn{y}{(\fn{x}{\fn{y}{xy}}) x (x y)}}]\betaconv\]
+    \[ [\fn{x}{\fn{y}{(\fn{y}{xy}) (x y)}}]\betaconv\]
+    \[ \fn{x}{\fn{y}{x(x y)}}\betaconv\]
+    \[ \ttt{two}\]
+
+    \newpage
+
+    Successivamente, definiamo le seguenti ulteriori funzioni matematiche:
+    \begin{itemize}
+        \item La funzione \ttt{sum} che somma due numeri di Church:
+        \[\ttt{sum} := \fn{z}{\fn{w}{(\fn{x}{\fn{y}{z x (w x y)}})}}\]
+        oppure:
+        \[\ttt{sum} := \fn{z}{\fn{w}{z \ttt{ succ } w}}\]
+
+        \item La funzione \ttt{prod} che moltiplica due numeri di Church:
+        \[\ttt{prod} := \fn{z}{\fn{w}{(\fn{x}{\fn{y}{z (w x) y}})}}\]
+        oppure:
+        \[\ttt{prod} := \fn{z}{\fn{w}{z (\ttt{sum } w) \;\ttt{zero}}}\]
+
+        \item La funzione \ttt{power} che eleva un numero di Church ad un altro numero di Church:
+        \[\ttt{prod} := \fn{z}{\fn{w}{w z}}\]
+    \end{itemize}
+
+    Oltre ai numeri naturali, il lambda calcolo ci permette di descrivere anche la \textbf{logica booleana} di Church, dove i due valori \ttt{True} e \ttt{False} sono definiti come:
+    \[\ttt{True} := \fn{x}{\fn{y}{x}}\]
+    \[\ttt{False} := \fn{x}{\fn{y}{y}}\]
+
+    Come per i numeri di Church, definiamo una funzione \ttt{evalBool} in grado di convertire un booleano di Church in nel suo equivalente booleano:
+    \[\ttt{evalBool} := \fn{z}{z \; true \; false}\]
+    dove \textit{true} e \textit{false} sono i normali valori booleani
+
+    Infine, definiamo i seguenti operatori logici:
+    \begin{itemize}
+        \item L'operatore \ttt{ITE} (abbreviativo di \ttt{If-Then-Else}) che dati una condizione $z$ e due booleani di Church $u, v$, valuta $u$ se $z$ è \textit{true} oppure valuta $v$ se $z$ è \textit{false}:
+        \[\ttt{ITE} := \fn{z}{\fn{u}{\fn{v}{z \; u \; v}}}\]
+
+        \item L'operatore \ttt{If} che dati una condizione $z$ ed un booleano di Church $u$, valuta $u$ se $z$ è \textit{true}:
+        \[\ttt{If} := \fn{z}{\fn{u}{z \;u \;\ttt{True}}}\]
+
+        \item L'operatore \ttt{Not} che restituisce il negato di un booleano di Church:
+        \[\ttt{Not} := \fn{z}{\fn{x}{\fn{y}{z \; y \; x}}}\]
+
+        \item L'operatore \ttt{Or} che restituisce l'or logico tra due booleani di Church:
+        \[\ttt{Or} := \fn{z}{\fn{w}{\ttt{If}(\ttt{Not} \; z) w}}\]
+
+        \item L'operatore \ttt{And} che restituisce l'and logico tra due booleani di Church:
+        \[\ttt{And} := \fn{z}{\fn{w}{\ttt{Not}(\ttt{If} \; z \; (\ttt{Not} \; w))}}\]
+    \end{itemize}
+
+    \newpage
+
+    Di seguito viene fornito il codice SML per poter lavorare con il modello di calcolo appena definito:
+
+    \begin{verbatim}
+    (* Numeri di Church *)
+
+    val zero = fn x => fn y => y;
+    val one = fn x => fn y => x y;
+    val two = fn x => fn y => x(x y);
+    val three = fn x => fn y => x(x(x y));
+    
+    val eval = fn z => z (fn x => x+1) 0;
+    
+    val succ = fn z => fn x => fn y => z x (x y);
+    val sum = fn z => fn w => fn x => fn y => z x (w x y);
+    val prod = fn z => fn w => fn x => fn y => z (w x) y;
+    val power = fn z => fn w => w z;
+    
+    (* Booleani di Church *)
+
+    val True = fn x => fn y => x;
+    val False = fn x => fn y => y;
+    
+    val evalBool = fn z => z true false;
+    
+    val ITE = fn z => fn u => fn v => z u v;
+    val If = fn z => fn u => z u True;
+    
+    val Not = fn z => fn x => fn y => z y x;
+    val Or = fn z => fn w => If (Not z) w;
+    val And = fn z => fn w => Not (If z (Not w));
+    
+    (* Esempi *)
+    
+    eval (sum (power two three) (prod two three));
+    evalBool (And (ITE True False True) False);
+    \end{verbatim}
+
+    \newpage
+
+    \section{Ricorsione nei linguaggi funzionali}
+
+    \begin{frameddefn}{Punto fisso}
+        Data una funzione $\func{f}{X}{X}$ e un elemento $x \in X$, definiamo $x$ come \textbf{punto fisso di $f$} se $f(x) = x$
+    \end{frameddefn}
+
+    \begin{frameddefn}{Combinatore di punto fisso}
+        All'interno del lambda calcolo, definiamo come \textbf{combinatore di punto fisso} (o \textit{combinatore $\mathrm{Y}$}) la seguente funzione:
+        \[\mathrm{Y} \equiv \lambda f.(\lambda x.f(xx))(\lambda x.f(xx))\]
+
+        Equivalentemente, nel linguaggio $Fun$ il combinatore $\mathrm{Y}$ corrisponde a:
+        \[\mathrm{Y} \equiv \fn{f}{(\fn{x}{f(xx)})(\fn{x}{f(xx)})}\]
+    \end{frameddefn}
+
+    \begin{framedthm}{Ricorsione nel lambda calcolo}
+        Data una funzione $h$, l'espressione $\mathrm{Y}h$ applica la funzione $h$ \textbf{ricorsivamente}
+    \end{framedthm}
+
+    \textit{Dimostrazione:}
+
+    \begin{itemize}
+        \item Tramite la beta conversione, notiamo facilmente che:
+        \[\mathrm{Y}h \equiv [\lambda f.(\lambda x.f(xx))(\lambda x.f(xx))] \, h \betaconv\]
+        \[(\lambda x.h(xx))(\lambda x.h(xx)) \betaconv\]
+        \[h((\lambda x.h(xx))(\lambda x.h(xx))) \equiv h(\mathrm{Y}h)\]
+
+        dunque $\mathrm{Y}h$ è un punto fisso di $h$
+
+        \item Di conseguenza, abbiamo che:
+        \[\mathrm{Y}h \equiv h(\mathrm{Y}h) \equiv h(h(\mathrm{Y}h)) \equiv \ldots\]
+    \end{itemize}
+
+    \begin{framedobs}{}
+        All'interno dell'espressione $\mathrm{Y}h$, il combinatore $\mathrm{Y}$ genera \underline{solo} la ricorsione. Di conseguenza, all'interno di $h$ deve essere (in qualche modo) definito un caso base che possa fermare la ricorsione, poiché altrimenti si otterrebbe una valutazione infinita
+    \end{framedobs}
+    
+    \begin{framedlem}[label=nat_ric]{Ricorsione tramite numeri naturali}
+        Dato un insieme $A$, un elemento $a \in A$ e una funzione $\func{h}{A}{A}$, si ha che:
+        \[\exists! \; \func{f}{\N}{A} \mid f(n) = \soe{ll}{
+            a & \text{ se } n = 0\\
+            h(f(m)) & \text{ se } n = \mathrm{succ}(m)\\
+        }\]
+
+        Inoltre, definiamo tale insieme $A$ come un \textbf{oggetto su numeri naturali} (da \textit{Natural Numbers Object} in teoria delle categorie)
+    \end{framedlem}
+
+    \proofenv{
+        \begin{itemize}
+            \item Sia $\func{\mathrm{unit}}{\1}{A}$ la funzione nullaria che restituisce sempre $a$
+            \item L'algebra $(A, \mathrm{unit}, h)$ possiede la stessa segnatura dell'algebra induttiva $(\N, \mathrm{zero}, \mathrm{succ})$, dunque per la \nameref{signature} ne segue che:
+            \[\exists! \text{ omomorfismo } \func{f}{\N}{A}\]
+            dove tramite le proprietà degli omomorfismi abbiamo che:
+            \begin{itemize}
+                \item $f(0) = f(\mathrm{zero}(x)) = \mathrm{unit}(f(x)) = a$
+                \item $f(\mathrm{succ}(m)) = h(f(m))$
+            \end{itemize}
+        \end{itemize}
+    }
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Siano $B = \{true, false\}$ e $\funcmap{\mathrm{not}}{B}{B}{x}{\overline{x}}$
+        \item Dato l'elemento $true \in B$, per il lemma precedente si ha che:
+        \[\exists! \; \func{\mathrm{isEven}}{\N}{A} \mid \mathrm{isEven}(n) = \soe{ll}{
+            true & \text{ se } n = 0\\
+            \mathrm{not}(\mathrm{isEven}(m)) & \text{ se } n = \mathrm{succ}(m)\\
+        }\]
+        \item Analogamente, dato l'elemento $false \in B$ si ha che:
+        \[\exists! \; \func{\mathrm{isOdd}}{\N}{A} \mid \mathrm{isOdd}(n) = \soe{ll}{
+            false & \text{ se } n = 0\\
+            \mathrm{not}(\mathrm{isOdd}(m)) & \text{ se } n = \mathrm{succ}(m)\\
+        }\]
+    \end{itemize}
+
+    \begin{frameddefn}{Operatore $\rho$}
+        Dato il linguaggio $Fun$, definiamo l'operatore $\rhofun{M}{N}$ come:
+        \[(\rhofun{M}{N}) \; L = \soe{ll}{
+            M & \text{ se } L = 0\\
+            N \; ((\rhofun{M}{N}) \; n) & \text{ se } L = \ttt{succ} \; n
+        }\]
+        
+        In altre parole, se $M$ è un valore di un insieme $A$ e $N$ è una funzione da $A$ in $A$, l'operatore $\rhofun{M}{N}$ restituisce l'unica funzione dettata dalla \nameref{nat_ric}
+    \end{frameddefn}
+
+    \newpage
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Dati i booleani di Church, la valutazione di $(\rhofun{\ttt{True}}{\ttt{Not}})$ corrisponde alla funzione $\func{\mathrm{isEven}}{\N}{A}$ definita nell'esempio precedente
+        \item Difatti, abbiamo che:
+        \[(\rhofun{\ttt{True}}{\ttt{Not}}) \; L \equiv \soe{ll}{
+            \ttt{True} & \text{ se } L = 0\\
+            \ttt{Not} ((\rhofun{\ttt{True}}{\ttt{Not}}) \; n)  & \text{ se } L = \ttt{succ} \; n
+        }\]
+    \end{itemize}
+
+    \begin{framedthm}[label=prim_ric]{Unica funzione ricorsiva primitiva}
+        Dato un insieme $A$, un elemento $a \in A$ e una funzione $\func{h}{A \times \N}{A}$, si ha che:
+        \[\exists! \; \func{f}{\N}{A} \mid f(n) = \soe{ll}{
+            a & \text{ se } n = 0 \\ \relax
+            h(f(m), m) & \text{ se } n = \mathrm{succ}(m)
+        }\]
+        Inoltre, definiamo $f$ come l'\textbf{unica funzione ricorsiva primitiva tramite $h$}
+    \end{framedthm}
+
+    \proofenv{
+        \begin{itemize}
+            \item Consideriamo l'elemento $(a, 0) \in A \times \N$ e la seguente funzione 
+            \[\funcmap{\hat{h}}{A \times \N}{A \times \N}{(x,n)}{(h(x,n), \mathrm{succ}(n))}\]
+
+            \item Per il lemma della \nameref{nat_ric}, si ha che:
+            \[\exists! \; \func{\hat{f}}{\N}{\N \times A} \mid \hat{f}(n) = \soe{ll}{
+                (a,0) & \text{ se } n = 0 \\ \relax
+                \hat{h}(\hat{f}(m)) & \text{ se } n = \mathrm{succ}(m)
+            }\]
+
+            \item Sia $\func{f}{\N}{A}$ la funzione tale che:
+            \[f(n) = b \implies \exists m \in A \mid \hat{f}(n) = (b, m)\]
+
+            \item Per induzione (\textit{dio solo sa come}) si ha che $\forall n \in \N \;\; \hat{f}(n) = (f(n), n)$
+            \item Di conseguenza, dal risultato precedente e dalla definizione stessa di $\hat{f}$, otteniamo che:
+            \begin{itemize}
+                \item $(f(0), 0) = \hat{f}(0) = (a,0) \implies f(0) = a$
+                \item $(f(\mathrm{succ}(n)), \mathrm{succ}(n)) = \hat{f}(\mathrm{succ}(n)) = (\hat{h}(\hat{f}(n))) = (h(f(n), n), \mathrm{succ}(n)) \implies f(\mathrm{succ}(n)) = h(f(n), n)$
+            \end{itemize}
+
+            \item Supponiamo quindi per assurdo che esista un'altra funzione $\func{g}{\N}{A}$ diversa da $f$ (dunque $g \neq f$) tale che:
+            \[g(n) = \soe{ll}{
+                a & \text{ se } n = 0 \\ \relax
+                h(g(m), m) & \text{ se } n = \mathrm{succ}(m)
+            }\]
+
+            \item Poiché $g(0) = a = f(0)$, affinché valga $g \neq f$ ne segue necessariamente che:
+            \[\exists k \in \N \mid g(\mathrm{succ}(k)) \neq f(\mathrm{succ}(k))\]
+
+            \item Data la funzione $\funcmap{\hat{g}}{\N}{\N \times A}{n}{(g(n), n)}$, si ha che:
+            \[\hat{f}(\mathrm{succ}(k)) = (f(\mathrm{succ}(k)), \mathrm{succ}(k)) \neq (g(\mathrm{succ}(k)), \mathrm{succ}(k)) = \hat{g}(\mathrm{succ}(k)) \implies \hat{g} \neq \hat{f}\]
+            
+            \item Inoltre, tramite la definizione stessa di $\hat{g}$ abbiamo che:
+            \begin{itemize}
+                \item $\hat{g}(0) = (g(0), 0) = (a, 0)$
+                \item $\hat{g}(\mathrm{succ}(n)) = (g(\mathrm{succ}(n)), \mathrm{succ}(n)) = (h(g(n), n), \mathrm{succ}(n))$
+            \end{itemize}
+            contraddicendo la condizione secondo cui $\hat{f}$ sia l'unica funzione da $\N$ ad $A$ godente di tali proprietà
+
+            \item Di conseguenza, ne segue necessariamente che tale funzione $g$ non esista e dunque che $f$ sia l'unica funzione avente tali proprietà 
+        \end{itemize}
+    }
+
+    \begin{framedcor}{Unica funzione ricorsiva primitiva curryficata}
+        Dato un insieme $A$, un elemento $a \in A$ e una funzione $\func{h}{A}{(\N \to A)}$, tramite la \textbf{curryficazione} abbiamo che:
+        \[\exists! \; \func{f}{\N}{A} \mid f(n) = \soe{ll}{
+            a & \text{ se } n = 0 \\ \relax
+            h(f(m))(m) & \text{ se } n = \mathrm{succ}(m)
+        }\]
+    \end{framedcor}
+
+    \begin{frameddefn}{Operatore $rec$}
+        Dato il linguaggio $Fun$, definiamo l'operatore $\recfun{M}{N}$ come:
+        \[(\recfun{M}{N}) \; L = \soe{ll}{
+            M & \text{ se } L = 0\\
+            N \; ((\recfun{M}{N}) \; n) \; n  & \text{ se } L = \ttt{succ} \; n
+        }\]
+        
+        In altre parole, se $M$ è un valore di un insieme $A$ e $N$ è una funzione da $A$ in $(\N \to A)$, l'operatore $\rhofun{M}{N}$ restituisce l'\nameref{prim_ric}
+    \end{frameddefn}
+
+    \begin{framedobs}{}
+        Dato il linguaggio $Fun$, si ha che:
+        \[\recfun{M}{(\fn{x}{\fn{y}{N \; x}})} \equiv \rhofun{M}{N}\]
+    \end{framedobs}
+
+    \newpage
+
+    \textbf{Esempio:}
+
+    \begin{enumerate}
+        \item
+        \begin{itemize}
+            \item Vogliamo costruire la funzione $\ttt{fatt}$ definita come:
+            \[\ttt{fatt} \; M \equiv \soe{ll}{
+                1 & \text{ se } M = 0\\
+                (\ttt{fatt} \; n) * (\ttt{succ} \; n) & \text{ se } M = \ttt{succ} \; n
+            }\]
+
+            \item Notiamo che:
+            \[(\ttt{succ} \; n) * (\ttt{fatt} \; n) \equiv (\fn{x}{\fn{y}{x*(\ttt{succ} \; y)}}) (\ttt{fatt} \; n) \; n\]
+            
+            \item Di conseguenza, posta la funzione:
+            \[h \equiv (\fn{x}{\fn{y}{x*(\ttt{succ} \; y)}})\]
+
+            otteniamo che:
+            \[\ttt{fatt} \; M \equiv \soe{ll}{
+                1 & \text{ se } M = 0\\
+                h \; (\ttt{fatt} \; n) \; n & \text{ se } M = \ttt{succ} \; n
+            }\]
+
+            \item Poiché $1 \in \N$ e $\func{h}{\N}{(\N \to \N)}$, dalla definizione di $rec$ concludiamo che:
+            \[\ttt{fatt} \equiv \recfun{1}{h} \equiv \recfun{1}{(\fn{x}{\fn{y}{x*(\ttt{succ} \; y)}})} \]
+        \end{itemize}
+
+        \item 
+        \begin{itemize}
+            \item Vogliamo costruire la funzione $\ttt{twice}$ definita come:
+            \[\ttt{twice} \; M \equiv \soe{ll}{
+                0 & \text{ se } M = 0\\
+                \ttt{succ} \; (\ttt{succ} \; (\ttt{twice} \; n)) & \text{ se } M = \ttt{succ} \; n
+            }\]
+
+            \item Notiamo che:
+            \[\ttt{succ} \; (\ttt{succ} \; (\ttt{twice} \; n)) \equiv (\fn{x}{\fn{y}{\ttt{succ} \; (\ttt{succ} \; x)}}) \; (\ttt{twice} \; n) \; n\]
+
+            \item Di conseguenza, posta la funzione:
+            \[h \equiv (\fn{x}{\fn{y}{\ttt{succ} \; (\ttt{succ} \; x)}})\]
+
+            otteniamo che:
+            \[\ttt{twice} \; M \equiv \soe{ll}{
+                0 & \text{ se } M = 0\\
+                h \; (\ttt{twice} \; n) \; n & \text{ se } M = \ttt{succ} \; n
+            }\]
+
+            \item Poiché $1 \in \N$ e $\func{h}{\N}{(\N \to \N)}$, dalla definizione di $rec$ concludiamo che:
+            \[\ttt{twice} \equiv \recfun{0}{h} \equiv \recfun{0}{(\fn{x}{\fn{y}{\ttt{succ} \; (\ttt{succ} \; x)}})} \]
+        \end{itemize}
+    \end{enumerate}
+
+
+    \begin{frameddefn}{Linguaggio $Fun_{\rho}$}
+        Definiamo come $Fun_{\rho}$ il linguaggio rappresentato dalla seguente grammatica:
+        \[M, N ::= x \smid \fn{x}{M} \smid M \; N \smid 0 \smid \mathrm{succ }\; M \smid \recfun{M}{N}\]
+    \end{frameddefn}
+
+    \chapter{Paradigma imperativo}
+
+    \section{$Imp$: un semplice linguaggio imperativo}
+
+    \begin{frameddefn}{Il linguaggio $Imp$}
+        Definiamo come $Imp$ il linguaggio rappresentato dalle seguenti grammatiche:
+        \[\begin{array}{r l l}
+            M,N & ::= & k \smid x \smid M+N \smid M < N \\
+            P,Q & ::= & skip \smid P;\; Q \smid \ite{M}{P}{Q} \smid \while{M}{P} \smid \\
+                &     & \varin{x}{M}{P} \smid x := M
+        \end{array}\]
+        dove:
+        \begin{itemize}
+            \item La prima grammatica rappresenta l'insieme $Exp$ delle \textbf{espressioni}
+            \item La seconda grammatica rappresenta l'insieme $Imp$ dei \textbf{programmi}
+            \item $k \in \{true, false\} \cup \{0,1,\ldots\}$ ossia è una \textbf{costante}
+            \item $x \in Var = \{x,y,z,\ldots\}$ ossia è una \textbf{variabile}
+            \item Il termine $skip$ è il programma che \textbf{non esegue alcuna operazione}
+            \item Il termine $P; \; Q$ esegue prima il programma $P$ e poi il programma $Q$
+            \item Il termine $ite$ esegue il programma $P$ se l'espressione $M$ è vera, altrimenti esegue il programma $Q$ 
+            \item Il termine $while$ esegue il programma $P$ finché l'espressione $M$ è vera
+            \item Il termine $var$ \textbf{dichiara} la variabile $x$ e gli \textbf{assegna} l'espressione $M$ all'interno della \textbf{valutazione} di $P$. Inoltre, $x$ prende il nome di variabile locale in $P$
+            \item Il termine $:=$ \textbf{assegna} l'espressione $M$ alla variabile $x$ (solo se $x$ è stata precedentemente dichiarata)
+        \end{itemize}
+    \end{frameddefn}
+
+    \textbf{Esempi:}
+
+    \begin{itemize}
+        \item Il programma $\varin{x}{0}{\while{x < 10}{x := x+1}}$ è un termine valido di $Imp$
+        \item Il programma $\varin{x}{0}{\while{x < 10}{y := x+1}}$ non è un termine valido di $Imp$, poiché la variabile $y$ non è stata dichiarata prima dell'assegnamento
+    \end{itemize}
+
+    \begin{frameddefn}{Insieme delle locazioni}
+        Dato il linguaggio $Imp$, definiamo come \textbf{insieme delle locazioni}, indicato con $Loc$, l'insieme contenente le locazioni di memoria, ossia gli indirizzi di memoria ai quali sono associati dei valori (sostanzialmente, una locazione è un \textbf{puntatore})
+    \end{frameddefn}
+
+    \begin{frameddefn}{Insieme degli ambienti in $Imp$}
+        Dato il linguaggio $Imp$, definiamo come \textbf{insieme degli ambienti di $Imp$}, indicato con $Env$, il seguente insieme:
+        \[Env = \{f \mid f : Var \stackrel{fin}{\to} Loc\}\]
+    \end{frameddefn}
+
+    \begin{frameddefn}{Insieme delle memorie in $Imp$}
+        Dato il linguaggio $Imp$, definiamo come \textbf{insieme delle memorie di $Imp$}, indicato con $Store$, il seguente insieme:
+        \[Store = \{f \mid f : Loc \stackrel{fin}{\to} Val\}\]
+    \end{frameddefn}
+
+    \begin{frameddefn}{Concatenazione di memorie}
+        Dato il linguaggio $Imp$, definiamo l'operazione di \textbf{concatenazione di memorie}, ossia:
+        \[\func{\cdot}{Store \times Store}{Store}\]
+        dove:
+        \[(S_1S_2)(x) = \soe{ll}{
+            S_2(x) & \text{ se } x \in dom(S_1)\\
+            S_1(x) & \text{ altrimenti }\\
+        }\]
+    \end{frameddefn}
+
+    \begin{frameddefn}{Semantiche operazionali di $Imp$}
+        Dato il linguaggio $Imp$, definiamo su di esso le seguenti due semantiche:
+        
+        \begin{itemize}
+            \item La \textbf{semantica delle espressioni}
+            \[\stackrel{M}{\leadsto} \;\subseteq Env \times Exp \times Store \times Val\]
+            dove $(E, M, S, v) \in \; \stackrel{M}{\leadsto}$ viene descritta dalla notazione $\opjudstore{E}{M}{S}{v}$
+            \item La \textbf{semantica dei programmi}
+            \[\stackrel{P}{\leadsto} \; \subseteq Env \times Imp \times Store \times Store\]
+            dove $(E, P, S, S') \in \; \stackrel{P}{\leadsto}$ viene descritta dalla notazione $\opjudstore{E}{P}{S}{S'}$
+        \end{itemize}
+    \end{frameddefn}
+
+    Le regole operazionali di tali semantiche sono definite come:
+
+    \begin{itemize}
+        \item \textbf{Costanti}:
+        \[\opjudstore{E}{k}{S}{k}\]
+
+        \item \textbf{Variabili}:
+        \[\opjudstore{E}{x}{S}{v} \quad (\text{se } S(E(x)) = v)\]
+
+        \item \textbf{Somma}:
+        \[\frac{\opjudstore{E}{M}{S}{v} \quad \opjudstore{E}{N}{S}{v'}}{\opjudstore{E}{M+N}{S}{u}} \quad (\text{se } u = v+v')\]
+
+        \item \textbf{Minorazione}:
+        \[\frac{\opjudstore{E}{M}{S}{v} \quad \opjudstore{E}{N}{S}{v'}}{\opjudstore{E}{M < N}{S}{true}} \quad (\text{se } v < v')\]
+
+        \[\frac{\opjudstore{E}{M}{S}{v} \quad \opjudstore{E}{N}{S}{v'}}{\opjudstore{E}{M < N}{S}{false}} \quad (\text{se } v \geq v')\]
+
+        \item \textbf{Skip}:
+        \[\opjudstore{E}{skip}{S}{S}\]
+
+        \item \textbf{Esecuzione sequenziale}:
+        \[\frac{\opjudstore{E}{P}{S}{S'} \quad \opjudstore{E}{Q}{S'}{S''}}{\opjudstore{E}{P; \; Q}{S}{S''}}\]
+
+        \item \textbf{If-then-else}:
+        \[\frac{\opjudstore{E}{M}{S}{true} \quad \opjudstore{E}{P}{S}{S'}}{\opjudstore{E}{\ite{M}{P}{Q}}{S}{S'}}\]
+
+        \[\frac{\opjudstore{E}{M}{S}{false} \quad \opjudstore{E}{Q}{S}{S'}}{\opjudstore{E}{\ite{M}{P}{Q}}{S}{S'}}\]
+
+        \item \textbf{While}:
+        \[\frac{\opjudstore{E}{M}{S}{true} \quad \opjudstore{E}{P}{S}{S'} \quad \opjudstore{E}{\while{M}{P}}{S'}{S''}}{\opjudstore{E}{\while{M}{P}}{S}{S''}}\]
+
+        \[\frac{\opjudstore{E}{M}{S}{false}}{\opjudstore{E}{\while{M}{P}}{S}{S}}\]
+        
+        \item \textbf{Dichiarazione e assegnamento}:
+        \[\frac{\opjudstore{E}{M}{S}{v} \quad \opjudstore{E\{(x, l)\}}{P}{S\{(l, v)\}}{S'}}{\opjudstore{E}{\varin{x}{M}{P}}{S}{S'}}\]
+        dove $l \notin dom(S)$, ossia è una nuova locazione di memoria
+
+        \item \textbf{Assegnamento}:
+        \[\frac{\opjudstore{E}{M}{S}{v}}{\opjudstore{E}{x := M}{S}{S\{(l,v)\}}} \quad (\text{se } E(x) = l)\]
+    \end{itemize}
+
+    \begin{framedobs}{}
+        Tramite le definizioni date delle due semantiche e delle loro regole operazionali, notiamo che le espressioni vengono valutate in \textbf{valori} mentre i programmi vengono valutati in \textbf{memorie}.
+
+        Di conseguenza, i programmi \textbf{propagano "a ritroso"} (ossia scendendo nell'albero di derivazione) le modifiche alla memoria, mentre le espressioni \textbf{propagano "in avanti"} (ossia salendo nell'albero di derivazione) le modifiche all'ambiente 
+    \end{framedobs}
+
+    \quad
+
+    \section{$All$: un linguaggio con procedure}
+
+
+    \begin{frameddefn}{Il linguaggio $All$}
+        Definiamo come $All$ il linguaggio rappresentato dalle seguenti grammatiche:
+        \[\begin{array}{r l l}
+            V   & ::= & x \smid x[M] \\
+            M,N & ::= & k \smid V \smid M+N \smid M < N \\
+            P,Q & ::= & skip \smid P;\; Q \smid \ite{M}{P}{Q} \smid \while{M}{P} \smid \\
+                &     & \varin{x}{M}{P} \smid \arrin{x}{[M_0, \ldots, M_n]}{P} \smid V := M \smid \\
+                &     & \procin{y}{x}{P}{Q} \smid \call{y}{M}
+        \end{array}\]
+        dove:
+        \begin{itemize}
+            \item La prima grammatica rappresenta l'insieme $LExp$ (per \textit{left expressions}) delle \textbf{espressioni assegnabili}
+            \item La seconda grammatica rappresenta l'insieme $Exp$ delle \textbf{espressioni valutabili}
+            \item La terza grammatica rappresenta l'insieme $Imp$ dei \textbf{programmi}
+            \item $k \in \{true, false\} \cup \{0,1,\ldots\}$ ossia è una \textbf{costante}
+            \item $x \in Var = \{x,y,z, \ldots\}$ ossia è una \textbf{variabile}
+            \item I termini già presenti in $Imp$ sono definiti ugualmente
+            \item Il termine $arr$ \textbf{dichiara} l'array $x$ e gli \textbf{assegna} le espressioni $M_0, \ldots, M_n$ all'interno della \textbf{valutazione} di $P$
+            \item Il termine $proc$ dichiara una \textbf{procedura} $y$ (ossia una funzione) con parametro $x$ richiamabile all'interno di $P$
+            \item Il termine $call$ \textbf{richiama} la procedura $y$ passando $M$ come argomento di essa (solo se $y$ è stata precedentemente definita) 
+        \end{itemize}
+    \end{frameddefn}
+
+    \begin{frameddefn}{Insieme delle locazioni contigue}
+        Dato l'insieme $Loc$ e il linguaggio $All$, definiamo come \textbf{insieme delle locazioni contigue}, indicato con $Loc^+$, l'insieme contenente le sequenze di locazioni contigue di memoria 
+    \end{frameddefn}
+
+    \begin{framedprop}{Ridefinizione di $Env$ in $All$}
+        Dato il linguaggio $All$, definiamo come \textbf{insieme degli ambienti di $All$}, indicato con $Env$, il seguente insieme:
+        \[Env = \{f \mid f : Var \stackrel{fin}{\to} Loc^+ \cup (Var \times All \times Env)\}\]
+    \end{framedprop}
+
+    \begin{frameddefn}{Semantiche operazionali di $All$}
+        Dato il linguaggio $All$, definiamo su di esso le seguenti due semantiche:
+        
+        \begin{itemize}
+            \item La \textbf{semantica delle espressioni assegnabili}
+            \[\stackrel{V}{\leadsto} \;\subseteq Env \times LExp \times Store \times Loc\]
+            dove $(E, M, S, l) \in \; \stackrel{V}{\leadsto}$ viene descritta dalla notazione $\opjudstore[V]{E}{V}{S}{l}$
+
+            \item La \textbf{semantica delle espressioni valutabili}
+            \[\stackrel{M}{\leadsto} \;\subseteq Env \times Exp \times Store \times Val\]
+            dove $(E, M, S, v) \in \; \stackrel{M}{\leadsto}$ viene descritta dalla notazione $\opjudstore[M]{E}{M}{S}{v}$
+
+            \item La \textbf{semantica dei programmi}
+            \[\stackrel{P}{\leadsto} \; \subseteq Env \times All \times Store \times Store\]
+            dove $(E, P, S, S') \in \; \stackrel{P}{\leadsto}$ viene descritta dalla notazione $\opjudstore[P]{E}{P}{S}{S'}$
+        \end{itemize}
+    \end{frameddefn}
+
+    Oltre alle regole operazionali già definite in $Imp$, vengono definite le seguenti regole aggiuntive:
+
+    \begin{itemize}
+        \item \textbf{Locazione}:
+        \[\opjudstore[V]{E}{x}{S}{l} \quad (\text{se } E(x) = l)\]
+
+        \item \textbf{Locazione in array}:
+        \[\dfrac{\opjudstore[M]{E}{M}{S}{m}}{\opjudstore[V]{E}{x[M]}{S}{l_m}} \quad (\text{se } E(x) = \abk{l_0, \ldots, l_n} \land m \in [0,n])\]
+
+        \item \textbf{Riferimento}:
+        \[\dfrac{\opjudstore[V]{E}{V}{S}{l}}{\opjudstore[M]{E}{V}{S}{v}} \quad (\text{se } S(l) = v)\]
+
+        \item \textbf{Assegnamento}:
+        \[\dfrac{\opjudstore[M]{E}{M}{S}{v} \quad \opjudstore[V]{E}{V}{S}{l}}{\opjudstore[P]{E}{V := M}{S}{S\{(l,v)\}}}\]
+
+        \item \textbf{Dichiarazione array}:
+    \end{itemize}
+    \[\dfrac{\opjudstore[M]{E}{M_0}{S}{v_0} \quad \ldots \quad \opjudstore[M]{E}{M_n}{S}{v_n} \quad \opjudstore[P]{E\{(x, (l_0, \ldots, l_n))\}}{P}{S\{(l_0, v_0), \ldots, (l_n, v_n)\}}{S'}}{\opjudstore[P]{E}{\arrin{x}{[M_0, \ldots, M_n]}{P}}{S}{S'}}\]
+    
+    \qquad dove $l_0, \ldots, l_n \notin dom(S)$, ossia sono nuove locazioni di memoria
+
+    \newpage
+
+    \begin{itemize}
+        \item \textbf{Procedura}:
+        \[\dfrac{\opjudstore[P]{E\{y, (x,P,E)\}}{Q}{S}{S'}}{\opjudstore[P]{E}{\procin{y}{x}{P}{Q}}{S}{S'}}\]
+
+    \end{itemize}
+
+    \quad
+
+    \subsection{Semantiche di $All$}
+
+    \begin{frameddefn}{Semantiche di $All$}
+        Per via della separazione tra i concetti di \textit{ambiente} e \textit{memoria}, i valori degli argomenti delle procedure possono essere richiamati tramite tre semantiche operazionali:
+        \begin{itemize}
+            \item \textbf{Call-by-value}, ossia tramite una \textbf{semantica eager statica} in cui come argomento viene passato un termine di $Exp$ \tit{valutato} (passaggio per valore)
+            \item \textbf{Call-by-reference}, ossia tramite una \textbf{semantica eager statica} in cui come argomento viene passato un termine di $LExp$ \tit{valutato} (passaggio per riferimento)
+            \item \textbf{Call-by-name}, ossia tramite una \textbf{semantica lazy statica} in cui come argomento viene passato un termine di $LExp$ \tit{non ancora valutato} (passaggio per riferimento)
+        \end{itemize}
+    \end{frameddefn}
+
+    \begin{framedprop}{Linguaggio $All$ call-by-value}
+        La semantica call-by-value del linguaggio $All$ prevede l'aggiunta della seguente regola operazionale:
+
+        \begin{itemize}
+            \item \textbf{Richiamo by-value}:
+            \[\dfrac{\opjudstore[M]{E}{M}{S}{v} \quad
+            \opjudstore{E'\{(x,l)\}}{P}{S\{(l,v)\}}{S'}}{\opjudstore[P]{E}{\call{y}{M}}{S}{S'}} \quad (\text{se } E(y) = (x, P, E'))\]
+            dove $l \notin dom(S)$, ossia è una nuova locazione di memoria
+        \end{itemize}
+    \end{framedprop}
+
+    \begin{framedprop}{Linguaggio $All$ call-by-reference}
+        La semantica call-by-reference del linguaggio $All$ prevede l'aggiunta della seguente regola operazionale:
+
+        \begin{itemize}
+            \item \textbf{Richiamo by-reference}:
+            \[\dfrac{\opjudstore[V]{E}{V}{S}{l} \quad
+            \opjudstore{E'\{(x,l)\}}{P}{S}{S'}}{\opjudstore[P]{E}{\call{y}{V}}{S}{S'}}\quad (\text{se } E(y) = (x, P, E'))\]
+        \end{itemize}
+    \end{framedprop}
+
+    \begin{framedprop}{Linguaggio $All$ call-by-name}
+        La semantica call-by-name del linguaggio $All$ prevede la ridefinizione di $Env$ come:
+        \[Env = \{f \mid f : Var \stackrel{fin}{\to} Loc^+ \cup (Var \times All \times Env) \cup (LExp \times Env) \}\]
+        e l'aggiunta delle seguenti regole operazionali:
+
+        \begin{itemize}
+            \item \textbf{Locazione in variabile}:
+            \[\dfrac{\opjudstore[V]{E'}{V}{S}{l}}{\opjudstore[V]{E}{x}{S}{l}} \quad (\text{se } E(x) = (V, E'))\]
+
+            \item \textbf{Richiamo by-name}:
+            \[\dfrac{\opjudstore{E'\{(x,(V,E))\}}{P}{S}{S'}}{\opjudstore[P]{E}{\call{y}{V}}{S}{S'}} \quad (\text{se } E(y) = (x, P, E'))\]
+        \end{itemize}
+    \end{framedprop}
+
+
+    \begin{framedlem}{}
+        Dato il linguaggio $All$, si ha che:
+        \[All \text{ call-by-value } \not\equiv All \text{ call-by-reference}\]
+        \[All \text{ call-by-value } \not\equiv All \text{ call-by-name}\]
+    \end{framedlem}
+
+    \proofenv{
+        \begin{itemize}
+            \item Consideriamo il programma $\procin{y}{x}{P}{Q}$
+            \item Nel caso della semantica call-by-value, per la chiamata $\call{y}{M}$ verrà sempre creata una nuova locazione per il parametro $x$, portando le operazioni svolte su di $x$ stesso ad influenzare tale nuova locazione
+            \item Nel caso delle semantiche call-by-reference e call-by-name, invece, per la chiamata $\call{y}{V}$ verrà utilizzata direttamente la locazione associata all'espressione $V$, portando le operazioni svolte su di $x$ stesso ad influenzare tale locazione già esistente
+            \item Di conseguenza, risulta evidente come il programma restituisca uno stato diverso in base al tipo di passaggio utilizzato
+        \end{itemize}
+    }
+
+    \textbf{Esempio}:
+    \begin{itemize}
+        \item Consideriamo il programma
+        \[\varin{x}{5}{\procin{y}{z}{z := 1}{\call{y}{x}}}\]
+
+        \item Utilizzando la semantica call-by-value, il suo albero di derivazione corrisponde a:
+        \[\dfrac{
+            \opjudstore{\varnothing}{5}{\varnothing}{5} \quad
+            \dfrac{
+                \dfrac{
+                    \dfrac{
+                        \opjudstore[V]{E'}{x}{\{(l,5)\}}{l}
+                    }{
+                        \opjudstore[M]{E'}{x}{\{(l,5)\}}{5}
+                    }
+                    \quad
+                    \dfrac{
+                        \opjudstore[M]{E''}{1}{S}{1}
+                        \quad
+                        \opjudstore[V]{E''}{z}{S}{\{(l',1)\}}
+                    }{
+                        \opjudstore{E''}{z := 1}{S}{S\{(l',1)\}}
+                    }
+                }{
+                    \opjudstore{E'}{\call{y}{x}}{\{(l,5)\}}{S\{(l',1)\}}
+                }
+            }
+            {
+                \opjudstore{E}{\procin{y}{z}{z := 1}{\call{y}{x}}}{\{(l,5)\}}{S\{(l',1)\}}
+            }
+        }{
+            \opjudstore{\varnothing}{\varin{x}{5}{\procin{y}{z}{z := 1}{\call{y}{x}}}}{\varnothing}{S\{(l',1)\}}
+        }\]
+
+        dove $E := \{(x,l)\}, E' := E\{(y,(z, z := 1, E))\}, E'' := E'\{(z, l')\}$ e $S := \{(l,5), (l', 5)\}$, restituendo quindi la memoria $S \{(l', 1)\} = \{(l, 5), (l', 1)\}$
+
+        \item Utilizzando la semantica call-by-reference, il suo albero di derivazione corrisponde a:
+        \[\dfrac{
+            \opjudstore{\varnothing}{5}{\varnothing}{5} \quad
+            \dfrac{
+                \dfrac{
+                    \opjudstore[V]{E'}{x}{\{(l,5)\}}{l}
+                    \quad
+                    \dfrac{
+                        \opjudstore[M]{E''}{1}{\{l,5\}}{1}
+                        \quad
+                        \opjudstore[V]{E''}{z}{\{l,5\}}{\{(l,1)\}}
+                    }{
+                        \opjudstore{E''}{z := 1}{\{l,5\}}{\{(l,1)\}}
+                    }
+                }{
+                    \opjudstore{E'}{\call{y}{x}}{\{(l,5)\}}{\{(l,1)\}}
+                }
+            }
+            {
+                \opjudstore{E}{\procin{y}{z}{z := 1}{\call{y}{x}}}{\{(l,5)\}}{\{(l,1)\}}
+            }
+        }{
+            \opjudstore{\varnothing}{\varin{x}{5}{\procin{y}{z}{z := 1}{\call{y}{x}}}}{\varnothing}{\{(l,1)\}}
+        }\]
+
+        dove $E := \{(x,l)\}, E' := E\{(y,(z, z := 1, E))\}, E'' := E'\{(z, l)\}$, restituendo quindi la memoria $\{(l, 1)\}$
+    \end{itemize}
+
+    \begin{framedlem}{}
+        Dato il linguaggio $All$, si ha che:
+        \[All \text{ call-by-reference} \not\equiv All \text{ call-by-name}\]
+    \end{framedlem}
+
+    \proofenv{
+        \begin{itemize}
+            \item Consideriamo il programma
+            \[\varin{x}{0}{\arrin{z}{[3,7]}{\procin{y}{w}{x:=1;\; w :=42}{\call{y}{z[x]}}}}\]
+            \item Nel caso della semantica call-by-reference, durante la chiamata $y(z[x])$, l'espressione $x$ viene valutata immediatamente, implicando che il parametro $w$ punterà alla locazione di $z[x] = z[0]$ 
+            \item Nel caso della semantica call-by-name, invece, la valutazione dell'espressione $x$ viene rimandata fino all'espressione $w := 42$. Tuttavia, prima di tale valutazione si ha che $x := 1$, implicando che la valutazione di $x$ restituirà $1$ e dunque che $w$ punterà alla locazione di $z[x] = z[1]$
+        \end{itemize}
+    }
+
+    \begin{framedthm}{Equivalenze semantiche di $All$}
+        Dato il linguaggio $All$, \textbf{non esistono due semantiche equivalenti}
+    \end{framedthm}
+
+    \chapter{Correttezza dei programmi}
+
+    \section{Correttezza dei programmi imperativi}
+
+    \subsection{Invarianti di un programma}
+
+    Nel Papiro di Rhind (circa 1650 a.C), viene descritto, fra molte altre discussioni matematiche, l'algoritmo usato dagli antichi egizi per svolgere la moltiplicazione.
+
+    Dati due numeri $x, y \in \N-\{0\}$ da moltiplicare, l'algoritmo prosegue come tale:
+    \begin{enumerate}
+        \item Raddoppio $x$ e se $y$ è dispari sottraggo $1$ ad esso e lo divido per due, altrimenti se $y$ è pari lo divido direttamente per due
+        \item Scrivo i due nuovi valori di $x$ e $y$ sotto ai valori precedenti
+        \item Ripeto il passo $1)$ finché non ottengo che $y = 1$
+        \item Tra tutte le coppie di valori scritte, scarto tutte le coppie in cui $y$ è pari
+        \item L'output corrisponde alla somma di tutti i valori di $x$ delle coppie rimanenti
+    \end{enumerate}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Applichiamo i primi due step sui numeri $x = 45$ e $y = 138$:
+        \begin{center}
+            \begin{tabular}{r | l}
+                45 & 138 \\
+                90 & 69 \\
+                180 & 34 \\
+                360 & 17 \\
+                720 & 8 \\
+                1440 & 4 \\
+                2880 & 2 \\
+                5760 & 1 \\
+            \end{tabular}
+        \end{center}
+
+        \newpage
+
+        \item Successivamente, scartiamo tutte le coppie per cui $y$ è pari:
+        \begin{center}
+            \begin{tabular}{r | l}
+                90 & 69 \\
+                360 & 17 \\
+                5760 & 1 \\
+            \end{tabular}
+        \end{center}
+        \item A questo punto, sommiamo i valori di $x$:
+        \[5760 + 360 + 90 = 6210\]
+        ottenendo il risultato del prodotto $45 \cdot 138$
+    \end{itemize}
+
+
+    Definiamo quindi il codice dell'algoritmo egiziano per la moltiplicazione:
+    \begin{verbatim}
+    int AegyptProduct(int a, int b){
+        int x = a;
+        int y = b;
+        int res = 0;
+
+        while(y > 0){
+            if(y % 2 == 0){
+                x = x + x;
+                y = y/2;
+            }
+            else{
+                res = res + x;
+                y = y - 1;
+            }
+        }
+
+        return res;
+    }
+    \end{verbatim}
+
+    A questo punto, vogliamo dimostrare la \textbf{correttezza} di tale algoritmo. Consideriamo quindi la seguente espressione:
+    \[x \cdot y + \mathrm{res} = a \cdot b\]
+    Notiamo come tale espressione rimanga \textbf{sempre vera} sia prima del while, sia per ogni iterazione del while e sia dopo il while.
+
+    Siano quindi $x', y'$ e $\mathrm{res}'$ i valori finali assunti dalle tre variabili. Poiché tale espressione è sempre vera e poiché la condizione di uscita del while è $y' = 0$, abbiamo che:
+    \[a \cdot b = x' \cdot y' + \mathrm{res}' = x' \cdot 0 + \mathrm{res}' = \mathrm{res}'\]
+    dunque la funzione restituisce correttamente il prodotto tra $a$ e $b$
+
+    \begin{frameddefn}{Invariante}
+        Definiamo come \textbf{invariante} di un oggetto una matematico una sua proprietà che rimane valida a seguito di operazioni o trasformazioni applicate sull'oggetto stesso 
+    \end{frameddefn}
+
+    \newpage
+
+    \begin{framedprop}{}
+        La proprietà:
+        \[x \cdot y + \mathrm{res} = a \cdot b\]
+        è un'invariante della funzione \ttt{AegyptProduct}
+    \end{framedprop}
+
+    \proofind{
+        \begin{itemize}
+            \item Siano $x_0, \ldots, x_f, y_0, \ldots, y_f$ e $\mathrm{res}_0, \ldots, \mathrm{res}_f$ i valori delle variabili $x, y$ e $\mathrm{res}$ per ogni iterazione del while, dove $f$ è l'iterazione in cui la condizione del while risulta falsa.
+        \end{itemize}
+    }{
+        \begin{itemize}
+            \item Prima del ciclo while, dunque all'iterazione 0, si ha che:
+            \[x_0 \cdot y_0 + \mathrm{res}_0 = a \cdot b + 0 = a \cdot b\]
+        \end{itemize}
+    }
+    {
+        \begin{itemize}
+            \item Supponiamo che per l'$i$-esima iterazione valga che:
+            \[x_i \cdot y_i + \mathrm{res}_i = a \cdot b\]
+        \end{itemize}
+    }
+    {
+        \begin{itemize}
+            \item Se per l'$i$-esima iterazione si verifica che $\congmod{y_i}{0}{2}$, allora:
+            \begin{itemize}
+                \item $x_{i+1} = 2x_i$
+                \item $y_{i+1} = \frac{y_i}{2}$
+                \item $\mathrm{res}_{i+1} = \mathrm{res}_{i}$
+            \end{itemize}
+            implicando che:
+            \[x_{i+1} \cdot y_{i+1} + \mathrm{res}_{i+1} = 2x_i \cdot \frac{y_i}{2} + \mathrm{res}_{i} = x_i \cdot y_i + \mathrm{res}_i = a \cdot b\]
+
+            \item Altrimenti, si ha che:
+            \begin{itemize}
+                \item $x_{i+1} = x_i$
+                \item $y_{i+1} = y_i-1$
+                \item $\mathrm{res}_{i+1} = \mathrm{res}_{i} + x_i$
+            \end{itemize}
+            implicando che:
+            \[x_{i+1} \cdot y_{i+1} + \mathrm{res}_{i+1} = x_{i} \cdot (y_i -1)+ \mathrm{res}_i + x_i = x_i \cdot y_i + \mathrm{res}_i = a \cdot b\]
+        \end{itemize}
+    }
+    
+    \begin{framedmeth}{Metodo delle invarianti}
+        Per dimostrare la correttezza di un algoritmo, è possibile individuare una sua invariante tramite cui dimostrare la sua correttezza, riducendo la dimostrazione della correttezza nella dimostrazione dell'invarianza. Tale invariante viene detta \textbf{specifica di correttezza} dell'algoritmo.
+    \end{framedmeth}
+
+    \quad
+
+    \subsection{Logica di Hoare}
+    
+    Avendo trattato i linguaggi imperativi e il metodo delle invarianti, vogliamo definire una grammatica che ci permetta di dimostrare la \textbf{correttezza dei programmi imperativi} in modo più diretto.
+    
+    \begin{frameddefn}{Logica di Hoare}
+        Definiamo come Logica di Hoare il linguaggio assiomatico rappresentato dalle seguenti grammatiche:
+        \[\begin{array}{r l l}
+            M,N & ::= & k \smid x \smid M+N \\
+            A,B & ::= & true \smid false \smid A \supset B \smid M < N \smid M = N \\
+            P,Q & ::= & skip \smid P;\; Q \smid \ite{B}{P}{Q} \smid \while{B}{P} \smid x := M\\
+        \end{array}\]
+
+        dove:
+        \begin{itemize}
+            \item La prima grammatica rappresenta l'insieme delle \textbf{espressioni numeriche}
+            \item La seconda grammatica rappresenta l'insieme delle \textbf{espressioni booleane}
+            \item La terza grammatica rappresenta l'insieme dei \textbf{programmi}
+            \item $k \in \{0,1, \ldots\}$ ossia è una \textbf{costante}
+            \item $x \in \{x,y,z, \ldots \}$ ossia è una \textbf{variabile}
+            \item Il simbolo $\supset$ è l'\textbf{implicazione logica} (dunque equivale al simbolo $\implies$)
+        \end{itemize}
+    \end{frameddefn}
+
+    Definiamo inoltre alcune abbreviazioni sintattiche:
+    \begin{itemize}
+        \item La notazione $\lnot A$ corrisponde al termine $A \supset false$
+        \item La notazione $A \lor B$ corrisponde al termine $\lnot A \supset B$
+        \item La notazione $A \land B$ corrisponde al termine $\lnot(\lnot A \supset B)$
+        \item La notazione $A \leq B$ corrisponde al termine $(A < B) \lor (A = B)$
+        \item La notazione $A > B$ corrisponde al termine $\lnot ( (A < B) \lor (A = B))$
+        \item La notazione $A \geq B$ corrisponde al termine $\lnot (A < B)$
+    \end{itemize}
+
+    \begin{frameddefn}{Tripla di Hoare}
+        Data la logica di Hoare, siano $A$ e $B$ due espressioni booleane e sia $P$ un programma. Se \textbf{eseguendo} $P$ in uno stato che \textbf{soddisfa} $A$, si ottiene uno stato che \textbf{soddisfa} $B$, definiamo l'espressione
+        \[\hoare{A}{P}{B}\]
+        come \textbf{tripla di Hoare}, dove $A$ viene detta \textbf{precondizione} e $B$ viene detta \textbf{postcondizione}
+    \end{frameddefn}
+
+    \begin{frameddefn}{Formula}
+        Data la logica di Hoare, definiamo come \textbf{formula} un'espressione appartenente alla seguente grammatica:
+        \[\varphi ::= A \smid \hoare{A}{P}{B}\]
+    \end{frameddefn}
+    
+    \begin{framedprop}{Regole di inferenza generali}
+        Data la logica di Hoare, definiamo le seguenti regole di inferenza:
+
+        \begin{itemize}
+            \item \textbf{True}:
+            \[\hoare{A}{P}{true}\]
+
+            \item \textbf{False}:
+            \[\hoare{false}{P}{A}\]
+
+            \item \textbf{Rafforzamento della precondizione (strengthening)}:
+            \[\dfrac{A \supset B \quad \hoare{B}{P}{C}}{\hoare{A}{P}{C}}\]
+
+            \item \textbf{Indebolimento della postcondizione (weakening)}:
+            \[\dfrac{\hoare{A}{P}{B} \quad B \supset C}{\hoare{A}{P}{C}}\]
+
+            \item \textbf{And}:
+            \[\dfrac{\hoare{A}{P}{B_1} \quad \ldots \quad \hoare{A}{P}{B_n}}{\hoare{A}{P}{B_1 \land \ldots \land B_n}}\]
+
+            \item \textbf{Or}:
+            \[\dfrac{\hoare{A_1}{P}{B} \quad \ldots \quad \hoare{A_n}{P}{B}}{\hoare{A_1 \lor \ldots \lor A_n}{P}{B}}\]
+        \end{itemize}
+    \end{framedprop}
+
+    \begin{framedprop}{Regole di inferenza dei programmi}
+        Data la logica di Hoare, definiamo le seguenti regole di inferenza:
+
+        \begin{itemize}
+            \item \textbf{Skip}:
+            \[\hoare{A}{skip}{A}\]
+
+            \item \textbf{Esecuzione sequenziale}:
+            \[\dfrac{\hoare{A}{P}{B} \quad \hoare{B}{Q}{C}}{\hoare{A}{P; \; Q}{C}}\]
+            
+            \item \textbf{If-then-else}:
+            \[\dfrac{\hoare{A \land B}{P}{C} \quad \hoare{A \land \lnot B}{Q}{C}}{\hoare{A}{\ite{B}{P}{Q}}{C}}\]
+
+            \item \textbf{While}:
+            \[\dfrac{\hoare{A \land B}{P}{A}}{\hoare{A}{\while{B}{P}}{A \land \lnot B}}\]
+
+            \item \textbf{Assegnamento}:
+            \[\hoare{A[M/x]}{x := M}{A}\]
+            dove $[M/x]$ ricordiamo essere l'operatore di \nameref{substitution}
+        \end{itemize}
+    \end{framedprop}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Consideriamo la seguente tripla di Hoare:
+        \[\hoare{x = 1}{x := x+1}{x=2}\]
+
+        \item Possiamo utilizzare lo \textit{strengthening} affinché l'assegnamento possa essere valutato correttamente in quanto $(x=2)[x+1/x]$ venga valutata in $x+1=2$:
+        
+        \[\dfrac{
+            x = 1 \supset x+1 =2 \quad \hoare{x+1=2}{x := x+1}{x=2}
+        }{
+            \hoare{x = 1}{x := x+1}{x=2}
+        }\]
+    \end{itemize}
+
+    \begin{framedthm}{Invarianti con logica di Hoare}
+        Dato il programma $\while{B}{Q}$ ed una proprietà $A$, si ha che:
+        \[A \text{ invariante } \iff \hoare{A}{\while{B}{Q}}{A \land \lnot B}\]
+    \end{framedthm}
+
+    \newpage
+
+    A questo punto, consideriamo la seguente funzione:
+    
+    \begin{verbatim}
+        int EuclideanDivision(int x, int y){
+            int b = x;
+            int a = 0;
+
+            while(b >= y){
+                b = b - y;
+                a = a + 1;
+            }
+
+            return {a, b};
+        }
+    \end{verbatim}
+
+    Vogliamo dimostrare che tale funzione calcoli effettivamente la divisione con resto euclidea, ossia che i valori $a$ e $b$ restituiti siano tali che $x = ay+b$ e $0 \leq b < y$ (ossia che $a$ sia il quoziente della divisione e che $b$ sia il resto di quest'ultima)
+
+    Prima di tutto convertiamo il codice in un programma espresso dalla logica di Hoare:
+    \[b := x; \; a := 0; \; \while{b \geq y}{b := b-y; \; a := a+1}\]
+
+    A questo punto, cerchiamo di dimostrare che tali proprietà siano un'invariante del programma utilizzando le regole operazionali fornite dalla logica di Hoare.
+    
+    \begin{framedprop}{}
+        Se $x \geq 0$, la proprietà:
+        \[x = ay+b \land b \geq 0 \land b < y\]
+        è un'invariante della funzione \ttt{EuclideanDivision}
+    \end{framedprop}
+
+    \proofenv{
+        \begin{itemize}
+            \item Per facilitare la lettura, poniamo:
+            \begin{itemize}
+                \item $P \equiv (b := x; \; a := 0; \; \while{b \geq y}{b := b-y; \; a := a+1})$
+                \item $Q \equiv (b := x)$
+                \item $R \equiv (a := 0)$
+                \item $S \equiv (\while{b \geq y}{b := b-y; \; a := a+1})$
+                \item $A \equiv (x = ay+b \land b \geq 0 \land b < y)$
+            \end{itemize}
+
+            \item Affinché la proprietà $A$ sia un'invariante di $P$, è necessario che trovare una pre-condizione $B$ tale che la seguente tripla di Hoare sia valida:
+            \[\hoare{B}{b := x; \; a := 0; \; \while{b \geq y}{b := b-y; \; a := a+1}}{A}\]
+
+            \item Tramite le regole operazionali della logica di Hoare, abbiamo che:
+
+            \[\dfrac{
+                \hoare{B}{Q}{C} \quad \hoare{C}{R}{D} \quad \hoare{D}{S}{A}
+            }
+            {
+                \hoare{B}{b := x; \; a := 0; \; \while{b \geq y}{b := b-y; \; a := a+1}}{A}
+            }\]
+
+            \item Consideriamo quindi la tripla $\hoare{D}{S}{A}$. La sua valutazione è data da:
+            \[\dfrac{
+                \dfrac{
+                    \hoare{D \land b \geq y}{b := b-y}{F} \quad \hoare{F}{a := a+1} {D}
+                }
+                {
+                    \hoare{D \land b \geq y}{b := b-y; \; a := a+1}{D}
+                }
+            }
+            {
+                \hoare{D}{\while{b \geq y}{b := b-y; \; a := a+1}}{A}
+            }
+            \]
+            
+            \item Affinché tale tripla sia valida, $D$ deve necessariamente essere una condizione tale che 
+            \[x = ay+b \land b \geq 0 \land b < y \equiv A \equiv D \land \lnot(b \geq y) \equiv D \land b < y\]
+            
+            dunque otteniamo che $D \equiv x = ay+b \land b \geq 0$
+
+            \item Una volta trovato $D$, consideriamo la tripla $\hoare{F}{a:=a+1}{D}$. Tramite la regola dell'assegnamento, notiamo facilmente che:
+            \[\hoare{F}{a:=a+1}{D} \implies \hoare{D[a+1/a]}{a:=a+1}{D}\]
+            dunque otteniamo che $F \equiv D[a+1/a] \equiv x = (a+1)y+b \land b \geq 0$
+
+            \item Una volta trovato $F$, consideriamo la tripla $\hoare{D \land b \geq y}{b = b-y}{F}$, dove:
+            \[\hoare{D \land b \geq y}{b = b-y}{F} \iff\]
+            \[\hoare{x = ay+b \land b \geq 0 \land b \geq y}{b = b-y}{x = (a+1)y+b \land b \geq 0}\]
+
+            A questo punto, notiamo che:
+            \[x = ay+b \land b \geq 0 \land b \geq y \implies x = (a+1)y+b-y \land \land b-y \geq y\]
+
+            Di conseguenza, posto $E \equiv x = (a+1)y+b-y \land b-y \geq y$, tramite lo \textit{strengthening}, abbiamo che:
+            \[\dfrac{
+                D \land b \geq y \supset E \quad \hoare{E}{b = b-y}{x = (a+1)y+b \land b \geq 0}
+            }{
+                \hoare{x = ay+b \land b \geq 0 \land b \geq y}{b = b-y}{x = (a+1)y+b \land b \geq 0}
+            }\]
+
+            inoltre, abbiamo che $E \equiv F[b-y/b] \equiv (D[a+1/a])[b-y/b]$
+
+            \newpage
+
+            \item Ricapitolando, dunque, affinché tale tripla sia valida, abbiamo che:
+            
+            \begin{center}
+                \begin{tabular}{lll}
+                    $(*)$ & &
+                    $
+                    \dfrac{
+                        \dfrac{
+                            \dfrac{
+                                D \land b \geq y \supset E \quad \hoare{E}{b = b-y}{D[a+1/a]}
+                            }
+                            {
+                                \hoare{D \land b \geq y}{b := b-y}{D[a+1/a]}
+                            }
+                            \quad \hoare{D[a+1/a]}{a := a+1} {D}
+                        }
+                        {
+                            \hoare{D \land b \geq y}{b := b-y; \; a := a+1}{D}
+                        }
+                    }
+                    {
+                        \hoare{D}{\while{b \geq y}{b := b-y; \; a := a+1}}{A}
+                    }$
+                \end{tabular}
+            \end{center}
+
+            dove:
+            \begin{itemize}
+                \item $D \equiv x = ay+b \land b \geq 0$
+                \item $E \equiv (D[a+1/a])[b-y/b]$
+            \end{itemize}
+
+            \item Successivamente, consideriamo la tripla $\hoare{C}{R}{D}$, dove:
+            \[\hoare{C}{R}{D} \iff \hoare{C}{a := 0}{D} \implies \hoare{D[0/a]}{a:=0}{D}\]
+            dunque otteniamo che $C \equiv D[0/a] \equiv x = 0 \cdot y+b \land b \geq 0$
+
+            \item Infine, consideriamo la tripla $\hoare{B}{Q}{C}$, dove:
+            \[\hoare{B}{Q}{C} \iff \hoare{B}{b:=y}{x = 0 \cdot y+b \land b \geq 0}\]
+
+            Poiché:
+            \[x \geq 0 \implies x = 0 \cdot y + x \land x \geq 0\]
+            posto $G \equiv (D[0/a])[y/b] \equiv C[y/b] \equiv x = 0 \cdot y + x \land x \geq 0$, tramite lo \textit{strengthening} otteniamo facilmente che:
+            \[\dfrac{
+                x \geq 0 \supset G \quad \hoare{G}{b=x}{x = 0 \cdot y+b \land b \geq 0}
+            }{
+                \hoare{x \geq 0}{b:=y}{x = 0 \cdot y+b \land b \geq 0}
+            }\]
+
+            dunque concludiamo che $B \equiv x \geq 0$
+
+            \item In conclusione, dunque, abbiamo che:
+        \end{itemize}
+        \[\dfrac{
+            \dfrac{
+                x \geq 0 \supset (D[0/a])[y/b] \quad \hoare{(D[0/a])[y/b]}{b:=x}{D[0/a]}
+            }{
+                \hoare{x \geq 0}{b:=y}{D[0/a]}
+            }
+            \quad
+            \hoare{D[0/a]}{a:=0}{D}
+            \quad (*)
+        }{
+            \hoare{x \geq 0}{b := x; \; a := 0; \; \while{b \geq y}{b := b-y; \; a := a+1}}{A}
+        } 
+        \]
+
+        dove:
+        \begin{itemize}
+            \item $A \equiv x = ay+b \land b \geq 0 \land b < y$
+            \item $D \equiv x = ay+b \land b \geq 0$
+        \end{itemize}
+    }
+
+    \newpage
+    
+    \section{Correttezza dei programmi funzionali}
+    
+    Similmente alla logica di Hoare per i programmi imperativi, introduciamo un sistema logico equazionale di verifica formale dei programmi.
+    
+    \begin{frameddefn}{Predicato di uguaglianza di $Fun_{\rho}$}
+        Dato il linguaggio $Fun_{\rho}$, il predicato di uguaglianza $M = N$ permette di verificare formalmente l'equivalenza tra termini di $Fun_{\rho}$:
+        \[M = N \iff M \equiv N\]
+    \end{frameddefn}
+
+    Il predicato $M = N$ è definito dalle seguenti regole:
+    \begin{enumerate}
+        \item \textbf{Regola alfa ($\alpha$)}, coincidente con l'alfa equivalenza del lambda calcolo:
+        \[\fn{x}{M} = \fn{y}{M[y/x]}\]
+        \item \textbf{Regola beta ($\beta$)}, coincidente con la beta conversione del lambda calcolo:
+        \[(\fn{x}{M}) \; N = M[N/x]\]
+        \item \textbf{Regola del caso base}:
+        \[(\recfun{M}{N}) \; 0 = M \]
+        \item \textbf{Regola del passo ricorsivo}:
+        \[(\recfun{M}{N}) \; (\mathrm{succ} \; L) = N \; ((\recfun{M}{N}) \; L) \; L\]
+        \item \textbf{Regola dell'induzione}:
+        \[\dfrac{P(0) \quad P(n) \implies P(\mathrm{succ} \; n)}{\forall m \; P(m)}\]
+        \item \textbf{Regola della congruenza}:
+        \[\dfrac{M = N \quad M = L}{N = L}\]
+        \item \textbf{Regola del contesto}:
+        \[\dfrac{M = M' \quad N = N'}{M \; N = M' \; N'}\]
+        \item \textbf{Regola xi ($\xi$)}:
+        \[\dfrac{M=N}{\fn{x}{M} = \fn{x}{N}}\]
+    \end{enumerate}
+
+    \begin{framedobs}{}
+        Il predicato $M = N$ gode delle seguenti proprietà:
+        \begin{enumerate}
+            \item \textbf{Riflessività}:
+            \[\dfrac{M}{M = M}\]
+            \item \textbf{Simmetria}:
+            \[\dfrac{M = N}{N = M}\]
+            \item \textbf{Transitività:}
+            \[\dfrac{M = N \quad N = L}{M = L}\]
+        \end{enumerate}
+        di conseguenza, esso stipula una \textbf{relazione di equivalenza}
+    \end{framedobs}
+
+    \proofenv{
+        \begin{enumerate}
+            \item Tramite le regole definite su $rec$ e la regola della congruenza, si ha che:
+            \[\dfrac{\dfrac{M}{(\recfun{M}{N}) \; 0 = M \quad (\recfun{M}{N}) \; 0 = M}}{M = M}\]
+            \item Tramite la riflessività e la regola di congruenza si ha che:
+            \[\dfrac{\dfrac{\dfrac{M = N}{M = N \quad M}}{M = N \quad M = M}}{N = M}\]
+            \item Tramite la simmetria e la regola di congruenza si ha che:
+            \[\dfrac{\dfrac{M = N \quad N = L}{N = M \quad N = L}}{M = L}\]
+        \end{enumerate}
+    }
+    
+    \begin{framedprop}{Correttezza di \ttt{plus}}
+        Data la funzione:
+        \[\ttt{plus} \; M \; N \equiv \soe{ll}{
+            N & \text{ se } M = 0\\
+            \mathrm{succ} \; (\ttt{plus} \; n \; N) & \text{ se } M = \mathrm{succ} \; n
+        }\]
+
+        si ha che:
+        \[\ttt{plus} \equiv (\fn{x}{\fn{y}{(\recfun{y}{(\fn{w}{\fn{z}{\mathrm{succ} \; w}})}) \; x}})\]
+    \end{framedprop}
+
+    \proofenv{
+        \begin{itemize}
+            \item Siano:
+            \begin{itemize}
+                \item $h \equiv (\fn{w}{\fn{z}{\mathrm{succ} \; w}})$
+                \item $P(m) := [\ttt{plus} \; m \; N = (\fn{x}{\fn{y}{(\recfun{y}{h}) \; x}}) \; m \; N]$
+            \end{itemize}
+
+            \item Verifichiamo che $P(0)$ sia valido:
+            \[(\fn{x}{\fn{y}{(\recfun{y}{(\fn{w}{\fn{z}{\mathrm{succ} \; w}})}) \; x}}) \; 0 \; N =\]
+            \[(\recfun{N}{(\fn{w}{\fn{z}{\mathrm{succ} \; w}})}) \; 0 =\]
+            \[N = \ttt{plus} \; 0 \; N\]
+
+            \item Assumendo che $P(n)$ sia valido, verifichiamo che anche $P(\mathrm{succ} \; n)$:
+            \[(\fn{x}{\fn{y}{(\recfun{y}{h}) \; x}}) \; (\mathrm{succ} \; n) \; N =\]
+            \[(\recfun{N}{h}) \; (\mathrm{succ} \; n) = \]
+            \[(\fn{w}{\fn{z}{\mathrm{succ} \; w}})((\recfun{N}{h}) \; n) \; n = \]
+            \[(\fn{w}{\fn{z}{\mathrm{succ} \; w}})(\fn{x}{\fn{y}{((\recfun{y}{h}) \; x) \; n \; N}}) \; n \stackrel{P(n)}{=}\]
+            \[(\fn{w}{\fn{z}{\mathrm{succ} \; w}})(\ttt{plus} \; n \; N) \; n =\]
+            \[\mathrm{succ} \; (\ttt{plus} \; n \; N) =\]
+            \[\ttt{plus} \; (\mathrm{succ} \; n) \; N\]
+
+            \item Di conseguenza, tramite la regola dell'induzione abbiamo che:
+            \[\dfrac{P(0) \quad P(n) \implies P(\mathrm{succ} \; n)}{\forall m \; P(m)}\]
+
+            da cui concludiamo che:
+            \[\ttt{plus} = (\fn{x}{\fn{y}{(\recfun{y}{h}) \; x}})\]
+        \end{itemize}
+    }
+
+    \begin{framedprop}{Commutatività di \ttt{plus}}
+        Data la funzione \ttt{plus}, si ha che:
+        \[\ttt{plus} \; M \; N \equiv \ttt{plus} \; N \; M\]
+    \end{framedprop}
+
+    \proofenv{
+        \begin{itemize}
+            \item Sia $P(m) := \forall x \; [\ttt{plus} \; m \; x \equiv \ttt{plus} \; x \; m]$
+
+            \newpage
+
+            \item Verifichiamo che $P(0)$ sia valido:
+            \begin{itemize}
+                \item Sia $Q(x) := [\ttt{plus} \; 0 \; x \equiv \ttt{plus} \; x \; 0]$
+                
+                \item Il predicato $Q(0)$ risulta valido per identità:
+                \[\ttt{plus} \; 0 \; 0 = \ttt{plus} \; 0 \; 0\]
+
+                \item Assumendo che $Q(y)$ sia valido, verifichiamo che $Q(\mathrm{succ} \; y)$:
+                \[\ttt{plus} \; (\mathrm{succ} \; y) \; 0 = \mathrm{succ}(\ttt{plus} \; y \; 0) \stackrel{Q(y)}{=}\]
+                \[\mathrm{succ}(\ttt{plus} \; 0 \; y) = \mathrm{succ} \; y = \ttt{plus} \; 0 \; (\mathrm{succ} \; y)\]
+            \end{itemize}
+
+            dunque tramite la regola dell'induzione concludiamo che:
+            \[\dfrac{\dfrac{Q(0) \quad Q(y) \implies Q(\mathrm{succ} \; y)}{\forall x \; Q(x)}}{P(0)}\]
+            
+            \item Assumendo che $P(n)$ sia valido, verifichiamo che anche $P(\mathrm{succ} \; n)$:
+            \begin{itemize}
+                \item Sia $R(x) := [\ttt{plus} \; (\mathrm{succ} \; n) \; x \equiv \ttt{plus} \; x \; (\mathrm{succ} \; n)]$
+                
+                \item Il predicato $R(0)$ risulta valido per identità:
+                \[\ttt{plus} \; 0 \; (\mathrm{succ} \; n) = (\mathrm{succ} \; n) =\]
+                \[\mathrm{succ}(\ttt{plus} \; 0 \; n) = \mathrm{succ}(\ttt{plus} \; n \; 0) = \ttt{plus} \; (\mathrm{succ} \; n) \; 0\]
+
+                \item Assumendo che $R(y)$ sia valido, verifichiamo che $R(\mathrm{succ} \; y)$:
+                \[\ttt{plus} \; (\mathrm{succ} \; y) \; (\mathrm{succ} \; n) = \mathrm{succ}(\ttt{plus} \; y \; (\mathrm{succ} \; n)) \stackrel{R(y)}{=}\]
+                \[\mathrm{succ}(\ttt{plus} \; (\mathrm{succ} \; n) \; y ) = \mathrm{succ}(\mathrm{succ}(\ttt{plus} \; n \; y )) \stackrel{P(n)}{=} \]
+                \[\mathrm{succ}(\mathrm{succ}(\ttt{plus} \; y \; n )) = \mathrm{succ}(\ttt{plus} \; (\mathrm{succ} \; y) \; n ) \stackrel{R(y)}{=}\]
+                \[\mathrm{succ}(\ttt{plus} \; n \; (\mathrm{succ} \; y) ) = \ttt{plus} \; (\mathrm{succ} \; n) \; (\mathrm{succ} \; y)\]
+            \end{itemize}
+
+            dunque tramite la regola dell'induzione concludiamo che:
+            \[\dfrac{\dfrac{R(0) \quad R(y) \implies R(\mathrm{succ} \; y)}{\forall x \; R(x)}}{P(\mathrm{succ} \; n)}\]
+
+            \item Infine, otteniamo che:
+            \[\dfrac{P(0) \quad P(n) \implies P(\mathrm{succ} \; n)}{\forall m \; P(m)}\]
+            da cui concludiamo che:
+            \[\ttt{plus} \; M \; N \equiv \ttt{plus} \; N \; M\]
+        \end{itemize}
+    }
+
+    \chapter{Sistema dei Tipi}
+
+    Un \textbf{sistema dei tipi} è un sistema logico composto da un insieme di regole che assegna una proprietà detta \textbf{tipo} ad ogni \textbf{termine} di un linguaggio, dettando le operazioni che possono essere effettuate su di essi (es: il tipo di una variabile determina quali valori possano essere assegnati a tale variabile)
+
+    Lo scopo principale dei sistemi dei tipi nei linguaggi di programmazione è la riduzione della possibile presenza di bug o errori di computazione tramite il controllo della presenza di \textbf{errori di tipo} (es: impedendo che un intero possa essere sommato ad un booleano).
+    
+    \quad
+
+    \section{Lambda calcolo tipato semplice}
+
+    \begin{frameddefn}{Lambda calcolo tipato semplice}
+        Definiamo come \textbf{lambda calcolo tipato semplice} il sistema dei tipi rappresentato dalla seguente grammatica:
+        \[\begin{array}{r l l}
+            A,B & ::= & K \smid A \to B \\
+            M,N & ::= & k \smid x \smid \lambda x : A.M \smid M \; N
+        \end{array}\]
+
+        dove:
+        \begin{itemize}
+            \item La prima grammatica rappresenta l'insieme dei \textbf{tipi}, indicato con $Types$
+            \item La seconda grammatica rappresenta l'insieme dei \textbf{termini}, indicato con $Terms$
+            \item $k \in \{0,1, \ldots\}$ ossia è una \textbf{costante}
+            \item $x \in \{x,y,z, \ldots\}$ ossia è una \textbf{variabile}
+            \item $K \in \{\texttt{Int}, \ \texttt{Bool}, \ \texttt{String}, \ldots\}$ ossia è un \textbf{tipo base}
+        \end{itemize}
+    \end{frameddefn}
+
+    \begin{frameddefn}{Insieme dei contesti}
+        Dato il lambda calcolo tipato semplice, definiamo come \textbf{insieme dei contesti}, indicato con $Ctx$, l'insieme delle funzioni parziali che associano ogni variabile al proprio tipo:
+        \[Ctx = \{f \mid f : Var \stackrel{fin}{\to} Val\}\]
+
+        Inoltre, dato un contesto $\Gamma \in Ctx$, se $\Gamma(x) = A$ usiamo la notazione infissa $x : A$
+    \end{frameddefn}
+
+    \begin{frameddefn}{Concatenazione di contesti}
+        Dato il lambda calcolo tipato semplice, definiamo l'operazione di \textbf{concatenazione di contesti}, ossia:
+        \[\func{\cdot}{Ctx \times Ctx}{Ctx}\]
+        dove:
+        \[(\Gamma_1 \Gamma_2)(x) = \soe{ll}{
+            \Gamma_2(x) & \text{ se } x \in dom(\Gamma_2)\\
+            \Gamma_1(x) & \text{ altrimenti}\\
+        }\]
+    \end{frameddefn}
+
+    \begin{frameddefn}{Semantica dei tipi}
+        Data la seguente relazione detta \textbf{semantica dei tipi}, ossia:
+        \[: \ \subseteq Ctx \times Terms \times Types\]
+        definiamo come \textbf{asserzione di tipo} la tripla $(\Gamma, M, v) \in \ :$ descritta dalla notazione
+        \[\typejud{\Gamma}{M}{A}\]
+        la quale viene letta come "nel contesto $\Gamma$, $M$ è un termine legale di tipo $A$".
+    \end{frameddefn}
+
+    All'interno del \textbf{lambda calcolo tipato semplice}, i termini vengono valutati tramite le seguenti regole di inferenza:
+    \begin{itemize}
+        \item \textbf{Costanti}:
+        \[\typejud{\Gamma}{k}{K}\]
+        
+        \item \textbf{Variabili}:
+        \[\typejud{\Gamma}{x}{A} \quad (\text{se } \Gamma(x) = A)\]
+
+        \item \textbf{Funzione}:
+        \[\dfrac{
+            \typejud{\Gamma, \; x : A}{M}{B}
+        }{
+            \typejud{\Gamma}{\lambda x : A.M}{A \to B}
+        }\]
+
+        \item \textbf{Applicazione}:
+        \[\dfrac{
+            \typejud{\Gamma}{M}{A \to B} \quad \typejud{\Gamma}{N}{A}
+        }{
+            \typejud{\Gamma}{M \; N}{B}
+        }\]
+    \end{itemize}
+
+    \newpage
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Consideriamo il seguente termine
+        \[[\lambda x : (\ttt{Int} \to \ttt{Bool})\ . \ x \; \{[\lambda y : \ttt{String}\ . \ 7] \; \ttt{"ciao"}\}][\lambda z: \ttt{Int}\ . \  \ttt{true}]\]
+
+        \item La sua valutazione corrisponde a:
+    \end{itemize}
+
+    \begin{center}
+        \begin{tabular}{lll}
+            $(*)$ & &
+            $
+            \dfrac{
+                \dfrac{
+                    \typejud{\Gamma}{x}{\ttt{Int} \to \ttt{Bool}}
+                    \quad
+                    \dfrac{
+                        \dfrac{
+                            \typejud{\Gamma, \; y : \ttt{String}}{7}{\ttt{Int}}
+                        }{
+                            \typejud{\Gamma}{\lambda y : \ttt{String}\ . \ 7}{\ttt{String} \to \ttt{Int}}
+                        }
+                        \quad
+                        \typejud{\Gamma}{\ttt{"ciao"}}{\ttt{String}}
+                    }{
+                        \typejud{\Gamma}{[\lambda y : \ttt{String}\ . \ 7] \; \ttt{"ciao"}}{\ttt{Int}}
+                    }
+                }{
+                    \typejud{\Gamma}{x \; \{[\lambda y : \ttt{String}\ . \ 7] \; \ttt{"ciao"}\}}{\ttt{Bool}}
+                }
+            }{
+                \typejud{\varnothing}{[\lambda x : (\ttt{Int} \to \ttt{Bool})\ . \ x \; \{[\lambda y : \ttt{String}\ . \ 7] \; \ttt{"ciao"}\}]}{(\ttt{Int} \to \ttt{Bool}) \to \ttt{Bool}}
+            }$
+        \end{tabular}
+    \end{center}
+    
+    \quad
+
+    \[\dfrac{
+        (*)
+        \quad \dfrac{
+            \typejud{z : \ttt{Int}}{\ttt{true}}{\ttt{Bool}}
+        }{
+            \typejud{\varnothing}{\lambda z: \ttt{Int}\ . \  \ttt{true}}{\ttt{Int} \to \ttt{Bool}}
+        }
+    }{
+        \typejud{\varnothing}{[\lambda x : (\ttt{Int} \to \ttt{Bool})\ . \ x \; \{[\lambda y : \ttt{String}\ . \ 7] \; \ttt{"ciao"}\}][\lambda z: \ttt{Int}\ . \  \ttt{true}]}{\ttt{Bool}}
+    }\]
+
+    \quad
+
+    \qquad dove $\Gamma = x : \ttt{Int} \to \ttt{Bool}$
+
+    \begin{framedprop}{Circolarità non tipabile}
+        Dato il lambda calcolo tipato semplice, non esiste un tipo $A$ tale che $A \equiv A \to B$ per qualche tipo $B$.
+
+        Per tanto, qualsiasi termine che dovrebbe assumere tale tipo, detto \textbf{circolare}, risulta \textbf{non tipabile}.
+    \end{framedprop}
+
+    \proofenv{
+        \begin{itemize}
+            \item Supponiamo per assurdo che esista un tipo $A$ tale che $A \equiv A \to B$ per qualche tipo $B$.
+            \item Ciò risulta possibile solo se $A \equiv B \to B \to B \to \ldots$, implicando che $A$ appartenga all'insieme dei tipi infiniti, ossia che $A \in Types_{\infty}$
+            \item Essendo tuttavia il tipo $A$ generato dalla grammatica $B,C ::= K \smid B \to C$ del lambda calcolo tipato, ne seguirebbe che tale grammatica generi l'algebra $\\(Types_{\infty}, K, \to)$ e che essa sia induttiva, creando una contraddizione in quanto anche $(Types, K, \to)$ sia un'algebra induttiva e $Types \subsetneq Types_{\infty}$
+            \item Di conseguenza, l'unica possibilità è che tale tipo $A$ non possa esistere
+        \end{itemize}
+    }
+
+    \newpage
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Consideriamo il termine $\lambda x : A.xx$
+        \item La sua valutazione corrisponde a:
+        \[\dfrac{
+            \dfrac{
+                \typejud{x:A}{x}{A \to B} \quad \typejud{x:A}{x}{A}
+            }{
+                \typejud{x :A}{xx}{B}
+            }
+        }{
+            \typejud{\varnothing}{\lambda x : A.xx}{A \to B}
+        }\]
+
+        \item Di conseguenza, il tipo del termine $\lambda x : A.xx$ corrisponde sia a $A$ che a $A \to B$, implicando che $A \equiv A \to B$ e dunque che tale termine sia non tipabile 
+    \end{itemize}
+
+    \begin{framedobs}{Precedenza delle parentesi nei tipi}
+        All'interno del lambda calcolo tipato semplice si ha che:
+        \[A \to B \to C \to D \to \ldots \equiv A \to (B \to (C \to (D \to \ldots)))\]
+    \end{framedobs}
+
+    \quad
+
+    \section{Lambda calcolo polimorfo}
+
+    Il lambda calcolo tipato semplice viene generalmente considerato un \textit{sistema dei tipi di primo ordine}. Difatti, la sua formalizzazione non risulta essere sufficientemente astratta per poter permettere di tipare termini \textbf{generici}, ossia termini in grado di lavorare indipendentemente dal tipo assunto dalle variabili al suo interno.
+
+    Consideriamo ad esempio il seguente termine:
+    \[\lambda x.((x \; 5)((x \; \ttt{true}) \; \ttt{false}))\]
+
+    Utilizzando le regole di inferenza dettate dal lambda calcolo tipato semplice, notiamo facilmente che tale termine sia illegale in quanto il parametro $x$ dovrebbe rispettare tutte le seguenti condizioni:
+    \begin{itemize}
+        \item Deve essere una funzione avente un intero come input
+        \item Deve essere una funzione avente un booleano come input
+        \item Deve essere una funzione che restituisce una funzione $\func{f}{\ttt{Bool}}{\ttt{Bool}}$
+    \end{itemize}
+
+    All'interno dei \textit{sistemi dei tipi del secondo ordine}, invece, le variabili possono assumere \textbf{tipi polimorfi}, ossia quantificati universalmente. Ad esempio, supponiamo all'interno del nostro sistema dei tipi valga il seguente tipo $\forall X.(X \to (\ttt{Bool} \to \ttt{Bool}))$. Risulta evidente che tale tipo sia perfettamente valido per il termine proposto precedentemente, rendendolo un termine legale all'interno del nostro sistema dei tipi.
+
+    A differenza dei sistemi del primo ordine, dunque, i sistemi del secondo ordine introducono \textbf{variabili per i tipi} oltre alle normali variabili per i termini.
+
+    \begin{frameddefn}{Lambda calcolo polimorfo}
+        Definiamo come \textbf{lambda calcolo polimorfo (o \textit{System F})} il sistema dei tipi che estende il lambda calcolo tipato semplice, rappresentato dalla seguente grammatica:
+        \[\begin{array}{r l l}
+            A,B & ::= & K \smid X \smid A \to B \smid \forall X.A \\
+            M,N & ::= & k \smid x \smid \lambda x : A.M \smid M \; N \smid \Lambda X.M \smid M \; A
+        \end{array}\]
+
+        dove:
+        \begin{itemize}
+            \item $X \in \{X, Y, Z, \ldots\}$ ossia è una \textbf{variabile di tipo} (o \textit{tipo generico})
+            \item $x \in \{x,y,z, \ldots\}$ ossia è una \textbf{variabile di termine}
+            \item Nel tipo $\forall X. A$ e nel termine $\Lambda X.M$, gli \textbf{operatori di generalizzazione} $\forall X$ (\textit{per ogni $X$}) e $\Lambda X$ (\textit{per un'arbitraria $X$}) legano le occorrenze libere di $X$ rispettivamente nel tipo $A$ e nel termine $M$
+        \end{itemize}
+    \end{frameddefn}
+
+    Oltre alle regole di inferenza già previste dal lambda calcolo tipato semplice, nel System F vengono aggiunte le seguenti due regole:
+    \begin{itemize}
+        \item \textbf{Generalizzazione dei tipi}:
+        \[\dfrac{
+            \typejud{\Gamma}{M}{A}
+        }{
+            \typejud{\Gamma}{\Lambda X.M}{\forall X.A}
+        } \quad (\text{se } X \notin \mathrm{free}(\Gamma))\]
+
+        \item \textbf{Specializzazione del tipo}:
+        \[\dfrac{
+            \typejud{\Gamma}{M}{\forall X.A}
+        }{
+            \typejud{\Gamma}{M \; B}{A[B/X]}
+        }\]
+    \end{itemize}
+    
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Valutiamo il tipo dell'\textit{identità polimorfa}, ossia $\Lambda X. \lambda x:X.x$:
+        \[\dfrac{
+            \dfrac{
+                \typejud{x : X}{x}{X}
+            }{
+                \typejud{\varnothing}{\lambda x:X.x}{X \to X}
+            }
+        }{
+            \typejud{\varnothing}{\Lambda X. \lambda x:X.x}{\forall X.(X \to X)}
+        }\]
+
+        \item Tale funzione non è tuttavia ancora applicabile, poiché il suo tipo non è un \textit{tipo funzione} (ossia nella forma $A \to B$), ma bensì un \textit{tipo polimorfo} (ossia nella forma $\forall X.A$). Difatti, è necessario prima specializzarne il suo tipo affinché essa possa essere applicata correttamente
+        
+        \item Specializzarne il tipo \ttt{Int} su tale funzione, otteniamo che:
+        \[\dfrac{
+            \dfrac{
+                \dfrac{
+                    \typejud{x : X}{x}{X}
+                }{
+                    \typejud{\varnothing}{\lambda x:X.x}{X \to X}
+                }
+            }{
+                \typejud{\varnothing}{\Lambda X. \lambda x:X.x}{\forall X.(X \to X)}
+            }
+        }{
+            \typejud{\varnothing}{(\Lambda X. \lambda x:X.x)\; \ttt{Int}}{\ttt{Int} \to \ttt{Int}}
+        }\]
+        ottenendo così un termine operativamente equivalente all'identità sugli interi, ossia  $\lambda x: \ttt{Int}.x$
+    \end{itemize}
+
+    \begin{framedprop}{Variabili libere in System F}
+        Dato il System F, la funzione:
+        \[\func{\mathrm{free}}{Types \cup Ctx}{\mathcal{P}(Var)}\]
+        restituisce l'insieme di tutte le \textbf{variabili di tipo libere}, dove:
+        \[\soe{l}{
+            \mathrm{free}(K) = \varnothing\\
+            \mathrm{free}(X) = \{X\}\\
+            \mathrm{free}(A \to B) = \mathrm{free}(A) \cup \mathrm{free}(B)\\
+            \mathrm{free}(\forall X.A) = \mathrm{free}(A) - \{X\}\\
+            \mathrm{free}(\Gamma) = \bigcup\limits_{x:A \in \Gamma} \mathrm{free}(A)
+        }\]
+    \end{framedprop}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Dato il contesto $\Gamma = x : X$, si ha che $\mathrm{free}(\Gamma) = \{X\}$
+        \item Dato il contesto $\Gamma = x : \forall X.X$, si ha che $\mathrm{free}(\Gamma) = \varnothing$
+        \item Dato il contesto $\Gamma = x : X \to (\forall Y . Y)$, si ha che $\mathrm{free}(\Gamma) = \{X\}$
+    \end{itemize}
+
+    \begin{framedobs}{Cattura di variabili di tipo}
+        La condizione laterale $X \notin \mathrm{free}(\Gamma)$ nella regola della generalizzazione dei tipi risulta \underline{fondamentale} al fine di impedire la creazione di termini di tipo insensato
+    \end{framedobs}
+
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Sia $M \equiv \Lambda X.\lambda x : X.(\Lambda X.x) \; \ttt{Int}$. Ignorando la condizione laterale della regola della generalizzazione, valutiamo il tipo di $M$:
+        \[\dfrac{
+            \dfrac{
+                \dfrac{
+                    \dfrac{
+                        \typejud{\textcolor{red}{x:X}}{x}{X}
+                    }{
+                        \typejud{\textcolor{red}{x:X}}{\Lambda X.x}{\forall X.X}
+                    }
+                }{
+                    \typejud{x : X}{(\Lambda X.x) \; \ttt{Int}}{\ttt{Int}}
+                }
+            }{
+                \typejud{\varnothing}{\lambda x : X.(\Lambda X.x) \; \ttt{Int}}{X \to \; \ttt{Int}}
+            }
+        }{
+            \typejud{\varnothing}{\Lambda X.\lambda x : X.(\Lambda X.x) \; \ttt{Int}}{\forall X.(X \to \ttt{Int})}
+        }\]
+
+        (\textit{in rosso viene evidenziato dove si verifica che $X \in \mathrm{free}(\Gamma)$})
+
+        \item A questo punto, consideriamo la valutazione del termine $M \; (\ttt{Int} \to \ttt{Int})(M \; \ttt{Int})$:
+        \[\dfrac{
+            \dfrac{
+                \typejud{\varnothing}{M}{\forall X.(X \to \ttt{Int})}
+            }{
+                \typejud{\varnothing}{M \; (\ttt{Int} \to \ttt{Int})}{(\ttt{Int} \to \ttt{Int}) \to \ttt{Int}}
+            }
+            \quad
+            \dfrac{
+                \typejud{\varnothing}{M}{\forall X.(X \to \ttt{Int})}
+            }{
+                \typejud{\varnothing}{M \; \ttt{Int}}{\ttt{Int} \to \ttt{Int}}
+            }
+        }{
+            \typejud{\varnothing}{M \; (\ttt{Int} \to \ttt{Int})(M \; \ttt{Int})}{\ttt{Int}}
+        }\]
+
+        \item In tal modo, quindi, il termine $M \; (\ttt{Int} \to \ttt{Int})(M \; \ttt{Int})$ corrisponderebbe ad un intero, nonostante al suo interno non sia presente alcun numero intero
+    \end{itemize}
+
+    \quad
+
+    \section{Sistema dei tipi di Hindley-Milner}
+
+    Il \textbf{sistema dei tipi di Hindley-Milner} (o \textit{sistema HM}), in termini di potenza polimorfismo, è un sistema situato nel mezzo tra il lambda calcolo tipato semplice e il lambda calcolo polimorfo. Tale sistema viene utilizzato anche dal linguaggio \textbf{Standard ML}.
+
+    A differenza del System F, il sistema HM \textbf{restringe} i tipi possibili all'interno del linguaggio, risultando quindi più debole. Ad esempio, il tipo $(\forall X.X) \to (\forall Y.Y)$ risulta tipabile nel System F, ma non nel sistema HM.
+
+    Tuttavia, tale restrizione permette al sistema dei tipi di \textbf{eliminare la regola di specializzazione} in quanto sarà il sistema stesso a specializzare i tipi. In tal modo, l'uso di tale sistema dei tipi risulta più \textbf{semplice} e privo di necessità da parte dell'utilizzatore di conoscere a priori i tipi specializzati.
+
+    Consideriamo ad esempio la \textbf{funzione identità in SML}, ossia \ttt{fn x => x}. L'interprete di SML valuta il tipo di tale funzione come \ttt{'a -> 'a}, dove \ttt{'a} indica un \textbf{tipo generico}. In altre parole, il tipo di tale funzione viene valutato in $\forall A.A \to A$. Passando il termine \ttt{5} a tale funzione, ossia considerando il termine \ttt{(fn x => x) 5}, l'interprete di SML è in grado di specializzare automaticamente il tipo della funzione, per poi applicarla al termine \ttt{5}. Nel System F, invece, tale risultato sarebbe ottenibile solo tramite il termine $((\Lambda X.\lambda x:X.x)\; \ttt{Int}) \; 5$.
+
+    In particolare, il sistema HM risulta definito sul linguaggio $Fun$ visto nei capitoli precedenti. 
+
+    \begin{frameddefn}{Sistema dei tipi di Hidley-Milner}
+        Definiamo come \textbf{sistema dei tipi di Hidley-Milner} (o sistema HM) il sistema dei tipi del linguaggio $Fun$, rappresentato dalla seguente grammatica:
+        \[\begin{array}{r l l}
+            \tau & ::= & K \smid X \smid \tau_1 \to \tau_2 \\
+            \sigma & ::= & \tau \smid \forall X.\sigma \\
+            M,N & ::= & k \smid x \smid \fn{x}{M} \smid \letin{x}{M}{N}
+        \end{array}\]
+        dove:
+        \begin{itemize}
+            \item La prima grammatica rappresenta l'insieme dei \textbf{tipi primitivi}
+            \item La prima grammatica rappresenta l'insieme degli \textbf{schemi di tipo}
+        \end{itemize}
+    \end{frameddefn}
+
+    \begin{framedobs}{}
+        Dato il sistema sistema HM, definiamo la seguente contrazione sintattica:
+        \[\forall X_1, X_2, \ldots, X_n.\sigma \equiv \forall X_1.\forall X_2. \ldots . \forall X_n.\sigma\]
+    \end{framedobs}
+
+    \begin{frameddefn}{Istanza generica}
+        Siano $\sigma = \forall X_1, \ldots X_n . \tau$ e $\sigma' = \forall Y_1, \ldots Y_m . \tau'$ due schemi di tipo. Definiamo $\sigma'$ come \textbf{istanza generica di $\sigma$}, indicato con $\sigma' \sqsubset \sigma$ se:
+        \begin{itemize}
+            \item $\tau' = \tau[\tau_1, \tau_2, \ldots, \tau_n / X_1, X_2, \ldots, X_n]$ 
+            \item $\forall j \in [0,m] \;\; Y_j \notin \mathrm{free}(\sigma)$
+        \end{itemize}
+
+        \textbf{Nota}: le sostituzioni possono essere effettuate solo sulle variabili quantificate (ossia $X_1, \ldots, X_n$). In altre parole, è necessario che $\forall i \in [0,n] \;\; X_i \notin \mathrm{free}(\sigma)$
+    \end{frameddefn}
+
+    \textbf{Esempi:}
+
+    \begin{enumerate}
+        \item Dati gli schemi $\sigma = X$ e $\sigma' = \forall Y.X$, poiché $Y \notin \mathrm{free}(\sigma)$ si ha che $\sigma' \sqsubset \sigma$
+        
+        \item Dati gli schemi $\sigma = \forall X,Y.X \to Y$ e $\sigma' = \ttt{Int} \to \ttt{Bool}$, si ha che:
+        \[\ttt{Int} \to \ttt{Bool} = (X \to Y)[\ttt{Int}, \ttt{Bool} \, / X, Y]\]
+        dunque $\sigma' \sqsubset \sigma$
+
+        \item Dati gli schemi $\sigma = \forall X,Y.X \to Y$ e $\sigma' = \forall Y.\ttt{Int} \to Y$, si ha che:
+        \[\ttt{Int} \to Y = (X \to Y)[\ttt{Int}, Y \; / X, Y]\]
+        e inoltre $Y \notin \mathrm{free}(\sigma)$, dunque $\sigma' \sqsubset \sigma$
+
+        \item Dati gli schemi $\sigma = X \to Y$ e $\sigma' = \ttt{Int} \to Y$, si ha che:
+        \[\ttt{Int} \to Y = (X \to Y)[\ttt{Int} \; / X]\]
+        ma la sostituzione è inapplicabile in quanto $X \in free(\sigma)$, dunque $\sigma' \not \sqsubset \sigma$
+        
+        \item Dati gli schemi $\sigma = X$ e $\sigma' = \forall X.X$, si ha che:
+        \[X = X[X / X]\]
+        ma $X \in free(\sigma)$ implica sia che la sostituzione sia inapplicabile sia che la generalizzazione tramite $\forall X$ sia inapplicabile, dunque $\sigma' \not \sqsubset \sigma$
+    \end{enumerate}
+
+    A questo punto, definiamo le regole di inferenza del sistema HM:
+
+    \begin{itemize}
+        \item \textbf{Costanti}:
+        \[\typejud{\Gamma}{k}{K}\]
+
+        \item \textbf{Variabili}:
+        \[\typejud{\Gamma}{x}{\sigma} \quad (\text{se } \Gamma(x) = \sigma)\]
+
+        \item \textbf{Generalizzazione dei tipi}:
+        \[\dfrac{
+            \typejud{\Gamma}{M}{\sigma}
+        }{
+            \typejud{\Gamma}{M}{\forall X.\sigma}
+        }
+        \quad (\text{se } X \notin \mathrm{free}(\Gamma))\]
+
+        \newpage
+
+        \item \textbf{Specializzazione dei tipi}:
+        \[\dfrac{
+            \typejud{\Gamma}{M}{\sigma}
+        }{
+            \typejud{\Gamma}{M}{\sigma'}
+        }
+        \quad (\text{se } \sigma' \sqsubset \sigma)\]
+
+        \item \textbf{Let-in}:
+        \[\dfrac{
+            \typejud{\Gamma}{M}{\sigma} \quad \typejud{\Gamma, x : \sigma}{N}{\sigma'}
+        }{
+            \typejud{\Gamma}{\letin{x}{M}{N}}{\sigma'}
+        }\]
+
+        \item \textbf{Funzione}:
+        \[\dfrac{
+            \typejud{\Gamma, x : \tau}{M}{\tau'}
+        }{
+            \typejud{\Gamma}{\fn{x}{M}}{\tau \to \tau'}
+        }\]
+
+        \item \textbf{Applicazione}:
+        \[\dfrac{
+            \typejud{\Gamma}{M}{\tau \to \tau'} \quad \typejud{\Gamma}{N}{\tau}
+        }{
+            \typejud{\Gamma}{M \; N}{\tau'}
+        }\]
+    \end{itemize}
+
+    \begin{framedobs}{Termini polimorfi}
+        Tramite la regola della specializzazione dei tipi del sistema HM, \textbf{un termine può avere più tipi}
+    \end{framedobs}
+
+    \textbf{Esempi:}
+
+    \begin{enumerate}
+        \item \begin{itemize}
+            \item Consideriamo il seguente termine:
+            \[\letin{x}{(\fn{y}{y})}{x(\fn{z}{z})(x \; 5)}\]
+            \item La valutazione del suo tipo corrisponde a:
+            
+            \begin{center}
+                \begin{tabular}{lll}
+                    $(*)$ & &
+                    $
+                    \dfrac{
+                        \dfrac{
+                            \typejud{\Gamma}{x}{\forall Y. Y \to Y}
+                        }{
+                            \typejud{\Gamma}{x}{(\ttt{Int} \to \ttt{Int}) \to (\ttt{Int} \to \ttt{Int})}
+                        }
+                        \quad
+                        \dfrac{
+                            \dfrac{
+                                \dfrac{
+                                    \typejud{\Gamma, z : Z}{z}{Z}
+                                }{
+                                    \typejud{\Gamma}{\fn{z}{z}}{Z \to Z}
+                                }
+                            }{
+                                \typejud{\Gamma}{\fn{z}{z}}{\forall Z.Z \to Z}
+                            }
+                        }{
+                            \typejud{\Gamma}{\fn{z}{z}}{\ttt{Int} \to \ttt{Int}}
+                        }
+                    }{
+                        \typejud{\Gamma}{x(\fn{z}{z})}{\ttt{Int} \to \ttt{Int}}
+                    }$
+                \end{tabular}
+            \end{center}
+    
+            \quad
+    
+            \[\dfrac{
+                \dfrac{
+                    \dfrac{
+                        \typejud{y:Y}{y}{Y}
+                    }{
+                        \typejud{\varnothing}{\fn{y}{y}}{Y \to Y}
+                    }
+                }{
+                    \typejud{\varnothing}{\fn{y}{y}}{\forall Y.Y \to Y}
+                }
+                \quad
+                \dfrac{
+                    (*)
+                    \quad
+                    \dfrac{
+                        \dfrac{
+                            \typejud{\Gamma}{x}{\forall Y.Y \to Y}
+                        }{
+                            \typejud{\Gamma}{x}{\ttt{Int} \to \ttt{Int}}
+                        }
+                        \quad
+                        \typejud{\Gamma}{5}{\ttt{Int}}
+                    }{
+                        \typejud{\Gamma}{x \; 5}{\ttt{Int}}
+                    }
+                }{
+                    \typejud{\Gamma}{x(\fn{z}{z})(x \; 5)}{\ttt{Int}}
+                }
+            }{
+                \typejud{\varnothing}{\letin{x}{(\fn{y}{y})}{x(\fn{z}{z})(x \; 5)}}{\ttt{Int}}
+            }\]
+    
+            \quad
+    
+            dove $\Gamma = x : \forall Y.Y \to Y$
+        \end{itemize}
+
+        \newpage
+
+        \item \begin{itemize}
+            \item Consideriamo il seguente termine:
+            \[\fn{x}{\fn{y}{x \; (y \; x)}}\]
+
+            \item La valutazione del suo tipo corrisponde a:
+            \[\dfrac{
+                \dfrac{
+                    \dfrac{
+                        \dfrac{
+                            \dfrac{
+                                \typejud{\Gamma}{x}{X \to Y}
+                                \quad
+                                \dfrac{
+                                    \typejud{\Gamma}{y}{(X \to Y) \to X}
+                                    \quad
+                                    \typejud{\Gamma}{x}{X \to Y}
+                                }{
+                                    \typejud{\Gamma}{y \; x}{X}
+                                }
+                            }{
+                                \typejud{\Gamma}{x \; (y \; x)}{Y}
+                            }
+                        }{
+                            \typejud{x:X \to Y}{\fn{y}{x \; (y \; x)}}{((X \to Y) \to X) \to Y}
+                        }
+                    }{
+                        \typejud{\varnothing}{\fn{x}{\fn{y}{x \; (y \; x)}}}{(X \to Y) \to ((X \to Y) \to X) \to Y}
+                    }
+                }{
+                    \typejud{\varnothing}{\fn{x}{\fn{y}{x \; (y \; x)}}}{(X \to Y) \to ((X \to Y) \to X) \to Y}
+                }
+            }{
+                \typejud{\varnothing}{\fn{x}{\fn{y}{x \; (y \; x)}}}{\forall X,Y.(X \to Y) \to ((X \to Y) \to X) \to Y}
+            }\]
+
+            dove $\Gamma = x:X \to Y, y : (X \to Y) \to X$
+        \end{itemize}
+
+        \quad
+        
+        \item \begin{itemize}
+            \item Consideriamo il seguente termine:
+            \[\fn{x}{\fn{y}{y \; x \; y}}\]
+
+            \item La valutazione del suo tipo corrisponde a:
+            \[\dfrac{
+                \dfrac{
+                    \dfrac{
+                        \dfrac{
+                            \dfrac{
+                                \typejud{x:X,y:Y}{y}{X \to (Y \to Z)}
+                                \quad
+                                \typejud{x:X,y:Y}{x}{X}
+                            }{
+                                \typejud{x:X,y:Y}{y \; x}{Y \to Z}
+                            }
+                            \quad
+                            \typejud{x:X,y:Y}{y}{Y}
+                        }{
+                            \typejud{x:X, y:Y}{y \; x \; y}{Z}
+                        }
+                    }{
+                        \typejud{x:X}{\fn{y}{y \; x \; y}}{Y \to Z}
+                    }
+                }{
+                    \typejud{\varnothing}{\fn{x}{\fn{y}{y \; x \; y}}}{X \to Y \to Z}
+                }
+            }{
+                \typejud{\varnothing}{\fn{x}{\fn{y}{y \; x \; y}}}{\forall X,Y,Z.X \to Y \to Z}
+            }
+            \]
+
+            \item Tuttavia, tale valutazione risulta possibile solo se $Y \equiv X \to (Y \to Z)$, dando vita ad una circolarità 
+            \item Di conseguenza, il termine $\fn{x}{\fn{y}{y \; x \; y}}$ non è tipabile
+        \end{itemize}
+    \end{enumerate}
+
+    \newpage
+
+    \subsection{Algoritmo $\mathcal{W}$}
+
+    \begin{frameddefn}{Sostituzione}
+        Definiamo come \textbf{sostituzione} una funzione parziale $V$ che mappa variabili di tipo a dei tipi primitivi
+        \[V : TypeVar \stackrel{fin}{\to} PrimTypes\]
+    \end{frameddefn}
+
+    \begin{framedprop}{}
+        Per induzione strutturale su $Types$, data una sostituzione $V$ si ha che:
+        \[V(X \to Y) = V(X) \to V(Y)\]
+
+        (\textit{dimostrazione omessa})
+    \end{framedprop}
+
+    \begin{frameddefn}{Unificatore}
+        Definiamo $V$ \textbf{unificatore di due tipi primitivi $\tau_1$ e $\tau_2$} se $V$ è una sostituzione tale che $V(\tau_1) = V(\tau_2)$
+    \end{frameddefn}
+
+    \textbf{Esempi:}
+
+    \begin{enumerate}
+        \item \begin{itemize}
+            \item Consideriamo i seguenti due tipi:
+            \[\tau_1 : A \to B \to C\]
+            \[\tau_2 : (C \to E) \to D\]
+            \item Consideriamo quindi una sostituzione $V$ definita come:
+            \[V : \begin{array}{l}
+                A \mapsto C \to E\\
+                D \mapsto B \to C
+            \end{array}\]
+            \item Notiamo che::
+            \[V(\tau_1) = (C \to E) \to B \to C = V(\tau_2)\]        
+            dunque $V$ unifica $\tau_1$ e $\tau_2$   
+        \end{itemize}
+
+        \item \begin{itemize}
+            \item Consideriamo i seguenti due tipi:
+            \[\tau_1 : A \to B \to D\]
+            \[\tau_2 : (B \to C) \to A\]
+            \item Consideriamo quindi una sostituzione $V$ definita come:
+            \[V : \begin{array}{l}
+                A \mapsto B \to D\\
+                C \mapsto D
+            \end{array}\]
+            \item Notiamo che::
+            \[V(\tau_1) = (B \to D) \to B \to D = V(\tau_2)\]     
+            dunque $V$ unifica $\tau_1$ e $\tau_2$   
+        \end{itemize}
+
+        \item \begin{itemize}
+            \item Consideriamo i seguenti due tipi:
+            \[\tau_1 : A \to (B \to D) \to E \to E\]
+            \[\tau_2 : (B \to C) \to A \to B\]
+            \item Consideriamo quindi una sostituzione $V$ definita come:
+            \[V : \begin{array}{l}
+                A \mapsto B \to D\\
+                C \mapsto D \\
+                E \mapsto E \to E
+            \end{array}\]
+            \item Notiamo che::
+            \[V(\tau_1) = ((E \to E) \to C) \to ((E \to E) \to C) \to E \to E = V(\tau_2)\]        
+            dunque $V$ unifica $\tau_1$ e $\tau_2$   
+        \end{itemize}
+    \end{enumerate}
+    
+    \begin{framedobs}{Tipi non unificabili}
+        Esistono alcuni tipi non unificabili tra loro
+    \end{framedobs}
+
+    \textbf{Esempi:}
+    \begin{enumerate}
+        \item \begin{itemize}
+            \item Consideriamo i seguenti due tipi:
+            \[\tau_1 : A \to A\]
+            \[\tau_2 : \ttt{Int} \to \ttt{Bool}\]
+            \item Affinché possa esistere un unificatore di $\tau_1$ e $\tau_2$, sarebbe necessario che $A \mapsto \ttt{Int}$ e $A \mapsto \ttt{Bool}$, implicando che $\ttt{Int} \equiv \ttt{Bool}$, il che è impossibile
+        \end{itemize}
+
+        \item \begin{itemize}
+            \item Consideriamo i seguenti due tipi:
+            \[\tau_1 : A \to A \to A\]
+            \[\tau_2 : B \to B\]
+            \item Affinché possa esistere un unificatore di $\tau_1$ e $\tau_2$, sarebbe necessario che $B \mapsto A$ e $B \mapsto A \to A$, implicando che $A \equiv A \to A$, il che è impossibile
+        \end{itemize}
+    \end{enumerate}
+
+    \begin{frameddefn}{Composizione tra sostituzioni}
+        Date due sostituzioni $V$ e $V'$, si ha che:
+        \[V \circ V'(\tau) = V(V'(\tau))\]
+    \end{frameddefn}
+
+    \begin{framedthm}{Teorema di unificazione di Robinson}
+        Esiste un algoritmo $\mathcal{U}$ che dati due tipi primitivi $\tau_1$ e $\tau_2$ \textbf{restituisce una sostituzione $V$} o \tbf{fallisce}.
+
+        Inoltre, si ha che:
+        \begin{itemize}
+            \item Se $\mathcal{U}(\tau_1, \tau_2) = V$, ossia non fallisce, allora:
+            \begin{itemize}
+                \item $V(X) \neq X \implies X$ compare in $\tau_1$ o in $\tau_2$
+                \item $V$ \textbf{unifica} $\tau_1$ e $\tau_2$ 
+            \end{itemize}
+
+            \item Se esiste un unificatore $W$ di $\tau_1$ e $\tau_2$, allora:
+            \begin{itemize}
+                \item $\mathcal{U}(\tau_1, \tau_2) = V$, ossia non $\mathcal{U}$ \textbf{non può fallire}
+                \item $W = Z \circ V$ per qualche sostituzione $Z$, ossia $V$ è la \textbf{sostituzione più "generica" possibile}
+            \end{itemize}
+        \end{itemize}
+
+        (\textit{dimostrazione omessa})
+    \end{framedthm}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Consideriamo i seguenti due tipi:
+        \[\tau_1 : X \to Y\]
+        \[\tau_2 : Z \to Y\]
+
+        \item Consideriamo quindi le seguenti due sostituzioni:
+        \[V : \begin{array}{l}
+            X \mapsto Z
+        \end{array}
+        \qquad\qquad
+        W : \begin{array}{l}
+            X \mapsto Z\\
+            Y \mapsto A \to B
+        \end{array}\]
+
+        \item Entrambe le due sostituzioni risultano essere due unificatori:
+        \[V(\tau_1) = Z \to Y = V(\tau_2)\]
+        \[W(\tau_1) = Z \to (A \to B) = W(\tau_2)\]
+
+        \item Tuttavia, data la seguente sostituzione:
+        \[U : \begin{array}{l}
+            Y \mapsto A \to B
+        \end{array}\]
+        abbiamo che $W = U \circ V$, implicando quindi che $V$ sia "più generica" di $W$
+    \end{itemize}
+
+    \newpage
+
+    \begin{frameddefn}{Generalizzazione massima}
+        Data una variabile $x$ e un contesto $\Gamma$, definiamo la \textbf{generalizzazione massima di $x$}, indicata con $\overline{\Gamma}(x)$, come:
+        \[\overline{\Gamma}(x) = \forall X_1, \ldots, X_n.\tau\]
+        dove $\Gamma(x) = \tau$ e $TypeVar - \mathrm{free}(\Gamma) = \{X_1, \ldots, X_n\}$
+    \end{frameddefn}
+
+    \begin{framedthm}{Algoritmo $\mathcal{W}$}
+        Esiste un algoritmo $\mathcal{W}$ che dato un contesto $\Gamma$ e un termine $M$ \textbf{restituisce una tupla $(V, \tau)$ o fallisce}, dove $V$ è una sostituzione e $\tau$ è un tipo.
+        
+        Inoltre, se $\mathcal{W}(\Gamma, M) = (V, \tau)$, ossia non fallisce, allora:
+        \begin{itemize}
+            \item Se $M \equiv x$ e $\Gamma(x) = \forall X_1, \ldots, X_n.\tau'$, allora:
+            \begin{itemize}
+                \item $V = \mathrm{id}$, ossia è l'identità
+                \item $\tau = \tau'[Y_1, \ldots, Y_n / X_1, \ldots, X_n]$ dove $Y_1, \ldots, Y_n \in \mathrm{free}(\Gamma(x))$
+            \end{itemize}
+            
+            \item Se $M \equiv M_1 \; M_2$ e inoltre:
+            \begin{itemize}
+                \item $\mathcal{W}(\Gamma, M_1) = (V_1, \tau_1)$
+                \item $\mathcal{W}(V_1(\Gamma), M_2) = (V_2, \tau_2)$
+                \item $\mathcal{U}(V_2(\tau_1), \tau_2 \to Y) = W$, dove $Y$ è una nuova variabile
+            \end{itemize}
+            allora $V = W \circ V_2 \circ V_1$ e $\tau = W(Y)$
+
+            \item Se $M \equiv \fn{x}{N}$ e inoltre:
+            \begin{itemize}
+                \item $\mathcal{W}((\Gamma, x:X), N) = (V_1, \tau_1)$ dove $X$ è una nuova variabile
+            \end{itemize}
+            allora $V = V_1$ e $\tau = V_1(X) \to \tau_1$
+
+            \item Se $M \equiv \letin{x}{N}{L}$ e inoltre:
+            \begin{itemize}
+                \item $\mathcal{W}((V_1(\Gamma), x : \tau'), L) = (V_2, \tau_2)$ dove $\overline{V_1(\Gamma)}(x) = \tau'$
+            \end{itemize}
+            allora $V = V_2 \circ V_1$ e $\tau = \tau_2$
+        \end{itemize}
+
+        \textbf{Nota:} L'algoritmo $\mathcal{W}$ fallisce \underline{solo se} $\mathcal{U}$ fallisce
+    \end{framedthm}
+
+    \begin{frameddefn}{Schema principale}
+        Dato un contesto $\Gamma$ e un termine $M$, definiamo uno schema di tipi $\sigma$ come \textbf{principale per $\Gamma$ e $M$} se:
+        \begin{itemize}
+            \item $\typejud{\Gamma}{M}{\sigma}$
+            \item $\forall \sigma' \;\; \typejud{\Gamma}{M}{\sigma'} \implies \sigma' \sqsubset \sigma$
+        \end{itemize}
+    \end{frameddefn}
+
+    \newpage
+
+    \begin{framedthm}{Correttezza e completezza dell'algoritmo $\mathcal{W}$}
+        Se $\mathcal{W}(\Gamma, M) = (V, \tau)$, allora:
+        \begin{itemize}
+            \item $\typejud{V(\Gamma)}{M}{\tau}$
+            \item $\overline{V(\Gamma)}(\tau)$ è principale per $V(\Gamma)$ e $M$ 
+        \end{itemize}
+    \end{framedthm}
+
+    \textbf{Esempio:}
+
+    \begin{itemize}
+        \item Consideriamo il termine $\fn{x}{\fn{y}{x \; (y \; x)}}$
+        \item Applicando l'algoritmo $\mathcal{W}$ abbiamo che:
+        \begin{itemize}
+            \item $\mathcal{W}(\varnothing, \fn{x}{\fn{y}{x \; (y \; x)}}) = (V_1, \tau_1)$, dove:
+            \begin{itemize}
+                \item $V_1 = V_2$
+                \item $\tau_1 = V_2(A) \to \tau_2$
+            \end{itemize}
+            \item $\mathcal{W}(x:A,\fn{y}{x \; (y \; x)}) = (V_2, \tau_2)$, dove:
+            \begin{itemize}
+                \item $V_2 = V_3$
+                \item $\tau_2 = V_3(B) \to \tau_3$
+            \end{itemize} 
+            \item $\mathcal{W}((x:A, y:B), x \; (y \; x)) = (V_3, \tau_3)$, dove:
+            \begin{itemize}
+                \item $\mathcal{W}((x:A, y:B), x) = (\mathrm{id}, A)$
+                \item $\mathcal{W}(\mathrm{id}(x:A, y:B), y \; x) = \mathcal{W}((x:A, y:B), y \; x) = (V_4, \tau_4)$, dove:
+                \begin{itemize}
+                    \item $\mathcal{W}((x:A, y:B), y) = (\mathrm{id}, B)$
+                    \item $\mathcal{W}(\mathrm{id}(x:A, y:B), x) = \mathcal{W}((x:A, y:B), x) = (\mathrm{id}, A)$
+                    \item $\mathcal{U}(\mathrm{id}(B), A \to C) = \mathcal{U}(B, A \to C) = W$, con $W : B \mapsto A \to C$ 
+                    \item $V_4 = W \circ \mathrm{id} \circ \mathrm{id} = W$
+                    \item $\tau_4 = W(C) = C$
+                \end{itemize}
+                \item $\mathcal{U}(V_4(A), \tau_4 \to D) = \mathcal{U}(A, C \to D) = U$, con $U : A \mapsto C \to D$
+                \item $V_3 = U \circ V_4 \circ \mathrm{id} = U \circ W$, con $U \circ W : A \mapsto C \to D, B \mapsto (C \to D) \to C$
+                \item $\tau_3 = U(D) = D$
+            \end{itemize}
+        \end{itemize}
+
+        \item Di conseguenza, abbiamo che:
+        \[\mathcal{W}(\varnothing, \fn{x}{\fn{y}{x \; (y \; x)}}) = (V_1, \tau_1) =\]
+        \[(V_2, V_2(A) \to \tau_2) = (V_3, V_3(A) \to V_3(B) \to \tau_3) = \]
+        \[(U \circ W, (C \to D) \to ((C \to D) \to C) \to D)\]
+
+        \item Dunque, concludiamo che un tipo principale di $\fn{x}{\fn{y}{x \; (y \; x)}}$ sia:
+        \[\forall C,D.(C \to D) \to ((C \to D) \to C) \to D\]
+    \end{itemize}
+
+    \section{Isomorfismo di Curry-Howard}
+
+    Consideriamo la regola di inferenza del \textbf{tipo di un'applicazione} descritta nelle sezioni precedenti:
+    \[\dfrac{
+        \typejud{\Gamma}{M}{A \to B} \quad \typejud{\Gamma}{N}{A}
+    }{
+        \typejud{\Gamma}{M \; N}{B}
+    }\]
+
+    Consideriamo ora una regola fondamentale all'interno della logica del primo ordine, ossia la regola dell'\textbf{eliminazione dell'implicazione} (o \textit{modus ponens}), descritta come:
+    \[\dfrac{
+        A \implies B \quad A
+    }{
+        B
+    }\]
+    ossia che \textit{"se è vero che $A$ implica $B$ e vale $A$, allora è vale anche $B$"}.
+
+    In forma più generica, dato un \textbf{insieme di proposizioni vere $\Gamma$} e il connettivo logico $\vdash$, letto come \textit{"deduce"}, possiamo affermare che: 
+    \[\dfrac{
+        \Gamma \vdash A \implies B \quad \Gamma \vdash A
+    }{
+        \Gamma \vdash B
+    }\]
+    ossia che \textit{"se da $\Gamma$ si deduce che $A$ implica $B$ e $A$ siano veri, allora si deduce anche che $B$ sia vero"}.
+
+    Notiamo quindi che vi sia una \textbf{corrispondenza diretta} tra il \textit{modus ponens} e la valutazione del tipo di un'applicazione.
+
+    Analogamente, possiamo individuare una corrispondenza diretta tra un'altra regola logica, ossia la regola dell'\textbf{introduzione dell'implicazione}, e la valutazione del \textbf{tipo di una funzione}:
+    \[\dfrac{
+        \Gamma, A \vdash B
+    }{
+        \Gamma \vdash A \implies B
+    }
+    \qquad\qquad\quad
+    \dfrac{
+        \typejud{\Gamma, x : A}{M}{B}
+    }{
+        \typejud{\Gamma}{\fn{x}{M}}{A \to B}
+    }\]
+
+    \quad
+
+    Consideriamo ora il seguente termine e il suo tipo principale:
+    \[\fn{x}{\fn{y}{x}} : \forall X,Y.X \to Y \to X\]
+    In senso improprio, possiamo dire che tale tipo afferma che textit{"indipendentemente dal tipo $Y$, verrà restituito un elemento di tipo $X$"}.
+
+    Notiamo che tale tipo corrisponda esattamente al \textbf{primo assioma logico}, ossia:
+    \[A \implies (B \implies A)\]
+    il quale descrive che \textit{"Se $A$ è vero allora ne segue che $A$ sia vero indipendentemente dalla veridicità di $B$}
+
+    Tali corrispondenze descritte precedentemente risultano essere frutto di una \textbf{corrispondenza diretta tra tipi e proposizioni} dettata dall'\textbf{isomorfismo di Curry-Howard}.
+
+    \begin{framedthm}{Isomorfismo di Curry-Howard}
+
+        L'\textbf{isomorfismo di Curry-Howard} è una corrispondenza tra la \textbf{logica} e il \textbf{sistema dei tipi}. In particolare, tale corrispondenza si divide in:
+        \begin{itemize}
+            \item Una \textbf{corrispondenza tra formule logiche e tipi}:
+            \begin{center}
+                \begin{tabular}{c|c}
+                    \textbf{Logica} & \textbf{Sistema dei tipi}\\
+                    \hline
+                    $A \implies B$ & $A \to B$\\
+                    $A \land B$ & $A \times B$\\
+                    $A \lor B$ & $A + B$\\
+                    $True$ & $\1$\\
+                    $False$ & $\varnothing$
+                \end{tabular}
+            \end{center}
+            dove il tipo $A + B$ è l'unione disgiunta tra il tipo $A$ e il tipo $B$ e $\varnothing$ è il tipo vuoto
+            \item Una \textbf{corrispondenza tra deduzione naturale e il lambda calcolo tipato}:
+            
+            \begin{center}
+                \begin{tabular}{c|c}
+                    \textbf{Logica} & \textbf{Sistema dei tipi}\\
+                    \hline
+                    Ipotesi & Variabili libere\\
+                    Eliminazione dell'implicazione & Applicazione\\
+                    Introduzione dell'implicazione & Astrazione
+                \end{tabular}
+            \end{center}
+        \end{itemize}
+    \end{framedthm}
+
+    \begin{framedprop}{Dimostrazioni come programmi}
+        Dati un tipo $A$ e la sua proposizione corrispondente $\varphi_A$, si ha che:
+        \[\text{Esiste un termine di tipo principale } A \iff \varphi_A \text{ è una tautologia}\] 
+    \end{framedprop}
+
+    \textbf{Esempi}:
+    \begin{enumerate}
+        \item \begin{itemize}
+            \item Consideriamo il seguente tipo $(A \to B) \to (A \to (C \to B))$
+            \item Notiamo che la proposizione ad esso equivalente sia una tautologia:
+            \[(A \implies B) \implies (A \implies (C \implies B)) = \lnot(\lnot A \lor B) \lor \lnot A \lor \lnot C \lor B =\]
+            \[(A \land \lnot B) \lor \lnot A \lor \lnot C \lor B = A \lor \lnot A \lor \lnot C \lor B = 1\]
+            di conseguenza, esiste necessariamente un termine avente tale tipo come principale.
+            
+            \item In particolare, il termine $\fn{x}{\fn{y}}{\fn{z}}{xy}$ possiede tale tipo come principale
+        \end{itemize}
+
+        \item \begin{itemize}
+            \item Consideriamo il seguente tipo $(A \to B) \to C$
+            \item Notiamo che la proposizione ad esso equivalente non sia una tautologia:
+            \[(A \implies B) \implies C = \lnot(\lnot A \lor B) \lor C = (A \land \lnot B) \lor C\]
+            di conseguenza, non esiste un termine avente tale tipo come principale.
+        \end{itemize}
+    \end{enumerate}
+
+\end{document}

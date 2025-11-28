@@ -7,9 +7,10 @@
 </div>
 
 > [!CAUTION]
-> 4 years, the LaTeX source code of these notes will soon go public!!
->
-> The details are going to be available soon, I'm polishing things up. 
+> Dopo 4 lunghi anni, le condizioni necessarie per pubblicare il codice sorgente degli appunti sono state raggiunte!
+> 
+> Fatta eccezione del pacchetto Nyx (il template LaTeX per gli appunti creato assieme a @aaflag), tutto il codice è completamente accessibile e riutilizzabile (a patto di rispettare la sezione [Licence](#licence)).
+> Nel caso si desiderasse di compilare uno dei .tex riportati, è necessario prima rimuovere ogni riferimento al pacchetto Nyx. Aggiungo che il pacchetto Nyx contiene anche numerose macro utilizzate all'interno degli appunti, dunque sarà necessario sostituire tali macro con una propria versione.
 
 ### ℹ️ Informazioni
 
@@ -21,7 +22,10 @@ Perché condividerli? In quanto aperto sostenitore del [Copyleft](https://en.wik
 
 Ovviamente, sebbene molto dettagliati e contenenti tutto il materiale necessario a poter studiare gli argomenti richiesti dai vari corsi e dai loro esami, essi non costituiscono dogma, dunque si consiglia  di affiancarli ad uno studio tramite i libri proposti dai professori e le lezioni frontali di quest'ultimi.
 
-Per tanto, in caso di incorrettezze, migliorie o richieste, chiunque si senta libero di __segnalare 🚩__ tramite il sistema di [Issues](https://github.com/Exyss/university-notes/issues) fornito da GitHub stesso (in alto a sinistra) o di [contattarmi 💬](https://t.me/Exyss) direttamente in privato. Gli appunti sono in continuo aggiornamento, pertanto, previa segnalazione, si prega di controllare se le modifiche siano già state apportate nella versione più recente.
+Per tanto, in caso di incorrettezze, migliorie o richieste, chiunque si senta libero di usufruire di uni dei seguenti tre metodi:
+- Effettuare una pull request per risolvere autonomamente il problema
+- Segnalare il problema tramite il sistema di [Issues](https://github.com/Exyss/university-notes/issues) fornito da GitHub stesso (in alto a sinistra)
+- [Contattarmi](https://t.me/Exyss) direttamente in privato. Gli appunti sono in continuo aggiornamento, pertanto, previa segnalazione, si prega di controllare se le modifiche siano già state apportate nella versione più recente.
 
 ____________
 

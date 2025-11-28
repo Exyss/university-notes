@@ -1160,7 +1160,7 @@
     Dando una veloce occhiata al grafico del polinomio ottenuto e comparandolo con quello di $f(x)$, notiamo che l'approssimazione risulta corretta esclusivamente per il centro $\pi$.
 
     \begin{center}
-        \includegraphics[scale=0.5]{resources/images/taylor_1.png}
+        \includegraphics[scale=0.5]{images/taylor_1.png}
     \end{center}
 
     Calcolando il polinomio di ordine 2, invece, notiamo come l'intorno di approssimazione sia aumentato:
@@ -1171,7 +1171,7 @@
     \end{split} \]
 
     \begin{center}
-        \includegraphics[scale=0.55]{resources/images/taylor_2.png}
+        \includegraphics[scale=0.55]{images/taylor_2.png}
     \end{center}
 
     Dopo aver dato un'intuizione dietro al polinomio di Taylor, una domanda sorge spontanea: poiché l'approssimazione diminuisce al crescere del ordine, cosa succede se tale ordine tende all'infinito? La risposta risulta anch'essa intuitiva: il resto infinitesimale diventerà talmente insignificante da far coincidere la funzione con il polinomio.
@@ -1308,7 +1308,7 @@
 
     Graficamente, i numeri complessi possono essere interpretati tramite un piano bidimensionale dotato di un'\textbf{asse reale} e un'\textbf{asse immaginaria}:
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_1/complex_numbers.jpg}
+        \includegraphics[scale=0.6]{images/chapter_1/complex_numbers.jpg}
     \end{center}
         
     L'utilizzo di tali numeri apre molte porte all'interno della matematica, ad esempio la \textbf{fattorizzazione} di alcuni numeri primi che, per loro definizione stessa, normalmente non sarebbero fattorizzabili:
@@ -1446,13 +1446,13 @@
     Immaginiamo di trovarci nella seguente situazione: vogliamo calcolare l'\textbf{area della figura sottostante alla funzione $f(x)$ nell'intervallo $[a, b]$}
     
     \begin{center}
-        \includegraphics[scale=0.575]{resources/images/chapter_2/integral_area.png}
+        \includegraphics[scale=0.575]{images/chapter_2/integral_area.png}
     \end{center}
     
     Notiamo però che tale figura \textbf{non corrisponde ad un poligono,} ne tanto meno ad una figura geometricamente nota. Come possiamo dunque calcolarne l'area senza poter applicare una formula precisa? Potremmo pensare di \textbf{scomporre la figura in dei poligoni} di cui possiamo effettivamente calcolare l'area, per poi \textbf{sommare tutte le aree calcolate} ed ottenere l'area della figura. Proviamo quindi a scomporre l'area in \textbf{due triangoli}.
     
     \begin{center}
-        \includegraphics[scale=0.725]{resources/images/chapter_2/integral_area2.png}
+        \includegraphics[scale=0.725]{images/chapter_2/integral_area2.png}
     \end{center}
     
     Essendo il lato superiore della figura \textbf{curvilineo}, non siamo in grado di trovare una \textbf{scomposizione perfetta} della figura che possa coprire l'area originale nel suo totale.
@@ -1460,7 +1460,7 @@
     L'unica via, quindi, è stimare l'area della figura tramite una \textbf{serie di approssimazioni}: se scomponessimo l'area in una \textbf{quantità elevata di triangolini} potremmo arrivare a lasciare scoperta una minuscolissima parte della figura, rendendo la somma delle aree \textbf{estremamente vicina all'area effettiva} della figura.
     
     \begin{center}
-        \includegraphics[scale=0.575]{resources/images/chapter_2/integral_area3.png}
+        \includegraphics[scale=0.575]{images/chapter_2/integral_area3.png}
     \end{center}
     
     Rimane tuttavia un problema fondamentale, ossia il \textit{come calcolare} tali aree dei triangoli. Notiamo come non è presente un \textbf{rigore matematico} in tale approccio, poiché ogni triangolo è estremamente diverso dall'altro, risultando anche nella presenza di alcuni rettangoli non retti. Stimare l'area della figura utilizzando dei triangoli, quindi, risulta estremamente \textbf{inefficiente} e di \textbf{difficoltà pari} (se non superiore) \textbf{al problema originale}.
@@ -1472,7 +1472,7 @@
     Aggiungiamo al piano la seguente retta $r(x) = M$.
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_2/integral_area4.png}
+        \includegraphics[scale=0.6]{images/chapter_2/integral_area4.png}
     \end{center}
     
     Consideriamo quindi il rettangolo di base $(b-a)$ e di altezza $M$. Tale rettangolo ha sicuramente un'area \textbf{maggiore} rispetto all'area che stiamo cercando. Consideriamo inoltre il rettangolo di base $(b-a)$ e di altezza $0$. Tale rettangolo ha sicuramente un'area \textbf{minore} dell'area che stiamo cercando. Possiamo quindi definire la seguente disequazione:
@@ -1488,7 +1488,7 @@
     Aggiungiamo al piano una seconda retta $r(x) = m$, dove $m = min(y_a, y_b)$. Inoltre, "aggiorniamo" la retta precedente, ponendo $M = max(y_a, y_b)$.
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_2/integral_area5.png}
+        \includegraphics[scale=0.6]{images/chapter_2/integral_area5.png}
     \end{center}
     
     Analogamente a prima, stimiamo il valore di A confrontandolo con un'\textbf{area maggiore} (ossia $M \cdot (b-a)$) e con un'\textbf{area minore} (ossia $m \cdot (b-a)$):
@@ -1497,7 +1497,7 @@
     Notiamo però come la stima risulti ancora troppo imprecisa. Decidiamo quindi di \textbf{scomporre il problema in due figure}, raddoppiando il numero di rettangoli.
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_2/integral_area6.png}
+        \includegraphics[scale=0.6]{images/chapter_2/integral_area6.png}
     \end{center}
     
     Una volta scomposto in due figure il problema, notiamo come possiamo individuare un \textbf{valore $M$} ed un \textbf{valore $m$} per ognuna delle \textbf{due figure}, corrispondenti ai \textbf{punti di massimo e di minimo dei due intervalli} definiti dalla scomposizione, ossia $[a, x_1]$ e $[x_1, b]$, dove $x_1$ corrisponde al \textbf{punto medio tra $a$ e $b$}.
@@ -1525,7 +1525,7 @@
     L'approssimazione risulta quindi \textbf{più accurata} rispetto alla precedente. Procediamo quindi sulla stessa riga, questa volta \textbf{dividendo l'intervallo in quattro}.
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_2/integral_area7.png}
+        \includegraphics[scale=0.6]{images/chapter_2/integral_area7.png}
     \end{center}
     
     A questo punto, è facile rendersi conto che questa volta la stima corrisponderà a
@@ -1695,7 +1695,7 @@
     \end{framedthm}
     
     \begin{center}
-        \includegraphics[scale=0.8]{resources/images/prop_int1.png}
+        \includegraphics[scale=0.8]{images/prop_int1.png}
         
         \textit{Notiamo facilmente come la somma delle aree di $\alpha f(x)$ e $\beta g(x)$ nell'intervallo $[a,b]$  corrispondano all'area di $h(x) = \alpha f(x) + \beta g(x)$ nello stesso intervallo}
     \end{center}
@@ -1710,7 +1710,7 @@
     \end{framedthm}
     
     \begin{center}
-        \includegraphics[scale=0.85]{resources/images/prop_int2.png}
+        \includegraphics[scale=0.85]{images/prop_int2.png}
         
         \textit{Tale proprietà risulta essere banale, poiché sfruttata anche \\ nella definizione geometrica stessa di integrale}
     \end{center}
@@ -1718,7 +1718,7 @@
     Seppur semplice, tale proprietà ci permette di fare delle \textbf{assunzioni aggiuntive}. Immaginiamo di voler calcolare l'integrale in $[a,b]$ di una \textbf{funzione discontinua e non strettamente monotona}. 
     
     \begin{center}
-        \includegraphics[scale=0.8]{resources/images/prop_int3.png}
+        \includegraphics[scale=0.8]{images/prop_int3.png}
     \end{center}
     
     A primo impatto, ci sembra impossibile stabilire il valore assunto dall'integrale in $[a,b]$. Tuttavia, sfruttare la proprietà dell'additività dell'integrale, \textbf{spezzando il singolo integrale nella somma tra tre integrali}: uno nell'intervallo $[a,c]$, dove la funzione è \textbf{strettamente decrescente}, uno nell'intervallo $[c,d]$, dove la funzione è \textbf{strettamente crescente}, ed uno in $[d,b]$, dove la funzione è \textbf{discontinua}.
@@ -1736,7 +1736,7 @@
     Inoltre, tale proprietà ci permette di calcolare integrali in cui la funzione \textbf{non assume valori strettamente positivi} in un intervallo.
     
     \begin{center}
-        \includegraphics[scale=0.8]{resources/images/prop_int4.png}
+        \includegraphics[scale=0.8]{images/prop_int4.png}
     \end{center}
     
     In questo caso, l'integrale in $[a,b]$ può essere comodamente spezzato nella \textbf{somma tra l'integrale in $[a,c]$ e l'integrale in $[c,b]$}. Tuttavia, notiamo come nell'intervallo $[a,c]$ la funzione assuma \textbf{valori negativi}, rendendo \textbf{negativo} il risultato di tale integrale.
@@ -1764,7 +1764,7 @@
     Infine, l'ultima proprietà degli integrali prevede il \textbf{calcolo di un'area tramite la differenza tra due aree}. Consideriamo la seguente situazione: vogliamo calcolare l'integrale in $[c,b]$ della seguente funzione
     
     \begin{center}
-        \includegraphics[scale=0.8]{resources/images/prop_int5.png}
+        \includegraphics[scale=0.8]{images/prop_int5.png}
     \end{center}
     
     In questo caso, ci viene naturale affermare che l'integrale in $[c,b]$ corrisponde esattamente alla \textbf{differenza tra l'integrale in $[a,b]$ e l'integrale in $[a,c]$}.
@@ -1782,7 +1782,7 @@
     Riprendiamo ora il discorso del calcolo dell'integrale della funzione $f(x) = x$.
     
     \begin{center}
-        \includegraphics[scale=0.8]{resources/images/prop_int6.png}
+        \includegraphics[scale=0.8]{images/prop_int6.png}
     \end{center}
     
     Vogliamo calcolare l'integrale di $f$ nell'intervallo $[t, t+h]$. Scegliamo quindi di utilizzare l'ultima proprietà degli integrali discussa nella sezione precedente, ossia la\textbf{differenza tra integrali}.

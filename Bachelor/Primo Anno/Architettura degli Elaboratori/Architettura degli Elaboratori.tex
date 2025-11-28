@@ -116,7 +116,7 @@
     L'intera \textbf{catena di astrazione}, dunque, corrisponde a
     
     \begin{center}
-        \includegraphics[scale=0.95]{resources/images/chapter_1/assembly3.png}
+        \includegraphics[scale=0.95]{images/chapter_1/assembly3.png}
     \end{center}
     
     \section{Architettura di Von Neumann, CPU e Memorie}
@@ -147,7 +147,7 @@
     \quad
     
     \begin{center}
-        \includegraphics[scale=0.65]{resources/images/chapter_1/von_neumann.png}
+        \includegraphics[scale=0.65]{images/chapter_1/von_neumann.png}
     \end{center}
     
     \newpage
@@ -165,7 +165,7 @@
     Il \textbf{modello di Von Neumann} prevede che, prima di essere eseguiti, i programmi vengano \textbf{spostati nella memoria} per essere eseguiti. Quando un programma si trova nella memoria prende il nome di \textbf{processo}, ossia un programma in esecuzione. Per della loro natura stessa, ogni processo ha un effettivo \textbf{ciclo di vita}, poiché durante la loro esecuzione essi si evolvono raggiungendo vari \textbf{stati}. 
     
     \begin{center}
-        \includegraphics[scale=0.7]{resources/images/chapter_1/cpu_memory.png}
+        \includegraphics[scale=0.7]{images/chapter_1/cpu_memory.png}
     \end{center}
     \newpage
     
@@ -294,7 +294,7 @@
             \item Formato dei bit:
             
             \begin{center}
-                \includegraphics[scale=0.65]{resources/images/chapter_2/r_type.png}
+                \includegraphics[scale=0.65]{images/chapter_2/r_type.png}
             \end{center}
             
             \item Esempio:
@@ -333,7 +333,7 @@
             \item Formato dei bit:
             
             \begin{center}
-                \includegraphics[scale=0.65]{resources/images/chapter_2/i_type.png}
+                \includegraphics[scale=0.65]{images/chapter_2/i_type.png}
             \end{center}
             
             \item Esempio:
@@ -365,7 +365,7 @@
             \item Formato dei bit:
             
             \begin{center}
-                \includegraphics[scale=0.65]{resources/images/chapter_2/j_type.png}
+                \includegraphics[scale=0.65]{images/chapter_2/j_type.png}
             \end{center}
             
             \item Esempio:
@@ -390,7 +390,7 @@
     \section{Lista delle istruzioni}
     
     \begin{center}
-        \includegraphics[scale=0.725]{resources/images/chapter_2/instruction_set.png}
+        \includegraphics[scale=0.725]{images/chapter_2/instruction_set.png}
     \end{center}
     
     
@@ -401,7 +401,7 @@
     Ad ogni byte della memoria è associato un \textbf{indirizzo}, rappresentato da un \textbf{8 cifre esadecimali}, poiché ricordiamo che ogni cifra esadecimale corrisponde esattamente a 4 bit, dunque due cifre esadecimali corrispondono ad un byte.
     
     \begin{center}
-        \includegraphics[scale=0.8]{resources/images/chapter_2/memory_mips2.png}
+        \includegraphics[scale=0.8]{images/chapter_2/memory_mips2.png}
 
         \textit{Ogni cella dell'immagine mostrata corrisponde ad un byte di memoria, mentre \\il valore esadecimale ad esso associato corrisponde al suo indirizzo} 
     \end{center}
@@ -450,7 +450,7 @@
     Una volta compreso il modo in cui viene indicizzata la memoria, possiamo vedere la sua \textbf{struttura nel completo}, definendone quelle che sono le \textbf{parti principali}.
     
     \begin{center}
-        \includegraphics[scale=0.7]{resources/images/chapter_2/memory_mips.png}
+        \includegraphics[scale=0.7]{images/chapter_2/memory_mips.png}
     \end{center}
     
     \quad
@@ -717,7 +717,7 @@
     L'unica \textbf{differenza} tra i tre vettori, in questo caso, è la \textbf{dimensione dei loro elementi}. All'interno della memoria, quindi, i tre vettori saranno conservati nel seguente modo:
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_2/vector1.png}
+        \includegraphics[scale=0.6]{images/chapter_2/vector1.png}
     \end{center}
     
     Tale differenza implica anche una \textbf{gestione diversa} all'interno del codice assembly:
@@ -747,7 +747,7 @@
     Convertendo il tutto in termini di bit, notiamo come i tre vettori risultano \textbf{molto differenti}, nonostante essi stiano svolgendo la stessa identica funzione, ossia conservare i tre valori 100, 55 e 4, occupando però \textbf{quantità} molto differenti di memoria, ad esempio nel caso del primo vettore stiamo utilizzando il \textbf{quadruplo dello spazio necessario}, sprecando molta memoria.
     
     \begin{center}
-        \includegraphics[scale=0.45]{resources/images/chapter_2/vector3.png}
+        \includegraphics[scale=0.45]{images/chapter_2/vector3.png}
     \end{center}
     
     Estendiamo ora il concetto di vettore al mondo delle \textbf{stringhe di caratteri}. Come sappiamo, o\textbf{gni singolo dato}, indipendentemente dalla sua forma, complessità ed utilizzo, all'interno della memoria e dei registri deve essere rappresentato sottoforma di \textbf{insieme di bit}.
@@ -760,7 +760,7 @@
     
         \texttt{stringa: .asciiz  "Hello, World!"}
         
-        \includegraphics[scale=0.5]{resources/images/chapter_2/vector2.png}
+        \includegraphics[scale=0.5]{images/chapter_2/vector2.png}
     \end{center}
     
     Notiamo la presenza di un \textbf{carattere aggiuntivo} alla fine della stringa, ossia \textbf{\textbackslash 0}, chiamato \textbf{Null Byte}. Tale carattere \textbf{viene aggiunto alla fine di ogni stringa} di caratteri per indicare la fine della stringa stessa, evitando che i valori in memoria che la seguono vengano interpretati anche essi come caratteri della stringa.
@@ -821,7 +821,7 @@
     \end{itemize}
     
     \begin{center}
-        \includegraphics[scale=0.5]{resources/images/chapter_2/matrix.png}
+        \includegraphics[scale=0.5]{images/chapter_2/matrix.png}
     \end{center}
     
     Difatti, nel linguaggio assembly (a differenza degli altri linguaggi più ad alto livello) non ci sono modi per specificare il numero di colonne e di righe di una matrice, bensì essa viene definita come un unico vettore di grandi dimensioni:
@@ -878,7 +878,7 @@
     
     \subsubsection{Elenco delle Syscall in MIPS}
     \begin{center}
-        \includegraphics[scale=0.8]{resources/images/chapter_2/syscalls.png}
+        \includegraphics[scale=0.8]{images/chapter_2/syscalls.png}
     \end{center}
     
     \quad
@@ -892,7 +892,7 @@
     Tuttavia, ciò è in parte falso, poiché in realtà \textbf{tale istruzione esiste sottoforma di pseudoistruzione}, ossia \texttt{blt}, la quale viene tradotta dall'assembler nelle due istruzioni \texttt{slt} e \texttt{bne}.
     
     \begin{center}
-        \includegraphics[scale=1]{resources/images/chapter_2/pseudoinstructions.png}
+        \includegraphics[scale=1]{images/chapter_2/pseudoinstructions.png}
     \end{center}
 
     Notiamo, inoltre, come anche le istruzioni \texttt{li} e \texttt{move} siano in realtà \textbf{pseudoistruzioni}, nonché l'uso del \textbf{registro di appoggio \$1}, corrispondente al \textbf{registro \$at.}
@@ -912,7 +912,7 @@
     \end{itemize}
     
     \begin{center}
-        \includegraphics[scale=0.7]{resources/images/chapter_2/procedures.png}
+        \includegraphics[scale=0.7]{images/chapter_2/procedures.png}
     \end{center}
     
     Per \textbf{richiamare una funzione} viene utilizzata l'istruzione \texttt{jal <label>}, ossia \textbf{Jump And Link}, la quale, prima di effettuare il salto incondizionato, salva nel registro \$ra l'indirizzo di memoria dell'istruzione successiva (dunque \$ra <- PC+4).
@@ -1012,7 +1012,7 @@
     \end{verbatim}
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_2/stack_pointer.png}
+        \includegraphics[scale=0.6]{images/chapter_2/stack_pointer.png}
     \end{center}
     
     L'insieme totale degli elementi da salvare nello stack viene detto \textbf{Stack Frame} (o Activation Record) ed è composto da:
@@ -1026,7 +1026,7 @@
     \end{itemize}
     
     \begin{center}
-        \includegraphics[scale=0.8]{resources/images/chapter_2/stack_frame.png}
+        \includegraphics[scale=0.8]{images/chapter_2/stack_frame.png}
     \end{center}
     
     Una volta definito l'\textbf{uso corretto dello stack} come metodo di conservazione e ripristino dello stato precedente, riscriviamo nel modo corretto le due funzioni dell'esempio della sezione \ref{without_stack}, salvando il valore dei registri \$t0 e \$v0, che altrimenti verrebbero alterati:
@@ -1196,7 +1196,7 @@
     Dunque, sarà necessario aggiungere all'architettura anche un \textbf{Sommatore (Adder)} avente in input il \textbf{PC} e un \textbf{valore costante pari a 4}, in modo da poter eseguire tale somma ad ogni ciclo di clock:
     
     \begin{center}
-        \includegraphics[scale=0.75]{resources/images/chapter_3/fetch.png}
+        \includegraphics[scale=0.75]{images/chapter_3/fetch.png}
     \end{center}
     
     \newpage
@@ -1206,13 +1206,13 @@
     Successivamente, viene eseguita la fase di \textbf{Instruction Decode}, dove l'istruzione in output dalla fase di \textbf{fetch} viene \textbf{scomposta} in ognuno dei suoi \textbf{campi}, in modo da poterne prelevare i contenuti.
     
     \begin{center}
-        \includegraphics[scale=0.75]{resources/images/chapter_3/instruction_types.png}
+        \includegraphics[scale=0.75]{images/chapter_3/instruction_types.png}
     \end{center}
     
     Poiché l'architettura deve essere in grado di poter lavorare con tutti e tre i formati di istruzioni, saranno necessari alcuni \textbf{multiplexer (mux)} e \textbf{segnali di controllo}, in modo che ne modifichino in comportamento a seconda del tipo di istruzione:
     
     \begin{center}
-        \includegraphics[scale=0.8]{resources/images/chapter_3/decode.png}
+        \includegraphics[scale=0.8]{images/chapter_3/decode.png}
     \end{center}
     
     \begin{itemize}
@@ -1231,7 +1231,7 @@
     Una volta decodificata l'istruzione prelevando i dati ad essa necessari, l'istruzione procederà con la fase di esecuzione, andando ad utilizzare l'\textbf{ALU} ed eventualmente ad accedere alla \textbf{memoria dati}.
     
     \begin{center}
-        \includegraphics[scale=1]{resources/images/chapter_3/execute.png}
+        \includegraphics[scale=1]{images/chapter_3/execute.png}
     \end{center}
     
     L'implementazione delle \textbf{operazioni sull'ALU} risulta di facile intuizione:
@@ -1306,7 +1306,7 @@
     \quad
 
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_3/alu_control.png}
+        \includegraphics[scale=0.6]{images/chapter_3/alu_control.png}
     \end{center}
     
     \quad
@@ -1340,7 +1340,7 @@
     \quad
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_3/branch.png}
+        \includegraphics[scale=0.6]{images/chapter_3/branch.png}
     \end{center}
     
     \quad
@@ -1362,7 +1362,7 @@
     \[\longrightarrow \texttt{PC = PC+4[31-28] OR (Istr[25-0] $<< 2$)}\]
     
     \begin{center}
-        \includegraphics[scale=0.62]{resources/images/chapter_3/jump.png}
+        \includegraphics[scale=0.62]{images/chapter_3/jump.png}
     \end{center}
     
     \newpage
@@ -1376,11 +1376,11 @@
     \quad
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_3/control_signals.png}
+        \includegraphics[scale=0.6]{images/chapter_3/control_signals.png}
         
         \quad
         
-        \includegraphics[scale=0.66]{resources/images/chapter_3/standard_arch.png}
+        \includegraphics[scale=0.66]{images/chapter_3/standard_arch.png}
     \end{center}
     
     
@@ -1389,11 +1389,11 @@
     \subsubsection{Segnali, Datapath e Tempo di esecuzione di una \texttt{Type R}}
     
     \begin{center}
-        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/type_r.png}
+        \includegraphics[scale=0.45]{images/chapter_3/paths/type_r.png}
         
         \quad
         
-        \includegraphics[scale=0.55]{resources/images/chapter_3/paths/type_r_controls.png}
+        \includegraphics[scale=0.55]{images/chapter_3/paths/type_r_controls.png}
         
     \end{center}
     
@@ -1409,7 +1409,7 @@
         
         \quad
         
-        \includegraphics[scale=0.57]{resources/images/chapter_3/paths/type_r_time.png}
+        \includegraphics[scale=0.57]{images/chapter_3/paths/type_r_time.png}
     \end{center}
     
     \newpage
@@ -1417,11 +1417,11 @@
     \subsubsection{Segnali, Datapath e Tempo di esecuzione di una \texttt{Type I}}
     
     \begin{center}
-        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/type_i.png}
+        \includegraphics[scale=0.45]{images/chapter_3/paths/type_i.png}
         
         \quad
         
-        \includegraphics[scale=0.55]{resources/images/chapter_3/paths/type_i_controls.png}
+        \includegraphics[scale=0.55]{images/chapter_3/paths/type_i_controls.png}
         
     \end{center}
     
@@ -1437,7 +1437,7 @@
         
         \quad
         
-        \includegraphics[scale=0.57]{resources/images/chapter_3/paths/type_i_time.png}
+        \includegraphics[scale=0.57]{images/chapter_3/paths/type_i_time.png}
     \end{center}
     
     
@@ -1446,11 +1446,11 @@
     \subsubsection{Segnali, Datapath e Tempo di esecuzione di una \texttt{lw}}
     
     \begin{center}
-        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/lw.png}
+        \includegraphics[scale=0.45]{images/chapter_3/paths/lw.png}
         
         \quad
         
-        \includegraphics[scale=0.55]{resources/images/chapter_3/paths/lw_controls.png}
+        \includegraphics[scale=0.55]{images/chapter_3/paths/lw_controls.png}
         
     \end{center}
     
@@ -1466,7 +1466,7 @@
         
         \quad
         
-        \includegraphics[scale=0.57]{resources/images/chapter_3/paths/lw_time.png}
+        \includegraphics[scale=0.57]{images/chapter_3/paths/lw_time.png}
     \end{center}
     
     \newpage
@@ -1474,11 +1474,11 @@
     \subsubsection{Segnali, Datapath e Tempo di esecuzione di una \texttt{sw}}
     
     \begin{center}
-        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/sw.png}
+        \includegraphics[scale=0.45]{images/chapter_3/paths/sw.png}
         
         \quad
         
-        \includegraphics[scale=0.55]{resources/images/chapter_3/paths/sw_controls.png}
+        \includegraphics[scale=0.55]{images/chapter_3/paths/sw_controls.png}
         
     \end{center}
     
@@ -1494,7 +1494,7 @@
         
         \quad
         
-        \includegraphics[scale=0.57]{resources/images/chapter_3/paths/sw_time.png}
+        \includegraphics[scale=0.57]{images/chapter_3/paths/sw_time.png}
     \end{center}
     
     \newpage
@@ -1502,11 +1502,11 @@
     \subsubsection{Segnali, Datapath e Tempo di esecuzione di una \texttt{beq}}
     
     \begin{center}
-        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/beq.png}
+        \includegraphics[scale=0.45]{images/chapter_3/paths/beq.png}
         
         \quad
         
-        \includegraphics[scale=0.55]{resources/images/chapter_3/paths/beq_controls.png}
+        \includegraphics[scale=0.55]{images/chapter_3/paths/beq_controls.png}
         
     \end{center}
     
@@ -1522,18 +1522,18 @@
         
         \quad
         
-        \includegraphics[scale=0.57]{resources/images/chapter_3/paths/beq_time.png}
+        \includegraphics[scale=0.57]{images/chapter_3/paths/beq_time.png}
     \end{center}
     \newpage
     
     \subsubsection{Segnali, Datapath e Tempo di esecuzione di una \texttt{j}}
     
     \begin{center}
-        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/j.png}
+        \includegraphics[scale=0.45]{images/chapter_3/paths/j.png}
         
         \quad
         
-        \includegraphics[scale=0.55]{resources/images/chapter_3/paths/j_controls.png}
+        \includegraphics[scale=0.55]{images/chapter_3/paths/j_controls.png}
         
     \end{center}
     
@@ -1549,7 +1549,7 @@
         
         \quad
         
-        \includegraphics[scale=0.57]{resources/images/chapter_3/paths/j_time.png}
+        \includegraphics[scale=0.57]{images/chapter_3/paths/j_time.png}
     \end{center}
     
     \section{Aggiungere nuove istruzioni}
@@ -1571,11 +1571,11 @@
     \end{itemize}
     
     \begin{center}
-        \includegraphics[scale=0.5]{resources/images/chapter_3/paths/jal.png}
+        \includegraphics[scale=0.5]{images/chapter_3/paths/jal.png}
         
         \quad
         
-        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/jal_controls.png}
+        \includegraphics[scale=0.6]{images/chapter_3/paths/jal_controls.png}
         \end{center}
     
     \quad
@@ -1590,7 +1590,7 @@
         
         \quad
         
-        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/jal_time.png}
+        \includegraphics[scale=0.6]{images/chapter_3/paths/jal_time.png}
     \end{center}
     
     \quad
@@ -1612,11 +1612,11 @@
     \end{itemize}
     
     \begin{center}
-        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/jr.png}
+        \includegraphics[scale=0.45]{images/chapter_3/paths/jr.png}
         
         \quad
         
-        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/jr_controls.png}
+        \includegraphics[scale=0.6]{images/chapter_3/paths/jr_controls.png}
         \end{center}
     
     \quad
@@ -1631,7 +1631,7 @@
         
         \quad
         
-        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/jr_time.png}
+        \includegraphics[scale=0.6]{images/chapter_3/paths/jr_time.png}
     \end{center}
     
     \subsubsection{L'istruzione \texttt{vj}}
@@ -1666,11 +1666,11 @@
     \end{itemize}
     
     \begin{center}
-        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/vj.png}
+        \includegraphics[scale=0.45]{images/chapter_3/paths/vj.png}
         
         \quad
         
-        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/vj_controls.png}
+        \includegraphics[scale=0.6]{images/chapter_3/paths/vj_controls.png}
         \end{center}
     
     \quad
@@ -1685,7 +1685,7 @@
         
         \quad
         
-        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/vj_time.png}
+        \includegraphics[scale=0.6]{images/chapter_3/paths/vj_time.png}
     \end{center}
     
     \subsubsection{L'istruzione \texttt{badd}}
@@ -1716,11 +1716,11 @@
     \end{itemize}
     
     \begin{center}
-        \includegraphics[scale=0.45]{resources/images/chapter_3/paths/badd.png}
+        \includegraphics[scale=0.45]{images/chapter_3/paths/badd.png}
         
         \quad
         
-        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/badd_controls.png}
+        \includegraphics[scale=0.6]{images/chapter_3/paths/badd_controls.png}
         \end{center}
     
     \quad
@@ -1735,7 +1735,7 @@
         
         \quad
         
-        \includegraphics[scale=0.6]{resources/images/chapter_3/paths/badd_time.png}
+        \includegraphics[scale=0.6]{images/chapter_3/paths/badd_time.png}
     \end{center}
     
     \newpage
@@ -1755,7 +1755,7 @@
     \quad
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_3/jump_mem_init.png}
+        \includegraphics[scale=0.6]{images/chapter_3/jump_mem_init.png}
     \end{center}
     
     \quad
@@ -1770,7 +1770,7 @@
     
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_3/jump_mem_err.png}
+        \includegraphics[scale=0.6]{images/chapter_3/jump_mem_err.png}
     \end{center}
     
     \quad
@@ -1885,7 +1885,7 @@
     Per rendere il più efficiente possibile la nostra architettura, dunque, possiamo scomporre l'esecuzione di un'istruzione in una \textbf{catena di montaggio (Pipeline)}, dove ogni fase svolge il compito ad essa assegnatogli per poi \textbf{passare il risultato alla fase successiva}, procedendo ad elaborare già la \textbf{stessa fase} dell'istruzione successiva:
     
     \begin{center}
-        \includegraphics[scale=0.55]{resources/images/chapter_4/pipeline_1.png}
+        \includegraphics[scale=0.55]{images/chapter_4/pipeline_1.png}
     \end{center}
     
     La \textbf{parallelizzazione delle istruzioni} (ossia la loro esecuzione in contemporanea) permette di sovrapporre le 5 fasi, \textbf{riducendo il periodo di clock} dalla durata dell'istruzione più lenta alla durata della fase più lenta.
@@ -1905,14 +1905,14 @@
     Normalmente, per poter eseguire l'\textbf{istruzione più lenta} possibile, ossia richiedente il completamento di tutte e 5 le fasi (ad esempio Load Word), sarebbe necessario utilizzare un \textbf{periodo di clock} pari a 800ps.
     
     \begin{center}
-        \includegraphics[scale=0.8]{resources/images/chapter_4/pipeline_3.png}
+        \includegraphics[scale=0.8]{images/chapter_4/pipeline_3.png}
     \end{center}
     
     Tramite l'implementazione della pipeline, invece, tale periodo può essere \textbf{ridotto} a quello della \textbf{fase più lenta}, ossia 200ps, aumentando quindi la velocità dell'architettura.
     
     \begin{center}
         
-        \includegraphics[scale=0.8]{resources/images/chapter_4/pipeline_4.png}
+        \includegraphics[scale=0.8]{images/chapter_4/pipeline_4.png}
     \end{center}
     
     \section{Modifiche all'architettura}
@@ -1920,7 +1920,7 @@
     Per poter dividere l'esecuzione nelle 5 fasi individuate, quindi, è necessario interporre dei \textbf{banchi di registri} tra di esse, in modo da rendere ogni fase indipendente dall'esecuzione corrente delle altre.
     
     \begin{center}
-        \includegraphics[scale=0.85]{resources/images/chapter_4/pipeline_5.png}
+        \includegraphics[scale=0.85]{images/chapter_4/pipeline_5.png}
     \end{center}
     
     I \textbf{quattro banchi di registri} introdotti (ossia IF/ID, ID/EXE, EXE/MEM e MEM/WB) si occuperanno di \textbf{memorizzare temporaneamente} tutti i dati e segnali di controllo processati da ogni fase durante l'ultimo ciclo di clock.
@@ -1934,7 +1934,7 @@
     Avendo un periodo di clock di 200ns, quindi, possiamo eseguire la \textbf{scrittura sul Register File} durante l'innalzamento del clock (\textbf{Rising Edge}), ossia durante l'inizio della prima metà del periodo, ed eseguire la \textbf{lettura sul Register File} durante l'abbassamento del clock (\textbf{Falling Edge}), ossia durante l'inizio della seconda metà del periodo.
     
     \begin{center}
-        \includegraphics[scale=0.7]{resources/images/chapter_4/wb_id.png}
+        \includegraphics[scale=0.7]{images/chapter_4/wb_id.png}
     \end{center}
     
     \quad
@@ -1964,7 +1964,7 @@
     Per via della scomposizione in fasi dell'esecuzione dell'istruzione, si verifica un \textbf{Data Hazard sul registro \$s0}, il cui valore aggiornato non risulta ancora scritto nel Register File, poiché la fase di WB dell'istruzione modificante non è ancora stato portato a termine. Di conseguenza, la fase di ID dell'istruzione direttamente successiva leggerà il \textbf{valore errato}. 
     
     \begin{center}
-        \includegraphics[scale=0.7]{resources/images/chapter_4/data_hazard_1.png}
+        \includegraphics[scale=0.7]{images/chapter_4/data_hazard_1.png}
     \end{center}
     
     \quad
@@ -1972,7 +1972,7 @@
     Per risolvere la criticità, dunque, possiamo \textbf{allineare le fasi di WB e ID} delle due istruzioni introducendo \textbf{due stalli} nella pipeline, ossia un'istruzione fantoccio, detta \textbf{NOP (No-Operation)}, che funga da "rallentamento" nel caricamento della pipeline, risolvendo il data hazard.
     
     \begin{center}
-        \includegraphics[scale=0.7]{resources/images/chapter_4/data_hazard_2.png}
+        \includegraphics[scale=0.7]{images/chapter_4/data_hazard_2.png}
     \end{center}
     
     \textit{\textbf{Chiarimento}}: ricordiamo che la scrittura sul Register File viene eseguita nella \textit{prima metà del periodo di clock}, mentre la lettura nella \textit{seconda metà}, dunque è sufficiente sovrapporre le due fasi affinché venga letto il dato corretto, senza la necessità di dover inserire un \textbf{terzo stallo}.
@@ -1984,13 +1984,13 @@
     Tuttavia, in alcuni casi l'informazione aggiornata necessaria è \textbf{già presente} all'interno di uno dei \textbf{banchi di registri precedenti al WB}. Immaginiamo quindi che nell'architettura sia presente una \textbf{"scorciatoia"} in grado di sovrascrivere il dato errato con il dato aggiornato, senza dover attendere la fase di WB.
     
     \begin{center}
-        \includegraphics[scale=0.65]{resources/images/chapter_4/data_hazard_3.png}
+        \includegraphics[scale=0.65]{images/chapter_4/data_hazard_3.png}
     \end{center}
     
     L'uso di questa scorciatoia rimuove la necessità di dover inserire due stalli all'interno della pipeline, \textbf{velocizzando} l'esecuzione del programma. Tale tecnica di \textbf{propagazione del dato} viene detta \textbf{Forwarding} (o Bypassing)
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_4/forwarding1.png}
+        \includegraphics[scale=0.6]{images/chapter_4/forwarding1.png}
     \end{center}
     
     Nel caso in cui la fase che necessità il dato aggiornato si trova \textbf{prima della fase in cui viene aggiornato il dato}, sarà comunque necessario introdurre qualche stallo, in modo da rallentare l'esecuzione in attesa che il dato venga generato, per poi leggerlo subito dopo attraverso il forwarding.
@@ -1998,23 +1998,23 @@
     Nel seguente esempio, il dato aggiornato viene generato in \textbf{fase di accesso alla memoria} (per via dell'istruzione Load Word), dunque il dato rimarrà conservato nel banco di registri MEM/WB. Tuttavia, durante tale fase di MEM viene svolta in \textbf{contemporanea} la fase di EXE dell'istruzione successiva, la quale necessiterebbe del dato aggiornato. Poiché \textbf{il dato non può essere contemporaneamente generato e propagato} tramite il forwarding, è necessario introdurre \textbf{almeno uno stallo}.
     
     \begin{center}
-        \includegraphics[scale=0.55]{resources/images/chapter_4/data_hazard_4.png}
+        \includegraphics[scale=0.55]{images/chapter_4/data_hazard_4.png}
     \end{center}
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_4/forwarding2.png}
+        \includegraphics[scale=0.6]{images/chapter_4/forwarding2.png}
     \end{center}
     
     \subsubsection{Esecuzione di un programma senza forwarding}
     
     \begin{center}
-        \includegraphics[scale=0.45]{resources/images/chapter_4/forwarding3.png}
+        \includegraphics[scale=0.45]{images/chapter_4/forwarding3.png}
     \end{center}
     
     \subsubsection{Esecuzione di un programma con forwarding}
     
     \begin{center}
-        \includegraphics[scale=0.45]{resources/images/chapter_4/forwarding4.png}
+        \includegraphics[scale=0.45]{images/chapter_4/forwarding4.png}
     \end{center}
     
     Per implementare il forwarding dei dati verso la \textbf{fase di EXE}, quindi, è necessario aggiungere dell'hardware, in particolare due \textbf{mux} (uno a testa per entrambi gli input dell'ALU) che vadano a selezionare tra \textbf{tre casi}:
@@ -2028,7 +2028,7 @@
     Tali mux vengono controllati dall'\textbf{Unità di Propagazione}, una nuova unità funzionale che si occuperà di effettuare i vari controlli dei casi in cui possono verificarsi i data hazard, risolvendoli con i necessari forwarding e/o stalli.
     
     \begin{center}
-        \includegraphics[scale=0.65]{resources/images/chapter_4/forwarding5.png}
+        \includegraphics[scale=0.65]{images/chapter_4/forwarding5.png}
         
     \end{center}
     
@@ -2090,7 +2090,7 @@
     
     
     \begin{center}
-        \includegraphics[scale=0.65]{resources/images/chapter_4/control_hazard1.png}
+        \includegraphics[scale=0.65]{images/chapter_4/control_hazard1.png}
     \end{center}
     
     \newpage
@@ -2099,18 +2099,18 @@
         \item Caso in cui il controllo del branch sia \textbf{falso}:
     \end{itemize}
     \begin{center}
-        \includegraphics[scale=0.65]{resources/images/chapter_4/control_hazard2.png}
+        \includegraphics[scale=0.65]{images/chapter_4/control_hazard2.png}
     \end{center}
     
     \begin{itemize}
         \item Caso in cui il controllo del branch sia \textbf{vero}:
     \end{itemize}
     \begin{center}
-        \includegraphics[scale=0.65]{resources/images/chapter_4/control_hazard3.png}
+        \includegraphics[scale=0.65]{images/chapter_4/control_hazard3.png}
     \end{center}
     
     \begin{center}
-        \includegraphics[scale=0.7]{resources/images/chapter_4/control_hazard4.png}
+        \includegraphics[scale=0.7]{images/chapter_4/control_hazard4.png}
     \end{center}
     
     \newpage
@@ -2228,7 +2228,7 @@
         
         &
         \begin{tabular}{p{0.5 \textwidth}}
-            \includegraphics[scale=1]{resources/images/chapter_4/jump.png}
+            \includegraphics[scale=1]{images/chapter_4/jump.png}
         \end{tabular}
     \end{tabular}
     \end{center}
@@ -2242,7 +2242,7 @@
     Tuttavia, poiché l'unico compito svolto dall'ALU è quello di comparare i due valori letti dai registri, possiamo \textbf{anticipare} tale operazione nella \textbf{fase di ID} tramite l'aggiunta di un \textbf{comparatore}.
     
     \begin{center}
-        \includegraphics[scale=1]{resources/images/chapter_4/branch.png}
+        \includegraphics[scale=1]{images/chapter_4/branch.png}
     \end{center}
     
     Notiamo quindi (in basso a destra nella figura) il comparatore in grado di effettuare il confronto in fase di ID, il cui output \textbf{sostituirà} la flag Zero, la quale non è più necessaria per l'esecuzione del branch. L'uso di un comparatore rispetto ad un'ALU, tuttavia, impone la necessità di dover \textbf{separare in due il segnale Branch della CU}, poiché le istruzioni \texttt{beq} e \texttt{bne} possiedono necessità diverse, che in precedenza venivano gestite tramite la flag Zero e l'operazione svolta dall'ALU per la comparazione.
@@ -2257,12 +2257,12 @@
 
     \subsubsection{Forwarding da EXE a ID}
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_4/branch3.png}
+        \includegraphics[scale=0.6]{images/chapter_4/branch3.png}
     \end{center}
         
     \subsubsection{Forwarding da MEM a ID}
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_4/branch2.png}
+        \includegraphics[scale=0.6]{images/chapter_4/branch2.png}
     \end{center}
     
     \textbf{ATTENZIONE}: è necessario puntualizzare che l'anticipazione del Branch in fase di ID \underline{non elimina la necessità di scartare l'istruzione caricata in fase IF}. Dunque, la gestione dei rimpiazzi tramite le due politiche rimane inalterata, tuttavia viene \textbf{ridotta la quantità di stalli da inserire da due ad uno}.
@@ -2272,7 +2272,7 @@
     \newpage
     
     \begin{center}
-        \includegraphics[scale=0.575, angle=90]{resources/images/chapter_4/full_arch.png}
+        \includegraphics[scale=0.575, angle=90]{images/chapter_4/full_arch.png}
     \end{center}
     
     \chapter{Cache e Memoria virtuale}
@@ -2288,7 +2288,7 @@
     Per sfruttare al massimo questi due principi, implementiamo le seguenti idee: poiché le memorie piccole sono più veloci, \textbf{interponiamo una memoria piccola} (chiamata \textbf{cache}) tra la CPU e la memoria, in cui conserveremo \textbf{solo i dati più usati} (primo principio). Inoltre, assieme ai dati memorizzati, memorizzeremo anche i \textbf{dati vicini ad essi} (secondo principio).
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_5/cache.png}
+        \includegraphics[scale=0.6]{images/chapter_5/cache.png}
     \end{center}
     
     Suddividiamo, solo in maniera logica, la memoria in \textbf{blocchi} di dimensioni uguali. Nel momento in cui viene richiesto dalla CPU un \textbf{indirizzo di memoria} appartenente ad un blocco, le possibilità sono due:
@@ -2314,7 +2314,7 @@
     Poiché una cache deve contenere solo i dati più richiesti utilizzando dimensioni limitate, è necessario che più blocchi di memoria vengano \textbf{salvati nello stesso spazio}, sovrascrivendosi a vicenda.
     
     \begin{center}
-        \includegraphics[scale=0.65]{resources/images/chapter_5/direct_map.png}
+        \includegraphics[scale=0.65]{images/chapter_5/direct_map.png}
     \end{center}
     
     Strutturiamo quindi la nostra cache come composta da un \textbf{numero $N$ di linee}, corrispondenti agli spazi occupabili dai blocchi, dove ogni linea è composta da:
@@ -2326,7 +2326,7 @@
     \end{itemize}
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_5/cache2.png}
+        \includegraphics[scale=0.6]{images/chapter_5/cache2.png}
     \end{center}
     
     A questo punto, ci serve un modo matematico per poter calcolare i singoli valori che ci permettono di lavorare sulle linee della cache a partire dall'\textbf{indirizzo di memoria richiesto}.
@@ -2348,7 +2348,7 @@
     Partendo dall'indirizzo di memoria, quindi, possiamo scomporlo nel seguente modo:
     
     \begin{center}
-        \includegraphics[scale=0.65]{resources/images/chapter_5/direct_map5.png}
+        \includegraphics[scale=0.65]{images/chapter_5/direct_map5.png}
     \end{center}
     
     \begin{itemize}
@@ -2370,7 +2370,7 @@
     Una volta identificata la struttura dei campi, possiamo utilizzarli per realizzare la vera e propria cache, il cui funzionamento può essere riassunto nella seguente schematica:
     
     \begin{center}
-        \includegraphics[scale=0.75]{resources/images/chapter_5/cache3.png}
+        \includegraphics[scale=0.75]{images/chapter_5/cache3.png}
     \end{center}
     
     \subsection{Calcolo dei campi di una linea}
@@ -2425,7 +2425,7 @@
     Proviamo ora a vedere il comportamento di una \textbf{cache direct-mapped a 4 linee e con blocchi da 8 word} con la seguente sequenza di accessi:
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_5/cache_ex1.png}
+        \includegraphics[scale=0.6]{images/chapter_5/cache_ex1.png}
     \end{center}
     
     Viste le caratteristiche della cache in uso, siamo in grado di calcolare i campi necessari di ogni indirizzo richiesto:
@@ -2444,7 +2444,7 @@
     Applicando tali formule ad ogni indirizzo richiesto nella sequenza di accessi, otteniamo i seguenti campi:
 
     \begin{center}
-        \includegraphics[scale=0.575]{resources/images/chapter_5/cache_ex2.png}
+        \includegraphics[scale=0.575]{images/chapter_5/cache_ex2.png}
     \end{center}
     
     \quad
@@ -2452,7 +2452,7 @@
     A questo punto, analizziamo il comportamento della cache in modo sequenziale, in modo da poter determinare il numero di HIT e di MISS:
     
     \begin{center}
-        \includegraphics[scale=0.575]{resources/images/chapter_5/cache_ex3.png}
+        \includegraphics[scale=0.575]{images/chapter_5/cache_ex3.png}
     \end{center}
     
     \begin{itemize}
@@ -2464,13 +2464,13 @@
     \end{itemize}
     
     \begin{center}
-        \includegraphics[scale=0.525]{resources/images/chapter_5/cache_ex5.png}
+        \includegraphics[scale=0.525]{images/chapter_5/cache_ex5.png}
     \end{center}
     
     Applicando la stessa logica con gli indirizzi rimanenti, la sequenza di accessi risulta:
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_5/cache_ex6.png}
+        \includegraphics[scale=0.6]{images/chapter_5/cache_ex6.png}
     \end{center}
     
     \section{Cache Set-Associative}
@@ -2480,13 +2480,13 @@
     Le \textbf{cache set-associative}, invece, permettono di salvare \textbf{più blocchi sullo stesso set} (ossia le linee), i quali sono divisi in \textbf{$S$ vie}, dove ogni via può contenere un blocco.
     
     \begin{center}
-        \includegraphics[scale=0.45]{resources/images/chapter_5/set_associative.png}
+        \includegraphics[scale=0.45]{images/chapter_5/set_associative.png}
     \end{center}
     
     \subsubsection{Modifiche alla cache per più vie}
     
     \begin{center}
-        \includegraphics[scale=0.9]{resources/images/chapter_5/set_associative_circ.png}
+        \includegraphics[scale=0.9]{images/chapter_5/set_associative_circ.png}
     \end{center}
 
     
@@ -2544,7 +2544,7 @@
     Per mitigare i problemi relativi ai colli di bottiglia generati dalla troppa differenza di performance e dimensione tra una cache e la memoria principale, vengono utilizzate \textbf{più cache}, dove ogni cache è meno veloce ma più capiente della cache precedente, creando una struttura a \textbf{cache multilivello}.
     
     \begin{center}
-        \includegraphics[scale=0.45]{resources/images/chapter_5/multilivello.png}
+        \includegraphics[scale=0.45]{images/chapter_5/multilivello.png}
     \end{center}
     
     Nel caso delle cache multilivello, quindi, ogni HIT fornisce dati a tutti i \textbf{livelli superiori}, mentre solo le MISS effettuano richieste al \textbf{livello direttamente inferiore}, implicando che il tempo necessario ad effettuare un accesso corrisponda al tempo impiegato dal livello più basso nella quale si verifica l'HIT.
@@ -2775,7 +2775,7 @@
     \end{itemize}
 
     \begin{center}
-        \includegraphics[scale=0.7]{resources/images/chapter_5/mem_virt.png}
+        \includegraphics[scale=0.7]{images/chapter_5/mem_virt.png}
     \end{center}
 
     Ogni indirizzo virtuale è dotato di un campo \textbf{numero di pagina virtuale} e un campo \textbf{offset}. Il primo viene tradotto  in un \textbf{numero di pagina fisica} tramite una \textbf{Memory Management Unit (MMU)}, mentre l'offset non viene modificato.
@@ -2791,7 +2791,7 @@
     \end{itemize}
 
     \begin{center}
-        \includegraphics[scale=0.45]{resources/images/chapter_5/page_table.png}
+        \includegraphics[scale=0.45]{images/chapter_5/page_table.png}
     \end{center}
 
     Al momento della richiesta di un dato, si possono verificare due situazioni:
@@ -2813,7 +2813,7 @@
     Come già discusso, anche nel caso in cui la pagina sia già presente all'interno della memoria principale è necessario effettuare due accessi, richiedendo quindi l'implementazione di \textbf{metodi più efficaci}. Per tanto, la CPU gestisce una \textbf{Translation Lookaside Buffer (TLB)}, una \textbf{cache fully-associative} utilizzata esclusivamente per la page table.
 
     \begin{center}
-        \includegraphics[scale=0.475]{resources/images/chapter_5/tlb.png}
+        \includegraphics[scale=0.475]{images/chapter_5/tlb.png}
     \end{center}
 
     Inoltre, per rendere ancor più veloce l'accesso ai dati, viene utilizzata assieme alla TLB la \textbf{normale cache per la memoria principale}, creando una vera e propria \textbf{struttura gerarchica} per la memoria. Tale cache può essere implementata in più modi:
@@ -2836,7 +2836,7 @@
     A svantaggio di ciò, ovviamente, possono crearsi \textbf{situazioni sfortunate} (ma poco probabili) in cui l'accesso ad un dato richieda maggior tempo rispetto al caso in cui nessuno di tali mezzi sia implementato. (ad esempio, se l'entrata non è presente in nessuna delle memorie interposte).
 
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_5/tlb_2.png}
+        \includegraphics[scale=0.6]{images/chapter_5/tlb_2.png}
     \end{center}
 
     Per quanto riguarda eventuali situazioni con \textbf{combinazioni di HIT e MISS} per le varie tipologie di memorie interposte, si ha che:
@@ -2844,7 +2844,7 @@
     \quad
     
     \begin{center}
-        \includegraphics[scale=0.675]{resources/images/chapter_5/tlb_4.png}
+        \includegraphics[scale=0.675]{images/chapter_5/tlb_4.png}
     \end{center}
 
 \end{document}

@@ -234,7 +234,7 @@ Per poter comprendere cosa si intende con \textbf{notazione O grande}, partiamo 
     Date due funzioni $f(n), g(n) \geq 0$ si dice che \textbf{$\textbf{\textit{f(n)}}$ è in $\textbf{\textit{O(g(n))}}$} se esistono due costanti $c$ ed $n_0$ tali che $0 \leq f(n) \leq c \cdot g(n)$ per ogni $n \geq n_0$
     
     \begin{center}
-        \includegraphics[scale=0.75]{resources/images/chapter_2/bigO_1.png}
+        \includegraphics[scale=0.75]{images/chapter_2/bigO_1.png}
     \end{center}
     
     In $O(g(n))$, dunque, troviamo \textbf{tutte} le funzioni  \textbf{«dominate»} dalla funzione $g(n)$
@@ -251,14 +251,14 @@ La notazione \textbf{O grande}, dunque, definisce quello che è il \textbf{limit
     \[ 3n + 3 \leq c \cdot n, \;\; \forall n \geq n_0, \;\; c \geq 6, \;\; n_0 = 1\]
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_2/bigO_2.png}
+        \includegraphics[scale=0.6]{images/chapter_2/bigO_2.png}
     \end{center}
     
     \item Sia $f(n) = n^2 + 4n$. Tale \textbf{$\textbf{\textit{f(n)}}$ è in $\textbf{\textit{O(n}}^\textbf{\textit{2}}\textit{)}$} in quanto:
     \[ n^2 + 4n \leq c \cdot n^2, \;\; \forall n \geq n_0, \;\; c \geq 5, \;\; n_0 = 1\]
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_2/bigO_3.png}
+        \includegraphics[scale=0.6]{images/chapter_2/bigO_3.png}
     \end{center}
     
 \end{itemize}
@@ -308,7 +308,7 @@ Notiamo come nel primo esempio abbiamo concluso che un \textbf{polinomio di prim
     Date due funzioni $f(n), g(n) \geq 0$ si dice che \textbf{$\textbf{\textit{f(n)}}$ è in $\Omega \textbf{\textit{(g(n))}}$} se esistono due costanti $c$ ed $n_0$ tali che $f(n) \geq c \cdot g(n)$ per ogni $n \geq n_0$
     
     \begin{center}
-        \includegraphics[scale=0.75]{resources/images/chapter_2/omega_1.png}
+        \includegraphics[scale=0.75]{images/chapter_2/omega_1.png}
     \end{center}
     
     In $O(g(n))$, dunque, troviamo \textbf{tutte} le funzioni che \textbf{«dominano»} dalla funzione $g(n)$
@@ -325,7 +325,7 @@ La notazione \textbf{Omega}, dunque, definisce quello che è il \textbf{limite i
     \[ 2n^2+3 \geq c \cdot n^2, \;\; \forall n \geq n_0, \;\; c \leq 2\]
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_2/omega_2.png}
+        \includegraphics[scale=0.6]{images/chapter_2/omega_2.png}
     \end{center}
 \end{itemize}
 
@@ -387,7 +387,7 @@ Analogamente alla \textbf{notazione O grande}, possiamo formulare il seguente te
     Date due funzioni $f(n), g(n) \geq 0$ si dice che \textbf{$\textbf{\textit{f(n)}}$ è in $\Theta \textbf{\textit{(g(n))}}$} se esistono tre costanti $c_1$, $c_2$ ed $n_0$ tali che $ c_1 \cdot g(n) \leq f(n) \leq c_2 \cdot g(n)$ per ogni $n \geq n_0$
     
     \begin{center}
-        \includegraphics[scale=0.75]{resources/images/chapter_2/theta_1.png}
+        \includegraphics[scale=0.75]{images/chapter_2/theta_1.png}
     \end{center}
     
     Dunque, se $f(n)$ è \textbf{sia} in $O(g(n)$ \textbf{sia} in $\Omega(g(n))$, allora è anche in $\Theta(g(n))$.
@@ -1655,7 +1655,7 @@ Possiamo quindi definire in modo più rigoroso l'algoritmo di \textbf{ricerca bi
 \quad
 
 \begin{center}
-    \includegraphics[scale=0.8]{resources/images/chapter_3/bin_search.png}
+    \includegraphics[scale=0.8]{images/chapter_3/bin_search.png}
     
     \textit{Un \textbf{esempio grafico} dell'algoritmo in cui viene ricercato il valore $23$}
 \end{center}
@@ -1939,7 +1939,7 @@ Perciò, generalmente preferiamo l'iterazione alla ricorsione, a meno che il pro
 Analizziamo ora lo sviluppo della \textbf{catena di ricorsione} nel caso in cui volessimo calcolare il \textbf{quinto numero di Fibonacci}:
 
 \begin{center}
-    \includegraphics[scale=0.75]{resources/images/chapter_4/fib_5.png}
+    \includegraphics[scale=0.75]{images/chapter_4/fib_5.png}
 \end{center}
 
 Notiamo velocemente alcune \textbf{osservazioni}:
@@ -2328,7 +2328,7 @@ $$
 \newpage
 Invece, la rappresentazione grafica del \textbf{metodo dell'albero} corrisponde a:
 \begin{center}
-    \includegraphics[scale=0.8]{resources/images/chapter_6/tree_m1.png}
+    \includegraphics[scale=0.8]{images/chapter_6/tree_m1.png}
 \end{center}
 
 \quad
@@ -2338,7 +2338,7 @@ Invece, la rappresentazione grafica del \textbf{metodo dell'albero} corrisponde 
 \[ T(n) = 2 \left (2T \left ( \frac{n}{2^2} \right ) + \Theta \left ( \left (\frac{n}{2} \right ) ^2 \right ) \right ) + \Theta(n^2) = 4T \left ( \frac{n}{2^2} \right ) + 2\Theta \left ( \left ( \frac{n}{2} \right )^2 \right ) + \Theta(n^2)\]
 
 \begin{center}
-    \includegraphics[scale=0.8]{resources/images/chapter_6/tree_m2.png}
+    \includegraphics[scale=0.8]{images/chapter_6/tree_m2.png}
 \end{center}
 
 \item Sviluppando la \textbf{terza iterazione}, otteniamo
@@ -2347,7 +2347,7 @@ Invece, la rappresentazione grafica del \textbf{metodo dell'albero} corrisponde 
 \[ =  8T \left ( \frac{n}{2^3} \right ) + 4\Theta \left ( \left ( \frac{n}{2^2} \right )^2 \right ) + 2\Theta \left ( \left ( \frac{n}{2} \right )^2 \right ) + \Theta(n^2)\]
 
 \begin{center}
-    \includegraphics[scale=0.8]{resources/images/chapter_6/tree_m3.png}
+    \includegraphics[scale=0.8]{images/chapter_6/tree_m3.png}
 \end{center}
 
 
@@ -2369,7 +2369,7 @@ Sostituendo $k$ otteniamo
 \item Analizziamo ora invece cosa accade ad ogni \textbf{livello dell'albero} che siamo andati a creare
 
 \begin{center}
-    \includegraphics[scale=0.8]{resources/images/chapter_6/tree_m4.png}
+    \includegraphics[scale=0.8]{images/chapter_6/tree_m4.png}
 \end{center}
 
 \item \textbf{Sommando tutti i livelli}, otteniamo che
@@ -2577,7 +2577,7 @@ In particolare, gli step dell'insertion sort sono:
 \quad
 
 \begin{center}
-    \includegraphics[scale=0.525]{resources/images/chapter_7/insertion_sort.png}
+    \includegraphics[scale=0.525]{images/chapter_7/insertion_sort.png}
 \end{center}
 
 Lo pseudocodice corrispondente di tale algoritmo risulta quindi essere:
@@ -2622,7 +2622,7 @@ Il \textbf{Selection Sort}, risulta essere il più intuitivo tra tutti gli algor
 \quad
 
 \begin{center}
-    \includegraphics[scale=0.525]{resources/images/chapter_7/selection_sort.png}
+    \includegraphics[scale=0.525]{images/chapter_7/selection_sort.png}
 \end{center}
 
 \quad
@@ -2656,7 +2656,7 @@ L'algoritmo di Bubble Sort è strutturato in fasi:
 \quad
 
 \begin{center}
-    \includegraphics[scale=0.6]{resources/images/chapter_7/bubble_sort.png}
+    \includegraphics[scale=0.6]{images/chapter_7/bubble_sort.png}
 \end{center}
 
 \newpage
@@ -2701,7 +2701,7 @@ L'\textbf{albero di decisione} relativo a un qualunque algoritmo di \textbf{ordi
 Ad esempio, l'albero decisionale di un algoritmo di ordinamento basato su confronti eseguito su un \textbf{array di 3 elementi} corrisponde a:
 
 \begin{center}
-    \includegraphics[scale=0.65]{resources/images/chapter_7/decision_tree.png}
+    \includegraphics[scale=0.65]{images/chapter_7/decision_tree.png}
 \end{center}
 
 Cerchiamo quindi di determinare tale \textbf{limitazione minima del costo computazionale} dell'algoritmo:
@@ -2753,7 +2753,7 @@ Nell'ambito del Merge Sort, l'approccio utilizzato è il seguente:
 \end{itemize}
 
 \begin{center}
-    \includegraphics[scale=0.7]{resources/images/chapter_7/merge_sort.png}
+    \includegraphics[scale=0.7]{images/chapter_7/merge_sort.png}
 \end{center}
 
 \quad
@@ -2804,7 +2804,7 @@ L'algoritmo Fondi sfrutta una condizione data per assunta, ossia il fatto che \t
 Graficamente, l'algoritmo può essere interpretato in questo modo:
 
 \begin{center}
-    \includegraphics[scale=0.45]{resources/images/chapter_7/fuse_algorithm.png}
+    \includegraphics[scale=0.45]{images/chapter_7/fuse_algorithm.png}
 \end{center}
 
 \quad
@@ -2973,7 +2973,7 @@ Come il Merge Sort, anche il Quicksort è basato sulla tecnica del \textbf{divid
 Notiamo come, a differenza del Merge Sort, le sotto-sequenze non vengono fuse tra di loro. Difatti, il vero e proprio ordinamento viene svolto nella \textbf{fase di continua divisione ordinata ricorsiva} effettuata dall'algoritmo, ossia il \textbf{Partizionamento}.
 
 \begin{center}
-    \includegraphics[scale=0.6]{resources/images/chapter_7/quicksort.png}
+    \includegraphics[scale=0.6]{images/chapter_7/quicksort.png}
 \end{center}
 
 \quad
@@ -3100,7 +3100,7 @@ L'algoritmo \textbf{Heap Sort}, a differenza del Merge Sort e del Quicksort, sfr
 Tale struttura dati viene detta \textbf{Heap}, ossia un \textbf{albero binario} completo o quasi completo, in cui tutti i livelli, eccetto l'ultimo, sono pieni e in cui i nodi sono addensati a sinistra. La proprietà fondamentale che mette in relazione tali nodi è l'\textbf{ordinamento verticale}: la \textbf{chiave di ogni nodo} corrisponde ad un \textbf{valore maggiore o uguale} alle \textbf{chiavi dei due figli} di ogni nodo.
 
 \begin{center}
-    \includegraphics[scale=0.65]{resources/images/chapter_7/heap.png}
+    \includegraphics[scale=0.65]{images/chapter_7/heap.png}
 \end{center}
 
 Nonostante la sua struttura ad albero, un Heap viene comunque \textbf{implementato tramite un array}, i cui indici vanno da 0 fino al numero di nodi dell'Heap, ossia l'\textbf{Heap Size}, decrementato di 1. Tuttavia, tale array, affinché possa essere considerato una \textbf{traslazione dell'Heap dal modello teorico al modello pratico}, dovrà rispettare alcune caratteristiche:
@@ -3119,7 +3119,7 @@ Nonostante la sua struttura ad albero, un Heap viene comunque \textbf{implementa
 Paragonando il modello teorico al modello pratico dell'Heap, quindi, otteniamo che:
 
 \begin{center}
-    \includegraphics[scale=0.7]{resources/images/chapter_7/heap2.png}
+    \includegraphics[scale=0.7]{images/chapter_7/heap2.png}
 \end{center}
 
 Per poter utilizzare l'\textbf{algoritmo di Heap Sort} su un vettore, quindi, è prima \textbf{necessario modificare tale vettore} in modo che vada a rispettare le \textbf{proprietà della struttura dati Heap}. In particolare, ciò viene realizzato utilizzando due funzioni ausiliarie:
@@ -3140,7 +3140,7 @@ Di conseguenza l'unico nodo che può \textbf{violare la proprietà di Heap} è l
 La funzione, quindi, \textbf{opera sulla radice confrontandola coi suoi figli} e, se necessario, la \textbf{scambia col maggiore} di suoi figli. Dopo lo scambio, viene verificato se la violazione si sia \textbf{\textit{"trasferita"} sul figlio scambiato} e, se necessario, si ripete \textbf{ricorsivamente} l'operazione su tale nodo.
 
 \begin{center}
-    \includegraphics[scale=0.6]{resources/images/chapter_7/heapify.png}
+    \includegraphics[scale=0.6]{images/chapter_7/heapify.png}
 \end{center}
 
 L'implementazione in pseudocodice della \textbf{funzione Heapify} corrisponde a:
@@ -3175,7 +3175,7 @@ $$
 dove $n'$ è il \textbf{numero di nodi del sotto-albero più grande} tra figlio destro e figlio sinistro. Poiché ogni livello contiene $2^h$ nodi, tale numero \textbf{non può essere più grande di $\frac{2}{3} n$}, situazione che accade quando l'ultimo livello è pieno esattamente a metà:
 
 \begin{center}
-    \includegraphics[scale=0.7]{resources/images/chapter_7/heapify2.png}
+    \includegraphics[scale=0.7]{images/chapter_7/heapify2.png}
 \end{center}
 
 Dunque, l'equazione di ricorrenza diventa:
@@ -3198,7 +3198,7 @@ Tuttavia, poiché la funzione Heapify dà per assunto che entrambi i sotto-alber
 Inoltre, poiché \textbf{ogni foglia è già un Heap} (dato che non ha figli), possiamo \textbf{ridurre il numero di chiamate a }$\frac{n}{2}$, poiché, per via delle proprietà dell'Heap, la seconda metà dell'array sarà sempre occupata solo e soltanto dalle foglie.
 
 \begin{center}
-    \includegraphics[scale=0.7]{resources/images/chapter_7/buildheap.png}
+    \includegraphics[scale=0.7]{images/chapter_7/buildheap.png}
 \end{center}
 
 \newpage
@@ -3231,7 +3231,7 @@ Una volta comprese le \textbf{proprietà} della struttura dati Heap ed aver defi
 \end{itemize}
 
 \begin{center}
-    \includegraphics[scale=0.45]{resources/images/chapter_7/heapsort.png}
+    \includegraphics[scale=0.45]{images/chapter_7/heapsort.png}
 \end{center}
 
 Lo pseudocodice dell'Heap Sort corrisponde a:
@@ -3270,7 +3270,7 @@ Infine, verrà usato il numero di occorrenze contate per riscrivere nell'array i
 \end{itemize}
 
 \begin{center}
-    \includegraphics[scale=0.5]{resources/images/chapter_7/counting_sort.png}
+    \includegraphics[scale=0.5]{images/chapter_7/counting_sort.png}
 \end{center}
 
 \newpage
@@ -3451,7 +3451,7 @@ Già da questo semplice confronto delle \textbf{due strutture dati più semplici
 Un \textbf{puntatore} è una variabile che, a differenza delle normali variabili, assume come valore un \textbf{indirizzo di memoria}, e non un valore in se e per se. Una normale variabile fa quindi riferimento ad un valore \textbf{direttamente}, mentre un puntatore lo fa \textbf{indirettamente}, puntando all'indirizzo in memoria che effettivamente contiene tale valore.
 
 \begin{center}
-    \includegraphics[scale=0.65]{resources/images/chapter_8/pointers.png}
+    \includegraphics[scale=0.65]{images/chapter_8/pointers.png}
 \end{center}
 
 \quad
@@ -3464,7 +3464,7 @@ Una \textbf{lista puntata} è una struttura dati nella quale gli elementi sono o
 \end{itemize}
 
 \begin{center}
-    \includegraphics[scale=0.65]{resources/images/chapter_8/linked_list.png}
+    \includegraphics[scale=0.65]{images/chapter_8/linked_list.png}
 \end{center}
 
 Gli \textbf{array}, ordinati e non, godono di un \textbf{accesso diretto}, dove per accedere ad un dato basta conoscerne la posizione nell'array, risultando quindi in un costo di $\Theta(1)$.
@@ -3548,7 +3548,7 @@ Alcuni problemi riscontrati nelle \textbf{liste puntate semplici }(ad esempio co
 Tale struttura dati si chiama \textbf{lista doppia o lista doppiamente puntata}, dove il puntatore all'elemento precedente viene rappresentato con la notazione \textbf{p -> prev}.
 
 \begin{center}
-    \includegraphics[scale=0.65]{resources/images/chapter_8/linked_list_2.png}
+    \includegraphics[scale=0.65]{images/chapter_8/linked_list_2.png}
 \end{center}
 
 \section{Pile e Code}
@@ -3588,7 +3588,7 @@ return e, top
     &&
     
     \begin{tabular}{c}
-        \includegraphics[scale=0.7]{resources/images/chapter_8/stack.png}
+        \includegraphics[scale=0.7]{images/chapter_8/stack.png}
     \end{tabular}
 \end{tabular}
 
@@ -3628,7 +3628,7 @@ return head, tail, e
 \end{itemize}
 
 \begin{center}
-    \includegraphics[scale=0.6]{resources/images/chapter_8/queue.png}
+    \includegraphics[scale=0.6]{images/chapter_8/queue.png}
 \end{center}
 
 \quad
@@ -3661,9 +3661,9 @@ Una volta definita la struttura dati grafo, possiamo definire il suo diretto dis
 
 \begin{center}
     \begin{tabular}{c c c}
-    \includegraphics[scale=0.55]{resources/images/chapter_8/graph.png}
+    \includegraphics[scale=0.55]{images/chapter_8/graph.png}
     & \qquad \qquad &
-    \includegraphics[scale=0.55]{resources/images/chapter_8/tree_1.png}
+    \includegraphics[scale=0.55]{images/chapter_8/tree_1.png}
     \\
     Grafo \textbf{ciclico} e \textbf{connesso} && Grafo \textbf{aciclico} e \textbf{connesso} (\textbf{Albero})
     \end{tabular}
@@ -3679,7 +3679,7 @@ Una volta definita la struttura dati grafo, possiamo definire il suo diretto dis
     
     & &
     \begin{tabular}{c}
-        \includegraphics[scale=0.6]{resources/images/chapter_8/tree_2.png}
+        \includegraphics[scale=0.6]{images/chapter_8/tree_2.png}
     \end{tabular}
 \end{tabular}
 
@@ -3694,7 +3694,7 @@ In un albero radicato distinguiamo i vari \textbf{nodi} con varie terminologie:
 \end{itemize}
 
 \begin{center}
-    \includegraphics[scale=0.65]{resources/images/chapter_8/tree_3.png}
+    \includegraphics[scale=0.65]{images/chapter_8/tree_3.png}
 \end{center}
 
 Inoltre, un albero radicato viene detto \textbf{ordinato}, se viene attribuito \textbf{un qualche ordine ai figli di ciascun nodo}: se un nodo ha $k$ figli, allora vi è un figlio che viene considerato primo, uno che viene considerato secondo, ..., uno che viene considerato $k$-esimo.
@@ -3734,7 +3734,7 @@ Quindi, possiamo dire che l'\textbf{altezza di un albero completo} sia $h = \The
 Vediamo adesso i \textbf{tre modi} con cui è possibile \textbf{rappresentare} e \textbf{memorizzare} il seguente albero binario:
 
 \begin{center}
-    \includegraphics[scale=0.6]{resources/images/chapter_8/tree_4.png}
+    \includegraphics[scale=0.6]{images/chapter_8/tree_4.png}
 \end{center}
 
 \begin{itemize}
@@ -3751,7 +3751,7 @@ Vediamo adesso i \textbf{tre modi} con cui è possibile \textbf{rappresentare} e
     Dunque, similmente alla testa delle liste, si accede all'albero per mezzo del \textbf{puntatore alla radice}.
     
     \begin{center}
-        \includegraphics[scale=0.5]{resources/images/chapter_8/tree_5.png}
+        \includegraphics[scale=0.5]{images/chapter_8/tree_5.png}
     \end{center}
     
     \newpage
@@ -3762,7 +3762,7 @@ Vediamo adesso i \textbf{tre modi} con cui è possibile \textbf{rappresentare} e
     Tale rappresentazione, tuttavia richiede di conoscere in anticipo l'\textbf{altezza massima} dell'albero, poiché un array è una struttura dati \textbf{statica}.
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_8/tree_6.png}
+        \includegraphics[scale=0.6]{images/chapter_8/tree_6.png}
     \end{center}
 
     \item \textbf{Tramite vettore dei padri}:
@@ -3774,7 +3774,7 @@ Vediamo adesso i \textbf{tre modi} con cui è possibile \textbf{rappresentare} e
     Questo metodo di memorizzazione funziona senza alcuna modifica anche per \textbf{alberi n-ari}, in cui cioè ogni nodo può avere un \textbf{numero qualunque di figli}.
 
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_8/tree_7.png}
+        \includegraphics[scale=0.6]{images/chapter_8/tree_7.png}
     \end{center}
 \end{itemize}
 
@@ -3881,7 +3881,7 @@ def visita_per_livelli (r; head, tail):
 \begin{enumerate}
     \item Consideriamo il seguente albero già visto precedentemente:
     \begin{center}
-        \includegraphics[scale=0.55]{resources/images/chapter_8/tree_4.png}
+        \includegraphics[scale=0.55]{images/chapter_8/tree_4.png}
     \end{center}
     
     Immaginiamo di voler stampare tutti i nodi di questo albero. A seconda della \textbf{tipologia di visita} applicata otteniamo un \textbf{output diverso}:
@@ -3991,7 +3991,7 @@ def Stampa_crescente(p):
 Potenzialmente, quindi, potremmo considerare l'uso di un ABR come un \textbf{algoritmo di ordinamento}, costituito dalla costruzione dell'ABR (il cui costo ancora non conosciamo) e dalla sua visita in-order (il cui costo sappiamo essere $\Theta(n)$).
 
 \begin{center}
-    \includegraphics[scale=0.6]{resources/images/chapter_8/tree_8.png}
+    \includegraphics[scale=0.6]{images/chapter_8/tree_8.png}
 \end{center}
 
 \subsubsection{Ricerca di un nodo}
@@ -4019,7 +4019,7 @@ Tuttavia, a differenza della ricerca binaria, in questo caso \textbf{non riuscia
 Quindi, per \textbf{garantire} che il costo computazionale della ricerca su un ABR sia $O(\log(n))$, è necessario mettere in campo qualche tecnica che ci permetta di tenere sotto controllo la crescita dell'altezza, ossia il \textbf{bilanciamento in altezza}.
 
 \begin{center}
-    \includegraphics[scale=0.85]{resources/images/chapter_8/tree_9.png}
+    \includegraphics[scale=0.85]{images/chapter_8/tree_9.png}
 \end{center}
 
 \quad
@@ -4095,7 +4095,7 @@ Un A-RB, quindi, è un ABR che soddisfa le seguenti \textbf{proprietà aggiuntiv
 \end{itemize}
 
 \begin{center}
-    \includegraphics[scale=0.8]{resources/images/chapter_8/arb_1.png}
+    \includegraphics[scale=0.8]{images/chapter_8/arb_1.png}
 \end{center}
 
 Definiamo quindi come \textbf{black-height} di un \textbf{nodo x} il numero di nodi neri sui cammini dal nodo x (non incluso) alle sue foglie discendenti. La BH di un A-RB è la \textbf{BH della sua radice}, mentre il sottoalbero radicato in un qualsiasi nodo x contiene \textbf{almeno $2^{BH(x)}-1$ nodi interni}.
@@ -4134,7 +4134,7 @@ Ogni rotazione viene effettuata su un \textbf{nodo x}, il quale funge da "\textb
 La \textbf{rotazione a destra} risulta specchiata a quella a sinistra, invertendo nodi e sottoalberi sinistri con quelli destri.
 
 \begin{center}
-    \includegraphics[scale=0.475]{resources/images/chapter_8/arb_2.png}
+    \includegraphics[scale=0.475]{images/chapter_8/arb_2.png}
 \end{center}
 
 \quad
@@ -4192,7 +4192,7 @@ Per via delle sue strette regole, l'inserimento di un nodo in un A-RB risulta co
         \end{itemize}
         
         \begin{center}
-            \includegraphics[scale=0.7]{resources/images/chapter_8/arb_4.png}
+            \includegraphics[scale=0.7]{images/chapter_8/arb_4.png}
         \end{center}
         
         \item[2] \textbf{Caso 2 - Il nodo x inserito risulta essere figlio destro di un nodo rosso e il suo zio è nero}:
@@ -4202,7 +4202,7 @@ Per via delle sue strette regole, l'inserimento di un nodo in un A-RB risulta co
         \end{itemize}
         
         \begin{center}
-            \includegraphics[scale=0.7]{resources/images/chapter_8/arb_5.png}
+            \includegraphics[scale=0.7]{images/chapter_8/arb_5.png}
         \end{center}
         
         \item[3] \textbf{Caso 3 - Il nodo x inserito risulta essere figlio sinistro di un nodo rosso e il suo zio è nero}:
@@ -4213,7 +4213,7 @@ Per via delle sue strette regole, l'inserimento di un nodo in un A-RB risulta co
         \end{itemize}
         
         \begin{center}
-            \includegraphics[scale=0.7]{resources/images/chapter_8/arb_6.png}
+            \includegraphics[scale=0.7]{images/chapter_8/arb_6.png}
         \end{center}
     \end{enumerate}
     
@@ -4222,7 +4222,7 @@ Per via delle sue strette regole, l'inserimento di un nodo in un A-RB risulta co
     \subsubsection{Esempio di inserimento completo su un A-RB}
     
     \begin{center}
-        \includegraphics[scale=0.7825]{resources/images/chapter_8/arb_7.png}
+        \includegraphics[scale=0.7825]{images/chapter_8/arb_7.png}
     \end{center}
     
     \begin{enumerate}
@@ -4267,7 +4267,7 @@ Per via delle sue strette regole, l'inserimento di un nodo in un A-RB risulta co
     Un dizionario costituito da una \textbf{tabella ad indirizzamento diretto}, è un vettore nel quale \textbf{ogni indice corrisponde al valore della chiave} dell'elemento da memorizzare in tale posizione.
     
     \begin{center}
-        \includegraphics[scale=0.675]{resources/images/chapter_8/dictionaries_1.png}
+        \includegraphics[scale=0.675]{images/chapter_8/dictionaries_1.png}
     \end{center}
     
     Affinché tale tipologia di dizionario possa funzionare, \textbf{è necessario che $n \leq m = |U|$}, dove $|U|$ indica il numero di elementi dell'insieme U, assolvendo perfettamente al compito di dizionario con \textbf{grande efficienza}.
@@ -4302,7 +4302,7 @@ Per via delle sue strette regole, l'inserimento di un nodo in un A-RB risulta co
     Per risolvere il problema principale degli indirizzamenti diretti, si ricorre all'uso di una \textbf{funzione di hash}, in grado di calcolare la posizione finale di un elemento sulla base del valore della sua chiave, il quale può essere \textbf{un intero molto più grande del valore generato dalla funzione di hash}.
     
     \begin{center}
-        \includegraphics[scale=0.65]{resources/images/chapter_8/dictionaries_2.png}
+        \includegraphics[scale=0.65]{images/chapter_8/dictionaries_2.png}
     \end{center}
     
     Tuttavia, anche se le chiavi da memorizzare sono meno di $m$, non si può escludere che due chiavi $k_1 \neq k_2$ siano tali per cui $hash(k_1) = hash(k_2)$, ossia che la \textbf{funzione hash restituisca lo stesso valore per entrambe le chiavi}, che quindi andrebbero memorizzate nella stessa posizione della tabella, dando vita a quello che viene definito come \textbf{collisione di hash}.
@@ -4328,7 +4328,7 @@ Per via delle sue strette regole, l'inserimento di un nodo in un A-RB risulta co
     Questa tecnica prevede di inserire \textbf{tutti gli elementi le cui chiavi mappano nella stessa posizione in una lista puntata}, detta \textbf{lista di trabocco}. Invece degli elementi in se, dunque, nell'array del dizionario vengono immagazzinati i puntatori alle teste delle liste di trabocco.
     
     \begin{center}
-        \includegraphics[scale=0.7]{resources/images/chapter_8/dictionaries_3.png}
+        \includegraphics[scale=0.7]{images/chapter_8/dictionaries_3.png}
     \end{center}
     
     \newpage
@@ -4374,7 +4374,7 @@ def Delete_ListeTrabocco (A; k: chiave da canc.)
     Al contrario delle liste di trabocco, l'idea alla base di tale tecnica, prevede l'inserimento solo all'interno dell'array stesso, calcolando la \textbf{sequenza delle posizioni da esaminare}. La \textbf{funzione hash dipende ora da 2 parametri}: la chiave $k$ e il \textbf{numero di collisioni già trovate}. L'implementazione di tale nuova funzione hash verrà vista in seguito.
     
     \begin{center}
-        \includegraphics[scale=0.625]{resources/images/chapter_8/dictionaries_4.png}
+        \includegraphics[scale=0.625]{images/chapter_8/dictionaries_4.png}
     \end{center}
     
     Questa tecnica è applicabile solo quando:

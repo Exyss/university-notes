@@ -3687,7 +3687,7 @@
     \end{frameddefn}
     
     \begin{center}
-        \includegraphics[scale=0.55]{resources/images/hierarchy.png}
+        \includegraphics[scale=0.55]{images/hierarchy.png}
     \end{center}
     
     In particolare, ci concentreremo sul funzionamento interno di un Hard Disk, il quale è costituito da:
@@ -3698,7 +3698,7 @@
     \end{itemize}
     
     \begin{center}
-        \includegraphics[scale=0.525]{resources/images/hdd_internal.png}
+        \includegraphics[scale=0.525]{images/hdd_internal.png}
     \end{center}
     
     \newpage
@@ -3792,7 +3792,7 @@
     \textbf{Modello concettuale}:
     
     \begin{center}
-        \includegraphics[scale=0.9]{resources/images/conceptual.png}
+        \includegraphics[scale=0.9]{images/conceptual.png}
     \end{center}
     
     \textbf{Modello logico}:
@@ -3804,7 +3804,7 @@
     \textbf{Modello interno}:
     
     \begin{center}
-        \includegraphics[scale=0.85]{resources/images/internal.png}
+        \includegraphics[scale=0.85]{images/internal.png}
     \end{center}
         
         
@@ -3957,7 +3957,7 @@
     \end{framedobs}
 
     \begin{center}
-        \includegraphics[scale=0.70]{resources/images/overflow_hash.png}
+        \includegraphics[scale=0.70]{images/overflow_hash.png}
     \end{center}
     
     \textbf{Esempio:}
@@ -4004,7 +4004,7 @@
     \newpage
     
     \begin{center}
-        \includegraphics[scale=0.93]{resources/images/index.png}
+        \includegraphics[scale=0.93]{images/index.png}
     \end{center}
     
     \begin{framedobs}{}
@@ -4067,7 +4067,7 @@
     \end{frameddefn}
     
     \begin{center}
-        \includegraphics[scale=0.5]{resources/images/B-tree-search.png}
+        \includegraphics[scale=0.5]{images/B-tree-search.png}
     \end{center}
     
     \begin{frameddefn}{B-Tree}
@@ -4100,13 +4100,13 @@
         \item Consideriamo un B-Tree a 5 vie, implicando che il numero massimo di nodi figli per ogni nodo sarà $5$, mentre il numero minimo di nodi figli per ogni nodo sia $\left \lceil \frac{5}{2} \right \rceil = 3$ (fatta eccezione per la radice, la quale avrà minimo $2$ figli, a meno che essa non sia una foglia)
         
         \begin{center}
-            \includegraphics[scale=0.475]{resources/images/tree1.png}
+            \includegraphics[scale=0.475]{images/tree1.png}
         \end{center}
         
         \item Inserendo la chiave 10, procediamo come un normale inserimento di un alberi binario di ricerca, aggiungendo quindi 10 al figlio sinistro della radice
         
         \begin{center}
-            \includegraphics[scale=0.475]{resources/images/tree2.png}
+            \includegraphics[scale=0.475]{images/tree2.png}
         \end{center}
         
         \newpage
@@ -4114,18 +4114,18 @@
         \item Nel caso in cui volessimo inserire la chiave 11, essa verrebbe posta all'interno del figlio sinistro, il quale tuttavia può avere una capienza massima pari a 5, dunque l'inserimento della chiave 11 porterebbe il nodo ad essere sovraccarico
         
         \begin{center}
-            \includegraphics[scale=0.475]{resources/images/tree3.png}
+            \includegraphics[scale=0.475]{images/tree3.png}
         \end{center}
         
         \item Per poter inserire la chiave 11, quindi, è necessario separare il nodo a metà, aggiungendo un nuovo nodo figlio alla radice e muovendo i valori affinché le regole di un normale albero binario vengano rispettate (ad esempio, il puntatore al figlio destro di 8 e sinistro di 12 conterrà tutti i valori compresi tra 8 e 12)
         
         \begin{center}
-            \includegraphics[scale=0.475]{resources/images/tree4.png}
+            \includegraphics[scale=0.475]{images/tree4.png}
         \end{center}
         
         \item Nel caso in cui volessimo rimuovere la chiave 8 dalla radice, saremmo costretti a spostare nella radice la chiave 3 o la chiave 10, in modo che possano rimpiazzare l'8 mantenendo le proprietà dell'albero di ricerca. Tuttavia, muovendo una delle due chiavi si otterrebbe che uno dei due nodi figli abbia meno del numero minimo di figli, ossia 3. Di conseguenza, l'unica soluzione è fondere i due nodi figli, senza spostare una delle due chiavi nella radice
         \begin{center}
-            \includegraphics[scale=0.475]{resources/images/tree5.png}
+            \includegraphics[scale=0.475]{images/tree5.png}
         \end{center}
     \end{itemize}
     
@@ -4198,7 +4198,7 @@
     \end{frameddefn}
     
     \begin{center}
-        \includegraphics[scale=0.8]{resources/images/b+tree.png}
+        \includegraphics[scale=0.8]{images/b+tree.png}
     \end{center}
     
     \textbf{Esempio:}

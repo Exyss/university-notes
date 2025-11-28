@@ -12,5 +12,7 @@ standalone*
 *.toc
 *blx.bib
 *(new)*
+*(busy)*
 *_new*
 Nyx*
+packages/

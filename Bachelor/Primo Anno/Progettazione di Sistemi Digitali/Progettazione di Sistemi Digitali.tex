@@ -152,7 +152,7 @@ wedge size=0.35}
     Nella maggior parte dei casi, nella vita reale siamo abituati a contare elementi e ad eseguire calcoli matematici in \textbf{decimale}, utilizzando l'insieme di numeri 0, 1, 2, ..., 9. Per poter rappresentare i numeri più grandi di questi, abbiamo instaurato un \textbf{sistema posizionale} dove ad ogni \textit{colonna} ha un valore 10 volte più grande della precedente. Dunque, da destra a sinistra, le colonne del sistema decimale assumono il valore della cifra rappresentata moltiplicata per una \textit{potenza di 10}, come nel seguente esempio:
     
     \begin{center}
-        \includegraphics{resources/images/chapter_1/decimal_system.png}
+        \includegraphics{images/chapter_1/decimal_system.png}
     \end{center}
     
     Abbiamo quindi definito le caratteristiche di un sistema numerico in \textbf{base 10} (che indicheremo con un 10 al di sotto del numero rappresentato). Utilizzando le stesse caratteristiche, possiamo definire dei sistemi numerici in \textit{base n}, dove ogni colonna assume un valore \textit{n} volte più grande della precedente.
@@ -164,7 +164,7 @@ wedge size=0.35}
     Seguendo le caratteristiche definite precedentemente per il sistema numerico decimale, vediamo la rappresentazione di un numero in sistema binario:
     
     \begin{center}
-        \includegraphics{resources/images/chapter_1/binary_system.png}
+        \includegraphics{images/chapter_1/binary_system.png}
     \end{center}
     
     Per facilitare le conversioni tra i due sistemi che effettueremo in seguito, possiamo tabellare le potenze di 2 più comuni:
@@ -844,13 +844,13 @@ wedge size=0.35}
     Oltre ai suoi input e ai suoi output, ogni circuito viene descritto da una \textbf{specifica funzionale}, che esprime il modo in cui il circuito agisce sugli input per generare gli output, e una \textbf{specifica temporale}, che esprime il tempo impiegato dal circuito per processare processare gli input e generare gli output.
     
     \begin{center}
-        \includegraphics{resources/images/chapter_2/circuit1.png}
+        \includegraphics{images/chapter_2/circuit1.png}
     \end{center}
     
     I circuiti logici, quindi, possono essere visti come delle \textbf{scatole nere} di cui è necessario tener conto solo degli input che vengono forniti e degli output che vengono restituiti. Al loro interno, i circuiti logici sono composti da \textbf{nodi} e \textbf{elementi} (E1, E2, E3, ...), che spesso sono a loro volta dei circuiti logici. I nodi, invece, sono dei fili elettrici il cui voltaggio trasporta un valore discreto. Possono essere dei nodi di \textit{input} (A, B, C, ...), di \textit{output} (Y, Z, ...) o \textit{interni} al circuito stesso (n1, ...), ricevendo e consegnando dati da e al \textbf{mondo esterno}.
     
     \begin{center}
-        \includegraphics[scale=0.9]{resources/images/chapter_2/circuit2.png}
+        \includegraphics[scale=0.9]{images/chapter_2/circuit2.png}
     \end{center}
     
     \newpage
@@ -867,7 +867,7 @@ wedge size=0.35}
     \end{itemize}
     
     \begin{center}
-        \includegraphics{resources/images/chapter_2/circuit3.png}
+        \includegraphics{images/chapter_2/circuit3.png}
     \end{center}
     
     Nella foto mostrata, solo i circuiti \textit{a}, \textit{c} ed \textit{e} sono combinatori, poiché rispettano tutte le caratteristiche precedentemente elencate.
@@ -1048,7 +1048,7 @@ wedge size=0.35}
     \begin{center}
         \[ S = F(A, B, C_{in})\]
         \[ C_{out} = F(A, B, C_{in})\]
-        \includegraphics{resources/images/chapter_2/circuit4.png}
+        \includegraphics{images/chapter_2/circuit4.png}
     \end{center}
     
     Per descrivere le specifiche funzionali del circuito, è necessario definire le equazioni booleane che mettono in \textbf{relazione} gli input con gli output. In questo esempio, andremo a descrivere le due funzioni che generano gli output S e $C_{out}$ come:
@@ -1404,7 +1404,7 @@ wedge size=0.35}
         \begin{tabular}{c c c}
             \begin{tabular}{c}
                 \\\\
-                \includegraphics{resources/images/chapter_2/priority_circ_4in_4out.png} 
+                \includegraphics{images/chapter_2/priority_circ_4in_4out.png} 
             \end{tabular} &
             \quad\quad\quad &
             
@@ -2205,16 +2205,16 @@ wedge size=0.35}
     In ogni componente di un circuito, è possibile identificare un \textbf{delay}, ossia il tempo trascorso dal variare dell'input al variare dell'output. Questo delay può dipendere da effetti dell'ambiente esterno, come i limiti della velocità della luce, o dal modo in cui è stato costruito il componente stesso, come la sua capacità e la sua resistenza.
     
     \begin{center}
-        \includegraphics{resources/images/chapter_2/delay1.png}
+        \includegraphics{images/chapter_2/delay1.png}
     \end{center}
 
     Possiamo distinguere due categorie di delay: \textbf{delay di contaminazione ($t_{cd}$)} e \textbf{delay di propagazione ($t_{pd}$)}. Il primo corrisponde al \textbf{delay minimo} che deve trascorrere affinché l'output possa essere considerato come variato (dunque non sappiamo ancora se sia effettivamente cambiato). Il secondo, invece, è il \textbf{delay massimo} che deve trascorrere affinché l'output sia considerabile come variato (dunque siamo sicuri al 100\% del suo avvenuto cambiamento)
     
     \begin{center}
         \begin{tabular}{c c}
-            \includegraphics[scale=0.9]{resources/images/chapter_2/delay2.png}
+            \includegraphics[scale=0.9]{images/chapter_2/delay2.png}
             &
-            \includegraphics[scale=0.9]{resources/images/chapter_2/delay3.png}
+            \includegraphics[scale=0.9]{images/chapter_2/delay3.png}
         \end{tabular}
     \end{center}
     
@@ -2457,7 +2457,7 @@ wedge size=0.35}
     Proviamo ad analizzare il comportamento di un D Latch tramite la sua rappresentazione del suo stato in \textbf{forma d'onda}
     
     \begin{center}
-        \includegraphics[scale=0.7]{resources/images/chapter_3/d_latch_wave1.png}
+        \includegraphics[scale=0.7]{images/chapter_3/d_latch_wave1.png}
     \end{center}
     
     \begin{enumerate}
@@ -2969,7 +2969,7 @@ wedge size=0.35}
     In questo modo abbiamo realizzato un \textbf{segnale variabile con periodo \textit{6 ns}}, ossia un clock di \textbf{frequenza} $f = \frac{1}{6 \,ns} = 166.\overline{666} \, MHz$.
     
     \begin{center}
-        \includegraphics[scale=0.75]{resources/images/chapter_3/ring_freq.png}
+        \includegraphics[scale=0.75]{images/chapter_3/ring_freq.png}
     \end{center}
     
 
@@ -3142,7 +3142,7 @@ wedge size=0.35}
         \end{tabular}
         &\qquad&
         \begin{tabular}{c}
-            \includegraphics[scale=0.9]{resources/images/chapter_3/state_diag1.png}
+            \includegraphics[scale=0.9]{images/chapter_3/state_diag1.png}
         \end{tabular}
         \\
     \end{tabular}
@@ -3197,7 +3197,7 @@ wedge size=0.35}
     \end{itemize}
     
     \begin{center}
-        \includegraphics[scale=0.75]{resources/images/chapter_3/snail_moore.png}
+        \includegraphics[scale=0.75]{images/chapter_3/snail_moore.png}
     \end{center}
     
     \textbf{Macchina di Moore - Tabelle di Stato e di Output}
@@ -3311,7 +3311,7 @@ wedge size=0.35}
         \item $\textbf{S}\textbf{1}$: Se l'input sarà 1 allora lo stato attuale diventerà $S0$ e l'output sarà 1 (indicato dalla freccia $1/1$ verso $S1$), altrimenti lo stato attuale rimarrà $S1$ e l'output sarà 0 (indicato dalla freccia $0/0$ verso se stesso)
     \end{itemize}
     \begin{center}
-        \includegraphics[scale=0.75]{resources/images/chapter_3/snail_mealy.png}
+        \includegraphics[scale=0.75]{images/chapter_3/snail_mealy.png}
     \end{center}
     
     \newpage
@@ -3391,7 +3391,7 @@ wedge size=0.35}
     \textbf{Confronto tra i diagrammi temporali}
     
     \begin{center}
-        \includegraphics[scale=0.820]{resources/images/chapter_3/clock_moore_mealy.png}
+        \includegraphics[scale=0.820]{images/chapter_3/clock_moore_mealy.png}
     \end{center}
     
     \newpage
@@ -3402,19 +3402,19 @@ wedge size=0.35}
     \quad
     
     \begin{center}
-        \includegraphics[scale=0.65]{resources/images/chapter_3/moore_to_mealy.png}
+        \includegraphics[scale=0.65]{images/chapter_3/moore_to_mealy.png}
     \end{center}
     
     Allo stesso modo, una \textbf{FSM di Mealy} può essere \textbf{trasformata} in una \textbf{FSM di Moore} replicando lo stato della macchina di Moore compiendo il \textbf{processo inverso}, dunque associando l'output delle transizioni agli stati generati. Se le transizioni che portano a tale stato hanno delle \textbf{uscite differenti}, allora lo stato verrà \textbf{replicato}, in modo da avere \textbf{una sola} combinazione di transizioni/output per ogni stato.
     
     \begin{center}
-        \includegraphics[scale=0.65]{resources/images/chapter_3/mealy_to_moore.png}
+        \includegraphics[scale=0.65]{images/chapter_3/mealy_to_moore.png}
     \end{center}
     
     Inoltre, nel caso in cui sia necessario \textbf{replicare} uno stato, le sue \textbf{uscite} originali verranno attribuite ad \textbf{entrambi gli stati replicati}.
     
     \begin{center}
-        \includegraphics[scale=0.65]{resources/images/chapter_3/mealy_to_moore2.png}
+        \includegraphics[scale=0.65]{images/chapter_3/mealy_to_moore2.png}
     \end{center}
 
     \subsubsection{Inizializzazione delle FSM e Stati indefiniti}
@@ -3473,7 +3473,7 @@ wedge size=0.35}
         \end{tabular}
         &\quad&
             \begin{tabular}{c}
-            \includegraphics[scale=0.75]{resources/images/chapter_3/fsm_timing1.png}
+            \includegraphics[scale=0.75]{images/chapter_3/fsm_timing1.png}
         \end{tabular}
         \\\\
     \end{tabular}
@@ -3491,7 +3491,7 @@ wedge size=0.35}
         \end{tabular}
         &&
             \begin{tabular}{c}
-            \includegraphics[scale=0.75]{resources/images/chapter_3/fsm_timing2.png}
+            \includegraphics[scale=0.75]{images/chapter_3/fsm_timing2.png}
         \end{tabular}
         \\
     \end{tabular}
@@ -3502,7 +3502,7 @@ wedge size=0.35}
     Immaginando un circuito composto da due registri $R_1$ e $R_2$ connessi tra di loro da un circuito combinatorio, è facile trovare una problematica intrinseca ai registri stessi: essi vengono attivati dallo \textbf{stesso segnale di clock} allo stesso istante. Tuttavia, affinché il \textbf{registro} $\textbf{R}_\textbf{2}$ possa campionare in modo stabile il valore in entrata, è necessario \textbf{calcolare} accuratamente il suo \textbf{tempo di setup}.
     
     \begin{center}
-        \includegraphics[scale=0.75]{resources/images/chapter_3/fsm_timing3.png}
+        \includegraphics[scale=0.75]{images/chapter_3/fsm_timing3.png}
     \end{center}
     
     Da questo diagramma temporale possiamo notare come \textbf{vincolo temporale ($\textbf{T}_\textbf{c}$))} dipenda dal \textbf{delay massimo} affinché il valore in uscita da $R_1$ possa essere campionato stabilmente da $R_2$, passando attraverso il circuito combinatorio. L'\textbf{input} di $R_2$ dovrà dunque essere stabile \textbf{prima del clock edge} per un periodo $t_{setup}$ \textbf{(Vincolo temporale di setup)}.
@@ -3513,7 +3513,7 @@ wedge size=0.35}
     Tuttavia, è necessario considerare anche il \textbf{delay minimo} per cui il valore in uscita da $R_1$ debba rimanere stabile. Di conseguenza, ricaviamo che anche l'\textbf{input} di $R_2$ debba rimanere stabile \textbf{dopo il clock edge} per almeno $t_{hold}$ affinché esso possa essere campionato correttamente \textbf{(Vincolo temporale di hold)}.
     
     \begin{center}
-        \includegraphics[scale=0.75]{resources/images/chapter_3/fsm_timing4.png}
+        \includegraphics[scale=0.75]{images/chapter_3/fsm_timing4.png}
     \end{center}
     \[ t_{hold} < t_{ccq} + t_{cd}\]
     
@@ -3670,9 +3670,9 @@ wedge size=0.35}
         
             \textbf{Vincolo temporale di setup} &
             \textbf{Vincolo temporale di hold}\\
-            \includegraphics[scale=0.8]{resources/images/chapter_3/fsm_timing5.png}
+            \includegraphics[scale=0.8]{images/chapter_3/fsm_timing5.png}
             &
-            \includegraphics[scale=0.8]{resources/images/chapter_3/fsm_timing6.png}
+            \includegraphics[scale=0.8]{images/chapter_3/fsm_timing6.png}
             \\\\
             $T_c \geq t_{pcq} + t_{pd} + t_{setup} + t_{skew}$
             &
@@ -3709,7 +3709,7 @@ wedge size=0.35}
     Poiché ha molti amici, Ben vorrebbe aumentare la quantità di biscotti sfornati in un'ora in modo da poter raggiungere prima la quantità necessaria di biscotti. Ben decide di chiedere ad Alyssa di aiutarlo ad impastare, facendosi prestare anche il suo forno (\textbf{parallelismo spaziale}).
     
     \begin{center}
-        \includegraphics[scale=0.85]{resources/images/chapter_3/parallelism1.png}
+        \includegraphics[scale=0.85]{images/chapter_3/parallelism1.png}
     \end{center}
      \[ \textbf{Latenza} = 5 \textit{min} + 15 \textit{min} = 20 \textit{min} = \frac{1}{3} \textit{ ore} \]
     \[ \textbf{Throughput} = 2 \cdot \frac{1 \textit{ teglia}}{\frac{1}{3} \textit{ ore}} = 6 \textit{ teglie/ora}\]
@@ -3717,7 +3717,7 @@ wedge size=0.35}
     Con l'aiuto di Alyssa, Ben è riuscito a raddoppiare la quantità di teglie sfornate in un'ora. Tuttavia, Ben pensa anche ad un'altra opzione, ossia impastare i biscotti dell'infornata successiva mentre aspetta che l'infornata attuale sia cotta (\textbf{parallelismo temporale}).
     
     \begin{center}
-        \includegraphics[scale=0.85]{resources/images/chapter_3/parallelism2.png}
+        \includegraphics[scale=0.85]{images/chapter_3/parallelism2.png}
     \end{center}
     
     \textbf{ATTENZIONE}: è opportuno ricordare che con \textbf{latenza} si intende il tempo impiegato da un token per passare dall'inizio alla fine del circuito. Escludendo la prima, possiamo notare dal grafico come ogni infornata sia costituita da 5 minuti di tempo di impasto, 10 minuti di tempo di attesa affinché il forno sia libero e 15 minuti di tempo di cottura, per un totale di 30 minuti.
@@ -3736,7 +3736,7 @@ wedge size=0.35}
     Una volta capita la differenza tra i due parallelismi, vediamo \textbf{un esempio più concreto} in cui è possibile velocizzare un circuito applicando il parallelismo temporale:
     
     \begin{center}
-        \includegraphics{resources/images/chapter_3/parallelism3.png}
+        \includegraphics{images/chapter_3/parallelism3.png}
     \end{center}
     
     Sapendo che $t_{pcq} = 15 \textit{ps}$, $t_{setup} = 65 \textit{ps}$ e $t_{pd} = 40 \textit{ps}$ per ogni porta, calcoliamo:
@@ -3748,7 +3748,7 @@ wedge size=0.35}
     Per velocizzare il circuito precedente, decidiamo di aggiungere una \textbf{catena di flip-flop}, dividendolo in 2 fasi richiedenti, dunque, due colpi di clock:
     
     \begin{center}
-        \includegraphics{resources/images/chapter_3/parallelism4.png}
+        \includegraphics{images/chapter_3/parallelism4.png}
     \end{center}
     
     Avendo spezzato l'esecuzione in due fasi, il colpo di clock avverrà dopo un periodo di tempo pari a quello della \textbf{fase più lunga} (in questo caso la prima fase).
@@ -3761,7 +3761,7 @@ wedge size=0.35}
     Aggiungendo una singola catena di registri, abbiamo \textbf{aumentato} il numero di operazioni al secondo del \textbf{25\%}, rendendo però necessari due colpi di clock. E se aggiungessimo \textbf{un'altra catena di registri}?
     
     \begin{center}
-        \includegraphics{resources/images/chapter_3/parallelism5.png}
+        \includegraphics{images/chapter_3/parallelism5.png}
     \end{center}
      \[ \textbf{Latenza} = \textit{3 colpi di clock} \]
      \[ \textbf{Periodo} = 15 \textit{ps} + 1 \cdot 40 \textit{ps} + 65 \textit{ps} = 120 \textit{ps}\]
@@ -3972,7 +3972,7 @@ wedge size=0.35}
     \[ C_{i} = G_{i:j} + P_{i:j} \cdot C_{j-1}\]
     
     \begin{center}
-        \includegraphics[scale=0.85]{resources/images/chapter_4/carry_lookahead.png}
+        \includegraphics[scale=0.85]{images/chapter_4/carry_lookahead.png}
     \end{center}
     
     Il \textbf{percorso critico} del sistema viene quindi \textbf{ridotto} a $\textbf{t}_{\textbf{AND-OR}}$
@@ -4277,7 +4277,7 @@ wedge size=0.35}
     \end{center}
     
     \begin{center}
-        \includegraphics[scale=0.8]{resources/images/chapter_4/multiplier.png}
+        \includegraphics[scale=0.8]{images/chapter_4/multiplier.png}
     \end{center}
     
     \section{Blocchi utilitari}
@@ -4379,7 +4379,7 @@ wedge size=0.35}
     Tutti i mux vengono controllati dallo stesso segnale, chiamato \textbf{Load}. Se Load = 1 allora i registri vengono caricati con il loro rispettivo "input esterno", mentre se Load = 0 essi si comportano come un normale shift register.
     
     \begin{center}
-        \includegraphics[scale=0.95]{resources/images/chapter_4/shift_register.png}
+        \includegraphics[scale=0.95]{images/chapter_4/shift_register.png}
     \end{center}
     
     Per via del suo doppio comportamento, questo blocco può agire sia come un \textbf{serial-to-parallel converter} ($S_{in} \to Q_{[N-1], 0}$) sia come un \textbf{parallel-to-serial converter}($D_{[N-1:0]} \to S_{out}$).
@@ -4394,13 +4394,13 @@ wedge size=0.35}
     Una memoria, quindi, corrisponde ad una \textbf{matrice} di $\textbf{2}^\textbf{N}$ \textbf{righe} (profondità) e $\textbf{M}$ \textbf{colonne} (larghezza). 
     
     \begin{center}
-        \includegraphics[scale=0.75]{resources/images/chapter_4/memory.png}
+        \includegraphics[scale=0.75]{images/chapter_4/memory.png}
     \end{center}
     
     \textbf{ATTENZIONE}: è necessario puntualizzare come gli M bit \textbf{Data} siano sia di input, sia di output, poiché essi vengono usati \textbf{sia per la scrittura che per la lettura}. A scegliere quale delle due operazioni venga effettuata, è un ulteriore bit chiamato \textbf{WE}, abbreviativo di \textbf{write enable}, ossia "abilita scrittura".
     
     \begin{center}
-        \includegraphics[scale=0.75]{resources/images/chapter_4/memory2.png}
+        \includegraphics[scale=0.75]{images/chapter_4/memory2.png}
     \end{center}
     
     Esistono \textbf{tre tipologie comuni di memorie}:
@@ -4454,7 +4454,7 @@ wedge size=0.35}
     Poiché \textbf{solo una wordline} deve essere attiva alla volta, viene logico immaginare come sia possibile implementare un \textbf{decoder $\textbf{N:2}^\textbf{N}$} come elemento in grado di selezionare una sola (ricordiamo che il decoder sfrutta una codifica \textbf{one-hot}) determinata wordline in base all'indirizzo di input dato:
     
     \begin{center}
-        \includegraphics[scale=1]{resources/images/chapter_4/memory3.png}
+        \includegraphics[scale=1]{images/chapter_4/memory3.png}
     \end{center}
     
     
@@ -4476,8 +4476,8 @@ wedge size=0.35}
     \begin{tabular}{c c}
         \\
         \color{blue}\textbf{Dynamic RAM} & \color{blue}\textbf{Static RAM} \\
-        \includegraphics[scale=0.8]{resources/images/chapter_4/dram_bit.png} &
-        \includegraphics[scale=0.7]{resources/images/chapter_4/sram_bit.png}
+        \includegraphics[scale=0.8]{images/chapter_4/dram_bit.png} &
+        \includegraphics[scale=0.7]{images/chapter_4/sram_bit.png}
     \end{tabular}
         
     \begin{tabular}{m{0.62\textwidth} p{0.01\textwidth} p{0.4\textwidth}}
@@ -4494,7 +4494,7 @@ wedge size=0.35}
         \end{itemize}
         & &
         \begin{tabular}{c}
-            \includegraphics[scale=0.9]{resources/images/chapter_4/rom_bit.png}
+            \includegraphics[scale=0.9]{images/chapter_4/rom_bit.png}
         \end{tabular}
     \end{tabular}
     
@@ -4503,7 +4503,7 @@ wedge size=0.35}
     Per via del modo in cui sono costruite, i dati all'interno delle ROM possono essere rappresentati anche tramite quella che viene chiamata \textbf{Dot Notation}, dove viene inserito un \textbf{pallino} al posto di ogni cella contenente \textbf{un bit uguale ad 1}:
     
     \begin{center}
-        \includegraphics[scale=0.9]{resources/images/chapter_4/dot_notation.png}
+        \includegraphics[scale=0.9]{images/chapter_4/dot_notation.png}
     \end{center}
     
     Inoltre, ogni memoria può essere utilizzata per \textbf{compiere operazioni logiche}: considerando gli \textbf{output Data} come degli \textbf{output di un equazione booleana}, possiamo effettuare tale equazione tramite i bit in memoria sulla \textbf{colonna} stessa dell'output, poiché ad ogni riga corrisponde un \textbf{mintermine}. Di conseguenza, le memorie possono essere usate anche come un modo per conservare le \textbf{tabelle della verità}.
@@ -4511,7 +4511,7 @@ wedge size=0.35}
     \begin{center}
         \begin{tabular}{c c}
             \begin{tabular}{c}
-                \includegraphics[scale=0.9]{resources/images/chapter_4/rom_logic.png}
+                \includegraphics[scale=0.9]{images/chapter_4/rom_logic.png}
             \end{tabular}
             &
             
@@ -4562,7 +4562,7 @@ wedge size=0.35}
     Nella seguente immagine, viene mostrata una PLA rappresentante le funzioni  $X = \overline{A} \, \overline{B} C + AB\overline{C}$ e $Y = A\overline{B}$
     
     \begin{center}
-        \includegraphics[scale=1]{resources/images/chapter_4/pla.png}
+        \includegraphics[scale=1]{images/chapter_4/pla.png}
     \end{center}
     
     \newpage
@@ -4576,7 +4576,7 @@ wedge size=0.35}
         \item \textbf{Blocchi I/O}, ossia elementi di input/output che si interfacciano col mondo esterno
         \item \textbf{Interconnessioni programmabili}, che connettono i LE ai blocchi I/O
         
-        \qquad\qquad\includegraphics[scale=0.75]{resources/images/chapter_4/fpga.png}
+        \qquad\qquad\includegraphics[scale=0.75]{images/chapter_4/fpga.png}
     \end{itemize}
     
     \subsubsection{Logic Element}
@@ -4654,7 +4654,7 @@ wedge size=0.35}
         Infine, viene implementato un \textbf{MUX 4:1 esterno} che vada a selezionare \textbf{solo una delle 4 operazioni}.
         &
         \begin{tabular}{c}
-            \includegraphics[scale=0.95]{resources/images/chapter_4/alu1.png}
+            \includegraphics[scale=0.95]{images/chapter_4/alu1.png}
         \end{tabular}
     \end{tabular}
     
@@ -4680,7 +4680,7 @@ wedge size=0.35}
     \end{itemize}
     
     \begin{center}
-        \includegraphics[scale=0.9]{resources/images/chapter_4/alu_flags.png}
+        \includegraphics[scale=0.9]{images/chapter_4/alu_flags.png}
     \end{center}
     
     \quad
@@ -4737,9 +4737,9 @@ wedge size=0.35}
     Una volta descritto il nostro modulo, il codice verrà letto dall'interprete del SystemVerilog, generando una versione del circuito con il \textbf{minor numero di porte possibile}, ottenuta \textbf{semplificando} le equazioni booleane descritte, ed una \textbf{simulazione} di esso:
     
     \begin{center}
-        \includegraphics[scale=0.7]{resources/images/chapter_5/sysver_1.png}
+        \includegraphics[scale=0.7]{images/chapter_5/sysver_1.png}
         
-        \includegraphics[scale=0.6]{resources/images/chapter_5/sysver_2.png}
+        \includegraphics[scale=0.6]{images/chapter_5/sysver_2.png}
     \end{center}
     
     \newpage
@@ -4854,7 +4854,7 @@ wedge size=0.35}
     \end{verbatim}
     
     \begin{center}
-        \includegraphics[scale=0.8]{resources/images/chapter_5/sysver_3.png}
+        \includegraphics[scale=0.8]{images/chapter_5/sysver_3.png}
     \end{center}
     
     \subsection{Operatori di riduzione}
@@ -4894,7 +4894,7 @@ wedge size=0.35}
         \end{verbatim}
         &
         \begin{tabular}{c}
-            \includegraphics[scale=0.9]{resources/images/chapter_5/sysver_4.png}
+            \includegraphics[scale=0.9]{images/chapter_5/sysver_4.png}
         \end{tabular}
     \end{tabular}
     
@@ -4916,7 +4916,7 @@ wedge size=0.35}
     \end{verbatim}
     
     \begin{center}
-        \includegraphics[scale=1.1]{resources/images/chapter_5/sysver_5.png}
+        \includegraphics[scale=1.1]{images/chapter_5/sysver_5.png}
     \end{center}
     
     \section{Numeri e Manipolazione di bit}
@@ -4999,7 +4999,7 @@ wedge size=0.35}
     \end{verbatim}
     
     \begin{center}
-        \includegraphics[scale=0.9]{resources/images/chapter_5/sysver_6.png}
+        \includegraphics[scale=0.9]{images/chapter_5/sysver_6.png}
     \end{center}
     
     \textbf{N.B.}: guardando l'inizio della simulazione è possibile notare facilmente i delay dei singoli componenti, poiché tutti i componenti vengono inizializzati come X per poi cambiare non appena tutte le condizioni necessarie vengono soddisfatte.
@@ -5156,7 +5156,7 @@ wedge size=0.35}
     
     &&
     
-    \includegraphics[scale=0.75]{resources/images/chapter_5/sevenseg.jpeg}
+    \includegraphics[scale=0.75]{images/chapter_5/sevenseg.jpeg}
     \end{tabular}
     
     \newpage
@@ -5225,13 +5225,13 @@ wedge size=0.35}
     Nel \textbf{primo caso}, verranno generati \textbf{due flip-flop}, in modo che possano conservare il valore di n1 e q, restituendo q in output. Dunque, il valore di n1 e q viene aggiornato \textbf{in sincrono}, dove il valore di q diventerà il \textbf{precedente valore di n1} (dunque del colpo di clock precedente).
     
     \begin{center}
-        \includegraphics[scale=1.1]{resources/images/chapter_5/non-blocking.png}
+        \includegraphics[scale=1.1]{images/chapter_5/non-blocking.png}
     \end{center}
     
     Nel \textbf{secondo caso}, invece, verrà generato \textbf{un solo flip-flop}, in modo che possa conservare il valore di q, restituendo q in output. Poiché i due assegnamenti avvengono \textbf{in successione}, il valore di q diventerà l'\textbf{attuale valore di n1} (dunque del colpo di clock attuale), ossia d.
     
     \begin{center}
-        \includegraphics[scale=1]{resources/images/chapter_5/blocking.png}
+        \includegraphics[scale=1]{images/chapter_5/blocking.png}
     \end{center}
     
     \newpage
@@ -5266,7 +5266,7 @@ wedge size=0.35}
     Di seguito vediamo l'esempio di una FSM di cui \underline{non} definiremo le funzionalità, ma definiremo \textbf{solo i suoi stati} e le loro transizioni:
     
     \begin{center}
-        \includegraphics[scale=0.6]{resources/images/chapter_5/fsm_verilog.png}
+        \includegraphics[scale=0.6]{images/chapter_5/fsm_verilog.png}
     \end{center}
     
     \newpage

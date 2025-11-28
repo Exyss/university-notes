@@ -9,7 +9,7 @@
 > [!CAUTION]
 > Dopo 4 lunghi anni, le condizioni necessarie per pubblicare il codice sorgente degli appunti sono state raggiunte!
 > 
-> Fatta eccezione del pacchetto Nyx (il template LaTeX per gli appunti creato assieme a @aaflag), tutto il codice è completamente accessibile e riutilizzabile (a patto di rispettare la sezione [Licence](#licence)).
+> Fatta eccezione del pacchetto Nyx (il template LaTeX per gli appunti creato assieme a @aaflag), tutto il codice è completamente accessibile e riutilizzabile (a patto di rispettare la sezione [License](#-license)).
 > Nel caso si desiderasse di compilare uno dei .tex riportati, è necessario prima rimuovere ogni riferimento al pacchetto Nyx. Aggiungo che il pacchetto Nyx contiene anche numerose macro utilizzate all'interno degli appunti, dunque sarà necessario sostituire tali macro con una propria versione.
 
 ### ℹ️ Informazioni

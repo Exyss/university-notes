@@ -9,7 +9,7 @@
 > [!CAUTION]
 > Dopo 4 lunghi anni, le condizioni necessarie per pubblicare il codice sorgente degli appunti sono state raggiunte!
 > 
-> Fatta eccezione del pacchetto Nyx (il template LaTeX per gli appunti creato assieme a @aaflag), tutto il codice è completamente accessibile e riutilizzabile (a patto di rispettare la sezione [License](#-license)).
+> Fatta eccezione del pacchetto Nyx (il template LaTeX per gli appunti creato assieme a [@aflaag](https://github.com/aflaag)), tutto il codice è completamente accessibile e riutilizzabile (a patto di rispettare la sezione [License](#-license)).
 > Nel caso si desiderasse di compilare uno dei .tex riportati, è necessario prima rimuovere ogni riferimento al pacchetto Nyx. Aggiungo che il pacchetto Nyx contiene anche numerose macro utilizzate all'interno degli appunti, dunque sarà necessario sostituire tali macro con una propria versione.
 
 ### ℹ️ Informazioni
@@ -110,7 +110,7 @@ Disclaimers ⚠️
 | [Graph Theory](../../raw/main/Master/Graph%20Theory/Graph%20Theory.pdf) | Completed | 16/10/2025 |
 | [Mathematical Logic for Computer Science](../../raw/main/Master/Mathematical%20Logic%20for%20Computer%20Science/Mathematical%20Logic%20for%20Computer%20Science.pdf) | Completed | 25/06/2025 |
 | Models of Computation [ !! ] | - | - |
-| [Quantum Computing](https://raw.githubusercontent.com/aflaag-notes/quantum-computing/main/src/Quantum%20Computing.pdf) | Written by [@aflaag](https://github.com/aflaag) | 19/11/2025 |
+| [Quantum Computing](https://raw.githubusercontent.com/aflaag-notes/quantum-computing/main/src/Quantum%20Computing.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 | [Network Algorithms](https://raw.githubusercontent.com/aflaag-notes/network-algs/main/src/Network%20Algorithms.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 | [Autonomous Networking](../../raw/main/Master/Autonomous%20Networking/Autonomous%20Networking.pdf) | W.I.P. | 11/10/2025 |
 | [Computer Network Performance](../../raw/main/Master/Computer%20Network%20Performance/Computer%20Network%20Performance.pdf) | W.I.P. | 26/11/2025 |

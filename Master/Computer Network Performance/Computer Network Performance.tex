@@ -404,7 +404,7 @@
         A system is said to be ergodic if it has the following three properties:
         \begin{itemize}
             \item \textit{Irreducibility}: from every state (defined as the population in the servers) the system can reach every other state and back.
-            \item \textit{Positive recurrence}: starting from state, the probability to return in that same state over infinite time is 1.
+            \item \textit{Positive recurrence}: starting from a state, the probability to return in that same state over infinite time is 1.
             \item \textit{Aperiodicity}: the system doesn't have a periodic behavior, meaning that it doesn't return in a specific state after a precise amount of time.
         \end{itemize}
     \end{frameddefn}
@@ -1153,7 +1153,7 @@
 
             \node[] (5) [right of = 4]{$\cdots$};
 
-            \foreach \curr in {1,...,3}{
+            \foreach \curr in {1,...,4}{
                 \path[every node/.style={font=\sffamily\small}]
                     (\curr) edge[loop above] node{$0.3$} (\curr)
                 ;   
@@ -1339,7 +1339,7 @@
         Given a DMTC $M$ with state space $\mathcal{I}$, we define the limiting distribution of $M$ as the row vector $\pi$ with $\abs{\mathcal{I}}$ entries such that:
         \begin{itemize}
             \item $\pi_j = \lim\limits_{n \to +\infty} P^n_{j,i}$ for each pair of states $i,j \in \mathcal{I}$, where $P$ is the PTM of $M$.
-            \item $\sum_{j \in \mathcal{I}} \pi_j = 1$
+            \item $\sum\limits_{j \in \mathcal{I}} \pi_j = 1$
         \end{itemize}
         Each entry $\pi_j$ is referred to as the limiting probability of being in state $j$.
     \end{frameddefn}
@@ -1418,7 +1418,7 @@
         Given a DMTC $M$ with state space $\mathcal{I}$, a vector $v$ of $\abs{\mathcal{I}}$ entries is said to be a stationary distribution of $M$ if:
         \begin{itemize}
             \item $v = vP$, where $P$ is the PTM of $M$
-            \item $\sum_{j \in \mathcal{I}} v_j = 1$
+            \item $\sum\limits_{j \in \mathcal{I}} v_j = 1$
         \end{itemize}
     \end{frameddefn}
 
@@ -1517,6 +1517,8 @@
 
     which yields the solutions $\pi_0 = \pi_1 = \frac{1}{2}$. Therefore, a stationary distribution may exist even when the limiting distribution doesn't exist.
 
+    \newpage
+
     \section{The barrier technique}
 
     Consider again the umbrella problem and its stationary equations.
@@ -1607,7 +1609,7 @@
         \pi_0 + \pi_1 &= 1
     }\]
 
-    By solving the system, we get that $\pi_0 = 0.875$ and $\pi_1 = 0.125$. Now, we'll find these same results by applying the barrier technique. Since the number of states is finite and the two transitions $(W,B)$ and $(B,W)$ exists, we know that the ingoing flow must be equal to the outgoing flow, allowing us to apply the barrier technique.
+    By solving the system, we get that $\pi_0 = 0.875$ and $\pi_1 = 0.125$. Now, we'll find these same results by applying the barrier technique. Since the two transitions $(W,B)$ and $(B,W)$ exists, we know that the ingoing flow must be equal to the outgoing flow, allowing us to apply the barrier technique.
 
     \begin{figure}[H]
         \centering
@@ -1708,4 +1710,379 @@
 
     and thus that:
     \[\pi_{i} = \dfrac{\rho^i(1-\rho)}{1-\rho^6} \qquad \forall i \in \{0, \ldots, 5\}\]
+
+
+    \section{Existence of limiting distributions}
+
+    In the previous chapter we introduced performance analysis through Markov chains, observing that it may not always be true that a limiting distribution exists. In this section, we'll discuss how \textbf{ergodicity} ensures the existence of such limit. We already introduced the concept of ergodicity in the first chapter, stating that a system is ergodic when it is irreducible, positive recurrent and aperiodic. Now, we'll give the corresponding definitions for this three properties in the case of Markov chains.
+
+    We start with the simplest one: \textbf{aperiodicity}. We said that \curlyquotes{the system is aperiodic if it never returns in a specific state after a precise amount of time}. To understand how this applies to Markov chains, consider the following example.
+
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.25cm,thick,main node/.style={scale=0.8, circle,draw,font=\sffamily\normalsize}]
+
+            \node[state] (0) []{$0$};
+            \node[state] (1) [right of = 0]{$1$};
+            \node[state] (2) [above of = 1]{$2$};
+            \node[state] (3) [below of = 1]{$3$};
+
+            \path[every node/.style={font=\sffamily\small}]
+                (0) edge[bend left] node{$0.5$} (2)
+                (0) edge[bend right, swap] node{$0.5$} (3)
+                (2) edge[bend left] node{$1$} (1)
+                (3) edge[bend right, swap] node{$1$} (1)
+                (1) edge[swap] node{$1$} (0)
+            ;
+        \end{tikzpicture}
+
+        \caption{A periodic Markov chain.}
+    \end{figure}
+
+    It's easy to see that this chain is periodic: if we start from state $0$, it will return to this state every 3 time steps, independently of the transitions that it took. Now, observe what happens to the $3$-step PTM:
+    \[P = \smat{
+        0 & 0 & 0.5 & 0.5   \\
+        1 & 0 & 0   & 0     \\
+        0 & 1 & 0   & 0     \\
+        0 & 1 & 0   & 0     
+    } \implies P^3 = \smat{
+        1 & 0 & 0    & 0     \\
+        0 & 1 & 0   & 0     \\
+        0 & 0 & 0.5 & 0.5   \\
+        0 & 0 & 0.5   & 0.5   
+    }\]
+
+    We notice that the main diagonal of the matrix is filled with non-zero entries, meaning that every state has a non-zero probability of going back to itself in 3 steps. In particular, states 0 and 1 will surely go back to themselves every 3 steps. This allows us to define the idea of \textit{state period}.
+
+    \begin{frameddefn}{State period}
+        Given a DMTC $M$ with state space $\mathcal{I}$ and PTM $P$, we define the period of state $i \in \mathcal{I}$ as the GCD of the set $\{n \in \N \mid P_{i,i}^n > 0\}$. A state is said to be aperiodic if its period is 1. The chain $M$ is said to be aperiodic if every state is aperiodic.
+    \end{frameddefn}
+
+    After defining periodicity, we make some observations on this definition. First of all, we have to clarify things: we said that a state is aperiodic if it has period 1, but shouldn't value set to zero in order to be aperiodic? Let's take a step back to the initial definition of aperiodicity: \curlyquotes{the system is aperiodic if it never returns in a specific state after a precise amount of time}. If the period of a state $i$ is 1, we have two possibilities:
+    \begin{itemize}
+        \item The GCD of the set $\{n \in \N \mid P_{i,i}^n > 0\}$ is equal to 1 because each value of the set is bigger than 1 and pair-wise coprime. This coprimality guarantees that not every value of the set is a multiple of a specific number, breaking periodicity. 
+        \item The GCD of the set $\{n \in \N \mid P_{i,i}^n > 0\}$ is equal to 1 because 1 is inside the set. This can happen only if state $i$ has a loop in the chain with non-zero probability. This guarantees that it has a probability of returning to iself \underline{every single time step}, thus everything that may happen in time step $i$ is may also happen in time step $i+1$, breaking periodicity.
+    \end{itemize}
+    
+    After clarifying the definition of aperiodicity, let's consider some practical examples. Consider again the Markov chain of the umbrella problem, shown below.
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.25cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+            
+            \node[state] (0) []{$0$};
+            \node[state] (2) [right of = 0]{$2$};
+            \node[state] (1) [right of = 2]{$1$};
+            
+            \path[every node/.style={font=\sffamily\small}]
+                (0) edge[bend left] node{$1$} (2)
+                (2) edge[bend left] node{$p$} (1)
+                (2) edge[bend left] node{$1-p$} (0)
+                (1) edge[bend left] node{$p$} (2)
+                (1) edge[loop right] node{$1-p$} (1)
+            ;
+        \end{tikzpicture}
+    \end{figure}
+
+    Let $p = 0.4$. Then, the state $1$ has a loop with non-zero probability, concluding immediately that its period is 1. To compute the period of states 0 and 2, we take some powers of $P$:
+    \[P = \smat{
+        0   & 0   & 1 \\
+        0   & 0.6 & 0.4 \\
+        0.6 & 0.4 & 0
+    } \qquad
+    P^2 \approx \smat{
+        0.6  & 0.4   & 0 \\
+        0.24 & 0.52 & 0.24 \\
+        0    & 0.24 & 0.76
+    } \qquad 
+    P^3 \approx \smat{
+        0 & 0.24 & 0.76 \\
+        0.14 & 0.41 & 0.45 \\
+        0.46 & 0.45 & 0.10 \\
+    }\]
+    \[P_4 \approx \smat{
+        0.46 & 0.45 & 0.10 \\
+        0.27 & 0.42 & 0.31 \\
+        0.06 & 0.31 & 0.63 \\
+    }\qquad 
+    P_5 = \smat{
+        0.06 & 0.31 & 0.63 \\
+        0.19 & 0.38 & 0.44 \\
+        0.38 & 0.44 & 0.18
+    } \qquad
+    P_6 \approx \smat{
+        0.38 & 0.44 & 0.18 \\
+        0.26 & 0.40 & 0.33 \\
+        0.11 & 0.33 & 0.56
+    }\]
+
+    From these few powers, it already seems that for every $n \in \N$ and every $i \in \{0,1,2\}$ it holds that $P_{i,i}^n > 0$, concluding that the period of every state is 1 and thus concluding that the chain is aperiodic. This is no coincidence: the small loop of state 1 is sufficient to make the whole chain aperiodic. First, we give some definition.
+    
+    \begin{frameddefn}{Accessibility and communication}
+        Consider a DMTC $M$ with state space $\mathcal{I}$. Given a pair $i,j \in \mathcal{I}$, we say that state $j$ is accessible from state $i$ if $P_{i,j}^n > 0$ for some $n \in \N$. Similarly, we say that states $i$ and $j$ communicate if $i$ is accessible from $j$ and vice versa.
+    \end{frameddefn}
+
+    The above definitions and the previous observation make the following concludion pretty obvious: if a state is aperiodic and another state communicates with it, the latter state can use the aperiodicity of the former state to break its own periodicity.
+
+    \begin{framedprop}{}
+        Consider a DMTC $M$ with state space $\mathcal{I}$. If state $i \in \mathcal{I}$ is aperiodic, every state $j \in \mathcal{I}$ that communicates with $i$ is also aperiodic.
+    \end{framedprop}
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+
+    After understanding aperiodicity, let's move to \textbf{irreducibility}. We said that \curlyquotes{a system is irreducible if from every state the system can reach every other state and back}. After defining the concept of communication, the definition of irreducible Markov chain is straight forward.
+
+    \begin{frameddefn}{Irreducible Markov chain}
+        A Markov chain is said to be irreducible if each pair of states communicate with each other. 
+    \end{frameddefn}
+
+    This leaves us with defining \textbf{positive recurrence}. For now, we defer the discussion about positive recurrence. In fact, for finite-state DTMC, irreducibility and aperiodicity is all we need to guarantee that a limiting distribution exists!
+    
+    \begin{framedthm}{Existence of lim. distibution (finite case)}
+        Consider a DMTC $M$ with finite state space $\mathcal{I}$ and PTM $P$. If $M$ is irreducible and aperiodic then $\lim\limits_{n \to +\infty} P^n$ exists and corresponds to a matrix $L$ whose rows are all equal to the limiting distribution of $M$. 
+    \end{framedthm}
+    
+    \begin{proof}
+        Fix $j \in [\abs{\mathcal{I}}]$. Let $e_j$ be the column vector whose entries are all set to 0 except for the $j$-th entry, which is set to 1. We observe that for each $n \in \N$ the product $P^ne_j$ corresponds to the $j$-th column of $P^n$.
+        
+        Fix $n \in \N$. Let $M_n$ and $m_n$ be, respectively, the maximum and minimum value of any component of $P^n e_j$. Similarly, let $s$ be the smallest element of the whole matrix $P$.
+        
+        \textit{Note}: we observe that these values are guaranteed to exist only on a finite state Markov chain, making this proof invalid for infinite state ones.
+
+        \textbf{Claim}: $M_n - m_n \leq (1-2s)(M_{n-1} - m_{n-1})$
+
+        \begin{proof}[Proof of the claim.]
+            Let $y = P^{n-1}e_j$. First, we observe that the largest possible value is obtained if all but one of the elements of $y$ are $M_{n-1}$, with the remaining one being $m_{n-1}$, where $m_{n-1}$ is weighted by the smallest value $s$. This concludes that: 
+            \[M_n \leq (1-s)M_{n-1} + s m_{n-1}\]
+
+            With a symmetrical argument, we can conclude that:
+            \[m_n \geq (1-s)m_{n-1} + s M_{n-1}\]
+
+            Summing the two inequalities, we get that:
+            \[M_n - \leq (1-s)M_{n-1} + s m_{n-1} - (1-s)m_{n-1} - s M_{n-1} = (1-2s)(M_{n-1} - m_{n-1})\]
+        \end{proof}
+
+        Due to irreducibility and aperiodicity of $P$, there must be a value $n_0 \in \N$ such that $P^{n_0}$ has no null-entries. Let $P' = P^{n_0}$. We observe that the same argument used for the claim also holds for $P'$, implying that $M'_n - m'_n \leq (1-2s')(M'_{n-1} - m'_{n-1})$.
+
+        By unrolling the recursive inequality, we get that:
+        \[M'_n - m'_n \leq (1-2s')^{n-1}(M'_1 - m'_1)\]
+        Now, we observe that $s' \leq 0.5$ must hold since each row of $P$ must sum up to 1. Therefore, we conclude that:
+        \[0 \leq \lim_{n \to +\infty} M'_n - m'_n \leq \lim_{n \to +\infty} (1-2s')^{n-1}(M'_1 - m'_1) = 0\]
+
+        Thus, each column $(P')^ne_j$ will eventually reach a point where all entries are equal to each other, concluding that $\lim\limits_{n \to +\infty} (P')^n$ converges to a matrix $L$ whose rows are all equal to each other, meaning that each row will be equal to the of limiting distribution of $P$.
+    \end{proof}
+    
+    The above theorem implicitely states that positive recurrence is not needed for finite state chains. However, we're actually missing a piece of the puzzle: every irreducible finite state chain is already positive recurrent! In other words, we're actually already implicitely using positive recurrence in the theorem! To convince ourselves, recall that we said that \curlyquotes{a system is positive recurrent if starting from a state, the probability to return in that same state over infinite time is 1}. Then, for a finite state chain, irreducibility already implies that starting from a state we will eventually come back to it in a finite amount of time!
+
+    Then why do when do we also need positive recurrence? The answer is simple: for infinite chains! To formally define positive recurrence, we first have to define a more neutral concept, i.e. \textit{recurrence}.
+
+    \begin{frameddefn}{Recurrency and transiency}
+        Consider a DMTC $M$ with state space $\mathcal{I}$. Given a state $i \in \mathcal{I}$, let $f_i$ be the probability of, eventually, returning to $i$ starting from $i$, i.e.:
+        \[f_i = \Pr\sbk{\bigcup_{n = 1}^{+\infty} X_n = i \mid X_0 = i}\]
+        
+        We say that state $i$ is recurrent if $f_i = 1$, otherwise we say that it is transient. We say that a Markov chain is recurrent if every state is recurrent. We say that a Markov chain is transient if every state is transient.
+    \end{frameddefn}
+
+    \begin{framedprop}{}
+        With probability 1, the number of visits to a recurrent state is
+        infinite. With probability 1, the number of visits to a transient state is finite.
+    \end{framedprop}
+
+    \begin{proof}
+        If a state $j$ is recurrent, then starting in state $j$, with probability 1 we will visit
+        $j$ again. Thus, repeating this argument, we see that with probability 1 state $j$ will be
+        visited an infinite number of times. In contrast, if state $j$ is transient, then every time
+        we visit state $j$, there is some probability $(1 - f_j)$ that we will never again visit $j$.
+        Thus, with probability 1 state $j$ will be visited a finite number of times.
+    \end{proof}
+
+    \begin{framedprop}{}
+        Consider a DMTC $M$ with state space $\mathcal{I}$. If state $i \in \mathcal{I}$ is recurrent, every state $j \in \mathcal{I}$ that communicates with $i$ is also recurrent. Similarly, If state $i \in \mathcal{I}$ is transient, every state $j \in \mathcal{I}$ that communicates with $i$ is also transient.
+    \end{framedprop}
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+
+    \begin{frameddefn}{Positive recurrence and null recurrence}
+        Consider a DMTC $M$ with state space $\mathcal{I}$. Given a recurrent state $i \in \mathcal{I}$, let $\mu_i$ be the expected time taken to return to state $i$ when starting from $i$, i.e.:
+        \[\mu_i = \sum_{n = 1}^{+\infty} n \Pr[X_n = i \mid X_0 = i]\]
+        
+        We say that state $i$ is positive recurrent if $\mu_i < +\infty$, otherwise we say that it is null recurrent.
+    \end{frameddefn}
+
+    The above proposition implies that in an irreducible Markov chain states are either all recurrent or transient. Without diving into mathematical details, we give a general form of the previous theorem that holds for every ergodic Markov chain.
+
+    \begin{framedthm}{Ergodic theorem for Markov chains}
+        In every ergodic Markov chain the limiting distribution exists.
+    \end{framedthm}
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+
+    \section{Solved exercises}
+
+    \begin{framedprob}{}
+        Consider an open system formed by a single server with an unbounded queue (see Figure 8.6). Suppose that, at every time step, with probabiliy $p_a$ a new job arrives to the server, while old jobs depart with probability $p_d$. Note that during a time step, we might have both an arrival and a transmission, or neither.
+        
+        Assuming the limiting probability exists, find the values of $\Exp[N], \Exp[N^{\text{server}}]$ and $\Exp[N^{\text{queue}}]$ without using the barrier technique.
+    \end{framedprob}
+
+    \textit{Solution:}
+
+    Using the given data, we can compute the probabilitites $r$ and $s$ of having a population increase or decrease. A population increase happens when a new job arrives and no job departs. Similarly, a population decrease happens when a no job arrives and a job departs. Thus, we get that $r = p_a(1-p_d)$ and $s = (1-p_a) p_d$. We construct a DTMC with an infinite set of states $\mathcal{I} = \N$ using the found probabilities.
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.25cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+
+            \node[state] (0) []{$0$};
+
+            \foreach \curr [
+                evaluate = \curr as \prev using {int(\curr-1)},
+            ] in {1,...,4}{
+                \node[state] (\curr) [right of = \prev]{$\curr$};
+
+                \path[every node/.style={font=\sffamily\small}]
+                ;
+            }
+
+            \node[] (5) [right of = 4]{$\cdots$};
+
+            \foreach \curr [
+                evaluate = \curr as \next using {int(\curr+1)}
+            ] in {1,...,4}{
+                \path[every node/.style={font=\sffamily\small}]
+                    (\curr) edge[bend left] node{$r$} (\next)
+                    (\next) edge[bend left] node{$s$} (\curr)
+                    (\curr) edge[loop above] node{$1-r-s$} (\curr)
+                ;   
+            }
+
+            \path[every node/.style={font=\sffamily\small}]
+                (0) edge[loop left] node{$1-r$} (0)
+                (0) edge[bend left] node{$r$} (1)
+                (1) edge[bend left] node{$s$} (0)
+            ;   
+
+        \end{tikzpicture}
+    \end{figure}
+
+    Assuming the limiting probability exists, we consider the following stationary equations:
+    \[\soe{rlcl}{
+        \pi_0 &= (1-r)\pi_0 + s\pi_1 \\
+        \pi_i &= r \pi_{i-1} + (1-r-s) \pi_i + s\pi_{i+1} & \qquad & \forall i > 0\\
+        \sum\limits_{i = 0}^{+\infty} \pi_i &= 1
+    }\]
+    
+    \textbf{Claim}: $\forall i > 0$ it holds that $\pi_i = \frac{r}{s} \pi_{i-1}$.
+
+    \begin{proof}[Proof of the claim.]
+        We prove by induction that forall $i > 0$ it holds that $\pi_i = \frac{r}{s} \pi_{i-1}$. By simplifying the first stationary equation, we get that $\pi_1 = \frac{r}{s} \pi_0$, proving the base case. Assuming the equality holds for $i$, we prove that the $i$-th equation implies the equality for $i+1$. In particular, we observe that $r \pi_{i-1} = s \pi_i$ is implied by the inductive hypothesis. Therefore, by substituting this in the $i$-th equation we get that:
+        \[\pi_i = s \pi_i + (1-r-s) \pi_i + s\pi_{i+1} \implies \pi_{i+1} = \frac{r}{s} \pi_i \]
+    \end{proof}
+
+    Through the claim we get that $\pi_i = \rho^i \pi_0$ holds $\forall i \in \N$, where $\rho = \frac{r}{s}$. By substituting this result in the last stationary equation, we get that:
+    \[1 = \sum\limits_{i = 0}^{+\infty} \rho^i \pi_0 = \pi_0 \sum\limits_{i = 0}^{+\infty} \rho^i = \pi_0 \cdot \frac{1}{1-\rho}\]
+
+    where the last step is due to the closed form of the geometric series, concluding that $\pi_0 = 1-\rho$ and thus that $\pi_i = \rho^i(1-\rho)$ holds for all $i \in \N$ Finally, we compute $\Exp[N]$ using the definition of expected value:
+    \[\Exp[N] = \sum_{i = 0}^{+\infty} i \Pr[N = i] = \sum_{i = 0}^{+\infty} i \pi_i = \sum_{i = 0}^{+\infty} i  \rho^i(1-\rho) = \rho \sum_{i = 0}^{+\infty} i  \rho^{i-1}(1-\rho) = \rho \frac{1}{1-\rho}\]
+
+    where the last step is due to the closed form of the expected value of a geometric random variable, concluding that $\Exp[N] = \frac{\rho}{1-\rho}$. Similarly, we compute $\Exp[N^{\text{server}}]$ as:
+    \[\Exp[N^{\text{server}}] = 0 \cdot \Pr[N^{\text{server}} = 0] + 1 \cdot \Pr[N^{\text{server}} \neq 0] = (1-\pi_0) = \rho\]
+
+    and $\Exp[N^{\text{queue}}]$ through the previous values:
+    \[\Exp[N^{\text{server}}] = \Exp[N] - \Exp[N^{\text{server}}] = \frac{\rho}{1-\rho} - \rho = \frac{\rho^2}{1-\rho}\]
+
+    \begin{framedprob}{}
+        We define a threshold queue with parameter $T$ as follows. When the number of jobs is less than $T$, the number of jobs decreases by 1 with probability $0.4$ and increases by 1 with probability $0.6$ at each time step. When the number of jobs increases to $T$ or more, the reverse is true: the number of jobs increases by 1 with probability $0.4$ and decreases by 1 with probability $0.6$.
+        
+        Assuming that the limiting probabilities exist, use the stationary equations to derive the limiting probability distribution as a function of $T$, for arbitrary threshold $T$.
+    \end{framedprob}
+
+    \textit{Solution:}
+
+    We start by drawing the DTMC describing the problem.
+
+    \begin{figure}[H]
+        \centering
+
+        \resizebox{1\textwidth}{!}{
+            \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.25cm,thick,main node/.style={scale=0.8, circle,draw,font=\sffamily\normalsize}]
+
+                \node[state, minimum size = 40] (0) []{$0$};
+                \node[state, minimum size = 40] (1) [right of = 0]{$1$};
+                \node[]      (x) [right of = 1]{$\cdots$};
+                \node[state, minimum size = 40] (2) [right of = x]{$T-1$};
+                \node[state, minimum size = 40] (3) [right of = 2]{$T$};
+                \node[state, minimum size = 40] (4) [right of = 3]{$T+1$};
+                \node[]      (y) [right of = 4]{$\cdots$};
+
+                \path[every node/.style={font=\sffamily\small}]
+                    (0) edge[loop left] node{$0.4$} (0)
+                    (0) edge[bend left] node{$0.6$} (1)
+
+                    (1) edge[loop above] node{$0$} (1)
+                    (1) edge[bend left] node{$0.6$} (x)
+                    (1) edge[bend left] node{$0.4$} (0)
+
+                    (x) edge[bend left] node{$0.6$} (2)
+                    (x) edge[bend left] node{$0.4$} (1)
+
+                    (2) edge[loop above] node{$0$} (2)
+                    (2) edge[bend left] node{$0.6$} (3)
+                    (2) edge[bend left] node{$0.4$} (x)
+
+                    (3) edge[loop above] node{$0.2$} (3)
+                    (3) edge[bend left] node{$0.4$} (4)
+                    (3) edge[bend left] node{$0.6$} (2)
+
+                    (4) edge[loop above] node{$0$} (4)
+                    (4) edge[bend left] node{$0.4$} (y)
+                    (4) edge[bend left] node{$0.6$} (3)
+                    
+                    (y) edge[bend left] node{$0.6$} (4)
+                ;
+            \end{tikzpicture}
+        }
+    \end{figure}
+
+    Assuming the limiting probability exists, we apply the barrier technique of each pair of adjacent states. We observe that for the first $T$ states it holds that $0.6 \cdot \pi_{i-1} = 0.4 \cdot \pi_{i}$, while for the other states it holds that $0.4 \cdot \pi_{j-1} = 0.6 \cdot \pi_{j}$. Therefore, we get the following system:
+    \[\soe{rlcl}{
+        \pi_i &= \frac{3}{2} \pi_{i-1} & \qquad & \forall i \in \{1, \ldots, T\} \\
+        \pi_j &= \frac{2}{3} \pi_{j-1} & \qquad & \forall j \in \N-\{1, \ldots, T\} \\
+        \sum\limits_{i = 0}^{+\infty} \pi_i &= 1
+    }\]
+
+    By unrolling the recursive equations, we get that:
+    \[\pi_k = \soe{ll}{
+        \rbk{\dfrac{3}{2}}^k \pi_0 & \text{if } k \leq T \\
+        \rbk{\dfrac{2}{3}}^{k-T} \rbk{\dfrac{3}{2}}^T \pi_0 & \text{if } k > T \\
+    }\]
+
+    Using the last equation, through algebraic manipulation we get that:
+    \[\begin{split}
+        1 &= \sum_{i = 0}^{+\infty} \pi_i\\
+        &= \sum_{i = 0}^{T} \pi_i + \sum_{j = T+1}^{+\infty} \pi_j \\
+        &= \sum_{i = 0}^{T} \rbk{\dfrac{3}{2}}^i \pi_0 + \sum_{j = T+1}^{+\infty} \rbk{\dfrac{2}{3}}^{j-T} \rbk{\dfrac{3}{2}}^T \pi_0 \\
+        &= \pi_0 \rbk{\sum_{i = 0}^{T} \rbk{\dfrac{3}{2}}^i  + \rbk{\dfrac{3}{2}}^T \sum_{j = T+1}^{+\infty} \rbk{\dfrac{2}{3}}^{j-T}} \\
+        &= \pi_0 \rbk{\frac{1-\rbk{\frac{3}{2}}^{T+1}}{1-\frac{3}{2}} + \rbk{\dfrac{3}{2}}^T \sum_{h = 0}^{+\infty} \rbk{\dfrac{2}{3}}^{h+1}} \\
+        &= \pi_0 \rbk{\frac{1-\rbk{\frac{3}{2}}^{T+1}}{1-\frac{3}{2}} + \rbk{\dfrac{3}{2}}^{T-1} \sum_{h = 0}^{+\infty} \rbk{\dfrac{2}{3}}^{h}} \\
+        &= \pi_0 \rbk{\frac{1-\rbk{\frac{3}{2}}^{T+1}}{1-\frac{3}{2}} + \rbk{\dfrac{3}{2}}^{T-1} \cdot \frac{1}{1-\frac{2}{3}}} \\
+    \end{split}\]
+
+    By letting $\rho = \frac{2}{3}$, we conclude that:
+    \[\pi_0 = \rbk{\frac{1-\rho^{-(T+1)}}{1-\rho^{-1}} + \rho^{-(T-1)} \cdot \frac{1}{1-\rho}}^{-1}\]
+
+    and thus that:
+    \[\pi_k = \soe{ll}{
+        \rho^{-k} \rbk{\frac{1-\rho^{-(T+1)}}{1-\rho^{-1}} + \rho^{-(T-1)} \cdot \frac{1}{1-\rho}}^{-1} & \text{if } k \leq T \\
+        \rho^{k-2T} \rbk{\frac{1-\rho^{-(T+1)}}{1-\rho^{-1}} + \rho^{-(T-1)} \cdot \frac{1}{1-\rho}}^{-1} & \text{if } k > T \\
+    }\]
+
 \end{document}

@@ -935,7 +935,7 @@
 
     \chapter{Markov chain analysis}
 
-    \section{Introduction to Markov chains}
+    \section{Discrete-time Markov chains}
 
     Let's recap what we've seen in the previous chapter. In closed systems, we can approximate and bound the throughput $X$ and the expected response time $E[R]$. These approximations do not depend on the distribution of job service times, but they do require the system to be closed. When the multiprogramming level $N$ is either much larger than $N^*$ or equal to 1, we obtain tight bounds on both $X$ and $E[R]$. For intermediate values of $N$, however, we can only estimate these quantities.
     
@@ -1021,14 +1021,14 @@
         \begin{itemize}
             \item $\mathcal{I}$ is the state space
             \item $\forall n \in \N$, $X_n$ is the random variable ranging over $\mathcal{I}$ and describing the state of the system at (discrete) time step $n$.
-            \item The Markov property holds for each state, meaning that $\forall n \in \N$, $\forall j, i \in \mathcal{I}$ and $\forall i_{n-1}, \ldots, i_0 \in \mathcal{I}$ it holds that:
+            \item The Markovian property holds for each state, meaning that $\forall n \in \N$, $\forall j, i \in \mathcal{I}$ and $\forall i_{n-1}, \ldots, i_0 \in \mathcal{I}$ it holds that:
             \[\Pr[X_{n+1} = j \mid X_{n} = i, X_{n-1} = t_{n-1}, \ldots, X_0 = t_0] = \Pr[X_{n+1} = j \mid X_{n} = i]\]
         \end{itemize}
     \end{frameddefn}
 
-    We observe that the Markov property states that the probability that the conditional distribution of any future state $X_{n+1}$, given past states $X_0, X_1, \ldots , X_{n-1}$ and the present state $X_n$, is independent of past states and depends only on the present state $X_n$. This key property models the fact that from each state $i$ of the graph we can move to its adjacent states independently of how we got to state $i$ itself.
+    We observe that the Markovian property states that the probability that the conditional distribution of any future state $X_{n+1}$, given past states $X_0, X_1, \ldots , X_{n-1}$ and the present state $X_n$, is independent of past states and depends only on the present state $X_n$. This key property models the fact that from each state $i$ of the graph we can move to its adjacent states independently of how we got to state $i$ itself.
 
-    We also observe that the Markov property implies that the probability of transitioning from state $i$ to state $j$ is completely independent of the time step $n$. In other words, $\forall n \in \N$ it holds that:
+    We also observe that the Markovian property implies that the probability of transitioning from state $i$ to state $j$ is completely independent of the time step $n$. In other words, $\forall n \in \N$ it holds that:
     \[\Pr[X_{n+1} = j \mid X_n = i] = \Pr[X_n = j \mid X_{n-1} = i] = \ldots = \Pr[X_1 = j \mid X_0 = i]\]
     
     This allows us to work with the probabilities of each transition in a more concisive way by defining a \textbf{probability transition matrix} associated with each DMTC.
@@ -1096,7 +1096,7 @@
         \caption{Model for the repair facility problem.}
     \end{figure}
 
-    Suppose now that after the machine remains broken for 4 days, the machine is replaced with a new machine. Can we still use the same model? The answer is \underline{no}: the Markov property explicitely affirms that the next state depends \underline{only} on the current state. In other words, Markov chains are \textbf{memoryless} by their very definition. To solve this issue, we must \curlyquotes{force} memory in the model by duplicating states. In our example, we must replace state $B$ with four states $B_1, B_2, B_3, B_4$, where, intuitively, state $B_i$ corresponds to the machine being broken for $i$ days in a row.
+    Suppose now that after the machine remains broken for 4 days, the machine is replaced with a new machine. Can we still use the same model? The answer is \underline{no}: the Markovian property explicitely affirms that the next state depends \underline{only} on the current state. In other words, Markov chains are \textbf{memoryless} by their very definition. To solve this issue, we must \curlyquotes{force} memory in the model by duplicating states. In our example, we must replace state $B$ with four states $B_1, B_2, B_3, B_4$, where, intuitively, state $B_i$ corresponds to the machine being broken for $i$ days in a row.
 
     \begin{figure}[H]
         \centering
@@ -1565,6 +1565,7 @@
 
             \node[] (x) [below of = 2, yshift=20]{};
             \node[] (y) [above of = 1, yshift=-20]{};
+            \node[] (z) [left of = 0, xshift=30]{};
             
             \path[every node/.style={font=\sffamily\small}]
                 (0) edge[bend left] node{$1$} (2)
@@ -1576,7 +1577,9 @@
 
 
             \path[-, every node/.style={font=\sffamily\small}]
-                (x) edge[dashed] (y)
+                (x.center) edge[dashed, color = gray] (y.center)
+                (x.center) edge[dashed, color = gray, bend left = 75] (z.center)
+                (y.center) edge[dashed, color = gray, bend right = 60] (z.center)
             ;
         \end{tikzpicture}
 
@@ -1620,6 +1623,7 @@
             \node[state] (B) [right of = W]{$B$};
             \node[] (x) [below of = W, yshift=20]{};
             \node[] (y) [above of = B, yshift=-20]{};
+            \node[] (z) [left of = 0]{};
             
             \path[every node/.style={font=\sffamily\small}]
             (W) edge[loop left] node{$0.95$} (W)
@@ -1629,7 +1633,9 @@
             ;
 
             \path[-, every node/.style={font=\sffamily\small}]
-                (x) edge[dashed] (y)
+                (x.center) edge[dashed, color = gray] (y.center)
+                (x.center) edge[dashed, color = gray, bend left = 60] (z.center)
+                (y.center) edge[dashed, color = gray, bend right = 60] (z.center)
             ;
         \end{tikzpicture}
         \caption{Application of the barrier technique on the repair facility problem.}
@@ -1643,47 +1649,90 @@
     
     For bigger chains, the barrier technique allows us to reduce the number of computations by an extreme amount. For instance, consider the following Markov chain.
 
+
     \begin{figure}[H]
         \centering
 
-        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.25cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+        \resizebox{1\textwidth}{!}{
+            \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.25cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
 
-            \node[state] (0) []{$0$};
+                \node[state] (0) []{$0$};
 
-            \foreach \curr [
-                evaluate = \curr as \prev using {int(\curr-1)}
-            ] in {1,...,5}{
-                \node[state] (\curr) [right of = \prev]{$\curr$};
-                \node[] (x\prev) [below of = \prev, yshift=20]{};
-                \node[] (y\curr) [above of = \curr, yshift=-20]{};
+                \foreach \curr [
+                    evaluate = \curr as \prev using {int(\curr-1)}
+                ] in {1,...,5}{
+                    \node[state] (\curr) [right of = \prev]{$\curr$};
+
+                    \path[every node/.style={font=\sffamily\small}]
+                        (\prev) edge[bend left] node{$r$} (\curr)
+                        (\curr) edge[bend left] node{$q$} (\prev)
+                    ;
+
+                }
+
+                \foreach \curr in {1,...,4}{
+                    \path[every node/.style={font=\sffamily\small}]
+                        (\curr) edge[loop above] node{$1-r-q$} (\curr)
+                    ;   
+                }
 
                 \path[every node/.style={font=\sffamily\small}]
-                    (\prev) edge[bend left] node{$r$} (\curr)
-                    (\curr) edge[bend left] node{$q$} (\prev)
-                ;
-
-                \path[-, every node/.style={font=\sffamily\small}]
-                    (x\prev) edge[dashed] (y\curr)
-                ;
-            }
-
-            \foreach \curr in {1,...,4}{
-                \path[every node/.style={font=\sffamily\small}]
-                    (\curr) edge[loop above] node{$1-r-q$} (\curr)
+                    (0) edge[loop left] node{$1-r$} (0)
+                    (5) edge[loop right] node{$1-q$} (5)
                 ;   
-            }
 
-            \path[every node/.style={font=\sffamily\small}]
-                (0) edge[loop left] node{$1-r$} (0)
-                (5) edge[loop right] node{$1-q$} (5)
-            ;   
-
-        \end{tikzpicture}
+            \end{tikzpicture}
+        }
     \end{figure}
 
-    By applying the barrier technique on each pair of states $(i-1,i)$, with $i \in [5]$, we obtain that:
+    By applying the barrier technique on each pair of states $(i-1,i)$, with $i \in [5]$, we obtain:
     \[r \pi_{i-1} = \pi_{i} q \implies \pi_{i} = \frac{r}{q} \pi_{i-1} \qquad \forall i \in [5]\]
     
+    \begin{figure}[H]
+        \centering
+
+        \resizebox{1\textwidth}{!}{
+            \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.25cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+
+                \node[state] (0) []{$0$};
+                \node[] (z) [left of = 0, xshift = -20]{};
+
+                \foreach \curr [
+                    evaluate = \curr as \prev using {int(\curr-1)}
+                ] in {1,...,5}{
+                    \node[state] (\curr) [right of = \prev]{$\curr$};
+                    \node[] (x\prev) [below of = \prev, yshift=10]{};
+                    \node[] (y\curr) [above of = \curr, yshift=-10]{};
+
+                    \path[every node/.style={font=\sffamily\small}]
+                        (\prev) edge[bend left] node{$r$} (\curr)
+                        (\curr) edge[bend left] node{$q$} (\prev)
+                    ;
+
+                    \path[-, every node/.style={font=\sffamily\small}]
+                        (x\prev.center) edge[dashed, color = gray] (y\curr.center)
+                        (x\prev.center) edge[dashed, color = gray, bend left = 70] (z.center)
+                        (y\curr.center) edge[dashed, color = gray, bend right = 60] (z.center)
+                    ;
+                }
+
+                \foreach \curr in {1,...,4}{
+                    \path[every node/.style={font=\sffamily\small}]
+                        (\curr) edge[loop above] node{$1-r-q$} (\curr)
+                    ;   
+                }
+
+                \path[every node/.style={font=\sffamily\small}]
+                    (0) edge[loop left] node{$1-r$} (0)
+                    (5) edge[loop right] node{$1-q$} (5)
+                ;   
+
+            \end{tikzpicture}
+        }
+
+        \caption{Graphical representation of multiple applications of the barrier technique. Each barrier is independent from the others, meaning that the inside and outside of a barrier should be considered without the other barriers.}
+    \end{figure}
+
     By adding the condition $\sum\limits_{i = 0}^5 \pi_i = 1$, we get the following system of equations:
     \[\soe{rlcl}{
         \pi_{i} &= \dfrac{r}{q} \pi_{i-1} & \qquad & \forall i \in [5] \\
@@ -1924,10 +1973,12 @@
         Omitted.
     \end{proof}
 
+    \newpage
+
     \section{Solved exercises}
 
     \begin{framedprob}{}
-        Consider an open system formed by a single server with an unbounded queue (see Figure 8.6). Suppose that, at every time step, with probabiliy $p_a$ a new job arrives to the server, while old jobs depart with probability $p_d$. Note that during a time step, we might have both an arrival and a transmission, or neither.
+        Consider an open system formed by a single server with an unbounded queue. Suppose that, at every time step, with probabiliy $p_a$ a new job arrives to the server, while old jobs depart with probability $p_d$. Note that during a time step, we might have both an arrival and a transmission, or neither.
         
         Assuming the limiting probability exists, find the values of $\Exp[N], \Exp[N^{\text{server}}]$ and $\Exp[N^{\text{queue}}]$ without using the barrier technique.
     \end{framedprob}
@@ -2084,5 +2135,261 @@
         \rho^{-k} \rbk{\frac{1-\rho^{-(T+1)}}{1-\rho^{-1}} + \rho^{-(T-1)} \cdot \frac{1}{1-\rho}}^{-1} & \text{if } k \leq T \\
         \rho^{k-2T} \rbk{\frac{1-\rho^{-(T+1)}}{1-\rho^{-1}} + \rho^{-(T-1)} \cdot \frac{1}{1-\rho}}^{-1} & \text{if } k > T \\
     }\]
+
+    \chapter{Analysis of continuous-time systems}
+
+    \section{The Poisson arrival process}
+
+    Before transitioning from discrete-time Markov chains to continuous-time Markov chains in order to use them as a tool to analyze real-world systems, we have to give make some assumptions that are good enough to describe real world systems. In particular, we'll define the so called \textbf{Poisson arrival process}.
+
+    Informally, we recall that Poisson distributions are used to describe a the number of successes in a stochastic process whose successes happen very rarely and independently. More formally, we recall that each Poisson variable $X \sim \mathrm{Poiss}(\lambda)$ corresponds to a binomial random variable $X' \sim \mathrm{Bin}(n,p)$ where $\lambda = np, n \to +\infty$ and $p \to 0$.
+
+    We recall that binomial distributions represent the number of successes in a Bernoulli process, i.e. a sequence $X_1, \ldots, X_n$ of i.i.d. Bernoulli variables. In Bernoulli processes, the arrivals can occur only at positive integer multiples of some given increment size (often taken to be 1). It's easy to see that such process could also be characterized by the sequence $T_1, T_2, \ldots$ of \textbf{interarrival times}, where $T_i$ represents the number of failures (i.e. non-arrivals) between the $(i-1)$-th success and the $i$-th success (i.e. the $i$-th arrival). In particular, we notice that these interarrival times are geometrically distributed i.i.d. random variables: by definition, the geometric distribution represents the number of failures before a success.
+
+    A Poisson arrival process is, in many ways, is the continuous-time version of the Bernoulli process, resulting in a simple and widely used stochastic process for modeling the times at which arrivals enter a system. Before formally defining Poisson arrival processes, we need to state some definitions.
+
+    \begin{frameddefn}{Event sequence}
+        An event sequence is a continuous time stochastic process described by a function $N : \R^+ \to \N$ such that $N(t)$ is the number of events that occurred up to time $t$.
+    \end{frameddefn}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.9]{images/poiss_arr.png}
+        \caption{An event sequence where $N(t) = 4$.}
+    \end{figure}
+
+    We say that a sequence of events has \textbf{independent incrementals} if for all $t_0, \ldots, t_n$, with $n \in \N$, the random variables $X_1, \ldots, X_n$, defined as $X_i = N(t_i) - N(t_{i-1})$ for all $i \in [n]$, are all independent.
+    
+    Moreover, we say that a sequence of events has \textbf{stationary increments} if forall $t \in \R^+$ it holds that the random variable $X_{t,s}$, defined as $X_{t,s} = N(t-s)-N(s)$, has the same distribution for all $s \in \R^+$.
+
+    \begin{frameddefn}{Poisson arrival process}
+        A poisson arrival process with rate $\lambda$ is an event sequence such that:
+        \begin{itemize}
+            \item $N(0) = 0$
+            \item The sequence has independent increments
+            \item The number of events in any interval of length $t$ is Poisson distributed with parameter $t\lambda$. In other words, for all $t,s \in \R^+$ it holds that:
+            \[\Pr[N(t+s) - N(s) = k] = \frac{e^{-\lambda t}(\lambda t)^k}{k!}\]
+            with $k \in \N$.
+        \end{itemize}
+    \end{frameddefn}
+
+    We observe that the third condition is just a specific case of stationary increments. Observe that the assumption of stationary and independent increments is equivalent to asserting that, at any point in time, the process probabilistically restarts itself: the process from any point onward is independent of all that occurred previously (by independent increments) and also has the same distribution as the original process (by stationary increments). In other words, the interarrival times $T_1, T_2, \ldots$ of a Poisson process are \textbf{memoryless}.
+
+    We recall that a random variable $X$ is said to be \textit{memoryless} when:
+    \[\Pr[X > t+s \mid X> s] = \Pr[X > s]\]
+    
+    Now, we also recall that there are only two random variables with this property: the geometric distribution (in the discrete case) and the exponential distribution (in the continuous case). Since we're in a continuous time process, we conclude that interarrival times must be exponentially distributed. In fact, we observe that the cumulative distribution function (CDF) $F_{T_i}$ for each $i \in [n]$ is equal to:
+    \[\begin{split}
+        F_{T_i}(t) &= \Pr[T_i \leq t] \\
+        &= 1-\Pr[T_i > t] \\
+        &= 1-\Pr[N(t+T_{i-1})-N(T_{i-1}) = 0] \\
+        &= 1- e^{-\lambda t}\\
+    \end{split}\]
+    
+    which is exactly the CDF of an exponential distribution. Of course, the converse can also be proven, but it requires a way more formal proof. 
+
+    \begin{framedthm}{Poisson arrival process (2° def.)}
+        A Poisson process with rate $\lambda$ is a sequence of events such that $N(0) = 0$ and the interarrival times $T_1, T_2, \ldots$ are i.i.d. exponential random variables of parameter $\lambda$.
+    \end{framedthm}
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+
+    The Poisson process is the most widely used model for arrivals into a system for two main reasons. First, the Markovian properties of the Poisson process make it analytically tractable. Second,  many phenomena that are the aggregate effect of a large number of individuals behave in a Poisson fashion. For instance, in communications networks, such as the telephone system, it is a good model for the sequence of times at which telephone calls are originated. Although the calls of a single user do not look like a Poisson process, the aggregate over many users does.
+
+    \section{Continuous-time Markov Chains}
+
+    After defining the Poisson process, we're ready to jump to the continuous analogous, i.e. \textbf{continuous-time Markov chains (CTMC)}. We start by giving a formal definition, similar to the discrete case.
+
+    \begin{frameddefn}{Continuous-time Markov Chain}
+        We define a continuous-time Markov chain (CTMC) as an continuous stochastic process $\{X(t) \mid t \geq 0\}$ such that:
+        \begin{itemize}
+            \item $\mathcal{I}$ is the state space
+            \item $\forall t \geq 0$, $X(t)$ is the random variable ranging over $\mathcal{I}$ and describing the state of the system at (continuous) time step $t$.
+            \item The Markovian property holds for each state, meaning that $\forall t,s \in \N$, $\forall j, i \in \mathcal{I}$ and $\forall x : \R^+ \to \mathcal{I}$ it holds that:
+            \[\Pr[X(t+s) = j \mid X(s) = i, X(u) = x(u), 0 \leq u \leq s] = \Pr[X(t+s) = j \mid X(s) = i]\]
+        \end{itemize}
+    \end{frameddefn}
+    
+    It's easy to see that through this definition we cannot easily establish a graphical model to represent CTMC due to the absence of discrete time. We'll build an intuition through the following discussion.
+    
+    Let $\tau_i$ be the time until the CTMC leaves state $i$, given that the CTMC is currently in state $i$. By the Markovian and stationary properties of the CTMC, the probability that the CTMC leaves state $i$ in the next $t$ seconds is independent of how long the CTMC has already been in state $i$. In other words, we have that:
+    \[\Pr[\tau_i > t+s \mid \tau_i > s] = \Pr[\tau_i > t]\]
+    which corresponds to the \textit{continuous memorylessness property}. Therefore, this argument allows us to conclude that a CTMC is a continuous stochastic process with the property that every time it enters state $i$, the following hold:
+    \begin{enumerate}
+        \item The amount of time $\tau_i$ that the process spends in state $i$ before making a transition is exponentially distributed with some rate $\nu_i$, i.e. $\tau_i \sim \mathrm{Exp}(\nu_i)$.
+        \item When the process leaves state $i$, it will next enter state $j$ with some probability $p_{i,j}$ independent of the time spent at state $i$, where $\sum_{j \in \mathcal{I}} p_{i,j} = 1$
+    \end{enumerate}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.85]{images/ctmc_1.png}
+        \caption{First way to view CTMCs.}
+    \end{figure}
+
+    Observe that $p_{ij}$, the probability that when we leave $i$ we next go to state $j$, is a constant: it is independent of time $t$ (by stationarity) and it is independent of the time $\tau_i$ spent in state $i$ (by Markovian property). Now, consider the moment just before we leave state $i$. At this moment, the time we have spent in state $i$ is irrelevant (again, by Markovian property). All that is relevant is that we are at state $i$ at this moment $s$. The particular time $s$ is irrelevant as well (by stationarity). 
+
+    This gives us another way to view CTMCs. Let $X_j  \sim \mathrm{Exp}(\nu_i p_{ij})$ represent the time to transition from $i$ to $j$, for all $ i \neq j$. Let $\tau_i = \min_{j \in \mathcal{I}}(X_j)$ be the time until the CTMCs leaves state $i$. Then, the next state $m$ is given by $m = \argmin_{j \in \mathcal{I}} (X_j)$, i.e. the state that minimizes the time waited until the CTMC leaves state $i$.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.85]{images/ctmc_2.png}
+        \caption{Second way to view CTMCs.}
+    \end{figure}
+
+    We won't formally prove the equivalence between the two views, as the above discussion suffices. Now, conside the following open system with continuous arrival and service rates.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.9]{images/ctmc_3.png}
+        \caption{An open system with continuous arrival and service rates.}
+    \end{figure}
+
+    Using the second way to view CTMCs, we can model the problem through the following diagram.
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.25cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+
+            \node[state] (0) []{$0$};
+
+            \foreach \curr [
+                evaluate = \curr as \prev using {int(\curr-1)},
+            ] in {1,...,4}{
+                \node[state] (\curr) [right of = \prev]{$\curr$};
+            }
+
+            \node[] (5) [right of = 4]{$\cdots$};
+
+            \foreach \curr [
+                evaluate = \curr as \next using {int(\curr+1)},
+            ] in {1,...,4}{
+                \path[every node/.style={font=\sffamily\small}]
+                    (\curr) edge[bend left] node{$\lambda$} (\next)
+                    (\next) edge[bend left] node{$\mu$} (\curr)
+                ;   
+            }
+
+            \path[every node/.style={font=\sffamily\small}]
+                (0) edge[bend left] node{$\lambda$} (1)
+                (1) edge[bend left] node{$\mu$} (0)
+            ;   
+
+        \end{tikzpicture}
+
+        \caption{The continuous-time Markov chain of the previous example.}
+    \end{figure}
+
+    In particular, we observe that loops are not required: in this context, transitions represent the time waited before the state changes, not the probability of changing state! A natural question rises: do we require a brand new method to solve CTMCs? The answer, to some extent, is no: the idea is to \textbf{uniformize and discretize time} in order to study continuous-time processes using the descrete-time methods that we have already learned.
+    
+    To achieve this, we can define a very small time interval $\delta$, called \textit{observation time}, and observe the state assumed by the continuous-time process every $\delta$ seconds. Then, given the \textit{observation rate} $\Delta = 1/\delta$, we get that:
+    \[p_{\text{increase}} = \frac{\lambda}{\Delta} \qquad\quad p_{\text{decrease}} = \frac{\mu}{\Delta}\]
+
+    We notice that in order for this idea to make sense, the observation rate $\Delta$ must be many times higher than any rate of the CTMC, i.e. $\Delta >> \lambda, \mu$. After defining such probabilities, we can define a DTMC \curlyquotes{equivalent} to the origianl CTMC. This DTMC is referred to as \textbf{Embedded Discrete-time Markov chain (EDTMC)}.
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.25cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+
+            \node[state] (0) []{$0$};
+
+            \foreach \curr [
+                evaluate = \curr as \prev using {int(\curr-1)},
+            ] in {1,...,4}{
+                \node[state] (\curr) [right of = \prev]{$\curr$};
+            }
+
+            \node[] (5) [right of = 4]{$\cdots$};
+
+            \foreach \curr [
+                evaluate = \curr as \next using {int(\curr+1)},
+            ] in {1,...,4}{
+                \path[every node/.style={font=\sffamily\small}]
+                    (\curr) edge[loop above] node{$1-\frac{\lambda + \mu}{\Delta}$} (\curr)
+                    (\curr) edge[bend left] node{$\frac{\lambda}{\Delta}$} (\next)
+                    (\next) edge[bend left] node{$\frac{\mu}{\Delta}$} (\curr)
+                ;   
+            }
+
+            \path[every node/.style={font=\sffamily\small}]
+                (0) edge[loop left] node{$1-\frac{\lambda}{\Delta}$} (0)
+                (0) edge[bend left] node{$\frac{\lambda}{\Delta}$} (1)
+                (1) edge[bend left] node{$\frac{\mu}{\Delta}$} (0)
+            ;   
+
+        \end{tikzpicture}
+
+        \caption{The embedded discrete-time Markov chain of the previous example.}
+    \end{figure}
+
+    Now, we can apply the barrier technique to compute the limiting distribution $\pi$ of the EDTMC. In particular, we observe that for any pair of adjacent states we have that:
+    \[\frac{\lambda}{\Delta} \pi_{i-1} = \frac{\mu}{\Delta} \pi_{i} \implies \lambda \pi_{i-1} = \mu \pi_{i}\]
+    giving us the following system of stationary equations:
+    \[\soe{rlcl}{
+        \lambda \pi_{i-1} &= \mu \pi_{i} & \qquad & \forall i \in \N-\{0\} \\
+        \sum_{i = 0}^{+\infty} \pi_i &= 1
+    }\]
+
+    In other words, the value chosen for $\Delta$ (or $\delta$) doesn't influence the solutions! This is the fundamental idea that allows us to solve CTMCs by directly applying the \textbf{barrier technique} to the CTMC, without passing through the EDTMC.
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.25cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+
+            \node[state] (0) []{$0$};
+
+            \foreach \curr [
+                evaluate = \curr as \prev using {int(\curr-1)},
+            ] in {1,...,4}{
+                \node[state] (\curr) [right of = \prev]{$\curr$};
+
+                \node[] (x\prev) [below of = \prev, yshift=20]{};
+                \node[] (y\curr) [above of = \curr, yshift=-20]{};
+
+                \path[-, every node/.style={font=\sffamily\small}]
+                    (x\prev) edge[dashed, color = gray] (y\curr)
+                ;
+            }
+
+            \node[] (5) [right of = 4]{$\cdots$};
+
+            \node[] (x5) [below of = 4, yshift=20]{};
+            \node[] (y5) [above of = 5, yshift=-20]{};
+
+            \path[-, every node/.style={font=\sffamily\small}]
+                (x5) edge[dashed, color = gray] (y5)
+            ;
+
+            \foreach \curr [
+                evaluate = \curr as \next using {int(\curr+1)},
+            ] in {1,...,4}{
+                \path[every node/.style={font=\sffamily\small}]
+                    (\curr) edge[bend left] node{$\lambda$} (\next)
+                    (\next) edge[bend left] node{$\mu$} (\curr)
+                ;   
+            }
+
+            \path[every node/.style={font=\sffamily\small}]
+                (0) edge[bend left] node{$\lambda$} (1)
+                (1) edge[bend left] node{$\mu$} (0)
+            ;   
+
+        \end{tikzpicture}
+
+        \caption{Application of the barrier technique to a continuous-time Markov chain.}
+    \end{figure}
+
+    \section{Kendall's model}
+
+    Up until now, we have strictly focused on devices formed of an infinite queue and server. Now, we'll discuss devices in a more general way. First of all, we introduce a \textit{notation} that will allow us to talk about devices in a more coincise way. In particular, we'll use \textnormal{Kendall's notation}, that is the notation $M/M/k/M_Q$ where:
+    \begin{itemize}
+        \item The first $M$ stands for \textit{memoryless arrivals}
+        \item The second $M$ stands for \textit{memoryless departures}
+        \item The parameter $k$ stands for the number of servers connected to unique queue
+        \item The parameter $k$ stands for the size of the unique queue
+    \end{itemize}  
 
 \end{document}

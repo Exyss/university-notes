@@ -367,7 +367,7 @@
         where $W_i$ is the time spent by a job inside the queue of device $i$.
     \end{frameddefn}
 
-    Consider a single device $i$. When the system is stable, we know that jobs are being processed faster than their arrival in the queue ($\mu_i > \lambda_i$). In this case, the value $\mu_i - \lambda_i$ represents how much faster the server can serve customers than they arrive, namely the \textit{net service capacity}. It's easy to see that the inverse of such metric is exactly the average response time of the device.
+    Consider a single device $i$. When the system is stable, we know that jobs are being processed faster than their arrival in the queue ($\mu_i > \lambda_i$). In this case, the value $\mu_i - \lambda_i$ represents how much faster the server can serve customers than they arrive, namely the \textit{net service capacity}. It's easy to see that the inverse of such metric is exactly the average response time of the device (a formal proof will be given in Chapter 3).
     
     \begin{framedprop}{}
         Consider a stable system. Given a device $i$, it holds that:
@@ -1973,6 +1973,8 @@
         Omitted.
     \end{proof}
 
+    \section{The PageRank algorithm [Todo???]}
+
     \newpage
 
     \section{Solved exercises}
@@ -2048,7 +2050,7 @@
     \[\Exp[N^{\text{server}}] = 0 \cdot \Pr[N^{\text{server}} = 0] + 1 \cdot \Pr[N^{\text{server}} \neq 0] = (1-\pi_0) = \rho\]
 
     and $\Exp[N^{\text{queue}}]$ through the previous values:
-    \[\Exp[N^{\text{server}}] = \Exp[N] - \Exp[N^{\text{server}}] = \frac{\rho}{1-\rho} - \rho = \frac{\rho^2}{1-\rho}\]
+    \[\Exp[N^{\text{queue}}] = \Exp[N] - \Exp[N^{\text{server}}] = \frac{\rho}{1-\rho} - \rho = \frac{\rho^2}{1-\rho}\]
 
     \begin{framedprob}{}
         We define a threshold queue with parameter $T$ as follows. When the number of jobs is less than $T$, the number of jobs decreases by 1 with probability $0.4$ and increases by 1 with probability $0.6$ at each time step. When the number of jobs increases to $T$ or more, the reverse is true: the number of jobs increases by 1 with probability $0.4$ and decreases by 1 with probability $0.6$.
@@ -2329,7 +2331,7 @@
     giving us the following system of stationary equations:
     \[\soe{rlcl}{
         \lambda \pi_{i-1} &= \mu \pi_{i} & \qquad & \forall i \in \N-\{0\} \\
-        \sum_{i = 0}^{+\infty} \pi_i &= 1
+        \sum\limits_{i = 0}^{+\infty} \pi_i &= 1
     }\]
 
     In other words, the value chosen for $\Delta$ (or $\delta$) doesn't influence the solutions! This is the fundamental idea that allows us to solve CTMCs by directly applying the \textbf{barrier technique} to the CTMC, without passing through the EDTMC.
@@ -2382,14 +2384,340 @@
         \caption{Application of the barrier technique to a continuous-time Markov chain.}
     \end{figure}
 
-    \section{Kendall's model}
+    \newpage
 
-    Up until now, we have strictly focused on devices formed of an infinite queue and server. Now, we'll discuss devices in a more general way. First of all, we introduce a \textit{notation} that will allow us to talk about devices in a more coincise way. In particular, we'll use \textnormal{Kendall's notation}, that is the notation $M/M/k/M_Q$ where:
+    \section{Kendall's notation and common devices}
+
+    Up until now, we have strictly focused on devices formed of an infinite queue and server. Now, we'll discuss devices in a more general way. First of all, we introduce a \textit{notation} that will allow us to talk about devices in a more coincise way. In particular, we'll use \textbf{Kendall's notation}, that is the notation M/M/k/M$_Q$ where:
     \begin{itemize}
         \item The first $M$ stands for \textit{memoryless arrivals}
         \item The second $M$ stands for \textit{memoryless departures}
         \item The parameter $k$ stands for the number of servers connected to unique queue
         \item The parameter $k$ stands for the size of the unique queue
-    \end{itemize}  
+    \end{itemize} 
 
+    Systems with infinite queue size are denoted with M/M/k/$\infty$, or simply M/M/k. When the device doesn't have a queue, it is denoted with M/M/k/0.
+    
+    \subsection{Analysis of M/M/1/M$_Q$ devices}
+    
+    The \curlyquotes{standard} device that we have considered up until now is a device with memoryless arrivals, memoryless departures, one server and an infinte queue. Using Kendall's notation, this device is described as M/M/1. 
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.85]{images/mm1.png}
+        \caption{The M/M/1 queueing system.}
+    \end{figure}
+
+    To show that CTMCs are a good analytical tool for network systems, we first have to show that every measure that we already discussed in the first chapter is also valid in this context, i.e. it can be obtained through a simple Markov chain analysis instead of applying the definition.
+    
+    Consider a M/M/1 queueing system with Poisson arrivals of rate $\lambda$ and exponential service rate $\mu$. We can model this system with the following CTMC:
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.25cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+
+            \node[state] (0) []{$0$};
+
+            \foreach \curr [
+                evaluate = \curr as \prev using {int(\curr-1)},
+            ] in {1,...,4}{
+                \node[state] (\curr) [right of = \prev]{$\curr$};
+            }
+
+            \node[] (5) [right of = 4]{$\cdots$};
+
+            \foreach \curr [
+                evaluate = \curr as \next using {int(\curr+1)},
+            ] in {1,...,4}{
+                \path[every node/.style={font=\sffamily\small}]
+                    (\curr) edge[bend left] node{$\lambda$} (\next)
+                    (\next) edge[bend left] node{$\mu$} (\curr)
+                ;   
+            }
+
+            \path[every node/.style={font=\sffamily\small}]
+                (0) edge[bend left] node{$\lambda$} (1)
+                (1) edge[bend left] node{$\mu$} (0)
+            ;   
+
+        \end{tikzpicture}
+
+        \caption{The CTMC of a M/M/1 queueing system.}
+    \end{figure}
+
+    As always, we start by computing the limiting distribution. Using the barrier technique, we obtain the following stationary equations:
+    \[\soe{rlcl}{
+        \pi_{i} &= \frac{\lambda}{\mu} \pi_{i-1} & \qquad & \forall i \in \N-\{0\} \\
+        \sum\limits_{i = 0}^{+\infty} \pi_i &= 1 
+    }\]
+
+    By unrolling the recursive equation we get that:
+    \[\pi_i = \rbk{\frac{\lambda}{\mu}}^i \pi_0 \qquad \forall i \in \N\]
+
+    Let $\rho = \lambda/\mu$. By substituting each $\pi_i$ inside the last equation we get that:
+    \[\begin{split}
+        1 &= \sum_{i = 0}^{+\infty} \pi_i  = \sum_{i = 0}^{+\infty} \rho^i \pi_0  = \pi_0 \frac{1}{1-\rho}
+    \end{split}\]
+
+    which concludes that $\pi_0 = 1-\rho$. Therefore, it holds that $\pi_i = \rho^i (1-\rho)$ for all $i \in \N$. After computing the limiting distribution, we can focus on computing other performance measures.
+    
+    First of all, we observe that $\rho$ is still equal to the utilization of the device. In fact, since $\pi_0$ equals to the probability of the device being idle due to no jobs being inside of it, it should make sense that $\pi_0 = 1-\rho$. Moreover, we also observe that this implies that $\rho < 1$ must hold in order to have $\pi_0 > 0$, which also implies that $\lambda < \mu$ must hold, deriving the \textbf{stability condition}.
+
+    Moving on, we focus on performance metrics defined through expected values. Up until now, we have treated these values as nothing more than \curlyquotes{a definition} in order to compute them. Now, we can finally use our new tools to compute them in the proper way. Let's start with $\Exp[N]$. By definition, we have that:
+    \[\Exp[N] = \sum_{i = 0}^{+\infty} i \Pr[N = i] = \sum_{i = 0}^{+\infty} i \pi_i\]
+    since $\pi_i$ represents the probability of being in state $i$ when the system is in steady mode. Hence, we get that:
+    \[\begin{split}
+        \Exp[N] &= \sum_{i = 0}^{+\infty} i \rho^i (1-\rho) = \rho \sum_{i = 0}^{+\infty} i \rho^{i-1} (1-\rho) = \frac{\rho}{1-\rho} \\
+    \end{split}\]
+
+    We observe that $\rho < 0.5$ (or even $\rho < 0.6$), the expected number of customers in the system hardly goes up. However after that point, it goes up a lot. Moreover, the impact of increasing $\rho$ from 0.8 to 0.9 is much greater than the impact of increasing $\rho$ from 0.7 to 0.8.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.75]{images/exp_n.png}
+        \caption{The expected population in an M/M/1 system as the value of $\rho$ increases.}
+    \end{figure}
+
+    What about the expected population in the server, i.e. $\Exp[N^{\text{server}}]$. Using the formal definition of expected value we get that:
+    \[\Exp[N^{\text{server}}] = 0 \cdot \Pr[N^{\text{server}} = 0] + 1 \cdot \Pr[N^{\text{server}} = 1] = 0 \cdot \pi_0 + 1 \cdot \rbk{\sum_{i = 1}^{+\infty} \pi_i} = 1 - \pi_0 = \rho\]
+
+    which is exactly the same result that we found in the first chapter. As a corollary, we also get that:
+    \[\Exp[N^{\text{queue}}] = \Exp[N] - \Exp[N^{\text{server}}] = \frac{\rho}{1-\rho} - \rho = \frac{\rho^2}{1-\rho}\]
+
+    What about the device throughput? Since we found out that $\lambda < \mu$ must hold even in this setup, we expect the throughput to be equal to $X = \lambda$. This is indeed true also in this setup. Let $x_i$ be the arrival rate when in state $i$. Then, we have that:
+    \[X = \sum_{i = 0}^{+\infty} x_i \pi_i = \sum_{i = 0}^{+\infty} \lambda \pi_i = \lambda \sum_{i = 0}^{+\infty} \pi_i = \lambda\]
+
+    Since everything that enters a system must also exit, we can also compute the throughput through the service rate. Let $s_i$ be the service rate when in state $i$. Then, we have that:
+    \[X = \sum_{i = 0}^{+\infty} s_i \pi_i = 0 \cdot \pi_0 + \sum_{i = 1}^{+\infty} \mu \pi_i = \mu(1-\pi_0) = \mu \rho\]
+
+    which is exactly the \textbf{utilization law}! Furthermore, by applying Little's law we get that:
+    \[\Exp[R] = \frac{\Exp[N]}{X} = \frac{\rho}{\lambda(1-\rho)} = \frac{1}{\rho(1-\rho)} = \frac{1}{\mu-\lambda}\]
+
+    which again corresponds to what we already derived through informal arguments. As a bonus, we also get the closed formula for the expected time waited inside the queue:
+    \[\Exp[W] = \Exp[R] - \Exp[S] = \frac{1}{\mu-\lambda} - \frac{1}{\mu} = \frac{\rho}{\mu-\lambda}\]
+
+
+    Suppose now that the size of the queue is finite, meaning that we're considering a M/M/1/M$_Q$ device with Poisson arrivals of rate $\lambda$ and exponential service rate $\mu$. We observe that this device can have up to $M_Q+1$ jobs inside it: 1 in the server and M$_Q$ in the queue. Therefore, we can represent this device with the following CTMC.
+
+    \begin{figure}[H]
+        \centering
+
+        \resizebox{0.75\textwidth}{!}{
+            \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.5cm,thick,main node/.style={scale=0.6, circle,draw,font=\sffamily\normalsize}]
+
+                \node[state, minimum size = 50] (0) []{$0$};
+                \node[state, minimum size = 50] (1) [right of = 0]{$1$};
+                \node[state, minimum size = 50] (2) [right of = 1]{$2$};
+                \node[state, minimum size = 50] (3) [right of = 2]{$3$};
+                \node[]      (4) [right of = 3]{$\cdots$};
+                \node[state, minimum size = 50] (5) [right of = 4]{$M_Q+1$};
+
+                    
+                \foreach \curr [
+                    evaluate = \curr as \next using {int(\curr+1)},
+                ] in {0,...,4}{
+                    \path[every node/.style={font=\sffamily\small}]
+                        (\curr) edge[bend left] node{$\lambda$} (\next)
+                        (\next) edge[bend left] node{$\mu$} (\curr)
+                    ;
+                }
+            \end{tikzpicture}
+        }
+
+        \caption{The CTMC of a M/M/1/M$_Q$ queueing system.}
+    \end{figure}
+
+    Since the number of states is now finite, we expect that performances must change! Again, we start by finding the limiting distribution. Let $m = M_Q+1$. We have that:
+
+    \[\soe{rlcl}{
+        \pi_{i} &= \frac{\lambda}{\mu} \pi_{i-1} & \qquad & \forall i \in \{1, \ldots, m\} \\
+        \sum\limits_{i = 0}^{m} \pi_i &= 1 
+    }\]
+
+    By unrolling the recursive equation we get that:
+    \[\pi_i = \rbk{\frac{\lambda}{\mu}}^i \pi_0 \qquad \forall i \in \{0, \ldots, m\}\]
+
+    Let $\rho = \lambda/\mu$. By substituting each $\pi_i$ inside the last equation we get that:
+    \[\begin{split}
+        1 &= \sum_{i = 0}^{m} \pi_i  = \sum_{i = 0}^{m} \rho^i \pi_0  = \pi_0 \frac{1-\rho^{m+1}}{1-\rho}
+    \end{split}\]
+
+    concluding that:
+    \[\pi_0 = \frac{1-\rho}{1-\rho^{m+1}}\]
+
+    and therefore that:
+    \[\pi_i = \frac{\rho^i(1-\rho)}{1-\rho^{m+1}} \qquad \forall i \in {0, \ldots, m}\]
+
+    Is the utilization of the device still equal to $\rho$? The answer is \underline{no}. To distinguish it from the value $\rho$, we'll denote the utilization as $U$, which is given by:
+    \[U = \Pr[\text{device is working}] = 1- \pi_0 = 1- \frac{1-\rho}{1-\rho^{m+1}} = \frac{\rho(1-\rho^{m})}{1-\rho^{m+1}}\]
+
+    All other performance metrics that are defined through expected values will also naturally change due to the sum being finite. For instance, we have that:
+    \[\begin{split}
+        \Exp[N] &= \sum_{i = 0}^{m} i \pi_i \\
+        &= \sum_{i = 0}^{m} i \frac{\rho^i(1-\rho)}{1-\rho^{m+1}} \\
+        &= \frac{\rho}{1-\rho^{m+1}} \sum_{i = 0}^{m} i \rho^{i-1} (1-\rho)\\
+        &= \frac{\rho}{(1-\rho^{m+1})(1-\rho)}
+    \end{split}\]
+
+    To compute the throughput of a device with finite queue, we must consider that packets may indeed be \textit{dropped}: if the buffer is full and another job arrives, it must be dropped. Let $\lambda_{\text{drop}}$ be the drop rate, that being the value such that $X = \lambda - \lambda_{\text{drop}}$. We observe that, for a generic M/M/1/M$_Q$ system, packets get dropped only when the queue reaches its full capacity, i.e. when the population in the system reaches $M_Q + 1$. In other words, we have that:
+    \[\lambda_{\text{drop}} = \lambda \cdot \Pr[\text{drop a packet}] = \lambda \pi_{M_Q+1} = \frac{\lambda \rho^m(1-\rho)}{1-\rho^{m+1}}\]
+
+    Other performance metrics can be computed in the same way by applying Little's law. In particular, we observe that as $m \to +\infty$ every performance metric of the M/M/1/M$_Q$ device tends to become equal to the one of the M/M/1/$\infty$ device.
+
+    \subsection{Analysis of M/M/k/M$_Q$ devices}
+
+    After showing that CTMC analysis is sound for M/M/1/M$_Q$ devices we move to more complex structures, that being M/M/k/M$_Q$ devices, also called \textit{multi-server systems}. We assume to be working with Poisson arrivals of rate $\lambda$ and that every server of the device shares the same exponential service rate $\mu$.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.75]{images/mmk.png}
+        \caption{The M/M/k/M$_Q$ queueing system.}
+    \end{figure}
+
+    If we try to model the system through its population as done previously, a natural question arises: should we consider the population of each server? Since each server has the exact same service rate, this is not required: we don't care which server contains a job and which doesn't, we only care about how many of them are busy. This allows us to consider the ensamble of servers as a big box with at most $k$ slots, for a total of $M_Q + k$ jobs in the system: $k$ jobs in the servers and $M_Q$ jobs in the queue.
+    
+    However, this commodity comes at a price: considering the servers as a unique box implies that more jobs may depart from the system based on the number of servers that are working. For instance, if only one job is in the system we know that it can depart with rate $\mu$ since only one server of the ensable is working, but if two jobs are in the system then they can depart with rate $2\mu$ since two servers are working, and so on. When all $k$ servers are busy, meaning that we're in state $i \in \{k, \ldots, M_Q+k\}$, the total service rate is fixed to $k\mu$ since no more server can be working. Therefore, we get the following Markov chain.
+    
+    \begin{figure}[H]
+        \centering
+
+        \resizebox{1\textwidth}{!}{
+            \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.5cm,thick,main node/.style={scale=0.8, circle,draw,font=\sffamily\normalsize}]
+
+                \node[state, minimum size = 50] (0) []{$0$};
+                \node[state, minimum size = 50] (1) [right of = 0]{$1$};
+                \node[state, minimum size = 50] (2) [right of = 1]{$2$};
+                \node[]      (3) [right of = 2]{$\cdots$};
+                \node[state, minimum size = 50] (4) [right of = 3]{$k$};
+                \node[state, minimum size = 50] (5) [right of = 4]{$k+1$};
+                \node[]      (6) [right of = 5]{$\cdots$};
+                \node[state, minimum size = 50] (7) [right of = 6]{$M_Q+k$};
+                
+                \foreach \curr [
+                    evaluate = \curr as \next using {int(\curr+1)},
+                ] in {0,...,6}{
+                    \path[every node/.style={font=\sffamily\small}]
+                        (\curr) edge[bend left] node{$\lambda$} (\next)
+                    ;
+                }
+                    \path[every node/.style={font=\sffamily\small}]
+                        (7) edge[bend left] node{$k\mu$} (6)
+                        (6) edge[bend left] node{$k\mu$} (5)
+                        (5) edge[bend left] node{$k\mu$} (4)
+                        (4) edge[bend left] node{$k\mu$} (3)
+                        (3) edge[bend left] node{$3\mu$} (2)
+                        (2) edge[bend left] node{$2\mu$} (1)
+                        (1) edge[bend left] node{$\mu$} (0)
+                    ;
+            \end{tikzpicture}
+        }
+
+        \caption{The CTMC of a M/M/k/M$_Q$ queueing system.}
+    \end{figure}
+
+    To find the limiting distribution, we can still use the barrier technique, obtaining the following stationary equations:
+    \[\soe{rlcl}{
+        \pi_{i} &= \frac{\lambda}{i \mu} \pi_{i-1} & \qquad & \forall i \in \{1, \ldots, k-1\} \\
+        \pi_{i} &= \frac{\lambda}{k\mu} \pi_{i-1} & \qquad & \forall i \in \{k, \ldots, m\} \\
+        \sum\limits_{i = 0}^{m} \pi_i &= 1 
+    }\]
+    where $m = M_Q + k$. Let $\rho = \lambda/\mu$. By unrolling the recursive equation we get that:
+    \[\pi_i = \soe{ll}{
+        \dfrac{1}{i!} \rho^i \pi_0 & \text{if } i \in \{1, \ldots, k-1\} \\
+        \dfrac{1}{k! \cdot k^{i-k}} \rho^i \pi_0 & \text{if } i \in \{k, \ldots, m\} \\
+    }\]
+
+    By substituting each equation in the last one we obtain that:
+    \[\begin{split}
+        1 &= \sum_{i = 0}^{m} \pi_i \\
+        &= \sum_{i = 0}^{k-1} \pi_i + \sum_{i = k}^{m} \pi_i \\
+        &= \sum_{i = 0}^{k-1} \dfrac{1}{i!} \rho^i \pi_0 + \sum_{i = k}^{m} \dfrac{1}{k! \cdot k^{i-k}} \rho^i \pi_0 \\
+        &= \pi_0 \rbk{\sum_{i = 0}^{k-1} \dfrac{\rho^i}{i!} + \frac{1}{k!} \sum_{i = k}^{m} \dfrac{1}{k^{i-k}} \rho^i} \\
+        &= \pi_0 \rbk{\sum_{i = 0}^{k-1} \dfrac{\rho^i}{i!} + \frac{1}{k! \rho^{k}} \sum_{h = 0}^{m-k} \rbk{\dfrac{\rho}{k}}^h} \\
+        &= \pi_0 \rbk{\sum_{i = 0}^{k-1} \dfrac{\rho^i}{i!} + \frac{1-\theta^{m-k+1}}{k! \rho^{k} (1-\theta)}}\\
+    \end{split}\]
+
+    where $\theta = \rho / k$. Therefore, we have that:
+    \[\pi_0 = \rbk{\sum_{i = 0}^{k-1} \dfrac{\rho^i}{i!} + \frac{1-\theta^{m-k+1}}{k! \rho^{k} (1-\theta)}}^{-1}\]
+
+    Sadly, this cannot be expressed in a more coincise way -- actually it could, but it requires advanced calculus functions. After finding out the limited distribution, we can compute each performance metric proceeding as we did for M/M/1/M$_Q$ devices.
+
+    \section{Tandem systems}
+
+    After analyzing systems composed of a single device with one or multiple server, we start to investigate networks with multiple devices. In particular, consider the \textit{tandem} of M/M/1/0 devices represented in the figure below.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.75]{images/tandem.png}
+        \caption{A tandem of M/M/1/0 devices.}
+    \end{figure}
+
+    We observe that the two servers have no queue. However, the wiring of the network forces the first server to act as a queue of size of one for the second server. In particular, if the latter is busy and the first server has completed its job, the job will sit inside the first server until the second server becomes free.
+    
+    This forces us to consider the population of both devices simultaneously, meaning that the state space of the system must consider both. To achieve this, we can define a \textit{vectorialized} state space $\{(0,0), (1,0), (0,1), (1,1)\}$ where the first entry of each pair represents the state of the first device and the second entry does so accordingly for the second state. The idea behind this vectorialized state space is simple: from state $(0,0)$ we jump to state $(1,0)$ when the first server receives a job, from state $(1,0)$ we jump to state $(0,1)$ when the first server completes a job, and so on. However, we observe that we need an additional state to model the fact that server one may be acting as a queue for the second server. We represent this state as $(Q,1)$, obtaining the state space $\mathcal{I} = \{(n_1, n_2) \mid n_1 \in \{0,1,Q\}, n_2 \in \{0,1\}\}$.
+    
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.5cm,thick,main node/.style={scale=0.8, circle,draw,font=\sffamily\normalsize}]
+
+            \node[state] (00) []{$00$};
+            \node[state] (10) [right of = 00]{$10$};
+            \node[state] (01) [right of = 10]{$01$};
+            \node[state] (11) [right of = 01]{$11$};
+            \node[state] (Q1) [right of = 11]{$Q1$};
+            
+            \path[every node/.style={font=\sffamily\small}]
+                (00) edge[bend left] node{$\lambda$} (10)
+                (01) edge[bend left] node{$\lambda$} (11)
+                (01) edge[bend left] node{$\mu_2$} (00)
+                (10) edge[bend left] node{$\mu_1$} (01)
+                (11) edge[bend left] node{$\mu_2$} (01)
+                (11) edge[bend left] node{$\mu_1$} (Q1)
+                (Q1) edge[bend left = 55] node{$\mu_2$} (01)
+            ;
+        \end{tikzpicture}
+
+        \caption{The CTMC of a tandem of M/M/1/0 devices.}
+    \end{figure}
+
+    Even thought this chain doesn't appear in the usual form, we can still apply the barrier technique to find out the limiting probability of this chain. Differently from previous cases, we consider a barrier that encapsulates a single state. For instance, by applying the barrier technique as shown in the below figure, we get that:
+    \[(\lambda + \mu_2) \pi_{0,1} = \mu_1 \pi_{1,0} + \mu_2 (\pi_{1,0} + \pi_{Q,1})\]
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.5cm,thick,main node/.style={scale=0.8, circle,draw,font=\sffamily\normalsize}]
+
+            \node[state] (00) []{$00$};
+            \node[state] (10) [right of = 00]{$10$};
+            \node[state] (01) [right of = 10]{$01$};
+            \node[state] (11) [right of = 01]{$11$};
+            \node[state] (Q1) [right of = 11]{$Q1$};
+            \node[circle, draw, , dashed, color = gray, minimum size = 50] (x) [left of = 11]{};
+            
+            \path[every node/.style={font=\sffamily\small}]
+                (00) edge[bend left] node{$\lambda$} (10)
+                (01) edge[bend left] node{$\lambda$} (11)
+                (01) edge[bend left] node{$\mu_2$} (00)
+                (10) edge[bend left] node{$\mu_1$} (01)
+                (11) edge[bend left] node{$\mu_2$} (01)
+                (11) edge[bend left] node{$\mu_1$} (Q1)
+                (Q1) edge[bend left = 55] node{$\mu_2$} (01)
+            ;
+        \end{tikzpicture}
+
+        \caption{Application of the barrier technique on state $(0,1)$.}
+    \end{figure}
+
+    We derive the stationary equations proceeding in the same way on all states:
+    \[\soe{rlcl}{
+        \lambda \pi_{0,0} &= \mu_2 \pi_{0,1} \\
+        \mu_1 \pi_{1,0} &= \lambda \pi_{0,0} \\
+        (\lambda + \mu_2) \pi_{0,1} &= \mu_1 \pi_{1,0} + \mu_2 (\pi_{1,0} + \pi_{Q,1}) \\
+        (\mu_1 + \mu_2) \pi_{1,1} &= \lambda \pi_{0,1} \\
+        \mu_2 \pi_{Q,1} &= \mu_1 \pi_{1,1} \\
+        \sum\limits_{i \in \mathcal{I}} \pi_i &= 1
+    }\]
 \end{document}

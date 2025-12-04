@@ -1973,7 +1973,7 @@
         Omitted.
     \end{proof}
 
-    \section{The PageRank algorithm [Todo???]}
+    \section{The PageRank algorithm [To-do???]}
 
     \newpage
 
@@ -2643,7 +2643,7 @@
 
     Sadly, this cannot be expressed in a more coincise way -- actually it could, but it requires advanced calculus functions. After finding out the limited distribution, we can compute each performance metric proceeding as we did for M/M/1/M$_Q$ devices.
 
-    \section{Tandem systems}
+    \section{Systems with multiple devices}
 
     After analyzing systems composed of a single device with one or multiple server, we start to investigate networks with multiple devices. In particular, consider the \textit{tandem} of M/M/1/0 devices represented in the figure below.
 
@@ -2720,4 +2720,87 @@
         \mu_2 \pi_{Q,1} &= \mu_1 \pi_{1,1} \\
         \sum\limits_{i \in \mathcal{I}} \pi_i &= 1
     }\]
+
+    obtaining the following solution:
+    \[\pi_{0,0} = \frac{\mu_2^2}{\lambda^2 + \lambda\mu + \mu^2}\]
+    \[\pi_{1,0} = \frac{\lambda}{\mu_2} \cdot \frac{\mu_2^2}{\lambda^2 + \lambda\mu + \mu^2} \qquad\quad \pi_{0,1} = \frac{\lambda}{\mu_1} \cdot \frac{\mu_2^2}{\lambda^2 + \lambda\mu + \mu^2}\]
+    \[\pi_{1,1} = \frac{\lambda^2}{\mu_2(\mu_1+\mu_2)} \cdot \frac{\mu_2^2}{\lambda^2 + \lambda\mu + \mu^2} \qquad\quad \pi_{Q,1} = \frac{\mu_1\lambda^2}{\mu_2^2(\mu_1+\mu_2)} \cdot \frac{\mu_2^2}{\lambda^2 + \lambda\mu + \mu^2}\]
+
+    Let's see another example. Consider a batch system formed by a CPU with an infinite buffer linked to two equal disks that share the same infinite buffer, where $\mu_{\text{CPU}} = 4$ and let $\mu_{\text{Disk A}} = \mu_{\text{Disk B}} = 1.5$. The total number of jobs in the system is known to be $N = 3$. We observe that, since they are equal, the two disks can be considered as a M/M/2 device, while the CPU can be considered as an M/M/1 device.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.75]{images/tandem_2.png}
+        \caption{A batch system formed by an M/M/1 device and an M/M/2 device.}
+    \end{figure}
+
+    Since the number of jobs in the system is fixed to $N = 3$, we can model the state space as $\mathcal{I} = \{(n_1, n_2) \mid n_1, n_2 \in \N, n_1 + n_2 = 3\}$. Therefore, we can model the following CTMC for this problem.
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.5cm,thick,main node/.style={scale=0.8, circle,draw,font=\sffamily\normalsize}]
+
+            \node[state] (30) []{$30$};
+            \node[state] (21) [right of = 30]{$21$};
+            \node[state] (12) [right of = 21]{$12$};
+            \node[state] (03) [right of = 12]{$03$};
+            
+            \path[every node/.style={font=\sffamily\small}]
+                (30) edge[bend left] node{$4$} (21)
+                (21) edge[bend left] node{$4$} (12)
+                (12) edge[bend left] node{$4$} (03)
+                (03) edge[bend left] node{$2 \cdot 1.5$} (12)
+                (12) edge[bend left] node{$2 \cdot 1.5$} (21)
+                (21) edge[bend left] node{$1.5$} (30)
+            ;
+        \end{tikzpicture}
+
+        \caption{The CTMC of the above batch system.}
+    \end{figure}
+
+    By applying the barrier technique, we get the following limiting distribution:
+    \[\pi_{3,0} = 0.08 \qquad \pi_{2,1} = 0.22 \qquad \pi_{1,2} = 0.3 \qquad \pi_{0,3} = 0.4\]
+
+    To compute the throughput of the whole batch system, we can proceed with the same reasoning used in the first chapter: every job must pass through the CPU (or through the ensemble of the two disks), thus $X = X_{\text{CPU}}$. Since the CPU is a M/M/1 device, from the analysis done in the previous section we know that:
+    \[X_{\text{CPU}} = U_{\text{CPU}} \mu_{\text{CPU}} = (\pi_{3,0} + \pi_{2,1} + \pi_{1,2}) \mu_{\text{CPU}} = 2.4 \text{ jobs/sec}\]
+
+    Lastly, we show how to work with interactive systems. Consider an interactive system with $N = 3$ users and a single CPU that loops jobs into itself with probability $0.5$. The think time is $Z \sim \mathrm{Exp}(\lambda = 1)$, while the service time of the CPU is $S \sim \mathrm{Exp}(\mu = 2)$.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.75]{images/tandem_3.png}
+        \caption{An interactive system with an looping M/M/1 device.}
+    \end{figure}
+
+    We observe that, even thought it loops into itself, the CPU can still be represented as an M/M/1 device whose population decreases with rate $\mu/2$. Moreover, we observe that the rate with which the population increases changes based on the number of jobs that lie inside the think center, which is equal to $N- N_{\text{CPU}}$. We can model this problem through the following CTMC. 
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.5cm,thick,main node/.style={scale=0.8, circle,draw,font=\sffamily\normalsize}]
+
+            \node[state] (0) []{$0$};
+            \node[state] (1) [right of = 0]{$1$};
+            \node[state] (2) [right of = 1]{$2$};
+            \node[state] (3) [right of = 2]{$3$};
+            
+            \path[every node/.style={font=\sffamily\small}]
+                (0) edge[bend left] node{$3\lambda$} (1)
+                (1) edge[bend left] node{$2\lambda$} (2)
+                (2) edge[bend left] node{$\lambda$} (3)
+                (3) edge[bend left] node{$\frac{\mu}{2}$} (2)
+                (2) edge[bend left] node{$\frac{\mu}{2}$} (1)
+                (1) edge[bend left] node{$\frac{\mu}{2}$} (0)
+            ;
+        \end{tikzpicture}
+
+        \caption{The CTMC of the above interactive system.}
+    \end{figure}
+
+    By applying the barrier technique, we get the following limiting distribution:
+    \[\pi_{0} = \frac{1}{16} \qquad \pi_{1} = \frac{3}{16} \qquad \pi_{2} = {\frac{6}{16}} \qquad \pi_{3} = \frac{6}{16}\]
+
+    \section{Jackson networks [To-do]}
+
 \end{document}

@@ -2662,11 +2662,11 @@
 
         \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.5cm,thick,main node/.style={scale=0.8, circle,draw,font=\sffamily\normalsize}]
 
-            \node[state] (00) []{$00$};
-            \node[state] (10) [right of = 00]{$10$};
-            \node[state] (01) [right of = 10]{$01$};
-            \node[state] (11) [right of = 01]{$11$};
-            \node[state] (Q1) [right of = 11]{$Q1$};
+            \node[state] (00) []{$0,0$};
+            \node[state] (10) [right of = 00]{$1,0$};
+            \node[state] (01) [right of = 10]{$0,1$};
+            \node[state] (11) [right of = 01]{$1,1$};
+            \node[state] (Q1) [right of = 11]{$Q,1$};
             
             \path[every node/.style={font=\sffamily\small}]
                 (00) edge[bend left] node{$\lambda$} (10)
@@ -2690,11 +2690,11 @@
 
         \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.5cm,thick,main node/.style={scale=0.8, circle,draw,font=\sffamily\normalsize}]
 
-            \node[state] (00) []{$00$};
-            \node[state] (10) [right of = 00]{$10$};
-            \node[state] (01) [right of = 10]{$01$};
-            \node[state] (11) [right of = 01]{$11$};
-            \node[state] (Q1) [right of = 11]{$Q1$};
+            \node[state] (00) []{$0,0$};
+            \node[state] (10) [right of = 00]{$1,0$};
+            \node[state] (01) [right of = 10]{$0,1$};
+            \node[state] (11) [right of = 01]{$1,1$};
+            \node[state] (Q1) [right of = 11]{$Q,1$};
             \node[circle, draw, , dashed, color = gray, minimum size = 50] (x) [left of = 11]{};
             
             \path[every node/.style={font=\sffamily\small}]
@@ -2741,10 +2741,10 @@
 
         \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.5cm,thick,main node/.style={scale=0.8, circle,draw,font=\sffamily\normalsize}]
 
-            \node[state] (30) []{$30$};
-            \node[state] (21) [right of = 30]{$21$};
-            \node[state] (12) [right of = 21]{$12$};
-            \node[state] (03) [right of = 12]{$03$};
+            \node[state] (30) []{$3,0$};
+            \node[state] (21) [right of = 30]{$2,1$};
+            \node[state] (12) [right of = 21]{$1,2$};
+            \node[state] (03) [right of = 12]{$0,3$};
             
             \path[every node/.style={font=\sffamily\small}]
                 (30) edge[bend left] node{$4$} (21)
@@ -2801,6 +2801,180 @@
     By applying the barrier technique, we get the following limiting distribution:
     \[\pi_{0} = \frac{1}{16} \qquad \pi_{1} = \frac{3}{16} \qquad \pi_{2} = {\frac{6}{16}} \qquad \pi_{3} = \frac{6}{16}\]
 
-    \section{Jackson networks [To-do]}
+    \section{Jackson networks}
 
+    A Jackson network is a very general form of queueing network. In a Jackson network, there are $k$ devices, each with its own unbounded queue -- therefore they are $k$ M/M/1 devices. Jobs at a server are served in FCFS order. The ith server has service rate $\mathrm{Exp}(\mu_i)$. Each server may receive arrivals from inside and outside the network. The arrivals into the $i$-th server from outside the network constitute a Poisson process with rate $r_i$ . The routing of jobs is proba bilistic. Specifically, every job that completes at server $i$ will be transferred to server $j$ with probability $P_{i,j}$, or will exit the system with probability $P_{i,\text{out}} = 1 - \sum\limits_{j = 1}^k P_{i,j}$.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.75]{images/jackson.png}
+        \caption{A portion of a Jackson network.}
+    \end{figure}
+
+    In a similar fashion to what we have already seen in the previous chapter, we model the state space as $\mathcal{I} = \{(n_1, \ldots, n_k) \mid n_i \in \N\}$, where each $n_i$ is the population of device $i$. Each state $(n_1, \ldots, n_i, \ldots, n_j, \ldots, n_k)$ has three types of transitions: transitions to states where the global population decreases, transitions to states where it increases and transition to states where it stays the same. A transition of the first type is reached when a job leaves the system, in particular the value $n_j$ of the $j$-th entry will decrease to $n_j-1$. Similarly, a transition of the second type is reached when a job enters the system, increasing $n_j$ to $n_j+1$. Lastly, a transition of the third type is reached when a job passes from a device to another.
+
+    \begin{figure}[H]
+        \centering
+
+        \resizebox{1\textwidth}{!}{
+
+        \begin{tikzpicture}[->,auto,node distance=2.5cm,thick,main node/.style={scale=0.8, circle,draw}]
+            
+            \node[ellipse, draw, minimum height = 40] (0) []{\LARGE $n_1, \ldots, n_i, \ldots, n_j, \ldots, n_k$};
+            
+            \node[ellipse, draw, minimum height = 40] (1) [below of = 0, yshift=-100]{\LARGE $n_1, \ldots, n_i-1, \ldots, n_j+1, \ldots, n_k$};
+            \node[ellipse, draw, minimum height = 40] (2) [above of = 0, yshift=100]{\LARGE $n_1, \ldots, n_i+1, \ldots, n_j-1, \ldots, n_k$};
+            
+            \node[ellipse, draw, minimum height = 40] (3) [below left of = 0, xshift=-300, yshift=-25]{\LARGE $n_1, \ldots, n_i-1, \ldots, n_j, \ldots, n_k$};
+            \node[ellipse, draw, minimum height = 40] (4) [above left of = 0, xshift=-300, yshift=25]{\LARGE $n_1, \ldots, n_i, \ldots, n_j-1, \ldots, n_k$};
+            
+            \node[ellipse, draw, minimum height = 40] (5) [below right of = 0, xshift=300, yshift=-25]{\LARGE $n_1, \ldots, n_i+1, \ldots, n_j, \ldots, n_k$};
+            \node[ellipse, draw, minimum height = 40] (6) [above right of = 0, xshift=300, yshift=25]{\LARGE $n_1, \ldots, n_i, \ldots, n_j+1, \ldots, n_k$};
+            
+            \path[every node/.style={font=\sffamily\LARGE}]
+                (0) edge[bend left] node{$\mu_i P_{i,j}$} (1)
+                (0) edge[bend left] node{$\mu_j P_{j,i}$} (2)
+                (0) edge[bend left] node{$\mu_j P_{j,\text{out}}$} (3)
+                (0) edge[bend left] node{$\mu_i P_{i,\text{out}}$} (4)
+                (0) edge[bend left] node{$r_j$} (5)
+                (0) edge[bend left] node{$r_i$} (6)
+
+                (1) edge[bend left] node{$\mu_j P_{j,i}$} (0)
+                (2) edge[bend left] node{$\mu_i P_{i,j}$} (0)
+                (3) edge[bend left] node{$r_j$} (0)
+                (4) edge[bend left] node{$r_i$} (0)
+                (5) edge[bend left] node{$\mu_j P_{j,\text{out}}$} (0)
+                (6) edge[bend left] node{$r_j P_{i,\text{out}}$} (0)
+            ;
+        \end{tikzpicture}
+        }
+
+        \caption{A portion of the CTMC modeling a generic Jackson network.}
+    \end{figure}
+
+    It's easy to see that the full CTMC that models a Jackson network is way more complex than anything that we've seen until now. Clearly, we need to find a way to tackle this beast. Fix a generic state $(n_1, \ldots, n_k)$. By applying the barrier technique only on this state -- as done in the previous section -- we get that the outgoing rate $\mathcal{X}_{(n_1, \ldots, n_k)}$ must be equal to the ingoing rates $\mathcal{Y}_{(n_1, \ldots, n_k)}$. For the outgoing rates, we have that:
+    \[\begin{split}
+        \mathcal{X}_{(n_1, \ldots, n_k)} &= \sum\limits_{i = 1}^k \underbrace{\pi_{n_1, \ldots, n_k} r_i}_{\substack{\text{arrivals to device $i$} \\ \text{from outside}}} + \sum\limits_{i = 1}^k \underbrace{\pi_{n_1, \ldots, n_k} \mu_i P_{i,\text{out}}}_{\substack{\text{departures from device $i$} \\ \text{to outside}}} + \sum\limits_{i = 1}^k \sum\limits_{\substack{j = 1 \\ j \neq i}}^k \underbrace{\pi_{n_1, \ldots, n_k} \mu_i P_{i,j}}_{\substack{\text{internal transition from} \\ \text{device $i$ to device $j$}}} \\
+        &= \sum_{i = 1}^k \pi_{n_1, \ldots, n_k} r_i + \sum_{i = 1}^k \pi_{n_1, \ldots, n_k} \mu_i (1-P_{i,i}) \\
+        &= A + \sum_{i = 1}^k B_i
+    \end{split}\]
+
+    where:
+    \[A = \sum_{i = 1}^k \pi_{n_1, \ldots, n_k} r_i \qquad B_i = \pi_{n_1, \ldots, n_k} \mu_i (1-P_{i,i})\]
+
+    By definition, $A$ represents the rate of leaving state $(n_1 , \ldots , n_k)$ due to an outside arrival coming into the network, while $B_i$ represents the rate of leaving the state due to a departure from server $i$ (either to some other server $j \neq i$ or to the outside).
+
+    For the incoming rates, instead, we have that:
+    \[\begin{split}
+        \mathcal{Y}_{(n_1, \ldots, n_k)} &= \sum\limits_{i = 1}^k \underbrace{\pi_{n_1, \ldots, n_i-1, \ldots, n_k} r_i}_{\substack{\text{arrivals to device $i$} \\ \text{from outside}}} + \sum\limits_{i = 1}^k \underbrace{\pi_{n_1, \ldots, n_i+1, \ldots, n_k} \mu_i P_{i,\text{out}}}_{\substack{\text{departures from device $i$} \\ \text{to outside}}} + \sum\limits_{i = 1}^k \sum\limits_{\substack{j = 1 \\ j \neq i}}^k \underbrace{\pi_{n_1, \ldots, n_i-1, \ldots,n_j+1, \ldots, n_k} \mu_j P_{j,i}}_{\substack{\text{internal transition from} \\ \text{device $j$ to device $i$}}} \\
+        &= \sum\limits_{i = 1}^k \pi_{n_1, \ldots, n_i+1, \ldots, n_k} \mu_i P_{i,\text{out}} + \sum\limits_{i = 1}^k \rbk{\pi_{n_1, \ldots, n_i-1, \ldots, n_k} r_i + \sum\limits_{\substack{j = 1 \\ j \neq i}}^k \pi_{n_1, \ldots, n_i-1, \ldots,n_j+1, \ldots, n_k} \mu_j P_{j,i}} \\
+        &= A' + \sum_{i = 1}^k B_i'
+    \end{split}\]
+
+    where:
+    \[A' = \sum\limits_{i = 1}^k \pi_{n_1, \ldots, n_i+1, \ldots, n_k} \mu_i P_{i,\text{out}} \qquad B_i' = \pi_{n_1, \ldots, n_i-1, \ldots, n_k} r_i + \sum\limits_{\substack{j = 1 \\ j \neq i}}^k \pi_{n_1, \ldots, n_i-1, \ldots,n_j+1, \ldots, n_k} \mu_j P_{j,i}\]
+
+    Clearly, the full system with all the equations $\mathcal{X}_{(n_1, \ldots, n_k)} = \mathcal{Y}_{(n_1, \ldots, n_k)}$ for each state $(n_1, \ldots, n_k) \in \mathcal{I}$ is way too complex to solve. We need an approach to simplify the huge number of balance equations. Our approach is based on \textbf{local balance}. The idea is to break down the left-hand side and right-hand side of the balance equation into $k + 1$ matching components, showing that $A = A'$ and $B_i = B_i'$ for each $i \in [k]$.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.75]{images/jackson_2.png}
+        \caption{Local balance decomposition approach}
+    \end{figure}
+    
+    If we can find a solution that maintains the equality for each matching component (\textit{local balance}), then we know that it is a solution to the equation as a whole (\textit{global balance}). Naturally, satisfying local balance is a stronger condition than satisfying global balance: satisfying each local balance implies satisfying the whole global balance, but the converse isn't true.
+
+    We start by showing that $A = A'$. By applying conditional probability, we have that:
+    \[\pi_{n_1, \ldots, n_i, \ldots n_k} = \Pr[\text{reach $(n_1, \ldots, n_i, \ldots, n_k)$} \mid \text{from $(n_1, \ldots, n_i-1, \ldots, n_k)$}] \cdot \pi_{n_1, \ldots, n_i-1, \ldots n_k}\]
+
+    for all $i \in [k]$. It seems reasonable to assume that:
+    \[\Pr[\text{next state $(n_1, \ldots, n_i, \ldots, n_k)$} \mid \text{curr. state $(n_1, \ldots, n_i-1, \ldots, n_k)$}] = c_i\]
+    for some constant $c_i$, i.e. that this probability doesn't change over time. In other words, we're assuming that:
+    \[\pi_{n_1, \ldots, n_i, \ldots n_k} = c_i \pi_{n_1, \ldots, n_i-1, \ldots n_k}\]
+
+    We can now use this assumption to show that:
+    \[\begin{split}
+        A = A' &\iff \sum_{i = 1}^k \pi_{n_1, \ldots, n_k} r_i = \sum\limits_{i = 1}^k \pi_{n_1, \ldots, n_i+1, \ldots, n_k} \mu_i P_{i,\text{out}}\\
+        &\iff \sum_{i = 1}^k \pi_{n_1, \ldots, n_k} r_i = \sum\limits_{i = 1}^k c_i \pi_{n_1, \ldots, n_i, \ldots, n_k} \mu_i P_{i,\text{out}} \\
+        &\iff \sum_{i = 1}^k r_i = \sum\limits_{i = 1}^k c_i \mu_i P_{i,\text{out}} \\
+    \end{split}\]
+
+    We'll now make another reasonable assumption: we can guess that $c_i = \rho_i = \lambda_i / \mu_i$, meaning that the probability of having an increase in device $i$ depends only on the arrival and departure rates of the device itself (as if we were applying the barrier technique). This final assumption allows us to infer that:
+    \[\begin{split}
+        A = A' &\iff \sum_{i = 1}^k r_i = \sum\limits_{i = 1}^k c_i \mu_i P_{i,\text{out}} \\
+        &\iff \sum_{i = 1}^k r_i = \sum\limits_{i = 1}^k \lambda_i P_{i,\text{out}}\\
+    \end{split}\]
+
+    which simply says that the total rate of jobs entering the system from outside is the same as the total rate of jobs leaving the system. This is obviously true in steady state, concluding that $A = A'$ holds under these two assumptions. Let's now focus on showing that $B_i = B_i'$ for all $i \in [k]$. First, we observe that by repeatedly applying our last assumption we get that:
+    \[\begin{split}
+        \pi_{n_1, \ldots, n_j, \ldots, n_k} &= \rho_i \pi_{n_1, \ldots, n_j-1, \ldots, n_k} = \rho_j^{n_j} \pi_{n_1, \ldots, 0, \ldots, n_k} = \pi_{0, \ldots, 0} \prod_{h = 1}^k \rho_h^{n_h}\\
+    \end{split}\]
+
+    This allows us to infer that:
+    \[\begin{split}
+        B_i = B_i' &\iff \pi_{n_1, \ldots, n_k} \mu_i (1-P_{i,i}) = \pi_{n_1, \ldots, n_i-1, \ldots, n_k} r_i + \sum\limits_{\substack{j = 1 \\ j \neq i}}^k \pi_{n_1, \ldots, n_i-1, \ldots,n_j+1, \ldots, n_k} \mu_j P_{j,i} \\
+        &\iff \mu_i (1-P_{i,i}) \pi_{0, \ldots, 0} \prod_{h = 1}^k \rho_h^{n_h} = \frac{r_i}{\rho_i} \pi_{0, \ldots, 0} \prod_{h = 1}^k \rho_h^{n_h} + \frac{\rho_j}{\rho_i} \sum\limits_{\substack{j = 1 \\ j \neq i}}^k \rbk{\mu_{j}P_{j,i} \pi_{0, \ldots, 0} \prod_{h = 1}^k \rho_h^{n_h}} \\
+        &\iff \mu_i (1-P_{i,i}) = \frac{r_i}{\rho_i} + \frac{\rho_j}{\rho_i} \sum\limits_{\substack{j = 1 \\ j \neq i}}^k \mu_{j}P_{j,i} \\
+        &\iff \lambda_i (1-P_{i,i}) = r_i + \sum\limits_{\substack{j = 1 \\ j \neq i}}^k \lambda_jP_{j,i} \\
+        &\iff \lambda_i = r_i + \sum\limits_{j = 1}^k \lambda_jP_{j,i} \\
+    \end{split}\]
+
+    which simply says that the total rate of jobs entering device $i$ is equal to the rate of jobs entering device $i$ from outsite and the total rate of jobs entering device $i$ from other devices, which is clearly true. Therefore, $B_i = B_i'$ also holds.
+
+    Let's take a step back. We said that: 
+    \[\begin{split}
+        \pi_{n_1, \ldots, n_k} = \pi_{0, \ldots, 0} \prod_{h = 1}^k \rho_h^{n_h}\\
+    \end{split}\]
+
+    Since the limiting distribution of the CTMC of the Jackson network must sum up to 1, we have that:
+    \[\begin{split}
+        1 &= \sum_{(n_1, \ldots, n_k) \in \mathcal{I}} \pi_{n_1, \ldots, n_k} \\
+        &= \pi_{0,\ldots,0} \sum_{(n_1, \ldots, n_k) \in \mathcal{I}} \prod_{h = 1}^k \rho_h^{n_h}\\
+        &= \pi_{0,\ldots,0} \sum_{(n_1, \ldots, n_k) \in \mathcal{I}} \prod_{h = 1}^k \rho_h^{n_h}\\
+        &= \pi_{0,\ldots,0}  \prod_{h = 1}^k \sum_{n_h = 1}^{+\infty} \rho_h^{n_h}\\
+        &= \pi_{0,\ldots,0}  \prod_{h = 1}^k \frac{1}{1-\rho_h}\\
+    \end{split}\]
+
+    which concludes that $\pi_{0, \ldots, 0} = (1-\rho_1) \cdot \ldots \cdot (1-\rho_k)$. Now, we observe that since each device is a M/M/1 queueing system, for each $i \in [k]$ it holds that $\pi_0[i] = 1-\rho_i$, where $\pi_0[i]$ denotes the probability that the $i$-th device is in state $0$. Putting everything together, we have that:
+    \[\begin{split}
+        \pi_{n_1,\ldots, n_k} &=  \pi_{0, \ldots, 0} \prod_{h = 1}^k \rho_h^{n_h} = \prod_{h = 1}^k \pi_0[h] \rho_h^{n_h} = \prod_{h = 1}^k \pi_{n_h}[h]
+    \end{split}\]
+
+    \begin{framedthm}{Product form theorem}
+        Consider a Jackson network with $k$ devices. Then, for each state $(n_1, \ldots, n_k) \in \mathcal{I}$ it holds that:
+        \[\pi_{n_1, \ldots, n_k}= \prod_{h = 1}^k \pi_{n_h}[h] = \prod_{h = 1}^k \rho_h^{n_h}(1-\rho_h)\]
+    \end{framedthm}
+
+    The latter theorem and the local balance equations allows us to compute the limiting distribution in a Jackson network with $k$ devices through the following system:
+    \[\soe{rlcl}{
+        \lambda_i &= r_i + \sum\limits_{j = 1}^k \lambda_jP_{j,i} & \qquad & \forall i \in [k] \\
+        \rho_i &= \frac{\lambda_i}{\rho_i} & \qquad & \forall i \in [k] \\
+        \pi_{n_1, \ldots, n_k} &= \prod\limits_{h = 1}^k \rho_h^{n_h}(1-\rho_h) & \qquad & \forall (n_1, \ldots, n_k) \in \mathcal{I}
+    }\]
+
+    For instance, consider a web server that receives requests for files according to a Poisson arrival process of rate $\lambda$. Each request requires alternating between the CPU and I/O some geometrically distributed number of times as the file is segmented into packets and sent to the network.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.8]{images/jackson_3.png}
+        \caption{The web server example.}
+    \end{figure}
+
+    We want to find the limiting probabilities of this Jackson network, thus we can use the previous system to find our request. We start by finding the values of $\lambda_1$ and $\lambda_2$ by solving the following subsystem:
+    \[\soe{ll}{
+        \lambda_1 &= \lambda + \lambda_2 \\
+        \lambda_2 &= (1-p) \lambda_1 \\
+    }\]
+
+    which yields the solutions $\lambda_1 = \frac{\lambda}{p}$ and $\lambda_2 = \frac{\lambda (1-p)}{p}$. Therefore, we also get that:
+    \[\rho_1 = \frac{\lambda_1}{\mu_1} = \frac{\lambda}{p \mu_1} \qquad \rho_2 = \frac{\lambda_2}{\mu_2} = \frac{\lambda(1-p)}{p \mu_2}\]
+
+    and finally that:
+    \[\pi_{n_1, n_2} = \rho_1^{n_1}\rho_2^{n_2}(1-\rho_1)(1-\rho_2) = \rbk{\frac{\lambda_1}{\mu_1}}^{n_1} \rbk{\frac{\lambda(1-p)}{p \mu_2}}^{n_2}\rbk{1-\frac{\lambda}{p \mu_1}}\rbk{1-\frac{\lambda(1-p)}{p \mu_1}}\]
+
+    If we want to compute $\Exp[N]$, we can simply use the fact that $N = N_1 + N_2$ and that both devices are M/M/1 queueing systems to obtain that:
+    \[\Exp[N] = \Exp[N_1] + \Exp[N_2] = \frac{\rho_1}{1-\rho_1} + \frac{\rho_2}{1-\rho_2}\]
+
+    Other performance measures can be computed in similar ways.
+    
 \end{document}

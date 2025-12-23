@@ -69,7 +69,7 @@ WSNs}
     \begin{columns}
         \begin{column}{0.5\textwidth}
             
-            \boldred{Wireless Sensor Network (WSN)} are networks of composed of distributed sensing devices used to monitor and record environmental conditions and events.
+            \boldred{Wireless Sensor Network (WSN)} are networks composed by distributed sensing devices used to monitor and record environmental conditions and events.
 
             \uncover<+->{
                 \begin{itemize}[<+->]
@@ -93,7 +93,7 @@ WSNs}
 \begin{frame}{Benefits}
 \framesubtitle{Wireless Sensor Networks}
 
-    WSNs are emplyed \boldred{\textit{everywhere}} there is a need for monitoring a physical space or using sensors for controlling a procedure.
+    WSNs are employed \boldred{\textit{everywhere}} there is a need for monitoring a physical space or using sensors for controlling a procedure.
     
     \uncover<+->{
         \begin{itemize}[<+->]
@@ -121,7 +121,7 @@ WSNs}
     \uncover<+->{
         Due to their nature, WSNs suffer from \boldred{critical} issues.
         \begin{itemize}[<+->]
-            \item Fault tolerance
+            \item Limited computation power
             \item Asymmetric flow of information
             \item \boldred{Energy consumption}
         \end{itemize}
@@ -179,11 +179,11 @@ WSNs}
         \item \textit{Frame size} $M$ is approximately (and at least) equal to the number $N$ of nodes
         \item Each node has individual \boldred{Q values} for every slot in the frame 
         \begin{itemize}
-            \item Value are updated after each transmission
+            \item Values are updated after each transmission
             \item The largest value determines which slot is selected for the next transmission
         \end{itemize}
         \item \boldred{Acknowledgement (ACK)} messages are sent when a message is received
-        \item Nodes \boldred{wake up} only when they need to transmit and to receive the associated ACKs
+        \item Nodes \boldred{wake up} only when they need to transmit and to receive ACKs
         \begin{itemize}
             \item Synchronization times are embedded in ACK messages
         \end{itemize}
@@ -211,7 +211,6 @@ WSNs}
 \framesubtitle{The Aloha-Q protocol}
     
     \begin{itemize}[<+->]
-        \item Q values range from $-1$ to $1$
         \item Each node starts with all Q values set to $0$
         \begin{itemize}
             \item \boldred{Optimistic randomized start}
@@ -231,7 +230,7 @@ WSNs}
         \begin{itemize}
             \item Usually set to $\alpha = 0.1$ to mitigate node failures
         \end{itemize}
-        \item A reward $r = +1$ is given for \boldred{succesful}, while $r = -1$ is given for \boldred{collision}
+        \item A reward $r = +1$ is given for \boldred{successes}, while $r = -1$ is given for \boldred{collisions}
         \begin{itemize}
             \item Collisions are highly punished when the Q value is positive
             \item Successes are highly rewarded when the Q value is negative

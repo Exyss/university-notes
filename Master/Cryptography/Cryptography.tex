@@ -96,7 +96,7 @@
 
     Cryptography is the branch of computer science that practices and studies techniques for secure communication in the presence of adversarial behavior (e.g. altering the integrity of the message, reading the content of the message, \dots). Cryptography focuses on two main goals:
     \begin{enumerate}
-        \item \textbf{Confidential communication}: the property of making the original message impossible to read even if an outsider finds out the \textit{cyphertext}, i.e. the encrypted message
+        \item \textbf{Confidential communication}: the property of making the original message impossible to read even if an outsider finds out the \textit{ciphertext}, i.e. the encrypted message
         
         \begin{figure}[H]
             \centering
@@ -117,7 +117,7 @@
             \caption{Without an encryption scheme, Eve -- an evildoer -- may be able to read the message that Alice is sending to Bob.}
         \end{figure}
 
-        \item \textbf{Message integrity}: the capability of ensuring that the original message has not been altered even if an outsider intercepts the cyphertext
+        \item \textbf{Message integrity}: the capability of ensuring that the original message has not been altered even if an outsider intercepts the ciphertext
         
         \begin{figure}[H]
             \centering
@@ -164,7 +164,7 @@
     Throughout this work we'll use the following notation to talk about cryptographic systems:
     \begin{itemize}
         \item $\mathcal{M}$ is the message space, i.e. the set of all strings of messages that can be sent between two parties.
-        \item $\mathcal{C}$ is the cyphertext space, i.e. the set of all strings of cyphertexts that can be produced by a cryptosystem.
+        \item $\mathcal{C}$ is the ciphertext space, i.e. the set of all strings of ciphertexts that can be produced by a cryptosystem.
         \item $\mathcal{K}$ is the key space, i.e. the set of all strings of keys that can be used in a cryptographic system.
         \item $\mathcal{H}$ is the hashing function space, i.e. the set of all hash functions that can be used by a cryptosystem.
     \end{itemize}
@@ -176,11 +176,11 @@
     For now, we'll focus on symmetric cryptography, i.e. cryptosystems where a shared secret key is used for both encryption and decryption. It is widely used due to its speed and efficiency, especially in encrypting large volumes of data. A core model of this approach is \textbf{Secret Key Encryption (SKE)}, which includes three main components:
     \begin{itemize}
         \item A shared \textit{secret key} $K \in_{R} \mathcal{K}$ chosen uniformly at random
-        \item An \textit{encryption function} $\mathrm{Enc} : \mathcal{K} \times \mathcal{M} \to \mathcal{C}$ that transforms plaintext into cyphertext
-        \item A \textit{decryption function} $\mathrm{Dec} : \mathcal{K} \times \mathcal{C} \to \mathcal{M}$ that transforms a cyphertext into plaintext
+        \item An \textit{encryption function} $\mathrm{Enc} : \mathcal{K} \times \mathcal{M} \to \mathcal{C}$ that transforms plaintext into ciphertext
+        \item A \textit{decryption function} $\mathrm{Dec} : \mathcal{K} \times \mathcal{C} \to \mathcal{M}$ that transforms a ciphertext into plaintext
     \end{itemize}
 
-    In order to be functional, SKEs must be \textbf{correct}, meaning that if a message $m \in \mathcal{M}$ gets encrypted with $K \in_R \mathcal{K}$ obtaining the cyphertext $c \in \mathcal{C}$, the decryption process over $c$ using the same key $K$ must give back the original message.
+    In order to be functional, SKEs must be \textbf{correct}, meaning that if a message $m \in \mathcal{M}$ gets encrypted with $K \in_R \mathcal{K}$ obtaining the ciphertext $c \in \mathcal{C}$, the decryption process over $c$ using the same key $K$ must give back the original message.
 
     \begin{frameddefn}{Correctness in SKEs}
         An SKE $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ is said to be correct if $\forall m \in \mathcal{M}, \forall K \in_R \mathcal{K}$ it holds that:
@@ -211,12 +211,12 @@
                 ;
         \end{tikzpicture}
 
-        \caption{Example of SKE with perfect secrecy. Even if Eve intercepts the cyphertext, she cannot obtain the original message since she doesn't know the key.}
+        \caption{Example of SKE with perfect secrecy. Even if Eve intercepts the ciphertext, she cannot obtain the original message since she doesn't know the key.}
     \end{figure}
 
     Originally proposed in the 19th century by the homonym cryptographer, \textbf{Kerckhoffs's principle} is a foundational concept in cryptography which asserts that the security of a cryptographic system should depend \underline{only} on the secrecy of the key. In other words, a system should be secure even if everything about the system is known publicly, except for the secret key. The principle was later succinctly restated by Claude Shannon as \curlyquotes{the enemy knows the system}.
 
-    During his work, Shannon also proposed a formal definition of \textbf{perfect secrecy}, i.e. a property that fully respects the concept behind Kerckhoff's principle. Shannon's formulation states that the probability of $m$ being the communicated message is equal to the probability of $m$ being the communicated message even when the corresponding cyphertext $c$ is known. In other words, no cyphertext reveals additional information over any message.
+    During his work, Shannon also proposed a formal definition of \textbf{perfect secrecy}, i.e. a property that fully respects the concept behind Kerckhoff's principle. Shannon's formulation states that the probability of $m$ being the communicated message is equal to the probability of $m$ being the communicated message even when the corresponding ciphertext $c$ is known. In other words, no ciphertext reveals additional information over any message.
 
     \begin{frameddefn}{Perfect secrecy}
         Let $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ be an SKE. Let $M$ be a random variable over $\mathcal{M}$ and let $C$ be another random variable defined as $C = \mathrm{Enc}(K,M)$, for some key $K \in_R \mathcal{K}$. We say that $\Pi$ has perfect secrecy when $\forall m \in \mathcal{M}$ and $\forall c \in \mathcal{C}$ it holds that:
@@ -229,7 +229,7 @@
     By properties of the bit-wise XOR function, it's easy to see that OTP is complete:
     \[\mathrm{Dec}(K,\mathrm{Enc}(K,m)) = K \oplus (K \oplus m) = m\]
 
-    In order to prove that OTP has perfect secrecy, we start by proving two equivalent definitions of perfect secrecy. In particular, states that for every pair of messages every cyphertext has the same probability of being the output of the encoding function when applied of both messages. 
+    In order to prove that OTP has perfect secrecy, we start by proving two equivalent definitions of perfect secrecy. In particular, states that for every pair of messages every ciphertext has the same probability of being the output of the encoding function when applied of both messages. 
 
     \begin{framedlem}[label={perfect_secrecy}]{Perfect secrecy (eq. definitions)}
         Let $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ be an SKE. Let $M$ be a random variable over $\mathcal{M}$ and let $C$ be another random variable defined as $C = \mathrm{Enc}(K,M)$, for some key $K \in_R \mathcal{K}$. The following statements are equivalent:
@@ -242,6 +242,8 @@
     \end{framedlem}
 
     \begin{proof}
+        \quad
+
         \begin{enumerate}
             \item[1. $\implies$ 2.] Suppose that $\Pi$ has perfect secrecy. Then, through definition of conditional probability we get that:
             \[\Pr[M = m] = \Pr[M = m \mid C = c] = \frac{\Pr[M = m, C = c]}{\Pr[C = c]}\]
@@ -249,20 +251,17 @@
             \[\Pr[M = m] \cdot \Pr[C = c] = \Pr[M = m, C = c]\]
             concluding that $M$ and $C$ are independent
 
-            \item Suppose that $M$ and $C$ are independent. Fix $m, m' \in \mathcal{M}$ and $c \in \mathcal{C}$. Through event manipulation and independency of $M$ and $C$ we obtain that:
+            \item[2. $\implies$ 3.] Suppose that $M$ and $C$ are independent. Fix $m, m' \in \mathcal{M}$ and $c \in \mathcal{C}$. Through event manipulation and independency of $M$ and $C$ we obtain that:
             \[\begin{split}
                 \Pr_{K \in_R \mathcal{K}}[\mathrm{Enc}(K,m) = c] &= \Pr_{K \in_R \mathcal{K}}[\mathrm{Enc}(K,M) = c \mid M = m] \\
                 &= \Pr_{K \in_R \mathcal{K}}[C = c \mid M = m]\\
-                &= \Pr_{K \in_R \mathcal{K}}[M = m]\\
+                &= \Pr_{K \in_R \mathcal{K}}[C = c]\\
             \end{split}\]
 
-            Since every message has the same probability of being correct -- without additional information -- we know that:
-            \[Pr_{K \in_R \mathcal{K}}[M = m] = Pr_{K \in_R \mathcal{K}}[M = m']\]
+            Proceding in the same way with $\mathrm{Enc}(K,m')$, we conclude that:
+            \[\Pr_{K \in_R \mathcal{K}}[\mathrm{Enc}(K,m) = c] = \Pr_{K \in_R \mathcal{K}}[\mathrm{Enc}(K,m') = c]\]
 
-            Moreover, through a similar argument to the one above we get that:
-            \[\Pr_{K \in_R \mathcal{K}}[\mathrm{Enc}(K,m') = c] = \Pr_{K \in_R \mathcal{K}}[M = m']\]
-
-            \item Assume the third statement holds and fix $c \in \mathcal{C}$
+            \item[3. $\implies$ 1.] Assume the third statement holds. Fix $m \in \mathcal{C}$ and $c \in \mathcal{C}$.
             
             \textbf{Claim}: $\Pr[C = c] = \Pr[C = c \mid M = m]$
 
@@ -302,14 +301,14 @@
     \end{framedprop}
 
     \begin{proof}
-        We'll prove that the third definition of \Cref{perfect_secrecy} holds for OTP. Fix two messages $m,m' \in \mathcal{M}$ and a cyphertext $c \in \mathcal{C}$. Through definition of the OTP system and by the properties of the XOR function, we have that:
+        We'll prove that the third definition of \Cref{perfect_secrecy} holds for OTP. Fix two messages $m,m' \in \mathcal{M}$ and a ciphertext $c \in \mathcal{C}$. Through definition of the OTP system and by the properties of the XOR function, we have that:
         \[\Pr_{K \in_R \mathcal{K}}[\mathrm{Enc}(K, m) = c] = \Pr_{K \in_R \mathcal{K}}[K \oplus m = c] = \Pr_{K \in_R \mathcal{K}}[K = m \oplus c] = 2^{-n}\]
         
         Through the same argument, we also get that:
         \[\Pr_{K \in_R \mathcal{K}}[\mathrm{Enc}(K, m') = c] = 2^{-n}\]
     \end{proof}
 
-    We'll now show the inheritent limitations of perfect secrecy. The key idea is simple: in order for $M$ and $C$ to be independent, the key cannot be shorter than the message. Otherwise, there will be some cyphertexts that are unreachable by some messages, revealing information on the system.
+    We'll now show the inheritent limitations of perfect secrecy. The key idea is simple: in order for $M$ and $C$ to be independent, the key cannot be shorter than the message. Otherwise, there will be some ciphertexts that are unreachable by some messages, revealing information on the system.
 
     \begin{framedthm}{Shannon's perfect secrecy theorem}
         Let $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ be a non-trivial perfectly secret SKE. Then, it holds that $\abs{\mathcal{K}} \geq \abs{\mathcal{M}}$
@@ -378,7 +377,7 @@
     \end{frameddefn}
 
     \begin{framedthm}{}
-        Let $\mathcal{H} = \{h_K : \mathcal{M} \to \mathcal{T}\}_{K \in \mathcal{K}}$ be a family of pairwise indepependent hash functions induces a $1$-time $\frac{1}{\abs{\mathcal{T}}}$-statistically secure MAC.
+        Let $\mathcal{H} = \{h_K : \mathcal{M} \to \mathcal{T}\}_{K \in \mathcal{K}}$ be a family of pairwise indepependent hash functions. Then, $\mathcal{H}$ induces a $1$-time $\frac{1}{\abs{\mathcal{T}}}$-statistically secure MAC.
     \end{framedthm}
 
     \begin{proof}
@@ -439,7 +438,7 @@
         \[H_{\infty}(X) = - \log \max_{x} \Pr[X = x]\]
     \end{frameddefn}
 
-    One way to justify the name of the quantity is to compare it with the more standard definition of \textit{entropy}, defined as the expectation value of $\log\rbk{\frac{1}{p_i}}$ over a distribution $P$
+    One way to justify the name of this operator is to compare it with the more standard definition of \textit{entropy}, i.e. the expected value of $\log\rbk{\frac{1}{p_i}}$ over a distribution $P$:
     \[H(P) = \sum_{i} p_i \log\rbk{\frac{1}{p_i}}\]
 
     In the min-entropy, instead, we take take the minimum value of $\log\rbk{\frac{1}{p_i}}$, where:
@@ -682,7 +681,7 @@
         \end{itemize}
     \end{frameddefn}
 
-    The above definition requires a bit of discussion in order to be fully understood. First, we observe that $G$ is \underline{deterministic}, making $G(U_n) \approx_c U_{n+\ell}$ a very strong property. Then, we observe that the idea  a PRG is to generate new bits that look like they are truly random, as long as the initial seed is already truly random (in practice, we use a seed that is computationally indistinguishable from a truly random one). Hence, we can use a randomness extractor to get an initial seed and then pass it to a PRG in order to \curlyquotes{expand the seed} up to any desired length: after constructing a simple PRG $G : \{0,1\}^n \to \{0,1\}^{n+1}$, it can be used to construct a new PRG $G : \{0,1\}^n \to \{0,1\}^{n+\ell}$ up to any polynomial value $\ell > 0$.
+    The above definition requires a bit of discussion in order to be fully understood. First, we observe that $G$ is \underline{deterministic}, making $G(U_n) \approx_c U_{n+\ell}$ a very strong property. Then, we observe that the idea behind a PRG is to generate new bits that look like they are truly random, as long as the initial seed is already truly random (in practice, we use a seed that is computationally indistinguishable from a truly random one). Hence, we can use a randomness extractor to get an initial seed and then pass it to a PRG in order to \curlyquotes{expand the seed} up to any desired length: after constructing a simple PRG $G : \{0,1\}^n \to \{0,1\}^{n+1}$, it can be used to construct a new PRG $G : \{0,1\}^n \to \{0,1\}^{n+\ell}$ up to any polynomial value $\ell > 0$.
 
     To prove this result, we use a technique known as \textbf{hybrid argument}. We define a sequence $H_0, \ldots, H_\ell$ of distributions such that:
     \begin{itemize}
@@ -702,7 +701,8 @@
         \begin{enumerate}
             \item Set $s_i = s$
             \item For each $j \leq i$ set $b_j$ as a truly random bit, i.e. $b_j \in_R U_1$
-            \item For each $j > i$ set $s_j$ and $b_j$ as the values such that $G(s_{j-1}) = s_j \concat b_j$, where $s_j \in \{0,1\}^n$ and $b_j \in \{0,1\}$."
+            \item For each $j > i$ set $s_j$ and $b_j$ as the values such that $G(s_{j-1}) = s_j \concat b_j$, where $s_j \in \{0,1\}^n$ and $b_j \in \{0,1\}$.
+            \item Return $b_1 \mid\mid \ldots \mid\mid b_\ell \mid\mid s_\ell$.
         \end{enumerate}
 
         It's easy to see that each $i \in [0,\ell]$ the function $f_i$ is PPT-computable since $G$ is a PPT algorithm by hypothesis and $\ell = \poly(n)$. Moreover, $f_0$ is deterministic since it doesn't generate random bits. Let $H_0, \ldots, H_\ell$ be the distributions over the outputs of the functions $f_0, \ldots, f_\ell$. We observe that $H_\ell = U_{n+\ell}$ since every bit is truly random in $f_\ell$. Hence, by letting $G^\ell = f_0$ we get that $H_0 = G^\ell(U_n)$ and $H_\ell = U_{n+\ell}$.
@@ -913,6 +913,26 @@
         Omitted.
     \end{proof}
 
+    \section{Solved exercises}
+
+    \begin{framedprob}{}
+        For $m > n$, let $G : \{0,1\}^n \to \{0,1\}^m$ be a secure PRG. Consider $G'$ defined as $G'(s) = G(s) \oplus (0^{m-n} \mid\mid s)$. Prove or disprove that $G'$ is a secure PRG.
+    \end{framedprob}
+
+    \textit{Solution}:
+
+    $G'$ is not necessarily a secure PRG. Let $G(s) = G^*(s_{1:n-1}) \mid\mid s_n$, where $G^* : \{0,1\}^n \to \{0,1\}^{m-1}$ is a PRG, $s_{1:n-1}$ denotes the first $n-1$ bits of $s$ and $s_n$ is the last bit of $s$. It can be proven that this chosen $G$ is indeed a PRG, making it a valid choice. Now, we observe that:
+    \[\begin{split}
+        G'(s) &= G(s) \oplus (0^{m-n} \mid\mid s) \\
+        &= (G^*(s_{1:n-1})_{1:m-n} \oplus 0^{m-n}) \mid\mid (G^*(s_{1:n-1})_{m-n+1:m-1} \oplus s_{1:n-1}) \mid\mid (s_n \oplus s_n) \\
+        &= G^*(s_{1:n-1})_{1:m-n} \mid\mid (G^*(s_{1:n-1})_{m-n+1:m-1} \oplus s_{1:n-1}) \mid\mid 0 \\
+    \end{split}\]
+
+    In other words, the last bit of $G'(s)$ will always be 0. Consider now the adversary $A$ that checks the input $z \in \{0,1\}^{m}$ and returns 1 if $z_m = 0$ and 0 otherwise. Then:
+    \[\abs{\Pr[A(z) = 1 : z \in_R G'(U_n)] - \Pr[A(z) = 1 : z \in_R U_m]} = \abs{1-\frac{1}{2}} = \frac{1}{2}\]
+
+    concluding that $A$ is an adversary that distinguishes $G'(U_n)$ from $U_m$ with non-negligible probability.
+
     \chapter{Symmetric-key encryption schemes}
 
     \section{Games as security proofs}
@@ -965,6 +985,7 @@
     \begin{frameddefn}{1-time computational security}
         Let $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ be a SKE. We say that $\Pi$ is 1-time computationally secure if:
         \[\mathrm{Game}_{\Pi, A}^{\text{1-time}}(\lambda, 0) \approx_c \mathrm{Game}_{\Pi, A}^{\text{1-time}}(\lambda, 1)\]
+        for all PPT adversaries $A$.
     \end{frameddefn}
 
     To see how this game can be used for specific cryptosystems, we prove that PRG-OTP has 1-time computationally security.
@@ -1018,14 +1039,16 @@
         \[\mathrm{Game}_{\Pi, A}^{\text{1-time}}(\lambda, 0) \approx_c \mathrm{Hyb}(\lambda, 0) \equiv \mathrm{Hyb}(\lambda, 1) \approx_c \mathrm{Game}_{\Pi, A}^{\text{1-time}}(\lambda, 1)\]
     \end{proof}
 
+    \newpage
+
     \section{CPA security and pseudorandom functions}
 
-    In the previous section we proved that PRG-OTP is 1-time computationally secure, meaning that it is secure against attackers that know only one message. However, this SKE's weakness is \textit{cyphertext attacks}. Suppose that an attacker knows a cyphertext-message pair $(m_1, c_1)$. If the challenger sends another cyphertext $c_2$ obtained from a message $m_2$, the attacker is able to retrieve the contents of $m_2$ through the SKE itself:
+    In the previous section we proved that PRG-OTP is 1-time computationally secure, meaning that it is secure against attackers that know only one message. However, this SKE's weakness is \textit{ciphertext attacks}. Suppose that an attacker knows a ciphertext-message pair $(m_1, c_1)$. If the challenger sends another ciphertext $c_2$ obtained from a message $m_2$, the attacker is able to retrieve the contents of $m_2$ through the SKE itself:
     \[c_1 \oplus c_2 \oplus m_1 = (G(K) \oplus m_1) \oplus (G(K) \oplus m_2) \oplus m_1 = m_2\]
     
-    The generalization of this type of attack is known as \textbf{Known-plaintext Attack (KPA)} and the security counterpart is known as \textit{$t$-time computational security}. We observe that KPAs require that the attacker only knows the pairs $(m_1, c_1), \ldots, (m_t, c_t)$ but is not able to choose them. When the attacker is able to choose the pairs (e.g. they can choose messages and get their cyphertexts) we talk about \textbf{Chosen-plaintext Attack (CPA)}.
+    The generalization of this type of attack is known as \textbf{Known-plaintext Attack (KPA)} and the security counterpart is known as \textit{$t$-time computational security}. We observe that KPAs require that the attacker only knows the pairs $(m_1, c_1), \ldots, (m_t, c_t)$ but is not able to choose them. When the attacker is able to choose the pairs (e.g. they can choose messages and get their ciphertexts) we talk about \textbf{Chosen-plaintext Attack (CPA)}.
     
-    In the CPA game the adversary is given access to an encryption \textbf{oracle}, i.e. a sub-procedures with unlimited power that can be queried in order to get an answer. Each query costs $\Theta(1)$ computational steps. We observe that the oracle queries made by the attacker can be seen as \curlyquotes{questions already answered}. For instance, suppose that the attacker queries an oracle $O$ capable of returning the cyphertext of a message, i.e. solves the problem $\mathrm{Enc}(K, \cdot)$. If the attacker queries $m_1, \ldots, m_t$, the oracle will answer with $c_1, \ldots, c_t$. This is equivalent to saying that the attacker has chosen the pairs $(m_1, c_1), \ldots, (m_t, c_t)$. The concept of oracle is just a computational medium to express this idea.
+    In the CPA game the adversary is given access to an encryption \textbf{oracle}, i.e. a sub-procedures with unlimited power that can be queried in order to get an answer. Each query costs $\Theta(1)$ computational steps. We observe that the oracle queries made by the attacker can be seen as \curlyquotes{questions already answered}. For instance, suppose that the attacker queries an oracle $O$ capable of returning the ciphertext of a message, i.e. solves the problem $\mathrm{Enc}(K, \cdot)$. If the attacker queries $m_1, \ldots, m_t$, the oracle will answer with $c_1, \ldots, c_t$. This is equivalent to saying that the attacker has chosen the pairs $(m_1, c_1), \ldots, (m_t, c_t)$. The concept of oracle is just a computational medium to express this idea.
     
     Let $\mathrm{Game}_{\Pi,A}^{\text{CPA}}(\lambda,b)$ be the 2-player game defined as follows:
     \begin{enumerate}
@@ -1033,7 +1056,8 @@
         \item The adversary $A$ queries $m_1, \ldots, m_t \in \{0,1\}^\lambda$, where $t = \poly(\lambda)$, to an oracle for $\mathrm{Enc}_{\Pi}(K, \cdot)$. The oracle answers with $c_1, \ldots, c_t$.
         \item The adversary sends to messages $m_0^*, m_1^* \in \{0,1\}^\lambda$ to the challenger $C$
         \item $C$ sends $\mathrm{Enc}_\Pi(K, m^*_b) = c^*$ back to $A$
-        \item $A$ analyzes $c$ and tries to guess if it was obtained through $m_0$ or $m_1$ by sending a bit $b' \in \{0,1\}$
+        \item $A$ queries $m_1', \ldots, m_s' \in \{0,1\}^\lambda$, where $s = \poly(\lambda)$, to an oracle for $\mathrm{Enc}_{\Pi}(K, \cdot)$. The oracle answers with $c_1', \ldots, c_t'$.
+        \item $A$ tries to guess if it was obtained through $m_0$ or $m_1$ by sending a bit $b' \in \{0,1\}$
         \item If $b' \neq b$, the challenger wins. Otherwise, the adversary wins. 
     \end{enumerate}
 
@@ -1056,8 +1080,14 @@
             \node[] (9) [below of = 7]{};
             \node[] (10) [below of = 8]{};
 
-            \node[] (11) [below of = 9]{};
-            \node[] (12) [below of = 10]{};
+            \node[] (3x) [below of = 9]{};
+            \node[] (4x) [below of = 10]{};
+
+            \node[] (5x) [below of = 3x]{};
+            \node[] (6x) [below of = 4x]{};
+
+            \node[] (11) [below of = 5x]{};
+            \node[] (12) [below of = 6x]{};
 
             \path[every node/.style={font=\sffamily\small}]
                 (5) edge[bend left] node {$\poly(\lambda)$}(3)
@@ -1065,6 +1095,9 @@
                 (6) edge[swap, near start] node{$c_i = \mathrm{Enc}_\Pi(K, m_i)$} (5)
                 (7) edge[near start] node{$m_0^*, m_1^* \in \{0,1\}^\lambda$} (8)
                 (10) edge[swap, near start] node{$c^* = \mathrm{Enc}_\Pi(K, m_b^*)$} (9)
+                (5x) edge[bend left] node {$\poly(\lambda)$}(3x)
+                (3x) edge[near start] node{$m_i' \in \{0,1\}^\lambda$} (4x)
+                (6x) edge[swap, near start] node{$c_i' = \mathrm{Enc}_\Pi(K, m_i)$} (5x)
                 (11) edge[near start] node{$b' \in \{0,1\}$} (12)
                 ;
         \end{tikzpicture}
@@ -1075,9 +1108,10 @@
     \begin{frameddefn}{CPA-security}
         Let $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ be a SKE. We say that $\Pi$ is CPA-secure if:
         \[\mathrm{Game}_{\Pi, A}^{\text{CPA}}(\lambda, 0) \approx_c \mathrm{Game}_{\Pi, A}^{\text{CPA}}(\lambda, 1)\]
+        for all PPT adversaries $A$.
     \end{frameddefn}
 
-    It's easy to see that the PRG-OTP is not CPA-secure since the output of the encryption scheme is \textit{deterministic} (meaning that it will always return the same output when given the same input). Consider the attacker that queries two messages $m_0, m_1 \in \{0,1\}^n$. After obtaining the cyphertexts $c_0, c_1$ from $C$, the attacker sends the final queries $m_0^* = m_0$ and $m_1^* = m_1$, obtaining the final cyphertext $c^*$. Since the scheme is deterministic, we know that either $c^* = c_0$ or $c^* = c_1$ must hold (depending on the value $b$ used by $C$). Thus, the attacker returns 0 if $c^* = c_0$,, otherwise they returns 1. This allows the attacker to distinguish the two games with probability 1. We observe that this idea is not restricted to the PRG-OTP: it holds for any deterministic SKE!
+    It's easy to see that the PRG-OTP is not CPA-secure since the output of the encryption scheme is \textit{deterministic} (meaning that it will always return the same output when given the same input). Consider the attacker that queries two messages $m_0, m_1 \in \{0,1\}^n$. After obtaining the ciphertexts $c_0, c_1$ from $C$, the attacker sends the final queries $m_0^* = m_0$ and $m_1^* = m_1$, obtaining the final ciphertext $c^*$. Since the scheme is deterministic, we know that either $c^* = c_0$ or $c^* = c_1$ must hold (depending on the value $b$ used by $C$). Thus, the attacker returns 0 if $c^* = c_0$,, otherwise they returns 1. This allows the attacker to distinguish the two games with probability 1. Clearly, this idea is not restricted to the PRG-OTP: it holds for any deterministic SKE!
 
     \begin{framedprop}{}
         No deterministic SKE can be CPA-secure.
@@ -1124,13 +1158,14 @@
     \begin{frameddefn}{Pseudorandom functions}
         Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^m\}_{K \in \{0,1\}^\lambda}$ be a family of poly-time functions. We say that $\mathcal{F}$ is a pseudorandom function family (PRF) if:
         \[\mathrm{Game}_{\mathcal{F},A}^{\text{PRF}}(\lambda, 0) \approx_c \mathrm{Game}_{\mathcal{F},A}^{\text{PRF}}(\lambda, 1)\]
+        for all PPT adversaries $A$.
     \end{frameddefn}
 
     We observe that the above definition requires that $\mathcal{F}$ is a family of efficient \underline{deterministic} functions: randomness is only used to choose a key that identifies which function of the family must be used. The uniform distribution $\mathcal{R}(n \to n)$, instead, also contains functions that aren't poly-time computable. The idea behind the PRF game is to establish that each function of the family is computationally indistinguishable from a randomly chosen function.
 
     In practical applications, many common encryption schemes (e.g. DES, 3DES, AES, \dots) are based on on \textit{pseudorandom permutations (PRP)}, i.e. PRFs that are invertible if they key is known. For now, we'll give the idea behind how PRFs can be used in theory to produce CPA-secure SKEs.
     
-    First of all, we observe that we cannot simply swap PRGs with PRFs in order to get a good scheme since each function is deterministic. The trick here is to use a random initial value called \textbf{nonce} (short for \curlyquotes{number used once}). As their name suggests, these values are used exactly once by the cryptosystem, granting that the same input will always give a different cyphertext.
+    First of all, we observe that we cannot simply swap PRGs with PRFs in order to get a good scheme since each function is deterministic. The trick here is to use a random initial value called \textbf{nonce} (short for \curlyquotes{number used once}). As their name suggests, these values are used exactly once by the cryptosystem, granting that the same input will always give a different ciphertext.
     
     Given a PRF $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$, let the \textit{PRF One Time Pad (PRF-OTP)} be the scheme defined by the following operations:
     \begin{enumerate}
@@ -1384,7 +1419,7 @@
     The simplest encryption type is the \textbf{Electronic Code Book (ECB)} mode, where the scheme simply applies the selected PRF to every block of the message.
     
     \begin{frameddefn}{Electronic Code Book (ECB) mode}
-        Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF. Let $K \in \{0,1\}^\lambda$ be a chosen key. On input $m = (m_1, \ldots, m_d)$ the ECB encryption mode returns the cyphertext $c = (c_1, \ldots, c_d)$ constructed as:
+        Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF. Let $K \in \{0,1\}^\lambda$ be a chosen key. On input $m = (m_1, \ldots, m_d)$ the ECB encryption mode returns the ciphertext $c = (c_1, \ldots, c_d)$ constructed as:
         \begin{itemize}
             \item For all $i \in [d]$ it holds that $c_i = F_K(m_i)$
         \end{itemize}
@@ -1399,7 +1434,7 @@
     Clearly, the ECB mode cannot be CPA-secure since it is deterministic. As discussed in the PRF-OTP example, a nonce value is sufficient to make the ecryption non-deterministic. In encryption modes, this nonce value is usually referred to as \textbf{Initialization Vector (IV)}. In order to make decryption harder to bruteforce, common encryption modes are based on \textit{sequential encryption}: some value produced during the encryption of block $m_i$ is used for the encryption of block $m_{i+1}$. This allows us to restrict our interests to the secretness of the key and the IV. Moreover, it also makes decryption unparallelizable, further improving the security of the SKE. The first type of encryption mode based on this idea is the \textbf{Cipher Block Chaining (CBC)}.
 
     \begin{frameddefn}{Cipher Block Chaining (CBC) mode}
-        Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF. Let $K \in \{0,1\}^\lambda$ be a chosen key. On input $m = (m_1, \ldots, m_d)$ the CBC encryption mode returns the cyphertext $c = (c_1, \ldots, c_d)$ constructed as:
+        Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF. Let $K \in \{0,1\}^\lambda$ be a chosen key. On input $m = (m_1, \ldots, m_d)$ the CBC encryption mode returns the ciphertext $c = (c_1, \ldots, c_d)$ constructed as:
         \begin{itemize}
             \item $c_0 \in_R U_n$ is a nonce value (IV)
             \item For all $i \in [d]$ it holds that $c_i = F_K(c_{i-1} \oplus m_i)$
@@ -1416,7 +1451,7 @@
 
 
     \begin{frameddefn}{Cipher Feedback (CFB) mode}
-        Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF. Let $K \in \{0,1\}^\lambda$ be a chosen key. On input $m = (m_1, \ldots, m_d)$ the CFB encryption mode returns the cyphertext $c = (c_1, \ldots, c_d)$ constructed as:
+        Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF. Let $K \in \{0,1\}^\lambda$ be a chosen key. On input $m = (m_1, \ldots, m_d)$ the CFB encryption mode returns the ciphertext $c = (c_1, \ldots, c_d)$ constructed as:
         \begin{itemize}
             \item $c_0 \in_R U_n$ is a nonce value (IV)
             \item For all $i \in [d]$ it holds that $c_i = F_K(c_{i-1}) \oplus m_i$
@@ -1432,7 +1467,7 @@
     Another encryption mode extremely similar to CFB is the \textbf{Output Feedback (OFB)} mode, where the output of the PRF is directly forwarded instead of being XORed first.
 
     \begin{frameddefn}{Output Feedback (OFB) mode}
-        Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF. Let $K \in \{0,1\}^\lambda$ be a chosen key. On input $m = (m_1, \ldots, m_d)$ the OFB encryption mode returns the cyphertext $c = (c_1, \ldots, c_d)$ constructed as:
+        Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF. Let $K \in \{0,1\}^\lambda$ be a chosen key. On input $m = (m_1, \ldots, m_d)$ the OFB encryption mode returns the ciphertext $c = (c_1, \ldots, c_d)$ constructed as:
         \begin{itemize}
             \item $q_0 \in_R U_n$ is a nonce value (IV)
             \item For all $i \in [d]$ it holds that $q_i = F_K(q_{i-1})$
@@ -1449,9 +1484,10 @@
     The last standard encryption mode we discuss is \textbf{Counter (CTR)} mode. Instead of using the previous (partial) output as the next input for the PRF, this mode gradually increases the initial nonce value and uses it for the next encryptions.
 
     \begin{frameddefn}{Counter (CTR) mode}
-        Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF. Let $K \in \{0,1\}^\lambda$ be a chosen key. On input $m = (m_1, \ldots, m_d)$ the OFB encryption mode returns the cyphertext $c = (c_1, \ldots, c_d)$ constructed as:
+        Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF. Let $K \in \{0,1\}^\lambda$ be a chosen key. On input $m = (m_1, \ldots, m_d)$ the CTR encryption mode returns the ciphertext $c = (c_0, c_1, \ldots, c_d)$ constructed as:
         \begin{itemize}
             \item $r \in_R U_n$ is a nonce value (IV)
+            \item $c_0 = r$
             \item For all $i \in [d]$ it holds that $c_i = F_K(r+i-1) \oplus m_i$
         \end{itemize}
 
@@ -1460,13 +1496,218 @@
 
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=1]{images/CTR.pdf}
+        \resizebox{1\textwidth}{!}{
+            \includegraphics[scale=1]{images/CTR.pdf}
+        }
         \caption{Graphical representation of CTR mode.}
     \end{figure}
 
     CBC, CFB, OFB and CTR can all be proven to be CPA-secure for VIL. Instead of proving the security of all of them, we'll give an idea by proving the result only for CTR (which is actually harder to prove).
     
-    \begin{framedthm}{}
+    \begin{framedthm}[label={cpa_prf}]{CPA-security through PRFs}
         CBC, CFB, OFB and CTR are CPA-secure for VIL when constructed using a PRF
     \end{framedthm}
+
+    \begin{proof}
+        We prove the theorem only for CTR. Let $G(\lambda, b) := \mathrm{Game}^{\text{CPA}}_{\Pi,A}(\lambda,b)$, where $\Pi$ is a CTR mode scheme constructed through a PRF $\mathcal{F}$.
+
+        Recall that for $G(\lambda, b)$ the challenge is given by two messages $m_0^*, m_1^*$ such that $m_b^* = (m^*_{b,1}, \ldots, m^*_{b,d^*})$ and an answer $c^* = (c^*_0, c^*_1, \ldots, c^*_{d^*})$ such that $c^*_0 = r^* \in_R U_n$ and $c^*_i = F_K(r^*+i-1) \oplus m^*_{b,i}$.
+
+        We define an hybrid distribution for both values of $b$. Let $H(\lambda, b)$ be the distribution obtained by replacing $F_K(\cdot) \in \mathcal{F}$ with $R(\cdot) \in \mathcal{R}(n \to n)$ in the game $G(\lambda, b)$ (in other words, we're using a random function $R$ for the encryption instead of $F_K$).
+
+        \textbf{Claim 1}: $G(\lambda, b) \approx_c H(\lambda, b)$ for $b \in \{0,1\}$
+
+        \begin{proof}[Proof of Claim 1.]
+            We reduce the distringuishability of $F_K$ from $R$ to the distinguishability of $G(\lambda, b)$ from $H(\lambda, b)$. Fix $b \in \{0,1\}$. By way of contradiction, suppose that $G(\lambda, b) \not\approx_c H(\lambda, b)$, i.e. there is an adversary $A$ that distringuished $G(\lambda, b)$ from $H(\lambda, b)$ with probability at least $n^{-c}$ for some $c > 0$.
+
+            Let $A'$ be the adversary for $\mathcal{F}$ defined as follows:
+            \begin{enumerate}
+                \item The adversary $A'$ starts both with the challenger $C$ and the other adversary $A$
+                \item For $i \in [t]$ iterations, with $t = \poly(\lambda)$, $A$ sends a message $m^{(i)} = (m^{(i)}_1, \ldots, m^{(i)}_{d_i})$ to $A'$
+                \item Upon receiving $m^{(i)}$, $A'$ sends $r^{(i)}, r^{(i)}+1, \ldots, r^{(i)}+d-1$ to the challenger $C$, which answers with $z^{(i)}_1, \ldots, z^{(i)}_d$
+                \item $A'$ sends $c^{(i)} = (r^{(i)}, c^{(i)}_1, \ldots, c^{(i)}_{d_i})$ back to $A$, where $c^{(i)}_j = z^{(i)}_j \oplus m^{(i)}_j$
+                \item After $i$ iterations, the above istructions are repeated again with the challenge messages $m_0^*, m_1^*$, getting the answer $c^*$
+                \item Once $A$ receives $c^*$ it returns a final answer $b' \in \{0,1\}$ and $A'$ forwards $b'$ to $C$
+                \item If $b' = b$, $A'$ wins the PRF-game with $C$, otherwise it loses.
+            \end{enumerate}
+
+            The idea behind the above simultaneous game is to use the challenger $C$ to compute the outputs of either a pseudorandom function or a truly random one (depends on the value of $b$) and use those outputs to play the game with $A$.
+            
+            If $b = 0$, $C$ will use a pseudorandom function to compute the outputs, thus $A$ will recognize that we're playing $G(\lambda, b)$, outputting $0$. If $b = 1$, $C$ will use a truly random function to compute the outputs, thus $A$ will recognize that we're playing $H(\lambda, b)$, outputting $1$. Therefore, $A'$ distinguishes $F_K$ from $R$ with non-negligible probability, contradicting the fact that $\mathcal{F}$ is a PRF.
+        \end{proof}
+
+        Now, show that both $H(\lambda,0)$ and $H(\lambda, 1)$ are indistinguishable from $U_{n(d^*+1)}$, concluding the proof of the theorem through transitivity of $\approx_c$.
+
+        \textbf{Claim 2}: $H(\lambda, b) \approx_c U_{n(d^*+1)}$ for $b \in \{0,1\}$
+
+        \begin{proof}[Proof of Claim 2]
+            Consider the values $R(r^*), R(r^*+1), \ldots, R(r^*+d^*-1)$ computed during the challenge query of the game $H(\lambda, b)$. Similarly, consider the values $R(r^{(i)}), R(r^{(i)}+1), \ldots, R(r^{(i)}+d_i-1)$ computed during the encryption queries.
+
+            Let $B_i$ be the binary \curlyquotes{bad event} such that $B_i = 1$ if $\exists j \in [0,d_i-1], j^* \in [0, d^*-1]$ such that $r^{(i)} + j = r^* + j^*$, otherwise $B_i = 0$. More generally, let $B = B_1 \cup \ldots cup B_t$
+
+            Consider the conditioning over the event $B = 0$. When $B = 0$, the two sequences never overlap over each $i \in [t]$, which means that the challenge ciphertext is distributed as:
+            \begin{itemize}
+                \item $c^*_0 = r^*$
+                \item $c^*_{j^*} = m^*_{b,{j^*}} \oplus u_{j^*}$ with $u_{j^*} \in_R U_n$ for $j^* \in [0,d^*-1]$
+            \end{itemize}
+
+            which is indistinguishable from $U_{n(d^*+1)}$. As a consequence of this, we get that:
+            \[\mathrm{SD}(H(\lambda, b); U_{n(d+1)}) \leq \Pr[B = 1]\]
+
+            We're left with computing $\Pr[B = 1]$. Fix $i \in [t]$. Without loss of generality, assume that $d_i = d^* = t = q$. Since the event $B_i = 1$ holds when $r^*, r^*+1, \ldots, r^*+1-1$ overlaps with $r^{(i)}, r^{(i)}+1, \ldots, r^{(i)}+q-1$, this can happen only when:
+            \[r^*-q+1 \leq r^{(i)} \leq r^* + q-1\]
+
+            Therefore, we have that:
+            \[\Pr[B_i = 1] \leq \frac{1+(r^*+q-1)-(r^*-q-1)}{2^n} = \frac{2q-1}{2^n}\]
+
+            Finally, through the union bound we conclude that:
+            \[\Pr[B = 1] \leq \sum_{i = 1}^{q} \Pr[B_i = 1] = \frac{q(2q-1)}{2^n}\]
+
+            thus $H(\lambda, b) \approx_c U_{n(d^*+1)}$.
+        \end{proof}
+
+        The two claims conclude that $G(\lambda,0) \approx_c H(\lambda, 0) \approx_c U_(n(d^*+1)) \approx H(\lambda, 1) \approx_c G(\lambda, 1)$.
+    \end{proof}
+
+    \section{Computationally secure MACs}
+
+    After showing that the common encryption schemes are CPA-secure, we focus on secure message authentication. Conside any tag function $\mathrm{Tag} : \mathcal{K} \times \mathcal{M} \to \mathcal{T}$. When can this function be considered secure under a computational setting? The idea is to make it hard to forge a pair $(m^*, \tau^*)$ such that $\mathrm{Tag}(K,m^*) = \tau^*$ when $K$ is unknown. This concept is formally known as \textbf{Unforgeability under Chosen-Message Attacks (UFCMA)}.
+
+    In $\mathrm{Game}^{\text{UFCMA}}_{\Pi, A}(\lambda)$, the adversary is given access to an oracle for the $\mathrm{Tag}$ function and it is allowed to make $t = \poly(\lambda)$ tag queries to the oracle. After completing the tag queries, the adversary returns a pair $(m^*, \tau^*)$ to the challenger (with $m^* \neq m_i$ for all $i \in [t]$). The challenger computes the tag of $m^*$ and compares it with $\tau^*$. If $\mathrm{Tag}(K, m^*) = \tau^*$ is true, the adversary wins. Otherwise, the challenger wins.
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=1cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+            \node[] (1) []{$A$};
+            \node[] (2) [left of = 1, xshift = 225]{$C$};
+
+            \node[] (3) [below of = 1]{};
+            \node[] (4) [below of = 2]{};
+
+            \node[] (5) [below of = 3]{};
+            \node[] (6) [below of = 4]{};
+
+            \node[] (7) [below of = 5]{};
+            \node[] (8) [below of = 6]{};
+
+            \path[every node/.style={font=\sffamily\small}]
+                (5) edge[bend left] node {$\poly(\lambda)$}(3)
+                (3) edge[near start] node{$m_i \in \{0,1\}^\lambda$} (4)
+                (6) edge[swap, near start] node{$\tau_i = \mathrm{Tag}(K, m_i)$} (5)
+                (7) edge[near start] node{$m^*, \tau^* \in \{0,1\}^\lambda$} (8)
+                ;
+        \end{tikzpicture}
+
+        \caption{Graphical representation of $\mathrm{Game}^{\text{UFCMA}}_{\Pi, A}(\lambda)$}
+    \end{figure}
+
+    \begin{frameddefn}{UFCMA-security}
+        Let $\Pi = (\mathrm{Tag})$ be a MAC. We say that $\Pi$ is UFCMA-secure if:
+        \[\Pr[\mathrm{Game}^{\text{UFCMA}}_{\Pi, A}(\lambda) = 1] \leq \mathrm{negl}(\lambda)\]
+        for all PPT adversaries $A$.
+    \end{frameddefn}
+
+    Pseudorandom functions are intuitively an easy way to get an UFCMA-secure MAC: since the function is hard to invert, the adversary won't be able to infer informations on the key through message-tag pairs. However, this works only for FIL (Fixed Input Length) schemes.
+    
+    \begin{framedthm}{UFCMA-security through PRFs}
+        If $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^\lambda\}_{K \in \{0,1\}^\lambda}$ is a PRF family, $\mathrm{Tag}(K, m) = F_K(m)$ is UFCMA-secure for FIL.
+    \end{framedthm}
+
+    \begin{proof}
+        Let $G(\lambda) := \mathrm{Game}_{\Pi,A}^{\text{UFCMA}}(\lambda)$. Let $H(\lambda)$ be the hybrid distribution obtained by replacing $F_K(\cdot) \in \mathcal{F}$ with $R(\cdot) \in \mathcal{R}(n \to n)$ in the game $G(\lambda)$ (in other words, we're using a randum function $R$ for the tag instead of $F_K$).
+
+        Proceeding in the usual way with a simultaneous game, we can reduce the distringuishability of $F_K$ from $R$ to the distinguishability of $G(\lambda)$ from $H(\lambda)$ (omitted, similar to Claim 1 of \Cref{cpa_prf}). This concludes that $G(\lambda) \approx_c H(\lambda)$.
+        
+        Finally, since $H(\lambda)$ uses a truly random function $R$, the probability of an adversary being able to guess the correct tag for a message is at most $2^{-n}$, concluding that $\Pi$ is UFCMA-secure.
+    \end{proof}
+
+    \subsection{Domain expansion for UFCMA-secure MACs}
+
+    We proved that PRFs can be used to construct a UFCMA-secure MAC for FIL inputs. But what about VIL tags? What about inputs of longer FIL? It's easy to see that simple tricks don't work. For instance, consider the tag function that concatenes the tags of the blocks, i.e. $\mathrm{Tag}(K,m) = \tau$ such that $m = (m_1, \ldots, m_d)$ and $\tau = (\tau_1, \ldots, \tau_d)$. The UFCMA game requires that message in the challenge query is different from the messages in the tag queries. However, a simple trick suffices to \curlyquotes{break} this constraint:
+    \begin{enumerate}
+        \item The adversary queries $m_1 \mid\mid m_2$ and gets $\tau_1 \mid\mid \tau_2$
+        \item The adversary then queries $m_3 \mid\mid m_4$ and gets $\tau_3 \mid\mid \tau_4$
+        \item The adversary challenges with the pair $(m_1 \mid\mid m_3, \tau_1 \mid\mid \tau_3)$ and wins with probability 1
+    \end{enumerate}
+
+    Consider now the tag function that XORes the blocks and returns a single tag, i.e. $\mathrm{Tag}(K, \bigoplus_{i = 1}^d m_i) = \tau$. It's easy to see that this construction still doesn't work:
+    \begin{enumerate}
+        \item The adversary queries $m_1 \mid\mid m_1$ and gets $\tau_1$
+        \item The adversary challenges with the pair $(m_2 \mid\mid m_2, \tau_1)$ and wins with probability 1
+    \end{enumerate}
+
+    It seems that our construction cannot be easily changed to allow VIL or longer FIL inputs. However, we still have a trick up our sleeve: we can hash an input of length $nd$ and reduce it to length $n$, preserving the UFCMA security of the construction. In other words, we have that $\mathrm{Tag}(K,m) = F_K(h_s(m))$ with $h_s \in \mathcal{H}$, for an hash family $\mathcal{H} = \{h_s : \{0,1\}^{nd} \to \{0,1\}^n\}_{s \in \{0,1\}^\lambda}$.
+
+    Does this idea work with every type of hash family? Inuitively, no. The hash family should be such that every hash function hardly collides on different inouts, meanin that it should be hard to have two messages $m, m'$ with $m \neq m'$ such that $h_s(m) = h_s(m')$. Depending on the degree of hardness, these hash families are called \textbf{$\epsilon$-almost universal}.
+
+    \begin{frameddefn}{Universal hash families}
+        Let $\mathcal{H} = \{h_s : \{0,1\}^{nd} \to \{0,1\}^n\}_{s \in \{0,1\}^\lambda}$ be a family of hash functions. We say that $\mathcal{H}$ is $\varepsilon$-almost universal if $\forall m,m' \in \mathcal{M}$ with $m \neq m'$ it holds that:
+        \[\Pr_{s \in_R \{0,1\}^\lambda} [h_s(m) = h_s(m')] \leq \varepsilon\]
+        
+        When $\varepsilon = \mathrm{negl}(\lambda)$, the family is said to be \textit{almost universal (AU)}. When $\varepsilon = 2^{-n}$, the family is said to be \textit{perfectly universal (PU)}.
+    \end{frameddefn}
+
+    As the name suggests, PU hash families are considered \textit{perfect} in a sense that it is practically impossible to get a collision. Nonetheless, for our purposes AU hash families are enough. In fact, it can be proven that composing them with a PRF yields another PRF.
+
+    \begin{framedthm}{Composition of PRFs with AU hash families}
+        Given a PRF family $\mathcal{F} = \{F_k : \{0,1\}^n \to \{0,1\}^n\}$ and an AU hash family  $\mathcal{H} = \{h_s : \{0,1\}^{nd} \to \{0,1\}^n\}_{s \in \{0,1\}^\lambda}$, the family $\mathcal{F}(\mathcal{H})$ defined as:
+        \[\mathcal{F}(\mathcal{H}) = \{F_K \circ h_s : \{0,1\}^{nd} \to \{0,1\}^n\}_{(K,s) \in \{0,1\}^{2\lambda}}\]
+        is a PRF family.
+    \end{framedthm}
+
+    \begin{proof}
+        Consider the two games $G(\lambda, b) := \mathrm{Game}_{\mathcal{F}(\mathcal{H}), A}^{\text{PRF}}(\lambda, b)$ with $b \in \{0,1\}$. We recall that $G(\lambda, 0)$ is the PRF game where we use a function $F_K(h_s(\cdot)) \in \mathcal{F}(\mathcal{H})$, while $G(\lambda, 1)$ is the PRF game where we use a truly random function $R \in \mathcal{R}(nd \to n)$.
+
+        Ler $H(\lambda)$ be the hybrid distribution that plays the PRF game with the function $R'(h_s(\cdot))$, where $R' \in \mathcal{R}(n \to n)$. It can be proven that $G(\lambda,0) \approx_c H(\lambda)$ in the standard way by reducing the distringuishability of $\mathrm{F}_K$ from $R'$ to the distringuishability of $G(\lambda,0)$ from $H(\lambda)$.
+
+        Therefore, it remains to show that $H(\lambda) \approx G(\lambda,1)$. Let $m_1, \ldots, m_t$ be the encryption queries made by the adversary, where $t = \poly(\lambda)$. Let $B$ be the bad event such that $B = 1$ if $\exists i,j \in [t]$ with $i \neq j$ for which $h_s(m_i) = h_j(m_j)$. By conditioning on $B = 0$, no collisions occurr, thus:
+        \[\mathrm{SD}(H(\lambda); G(\lambda, 1)) \leq \Pr[B = 1]\]
+
+        Through the union bound, we have that:
+        \[\begin{split}
+            \Pr[B = 1] &= \Pr_{s \in_R \{0,1\}^R} [\exists i,j \in [t] \; i \neq j \text{ s.t. } h_s(m_i) = h_s(m_j)] \\
+            &\leq \sum_{i = 1}^t \sum_{\substack{j = 0 :\\j \neq i}}^t \Pr_{s \in \{0,1\}^\lambda} [h_s(m_i) = h_s(m_j)] \\
+            &= \binom{t}{2} \varepsilon \\
+            &= \mathrm{negl}(\lambda)
+        \end{split}\]
+
+        Therefore, $H(\lambda) \approx_c G(\lambda,1)$.
+    \end{proof}
+
+    Surprisingly, it is very easy to construct universal hash families, in particular through \textit{Galois fields}. We give two examples:
+    \begin{enumerate}
+        \item Let $\F = \mathrm{GF}(2^n)$. Let $m \in \F^d$ be the input and let $s \in \F^d$ be the hash seed, where $m_i, s_i \in \F$. We define each $h_s(\cdot)$ as the scalar product between the input and the hash seed:
+        \[h_s(m) = \abk{s, m} = \sum_{i = 1}^d s_i m_i\]
+
+        Then, given $m, m' \in \F^d$ with $m \neq m'$, we have that:
+        \[\begin{split}
+            h_s(m) = h_s(m') &\iff \abk{s, m} = \abk{s, m'} \\
+            &\iff \sum_{i = 1}^d s_i m_i = \sum_{i = 1}^d s_i m_i' \\
+            &\iff \sum_{i = 1}^d s_i (m_i-m_i') = 0 \\
+            &\iff \sum_{i = 1}^d s_i \delta_i = 0 \\
+        \end{split}\]
+
+        where $\delta_i = m_i - m_i'$ for each $i \in [d]$. Since $m \neq m'$, there is at least one index $j \in [d]$ such that $m_j \neq m_j'$, therefore $\delta_j \neq 0$:
+        \[\begin{split}
+            h_s(m) = h_s(m') &\iff \sum_{i = 1}^d s_i \delta_i = 0 \\
+            &\iff s_j = - \frac{1}{\delta_j} \sum_{\substack{i = 1 :\\ j \neq i}}^d s_i\delta_i
+        \end{split}\]
+
+        which is true with probability at most $2^{-d}$. This concludes that $\mathcal{H}$ is a perfectly universal hash family.
+
+        \item Let $\F = \mathrm{GF}(2^n)$. Let $m \in \F^d$ be the input and let $s \in \F$ be the hash seed, where $m_i, s_i \in \F$. We define each $h_s(\cdot)$ as the $d$-degree polynomial $Q_m(s) \in \F[s]_{d}$ with coefficients $m_1, \ldots, m_d$ and variable $s$:
+        \[h_s(m) = Q_m(s) = \sum_{i = 1}^d m_i s^{i-1}\]
+
+        Then, given $m, m' \in \F^d$ with $m \neq m'$, we have that:
+        \[\begin{split}
+            h_s(m) = h_s(m') &\iff Q_m(s) = Q_{m'}(s)\\
+            &\iff \sum_{i = 1}^d m_i s^{i-1} = \sum_{i = 1}^d m_i' s^{i-1}  \\
+            &\iff \sum_{i = 1}^d (m_i-m_i') s^{i-1} = 0 \\
+        \end{split}\]
+        which is true with probability $(d-1)2^{-n}$. This concludes that $\mathcal{H}$ is an almost universal hash family.
+    \end{enumerate}
+
+
+
 \end{document}

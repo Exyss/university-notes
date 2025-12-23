@@ -3828,6 +3828,51 @@
         \item Un'idea speculare viene fornita dalle regole della variabile $B$. Per tanto, abbiamo che $L(G) = L$.
     \end{itemize}
 
+    \newpage
+
+    \begin{framedprob}{}
+        Sia $A = \{a^nb^n \mid n \in \N\}$ e sia $B = \overline{A}$. Definire una grammatica acontestuale per $B$ utilizzando la proprietà di chiusura dei linguaggi regolari rispetto all'unione.
+    \end{framedprob}
+
+    \textit{Soluzione}:
+
+    \begin{itemize}
+        \item Definiamo tre linguaggi $L_1, L_2, L_3$ disgiunti tra loro:
+        \begin{itemize}
+            \item $L_1 = \{a^nb^m \mid n,m \in \N, n < m\}$
+            \item $L_1 = \{a^nb^m \mid n,m \in \N, n > m\}$
+            \item $L_3 = L(R)$ dove $R$ è l'espressione regolare $R = (a \cup b)^* ba (a \cup b)^*$
+        \end{itemize}
+
+        \item \textbf{Affermazione}: $B = L_1 \cup L_2 \cup L_3$
+
+        \textit{Dimostrazione dell'affermazione}
+
+        \begin{itemize}
+            \item Risulta evidente che nessuna delle stringhe di $L_1, L_2$ ed $L_3$ appartiene ad $A$, dunque $L_1 \cup L_2 \cup L_3 \subseteq B$
+            \item Consideriamo quindi una stringa $x \in B$. Se $x = a^nb^m$ con $n \neq m$, risulta immediato che $x \in L_1 \cup L_2$.
+            \item Assumiamo quindi che $x \neq a^nb^m$ per ogni $n,m \in \N$. Supponiamo per assurdo che $x$ non contenga la sottostringa $ba$. Allora, deve necessariamente seguire che $x \in L(a^*b^*)$ poiché non vi possono essere nè alternanze tra le $a$ e le $b$ nè prefissi contenenti delle $b$, contraddicendo l'assunzione su $x$. Per tanto, concludiamo necessariamente che $x \in L_3$
+            \item Concludiamo quindi che per ogni $x \in B$ vale che $x \in L_1 \cup L_2 \cup L_3$
+        \end{itemize}
+
+        \item Per i linguaggi $L_1$ e $L_2$ definiamo le seguenti grammatiche $G_1$:
+        \[ G_1 : S_1 \to aS_1b \mid S_1b \mid b \qquad G_2 : S_2 \to aS_2b \mid aS_2 \mid a\]
+        \item Per il linguaggio $L_3$, invece, definiamo la seguente grammatica $G_3$:
+        \[\begin{split}
+            G_3 :\, & S_3 \to XbaX \\
+            & X \to aX \smid bX \smid \varepsilon
+        \end{split}\]
+        
+        \item Tramite la proprietà di chiusura delle CFG, possiamo definire una grammatica $G = G_1 \cup G_2 \cup G_3$ tale che $B = L(G)$.
+        \[\begin{split}
+            G :\, & S \to S_1 \smid S_2 \smid S_3 \\
+            & S_1 \to aS_1b \mid S_1b \mid b \\
+            & S_2 \to aS_2b \mid aS_2 \mid a \\
+            & S_3 \to XbaX \\
+            & X \to aX \smid bX \smid \varepsilon
+        \end{split}\]
+    \end{itemize}
+
     \chapter{Calcolabilità}
     
     \section{Macchine di Turing}

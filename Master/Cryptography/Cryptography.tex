@@ -219,7 +219,7 @@
     During his work, Shannon also proposed a formal definition of \textbf{perfect secrecy}, i.e. a property that fully respects the concept behind Kerckhoff's principle. Shannon's formulation states that the probability of $m$ being the communicated message is equal to the probability of $m$ being the communicated message even when the corresponding ciphertext $c$ is known. In other words, no ciphertext reveals additional information over any message.
 
     \begin{frameddefn}{Perfect secrecy}
-        Let $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ be an SKE. Let $M$ be a random variable over $\mathcal{M}$ and let $C$ be another random variable defined as $C = \mathrm{Enc}(K,M)$, for some key $K \in_R \mathcal{K}$. We say that $\Pi$ has perfect secrecy when $\forall m \in \mathcal{M}$ and $\forall c \in \mathcal{C}$ it holds that:
+        Let $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ be an SKE. Let $M$ be a random variable over $\mathcal{M}$ and let $C$ be another random variable defined as $C = \mathrm{Enc}(K,M)$, for some key $K \in_R \mathcal{K}$. We say that $\Pi$ has perfect secrecy when $\forall m \in \mathcal{M}$ and $\forall c \in \mathcal{C}$ with $\Pr[C = c] > 0$ it holds that:
         \[\Pr[M = m] = \Pr[M = m \mid C = c]\]
     \end{frameddefn}
     
@@ -560,6 +560,35 @@
     \section{Solved exercises}
 
     \begin{framedprob}{}
+        Prove or disprove: a SKE $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ has perfect secrecy if and only if $\forall c_0, c_1 \in \mathcal{C}$ it holds that $\Pr[C = c_0] = \Pr[C = c_1]$.
+    \end{framedprob}
+
+    \begin{proof}
+        The claim is false. To disprove it, consider the SKE $\Pi$ such that $\mathcal{M} = \mathcal{K} = \{0,1\}^n$ and $\mathcal{C} = \{0,1\}^{n+1}$, where:
+        \[\mathrm{Enc}(K, m) = 0 \mid\mid (m \oplus K) \qquad \mathrm{Dec}(K, b \mid\mid \widehat c) = \widehat c \oplus K\]
+
+        Let $(*)$ be the special property of the claim. We observe that $\forall \widehat c \in \{0,1\}^n$ it holds that $\Pr[C = 1 \mid\mid \widehat C] = 0$, while $\Pr[C = 0 \mid\mid \widehat C] > 0$, implying that $(*)$ doesn't hold. Nonetheless, we can easily prove that $\Pi$ has perfect secrecy.
+
+        Fix any pair $m, c \in \mathcal{M} \times \mathcal{C}$ such that $\Pr[C = c] > 0$. Since $\Pr[C = c] > 0$, it must hold that $c = 0 \mid\mid \widehat c$ for some $\widehat c \in \{0,1\}^n$. Therefore, we have that:
+        \[\Pr[M = m \mid C = c] = \Pr[M = m \mid C = 0 \mid\mid \widehat c] = \Pr[M = m]\]
+        since $c = 0 \mid\mid \widehat c$ doesn't reveal any additional information for the plaintext due to how $\mathrm{Enc}$ is defined.
+    \end{proof}
+
+    \begin{framedprob}{}
+        Prove that a SKE $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ has perfect secrecy if and only if for every unbounded adversary $A$ it holds that $\mathrm{Game}_{\Pi,A}^{\text{1-time}}(\lambda, 0) \equiv \mathrm{Game}_{\Pi,A}^{\text{1-time}}(\lambda, 1)$
+    \end{framedprob}
+
+    \begin{proof}
+        We observe that $\mathrm{Game}_{\Pi,A}^{\text{1-time}}(\lambda, 0) \equiv \mathrm{Game}_{\Pi,A}^{\text{1-time}}(\lambda, 1)$ if and only if for all adversaries $A'$ it holds that:
+        \[\begin{split}
+            & \abs{\Pr[A'(b') = 1 : b' \gets \mathrm{Game}_{\Pi,A}^{\text{1-time}}(\lambda, 0)] - \Pr[A'(b') = 1 : b' \gets \mathrm{Game}_{\Pi,A}^{\text{1-time}}(\lambda, 1)]} = 0 \\
+            \iff & \Pr[A'(b') = 1 : b' \gets \mathrm{Game}_{\Pi,A}^{\text{1-time}}(\lambda, 0)] = \Pr[A'(b') = 1 : b' \gets \mathrm{Game}_{\Pi,A}^{\text{1-time}}(\lambda, 1)] = \frac{1}{2}
+        \end{split}\]
+
+        This can happen if and only if for all choices $m_0,m_1 \in \mathcal{M}$ made by any adversary $A$ and for all possible answers $c^* \in \mathcal{C}$ that may be returned by the challenger it holds that $\Pr[\mathrm{Enc}(K,m_0) = c^*] = \Pr[\mathrm{Enc}(K, m_1) = c^*]$, which is exactly the third equivalent definition of perfect secrecy.
+    \end{proof}
+
+    \begin{framedprob}{}
         Given a prime $p \in \Primes$, let $\mathcal{M} = \mathcal{T} = \Z_p$ and $\mathcal{K} = \Z_p^2$. Prove that the hash family $\mathcal{H} = \{h_{(a,b)}\}_{(a,b) \in \Z_p^2}$, where $h_{(a,b)}(m) = am+b \pmod{p}$, cannot be a $2$-time statistically secure MAC
     \end{framedprob}
 
@@ -866,19 +895,19 @@
         \item Does every one-way function have an hard-core predicate?
     \end{enumerate}
 
-    For the first question, the answer is \textit{no}. Suppose that such $h^*$ exists. Fix a OWF $f$ and let $\widehat f$ be defined $\widehat f(x) = h^*(x) \concat f(x)$. It's easy to see that the adversary $A^*$ that always returns the first bit of the output $\widehat f(x)$ is such that:
-    \[\Pr[A^*(y) = h^*(x) : x \in_R U_n, y = \widehat f(x)] = 1\]
-    concluding that $h^*$ is not an hard-core predicate for $\widehat f$. By way of contradiction, suppose that $\widehat f$ is not a OWF, i.e. there is an adversary $\widehat A$ such that:
-    \[\Pr_{x \in_R U_n}[\widehat f(x') = y : y = \widehat f(x); x' \gets \widehat A(y)] \geq \frac{1}{n^c}\]
-    for some $c > 0$. We build an adversary $A$ such that $A(y) = \widehat A(b \concat y)$, where $b \in_R U_1$. By construction, we have that:
+    For the first question, the answer is \textit{no}. Suppose that such $h^*$ exists. Fix a OWF $f$ and let $\widetilde f$ be defined $\widetilde f(x) = h^*(x) \concat f(x)$. It's easy to see that the adversary $A^*$ that always returns the first bit of the output $\widetilde f(x)$ is such that:
+    \[\Pr[A^*(y) = h^*(x) : x \in_R U_n, y = \widetilde f(x)] = 1\]
+    concluding that $h^*$ is not an hard-core predicate for $\widetilde f$. By way of contradiction, suppose that $\widetilde f$ is not a OWF, i.e. there is an adversary $\widetilde A$ such that:
+    \[\Pr_{x \in_R U_n}[\widetilde f(x') = y : y = \widetilde f(x); x' \gets \widetilde A(y)] \geq \frac{1}{n^c}\]
+    for some $c > 0$. We build an adversary $A$ such that $A(y) = \widetilde A(b \concat y)$, where $b \in_R U_1$. By construction, we have that:
     \[\begin{split}
         &\Pr_{x \in_R U_n}[f(x') = y : y = f(x); x' \gets A(y)]\\
-        \geq\,& \Pr_{x \in_R U_n}[b = h^*(x), f(x') = y : y = f(x); x' \gets \widehat A(b \concat y); b \in_R U_1] \\
-        =\,& \frac{1}{2}\Pr_{x \in_R U_n}[f(x') = y : y = f(x); x' \gets \widehat A(h^*(x) \concat y)] \\
-        =\,& \frac{1}{2}\Pr_{x \in_R U_n}[\widehat f(x') = h^*(x') \concat y : y = f(x); x' \gets \widehat A(h^*(x) \concat y)] \\
+        \geq\,& \Pr_{x \in_R U_n}[b = h^*(x), f(x') = y : y = f(x); x' \gets \widetilde A(b \concat y); b \in_R U_1] \\
+        =\,& \frac{1}{2}\Pr_{x \in_R U_n}[f(x') = y : y = f(x); x' \gets \widetilde A(h^*(x) \concat y)] \\
+        =\,& \frac{1}{2}\Pr_{x \in_R U_n}[\widetilde f(x') = h^*(x') \concat y : y = f(x); x' \gets \widetilde A(h^*(x) \concat y)] \\
         =\,& \frac{1}{2n^c}
     \end{split}\]
-    which contradicts the assumption of $f$ being OWF. Hence, $\widehat f$ must be an OWF without $h^*$ as an hard-predicate.
+    which contradicts the assumption of $f$ being OWF. Hence, $\widetilde f$ must be an OWF without $h^*$ as an hard-predicate.
 
     For the second question, the answer is also \textit{no}. Let $f$ be the function such that drops the last bit of the input, i.e. $f(x_1 \concat \ldots \concat x_n) = x_1 \concat \ldots \concat x_{n-1}$. Let $h$ be the function that returns only the last bit of the input, i.e. $h(x_1 \concat \ldots \concat x_n) = x_n$. By construction, $h$ is trivially an hard-core predicate for $f$ since the last bit is independent from the others when $x \in_R U_n$. However, $f$ is not a OWF since an adversary that picks a random bit $b \in_R U_1$ has 50\% chance of guessing $b = x_n$, inverting the output.
 
@@ -1008,27 +1037,27 @@
         \textbf{Claim}: For each $b \in \{0,1\}$ it holds that $\mathrm{Game}_{\Pi, A}^{\text{1-time}}(\lambda, b) \approx_c \mathrm{Hyb}(\lambda, b)$
 
         \begin{proof}[Proof of the claim.]
-            By way of contradiction, assume that there is an adversary $A$ such that:
-            \[\abs{\Pr\sbk{A(b') = 1 : b' \gets \mathrm{Game}_{\Pi, A}^{\text{1-time}}(\lambda, b)} - \Pr\sbk{A(b') = 1 : b' \gets \mathrm{Hyb}(\lambda, b)}} \geq \frac{1}{\lambda^c}\]
+            By way of contradiction, assume that there is an adversary $A'$ such that:
+            \[\abs{\Pr\sbk{A'(b') = 1 : b' \gets \mathrm{Game}_{\Pi, A}^{\text{1-time}}(\lambda, b)} - \Pr\sbk{A'(b') = 1 : b' \gets \mathrm{Hyb}(\lambda, b)}} \geq \frac{1}{\lambda^c}\]
 
             for some $c > 0$. We build an adversary $D$ defined as follows:
 
             $D$ = "On input $z \in \{0,1\}^{\lambda+\ell}$.
             \begin{enumerate}
-                \item $D$ challenges $A$ to play $\mathrm{Hyb}(\lambda, b)$ (thus $D$ is the challenger and $A$ is the adversary). $D$ will use $z$ to compute $m_b \oplus z = c$ instead of choosing a random string.
-                \item $D$ accepts if $A$ wins, otherwise $D$ rejects."
+                \item $D$ challenges $A'$ to play $\mathrm{Hyb}(\lambda, b)$ (thus $D$ is the challenger and $A'$ is the adversary). $D$ will use $z$ to compute $m_b \oplus z = c$ instead of choosing a random string.
+                \item $D$ accepts if $A'$ wins, otherwise $D$ rejects."
             \end{enumerate}
 
-            Since $A$ can distinguish the two games, it is also able to distinguish if the string $c$ passed by $D$ was computed with $z$ taken from $G(U_\lambda)$ or $U_{\lambda+\ell}$. This implies that:
-            \[\Pr[D(z) = 1 : z \in_R G(U_\lambda)] = \Pr\sbk{A(b') = 1 : b' \gets \mathrm{Game}_{\Pi, A}^{\text{1-time}}(\lambda, b)}\]
+            Since $A'$ can distinguish the two games, it is also able to distinguish if the string $c$ passed by $D$ was computed with $z$ taken from $G(U_\lambda)$ or $U_{\lambda+\ell}$. This implies that:
+            \[\Pr[D(z) = 1 : z \in_R G(U_\lambda)] = \Pr\sbk{A'(b') = 1 : b' \gets \mathrm{Game}_{\Pi, A'}^{\text{1-time}}(\lambda, b)}\]
 
             and:
-            \[\Pr[D(z) = 1 : z \in_R U_{\lambda+\ell}] = \Pr\sbk{A(b') = 1 : b' \gets \mathrm{Hyb}(\lambda, b)}\]
+            \[\Pr[D(z) = 1 : z \in_R U_{\lambda+\ell}] = \Pr\sbk{A'(b') = 1 : b' \gets \mathrm{Hyb}(\lambda, b)}\]
 
             concluding that:
             \[\begin{split}
                 &\abs{\Pr[D(z) = 1 : z \in_R G(U_\lambda)] - \Pr[D(z) = 1 : z \in_R U_{\lambda+\ell}]} \\
-                =& \abs{\Pr\sbk{A(b') = 1 : b' \gets \mathrm{Game}_{\Pi, A}^{\text{1-time}}(\lambda, b)} - \Pr\sbk{A(b') = 1 : b' \gets \mathrm{Hyb}(\lambda, b)}} \\
+                =& \abs{\Pr\sbk{A'(b') = 1 : b' \gets \mathrm{Game}_{\Pi, A'}^{\text{1-time}}(\lambda, b)} - \Pr\sbk{A'(b') = 1 : b' \gets \mathrm{Hyb}(\lambda, b)}} \\
                 \geq& \frac{1}{\lambda^c}
             \end{split}\]
 
@@ -1036,12 +1065,12 @@
         \end{proof}
         
         By definition, it's easy to see that $\mathrm{Hyb}(\lambda, 0) \equiv \mathrm{Hyb}(\lambda, 1)$ since the distribution of $c$ is uniform and independent of $b$. Therefore, we conclude that:
-        \[\mathrm{Game}_{\Pi, A}^{\text{1-time}}(\lambda, 0) \approx_c \mathrm{Hyb}(\lambda, 0) \equiv \mathrm{Hyb}(\lambda, 1) \approx_c \mathrm{Game}_{\Pi, A}^{\text{1-time}}(\lambda, 1)\]
+        \[\mathrm{Game}_{\Pi, A'}^{\text{1-time}}(\lambda, 0) \approx_c \mathrm{Hyb}(\lambda, 0) \equiv \mathrm{Hyb}(\lambda, 1) \approx_c \mathrm{Game}_{\Pi, A'}^{\text{1-time}}(\lambda, 1)\]
     \end{proof}
 
     \newpage
 
-    \section{CPA security and pseudorandom functions}
+    \section{CPA-security and pseudorandom functions}
 
     In the previous section we proved that PRG-OTP is 1-time computationally secure, meaning that it is secure against attackers that know only one message. However, this SKE's weakness is \textit{ciphertext attacks}. Suppose that an attacker knows a ciphertext-message pair $(m_1, c_1)$. If the challenger sends another ciphertext $c_2$ obtained from a message $m_2$, the attacker is able to retrieve the contents of $m_2$ through the SKE itself:
     \[c_1 \oplus c_2 \oplus m_1 = (G(K) \oplus m_1) \oplus (G(K) \oplus m_2) \oplus m_1 = m_2\]
@@ -1054,7 +1083,7 @@
     \begin{enumerate}
         \item The challenger $C$ generates a key $K \in \mathcal{K}$.
         \item The adversary $A$ queries $m_1, \ldots, m_t \in \{0,1\}^\lambda$, where $t = \poly(\lambda)$, to an oracle for $\mathrm{Enc}_{\Pi}(K, \cdot)$. The oracle answers with $c_1, \ldots, c_t$.
-        \item The adversary sends to messages $m_0^*, m_1^* \in \{0,1\}^\lambda$ to the challenger $C$
+        \item The adversary sends two messages $m_0^*, m_1^* \in \{0,1\}^\lambda$ to the challenger $C$
         \item $C$ sends $\mathrm{Enc}_\Pi(K, m^*_b) = c^*$ back to $A$
         \item $A$ queries $m_1', \ldots, m_s' \in \{0,1\}^\lambda$, where $s = \poly(\lambda)$, to an oracle for $\mathrm{Enc}_{\Pi}(K, \cdot)$. The oracle answers with $c_1', \ldots, c_t'$.
         \item $A$ tries to guess if it was obtained through $m_0$ or $m_1$ by sending a bit $b' \in \{0,1\}$
@@ -1097,7 +1126,7 @@
                 (10) edge[swap, near start] node{$c^* = \mathrm{Enc}_\Pi(K, m_b^*)$} (9)
                 (5x) edge[bend left] node {$\poly(\lambda)$}(3x)
                 (3x) edge[near start] node{$m_i' \in \{0,1\}^\lambda$} (4x)
-                (6x) edge[swap, near start] node{$c_i' = \mathrm{Enc}_\Pi(K, m_i)$} (5x)
+                (6x) edge[swap, near start] node{$c_i' = \mathrm{Enc}_\Pi(K, m_i')$} (5x)
                 (11) edge[near start] node{$b' \in \{0,1\}$} (12)
                 ;
         \end{tikzpicture}
@@ -1121,8 +1150,8 @@
 
     Let $\mathcal{R}(s \to t)$ denote the uniform distribution over the set of all functions from strings of $s$ bits to strings of $t$ bits. We define the following 2-player game $\mathrm{Game}_{\mathcal{F},A}^{\text{PRF}}(\lambda, b)$:
     \begin{enumerate}
-        \item The challenger $C$ generates a key $K \in \{0,1\}^\lambda$ and sets $H = F_K$ if $b = 0$, otherwise $H \in_R \mathcal{R}(n \to n)$.
-        \item The adversary $A$ queries $x_1, \ldots, x_t \in \{0,1\}^n$ where $t = \poly(n)$, to an oracle for $H(\cdot)$. The oracle answers with $y_1, \ldots, y_t$.
+        \item The challenger $C$ generates a key $K \in \{0,1\}^\lambda$ and sets $J = F_K$ if $b = 0$, otherwise $J \in_R \mathcal{R}(n \to n)$.
+        \item The adversary $A$ queries $x_1, \ldots, x_t \in \{0,1\}^n$ where $t = \poly(n)$, to an oracle for $J(\cdot)$. The oracle answers with $y_1, \ldots, y_t$.
         \item $A$ tries to guess $b$ by sending a bit $b' \in \{0,1\}$
         \item If $b \neq b'$, the challenger wins. Otherwise, the adversary wins.
     \end{enumerate}
@@ -1147,7 +1176,7 @@
             \path[every node/.style={font=\sffamily\small}]
                 (5) edge[bend left] node {$\poly(\lambda)$}(3)
                 (3) edge[near start] node{$x_i \in \{0,1\}^n$} (4)
-                (6) edge[swap, near start] node{$y_i = H(x_i)$} (5)
+                (6) edge[swap, near start] node{$y_i = J(x_i)$} (5)
                 (11) edge[near start] node{$b' \in \{0,1\}$} (12)
                 ;
         \end{tikzpicture}
@@ -1303,7 +1332,7 @@
             for some $c > 0$. We define the attack strategy $A_{01}$ for $\mathrm{Game}_{\mathcal{F}',A}^{\text{PRF}}(\lambda, b)$ as follows. The idea is for $A_{01}$ to play two games simultaneously.
 
             \begin{enumerate}
-                \item The challenger $C$ generates a key $K \in \{0,1\}^\lambda$ and sets $H = F'_K$ if $b = 0$, otherwise $H \in_R \mathcal{R}(n-1 \to \lambda)$.
+                \item The challenger $C$ generates a key $K \in \{0,1\}^\lambda$ and sets $J = F'_K$ if $b = 0$, otherwise $H \in_R \mathcal{R}(n-1 \to \lambda)$.
                 \item $A_{01}$ challenges $D_{01}$ to distinguish $\mathrm{Hyb}_0$ from $\mathrm{Hyb}_1$.
                 \item For each query $x \concat y$ -- with $x \in \{0,1\}$ and $y \in \{0,1\}^n$ -- made by $D_{01}$, the adversary $A_{01}$ forwards $y$ to the challenger $C$.
                 \item For each answer $z$ returned by $C$, the adversary $A_{01}$ forwards $G_x(z)$ to $D_{01}$.
@@ -1522,7 +1551,7 @@
 
             Let $A'$ be the adversary for $\mathcal{F}$ defined as follows:
             \begin{enumerate}
-                \item The adversary $A'$ starts both with the challenger $C$ and the other adversary $A$
+                \item The adversary $A'$ starts both games with the challenger $C$ and the other adversary $A$
                 \item For $i \in [t]$ iterations, with $t = \poly(\lambda)$, $A$ sends a message $m^{(i)} = (m^{(i)}_1, \ldots, m^{(i)}_{d_i})$ to $A'$
                 \item Upon receiving $m^{(i)}$, $A'$ sends $r^{(i)}, r^{(i)}+1, \ldots, r^{(i)}+d-1$ to the challenger $C$, which answers with $z^{(i)}_1, \ldots, z^{(i)}_d$
                 \item $A'$ sends $c^{(i)} = (r^{(i)}, c^{(i)}_1, \ldots, c^{(i)}_{d_i})$ back to $A$, where $c^{(i)}_j = z^{(i)}_j \oplus m^{(i)}_j$
@@ -1569,7 +1598,7 @@
         The two claims conclude that $G(\lambda,0) \approx_c H(\lambda, 0) \approx_c U_(n(d^*+1)) \approx H(\lambda, 1) \approx_c G(\lambda, 1)$.
     \end{proof}
 
-    \section{Computationally secure MACs}
+    \section{UFCMA-security and universal hash families}
 
     After showing that the common encryption schemes are CPA-secure, we focus on secure message authentication. Conside any tag function $\mathrm{Tag} : \mathcal{K} \times \mathcal{M} \to \mathcal{T}$. When can this function be considered secure under a computational setting? The idea is to make it hard to forge a pair $(m^*, \tau^*)$ such that $\mathrm{Tag}(K,m^*) = \tau^*$ when $K$ is unknown. This concept is formally known as \textbf{Unforgeability under Chosen-Message Attacks (UFCMA)}.
 
@@ -1610,8 +1639,8 @@
 
     Pseudorandom functions are intuitively an easy way to get an UFCMA-secure MAC: since the function is hard to invert, the adversary won't be able to infer informations on the key through message-tag pairs. However, this works only for FIL (Fixed Input Length) schemes.
     
-    \begin{framedthm}{UFCMA-security through PRFs}
-        If $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^\lambda\}_{K \in \{0,1\}^\lambda}$ is a PRF family, $\mathrm{Tag}(K, m) = F_K(m)$ is UFCMA-secure for FIL.
+    \begin{framedthm}[label={ufcma_prf}]{UFCMA-security through PRFs}
+        If $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ is a PRF family, $\mathrm{Tag}(K, m) = F_K(m)$ is UFCMA-secure for FIL.
     \end{framedthm}
 
     \begin{proof}
@@ -1622,9 +1651,7 @@
         Finally, since $H(\lambda)$ uses a truly random function $R$, the probability of an adversary being able to guess the correct tag for a message is at most $2^{-n}$, concluding that $\Pi$ is UFCMA-secure.
     \end{proof}
 
-    \subsection{Domain expansion for UFCMA-secure MACs}
-
-    We proved that PRFs can be used to construct a UFCMA-secure MAC for FIL inputs. But what about VIL tags? What about inputs of longer FIL? It's easy to see that simple tricks don't work. For instance, consider the tag function that concatenes the tags of the blocks, i.e. $\mathrm{Tag}(K,m) = \tau$ such that $m = (m_1, \ldots, m_d)$ and $\tau = (\tau_1, \ldots, \tau_d)$. The UFCMA game requires that message in the challenge query is different from the messages in the tag queries. However, a simple trick suffices to \curlyquotes{break} this constraint:
+    But what about VIL tags? What about inputs of longer FIL? Both questions fall into the idea of \textbf{domain expansion} for MACs. It's easy to see that simple tricks don't work. For instance, consider the tag function that concatenes the tags of the blocks, i.e. $\mathrm{Tag}(K,m) = \tau$ such that $m = (m_1, \ldots, m_d)$ and $\tau = (\tau_1, \ldots, \tau_d)$. The UFCMA game requires that message in the challenge query is different from the messages in the tag queries. However, a simple trick suffices to \curlyquotes{break} this constraint:
     \begin{enumerate}
         \item The adversary queries $m_1 \mid\mid m_2$ and gets $\tau_1 \mid\mid \tau_2$
         \item The adversary then queries $m_3 \mid\mid m_4$ and gets $\tau_3 \mid\mid \tau_4$
@@ -1650,7 +1677,7 @@
 
     As the name suggests, PU hash families are considered \textit{perfect} in a sense that it is practically impossible to get a collision. Nonetheless, for our purposes AU hash families are enough. In fact, it can be proven that composing them with a PRF yields another PRF.
 
-    \begin{framedthm}{Composition of PRFs with AU hash families}
+    \begin{framedthm}[label={prf_au}]{Composition of PRFs with AU hash families}
         Given a PRF family $\mathcal{F} = \{F_k : \{0,1\}^n \to \{0,1\}^n\}$ and an AU hash family  $\mathcal{H} = \{h_s : \{0,1\}^{nd} \to \{0,1\}^n\}_{s \in \{0,1\}^\lambda}$, the family $\mathcal{F}(\mathcal{H})$ defined as:
         \[\mathcal{F}(\mathcal{H}) = \{F_K \circ h_s : \{0,1\}^{nd} \to \{0,1\}^n\}_{(K,s) \in \{0,1\}^{2\lambda}}\]
         is a PRF family.
@@ -1661,7 +1688,7 @@
 
         Ler $H(\lambda)$ be the hybrid distribution that plays the PRF game with the function $R'(h_s(\cdot))$, where $R' \in \mathcal{R}(n \to n)$. It can be proven that $G(\lambda,0) \approx_c H(\lambda)$ in the standard way by reducing the distringuishability of $\mathrm{F}_K$ from $R'$ to the distringuishability of $G(\lambda,0)$ from $H(\lambda)$.
 
-        Therefore, it remains to show that $H(\lambda) \approx G(\lambda,1)$. Let $m_1, \ldots, m_t$ be the encryption queries made by the adversary, where $t = \poly(\lambda)$. Let $B$ be the bad event such that $B = 1$ if $\exists i,j \in [t]$ with $i \neq j$ for which $h_s(m_i) = h_j(m_j)$. By conditioning on $B = 0$, no collisions occurr, thus:
+        Therefore, it remains to show that $H(\lambda) \approx_c G(\lambda,1)$. Let $m_1, \ldots, m_t$ be the encryption queries made by the adversary, where $t = \poly(\lambda)$. Let $B$ be the bad event such that $B = 1$ if $\exists i,j \in [t]$ with $i \neq j$ for which $h_s(m_i) = h_j(m_j)$. When conditioning on $B = 0$, no collisions occurr, thus :
         \[\mathrm{SD}(H(\lambda); G(\lambda, 1)) \leq \Pr[B = 1]\]
 
         Through the union bound, we have that:
@@ -1705,9 +1732,295 @@
             &\iff \sum_{i = 1}^d m_i s^{i-1} = \sum_{i = 1}^d m_i' s^{i-1}  \\
             &\iff \sum_{i = 1}^d (m_i-m_i') s^{i-1} = 0 \\
         \end{split}\]
-        which is true with probability $(d-1)2^{-n}$. This concludes that $\mathcal{H}$ is an almost universal hash family.
+        which is true with probability at most $(d-1)2^{-n}$. This concludes that $\mathcal{H}$ is an almost universal hash family.
     \end{enumerate}
 
+    A more complex type of almost universal hash family can be obtained through encryption modes. For instance, the CBC encryption mode can be modified to define an AU hash family usually referred to as \textbf{CBC-MAC}.
+    
+    \begin{frameddefn}{CBC-MAC}
+        Let $\mathcal{F} = \{F_k : \{0,1\}^n \to \{0,1\}^{n}\}_{k \in \{0,1\}^\lambda}$ be a PRF family. We define the CBC-MAC family as $\mathcal{H}_{\text{CBC}} = \{h_s : \{0,1\}^n \to \{0,1\}^{nd}\}_{s \in \{0,1\}^\lambda}$, where:
+        \[h_s(m_1, \ldots, m_d) = F_s(m_d \oplus F_s(m_{d-1} \oplus F_s(\ldots m_2 \oplus F_s(m_1)) \ldots ))\]
+    \end{frameddefn}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=1]{images/CBC-MAC.pdf}
+        \caption{Graphical representation of CBC-MAC.}
+    \end{figure}
 
+    The CBC-MAC family has many properties. First of all, it can be easily proven that $\mathcal{H}_{\text{CBC}}$ is also a PRF family through a reduction argument. In a similar way, it can be proven that it is also UFCMA-secure, but only for FIL. Nonetheless, \Cref{ufcma_prf} and \Cref{prf_au} still imply that $\mathcal{F}(\mathcal{H}_{\text{CBC}})$ is an UFCMA-secure MAC scheme.
+
+    \begin{framedthm}{}
+        Let $\mathcal{F}$ be a PRF family and let $\mathcal{H}_{\text{CBC}}$ be the corresponding CBC-MAC hash family. Then, it holds that:
+        \begin{itemize}
+            \item $\mathcal{H}_{\text{CBC}}$ is a PRF
+            \item $\mathcal{H}_{\text{CBC}}$ is AU for FIL
+            \item $\mathcal{F}(\mathcal{H}_{\text{CBC}})$ is a PRF
+            \item $\mathcal{F}(\mathcal{H}_{\text{CBC}})$ is UFCMA-secure
+        \end{itemize}
+    \end{framedthm}
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+
+    \section{CCA-security and non-malleability}
+
+    In the previous sections we gave the idea behind computationally secure encryption and computationally secure message authentication. Now, we're ready to combine the two concepts. We say that an encryption scheme is \textbf{malleable} if it is possible to transform a  chiphertext $c \in \mathcal{C}$ -- of which we don't know the original plaintext -- into another chiphertext $\widetilde c$ which decrypts to another plaintext related to the original one. Formally, given an encryption $c$ of a plaintext $m$, it is possible to generate another cyphertext $\widetilde c$ of another plaintext $\widetilde m$ that is in some way related to $m$.
+    
+    For instance, consider again the PRG-OTP scheme, where $\mathrm{Enc}(K,m) = G(K) \oplus$ for some PRG $G$. Suppose that we know a chiphertext $c \in \mathcal{C}$, \underline{without} knowing the original message $m$. Then, for any value $t \in \{0,1\}^n$ we can construct the chiphertext $\widetilde c$ of the message $\widetilde m = m \oplus t$ by XORing $c$ with $t$:
+    \[\widetilde c = c \oplus t = \mathrm{Enc}(K,m) \oplus t = (G(K) \oplus m ) \oplus t = G(K) \oplus (m \oplus t) = \mathrm{Enc}(K, \widetilde m)\]
+
+    Malleability is often an undesirable property in a general-purpose cryptosystem (e.g. digital auctions), since it allows an attacker to modify the contents of a message: Eve could steal the chiphertext $c$ from Alice, compute $\widetilde c$ and send it to Bob, which will decrypt it as $\widetilde m$. It's easy to see that even CPA-secure SKEs may be malleable. For instance, consider again the PRF-OTP scheme, where:
+    \begin{enumerate}
+        \item $\mathrm{Enc}(K,m) = (r, F_K(r) \oplus m)$, where $r \in \{0,1\}^n$ is a nonce
+        \item $\mathrm{Dec}(K,(r,c)) = F_K(r) \oplus c$
+    \end{enumerate} 
+
+    for a PRF family $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$. We already discussed how this scheme is CPA-secure. Consider now the chiphertext $(r,c) \in \{0,1\}^n \times \mathcal{C}$ of an unknown message $m$, but the same trick used for PRG-OTP works even in this case. Let $\tilde c = c \oplus t$ for any $t \in \{0,1\}^n$. Then, we have that
+    \[(r, \tilde c) = (r, c \oplus t) = (r, (F_k(r) \oplus m) \oplus t) = (r, F_k(r) \oplus (m \oplus t)) = \mathrm{Enc}(K, \widetilde m)\]
+    where $\widetilde m = m \oplus t$.
+    
+    In the computational security context, \textit{malleability attacks} are known as \textbf{Chosen-chipher-} \textbf{text Attack (CCA)}. Formally, CCA-security is defined through the game $\mathrm{Game}_{\Pi,A}^{\text{CCA}}(\lambda, b)$, similar to the one for CPA-security with the addition of \textit{decryption queries} after each series of encryption queries (both before and after the sending the challenge messages). Obviously, the chiphertext sent in each decryption query must be strictly different from the challenge chiphertext, otherwise the attacker could win the game with probability 1.
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=1cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+            \node[] (1) []{$A$};
+            \node[] (2) [left of = 1, xshift = 225]{$C$};
+
+            \node[] (3) [below of = 1]{};
+            \node[] (4) [below of = 2]{};
+
+            \node[] (5) [below of = 3]{};
+            \node[] (6) [below of = 4]{};
+
+            \node[] (3y) [below of = 5]{};
+            \node[] (4y) [below of = 6]{};
+
+            \node[] (5y) [below of = 3y]{};
+            \node[] (6y) [below of = 4y]{};
+
+            \node[] (7) [below of = 5y]{};
+            \node[] (8) [below of = 6y]{};
+
+            \node[] (9) [below of = 7]{};
+            \node[] (10) [below of = 8]{};
+
+            \node[] (3x) [below of = 9]{};
+            \node[] (4x) [below of = 10]{};
+
+            \node[] (5x) [below of = 3x]{};
+            \node[] (6x) [below of = 4x]{};
+
+            \node[] (3z) [below of = 5x]{};
+            \node[] (4z) [below of = 6x]{};
+
+            \node[] (5z) [below of = 3z]{};
+            \node[] (6z) [below of = 4z]{};
+
+            \node[] (11) [below of = 5z]{};
+            \node[] (12) [below of = 6z]{};
+
+            \path[every node/.style={font=\sffamily\small}]
+                (5) edge[bend left] node {$\poly(\lambda)$}(3)
+                (3) edge[near start] node{$m_i \in \{0,1\}^\lambda$} (4)
+                (6) edge[swap, near start] node{$c_i = \mathrm{Enc}_\Pi(K, m_i)$} (5)
+
+                (5y) edge[bend left] node {$\poly(\lambda)$}(3y)
+                (3y) edge[near start] node{$\widetilde c_i \in \{0,1\}^\lambda, \widetilde c_i \neq c^*$} (4y)
+                (6y) edge[swap, near start] node{$\widetilde m_i = \mathrm{Dec}_\Pi(K, \widetilde c_i)$} (5y)
+
+                (7) edge[near start] node{$m_0^*, m_1^* \in \{0,1\}^\lambda$} (8)
+                (10) edge[swap, near start] node{$c^* = \mathrm{Enc}_\Pi(K, m_b^*)$} (9)
+
+                (5x) edge[bend left] node {$\poly(\lambda)$}(3x)
+                (3x) edge[near start] node{$m_i' \in \{0,1\}^\lambda$} (4x)
+                (6x) edge[swap, near start] node{$c_i' = \mathrm{Enc}_\Pi(K, m_i')$} (5x)
+
+                (5z) edge[bend left] node {$\poly(\lambda)$}(3z)
+                (3z) edge[near start] node{$\widetilde c_i' \in \{0,1\}^\lambda, \widetilde c_i' \neq c^*$} (4z)
+                (6z) edge[swap, near start] node{$\widetilde m_i' = \mathrm{Dec}_\Pi(K, \widetilde c_i')$} (5z)
+                
+                (11) edge[near start] node{$b' \in \{0,1\}$} (12)
+                ;
+        \end{tikzpicture}
+
+        \caption{Graphical representation of $\mathrm{Game}_{\Pi, A}^{\text{CCA}}(\lambda, b)$.}
+    \end{figure}
+
+    \begin{frameddefn}{CCA-security}
+        Let $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ be a SKE. We say that $\Pi$ is CCA-secure if:
+        \[\mathrm{Game}_{\Pi, A}^{\text{CCA}}(\lambda, 0) \approx_c \mathrm{Game}_{\Pi, A}^{\text{CCA}}(\lambda, 1)\]
+        for all PPT adversaries $A$.
+    \end{frameddefn}
+
+    Since the CCA-game is way more complex than the CPA-game due to the presence of decryption queries, we need a simpler procedure to prove that a scheme is CCA-secure. In particular, we'll prove that CPA-security together with an additional property implies CCA-security. This additional property is the computational security equivalent of \textbf{Integrity (INT)}: it must be hard for any adversary PPT to generate a \textit{valid} chipertext without knowing the key chosen by the scheme, otherwise they could use this ability to alter the original message and forge a new chipertext that decrypts into the altered message.
+
+    In $\mathrm{Game}_{\Pi, A}^{\text{INT}}(\lambda)$, the adversary is given access to an oracle for the $\mathrm{Enc}$ function and it is allowed to make $t = \poly(\lambda)$ encryption queries to the oracle. After completing the encryption queries, the adversary returns a chipertext $c^*$ to the challenger (with $c^* \neq c_i$ for all $i \in [t]$). The challenger then computes $\mathrm{Dec}(K, c^*)$ and compares it with a special value $\bot$, which can be tought of as a \curlyquotes{fake message}. If $\mathrm{Dec}(K, c^*) \neq \bot$ is true, the adversary wins. Otherwise, the challenger wins.
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=1cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+            \node[] (1) []{$A$};
+            \node[] (2) [left of = 1, xshift = 225]{$C$};
+
+            \node[] (3) [below of = 1]{};
+            \node[] (4) [below of = 2]{};
+
+            \node[] (5) [below of = 3]{};
+            \node[] (6) [below of = 4]{};
+
+            \node[] (7) [below of = 5]{};
+            \node[] (8) [below of = 6]{};
+
+            \path[every node/.style={font=\sffamily\small}]
+                (5) edge[bend left] node {$\poly(\lambda)$}(3)
+                (3) edge[near start] node{$m_i \in \{0,1\}^\lambda$} (4)
+                (6) edge[swap, near start] node{$c_i = \mathrm{Enc}(K, m_i)$} (5)
+                (7) edge[near start] node{$c^* \in \{0,1\}^\lambda$} (8)
+                ;
+        \end{tikzpicture}
+
+        \caption{Graphical representation of $\mathrm{Game}^{\text{INT}}_{\Pi, A}(\lambda)$}
+    \end{figure}
+
+    Let's solidify the idea behind the INT game: if the adversary is able to forge a chiphertext that decrypts into a message $m$ that is different from the fake message $\bot$, we know that they are clearly capable of forging a valid chipertext even if they don't know the key, breaking the integrity of the scheme.
+
+    \begin{frameddefn}{Integrity (in computational security)}
+        Let $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ be a SKE. We say that $\Pi$ satisfies integrity if:
+        \[\Pr[\mathrm{Game}^{\text{INT}}_{\Pi, A}(\lambda) = 1] \leq \mathrm{negl}(\lambda)\]
+        for all PPT adversaries $A$.
+    \end{frameddefn}
+
+    \begin{framedthm}{CPA$+$INT implies CCA}
+        Let $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ be a SKE. Then, $\Pi$ is CCA-secure if it is CPA-secure and satisfies integrity.
+    \end{framedthm}
+
+    \begin{proof}[Proof (sketch).]
+        The full proof requires to be extremely formal, hence we'll only give a sketch. The idea is simple: we can reduce both the distinguishability of $\mathrm{Game}_{\Pi, A}^{\text{CPA}}(\lambda,b)$ and a win of $\mathrm{Game}_{\Pi,A}^{\text{INT}}(\lambda)$ to the distinguishability of $\mathrm{Game}_{\Pi, A}^{\text{CCA}}(\lambda,b)$.
+        
+        We start with the CPA-game. Let $H(\lambda,b)$ be the game identical to the CCA-game where decryption queries are substituted by the following logic: if the attacker queries a chiphertext $\widetilde c_i$ that was the answer to a previous encryption query $m_i$, the challenger returns $m_i$, otherwise it returns the special message $\bot$.
+        
+        \textbf{Claim 1}: $H(\lambda, 0) \approx_c H(\lambda,1)$
+
+        \begin{proof}[Proof of Claim 1.]
+            By way of contradiction, suppose that there is an adversary $A$ that is able to distinguish the CCA-game with non-negligible probability. Let $B$ be the adversary defined as follows:
+            \begin{enumerate}
+                \item $B$ starts the hybrid game with $A$ and the CPA game with $C$
+                \item $A$ sends a series of encryption queries to $B$. Each query $m_i$ gets forwarded to the challenger $C$, which will answer with a chipertext $c_i$. The chiphertext is then forwarded from $B$ to $A$.
+                \item $A$ sends a series of decryption queries to $B$. For each query $\widetilde c_i$, $B$ returns $m_i$ if $(m_i, \widetilde c_i)$ is a query-answer pair of the previous encryption queries, otherwise it returns $\bot$
+                \item $A$ sends the challenge messages $m_0^*, m_1^*$ to $B$, which then forwards them to $C$. Afterwards, $C$ replies with $c^*$, which gets forwarded back to $A$ by $B$.
+                \item $A$ and $B$ play another series of encryption queries followed by decryption queries, using the same rules as the previous ones.
+                \item $A$ makes a guess by sending a bit $b' \in \{0,1\}$ to $B$, which forwards it to $C$. If $b' = b$, $B$ wins the game
+            \end{enumerate}
+
+            We observe that $H(\lambda, b)$ is basically the CCA game where we \curlyquotes{fix} the decryption queries, \curlyquotes{collapsing} back to the CPA game. Therefore, the above reduction concludes that $H(\lambda, 0) \approx_c H(\lambda,1)$, otherwise we could distinguish the CPA game.
+        \end{proof}
+
+        We're now left with proving that $\mathrm{Game}_{\Pi,A}^{\text{CCA}}(\lambda, b) \approx_c H(\lambda, b)$.
+
+        \textbf{Claim 2}: $\mathrm{Game}_{\Pi,A}^{\text{CCA}}(\lambda, b) \approx_c H(\lambda, b)$ for $b \in \{0,1\}$
+
+        \begin{proof}[Proof of Claim 2.]
+            We define a reduction identical to one of Claim 1 but with a small difference: instead of forwarding both challenge messages $m_0^*, m_1^*$, we'll forward only $m_b^*$. By way of contradiction, suppose that there is an adversary $A'$ that is able to distinguish $\mathrm{Game}_{\Pi, A}^{\text{CCA}}(\lambda, b)$ from $H(\lambda, b)$ with non-negligible probability. $A'$ returns 0 when it recognizes the CCA game, otherwise it returns 1 when it recognizes the hybrid game.
+            
+            We define an adversary $B'$ for the INT game:
+            \begin{enumerate}
+                \item $B'$ starts both games with $A'$ and $C'$
+                \item $A'$ sends a series of encryption queries to $B'$. Each query $m_i$ gets forwarded to the challenger $C'$, which will answer with a chipertext $c_i$. The chiphertext is then forwarded from $B'$ to $A'$.
+                \item $A'$ sends a series of decryption queries to $B'$. For each query $\widetilde c_i$, $B'$ returns $m_i$ if $(m_i, \widetilde c_i)$ is a query-answer pair of the previous encryption queries, otherwise it returns $\bot$
+                \item $A'$ sends the challenge messages $m_0^*, m_1^*$ to $B'$, which then forwards them to $C'$. Afterwards, $C'$ replies with $c^*$, which gets forwarded back to $A'$ by $B'$.
+                \item $A'$ and $B'$ play another series of encryption queries followed by decryption queries, using the same rules as the previous ones.
+                \item $A'$ makes a guess by sending a bit $b' \in \{0,1\}$ to $B'$, which forwards it to $C'$. If $b' = b$, $B'$ wins the game
+            \end{enumerate}
+            
+            The above forms a reduction from a win of $\mathrm{Game}_{\Pi, A'}^{\text{INT}}(\lambda)$ to the distinguishability of $\mathrm{Game}_{\Pi, A'}^{\text{CCA}}(\lambda, b)$ from $H(\lambda, b)$. In particular, let $E$ be the event such that $E = 1$ if $A'$ makes a decryption query $\widetilde c$ that is both different from all the answers to the encryption queries and such that $\mathrm{Dec}(K, \widetilde c) \neq \bot$. When conditioning on $E = 0$, we get that $H(\lambda, b) \equiv \mathrm{Game}_{\Pi, A}^{\text{CCA}}(\lambda, b)$, therefore for $A'$ it holds that:
+            \[\Pr[\mathrm{Game}_{\Pi, A'}^{\text{IND}}(\lambda) = 1] \geq \Pr[E = 0] \Pr[\text{$A'$ causes $E = 0$} \mid E = 0] \geq \frac{1}{s} \cdot \frac{1}{n^c}\]
+
+            where $s$ is the number of decryption queries, contradicting the fact that $\Pi$ satisfies integrity.
+        \end{proof}
+    \end{proof}
+        
+
+    The very next natural thing to inquire is a SKE that satisfies both CPA-security and integrity, in order to obtain a CCA-secure scheme. Not so surprisingly, combining a CPA-secure scheme with a secure MAC satisfies our needs. First, let's see in which ways we could combine these two ideas. Let $\Pi_1 = (\mathrm{Enc}, \mathrm{Dec})$ be an SKE with key space $\mathcal{K}_1$ and let $\Pi_2 = (\mathrm{Tag})$ be a MAC with key space $\mathcal{K}_2$. We define the following ways to combine the two schemes:
+    \begin{enumerate}
+        \item \textbf{Encrypt-and-MAC (E\&M)}: we define a new SKE $\Pi' = (\mathrm{Enc}', \mathrm{Dec}')$ as:
+        \[\mathrm{Enc}'((K_1,K_2), m) = (\mathrm{Enc}(K_1, m), \mathrm{Tag}(K_2,m))\]
+        \[\mathrm{Dec}'((K_1, K_2), (c, \tau)) = \soe{ll}{
+            \bot & \text{if } \mathrm{Tag}(K_2, \mathrm{Dec}(K_1, m)) \neq \tau \\
+            \mathrm{Dec}(K_1, m) & \text{otherwise}
+        }\]
+        where $(K_1, K_2) \in \mathrm{K}_1 \times \mathrm{K}_2$.
+
+        \item \textbf{Encrypt-then-MAC (EtM)}: we define a new SKE $\Pi' = (\mathrm{Enc}', \mathrm{Dec}')$ as:
+        \[\mathrm{Enc}'((K_1,K_2), m) = (\mathrm{Enc}(K_1, m), \mathrm{Tag}(K_2,\mathrm{Enc}(K_1, m)))\]
+        \[\mathrm{Dec}'((K_1, K_2), (c, \tau)) = \soe{ll}{
+            \bot & \text{if } \mathrm{Tag}(K_2, c) \neq \tau \\
+            \mathrm{Dec}(K_1, c) & \text{otherwise}
+        }\]
+        where $(K_1, K_2) \in \mathrm{K}_1 \times \mathrm{K}_2$.
+
+        \item \textbf{MAC-then-Encrypt (MtE)}: we define a new SKE $\Pi' = (\mathrm{Enc}', \mathrm{Dec}')$ as:
+        \[\mathrm{Enc}'((K_1,K_2), m) = \mathrm{Enc}(K_1, m \mid\mid \mathrm{Tag}(K_2,m))\]
+        \[\mathrm{Dec}'((K_1, K_2), c) = \soe{ll}{
+            \bot & \text{if } \mathrm{Tag}(K_2, m) \neq \tau \\
+            m & \text{otherwise}
+        }\]
+        where $(K_1, K_2) \in \mathrm{K}_1 \times \mathrm{K}_2$ and $\mathrm{Dec}(K_1, c) = m \mid\mid \tau$.
+    \end{enumerate}  
+
+    In real-world implementations, Encrypt-and-MAC was used by old versions of the \textit{SSL/TLS protocol}, while new versions use Encrypt-then-MAC. Mac-then-Encrypt is used by the \textit{SSH protocol}. Out of all the three constructions, only EtM guarantees that the resulting scheme satisfies both CPA-security and integrity when $\Pi_1$ is CPA-secure and $\Pi_2$ is \textbf{Strong UFCMA (SUFCMA)}. The SUFCMA game is defined in the same way as the UFCMA game, with the additional constraint imposing that $\tau^* \neq \tau_i$ for all $i \in [t]$ (we recall that the UFCMA game only imposes that $m^* \neq m_i$)
+    
+    \begin{frameddefn}{SUFCMA-security}
+        Let $\Pi = (\mathrm{Tag})$ be a MAC. We say that $\Pi$ is SUFCMA-secure if:
+        \[\Pr[\mathrm{Game}^{\text{SUFCMA}}_{\Pi, A}(\lambda) = 1] \leq \mathrm{negl}(\lambda)\]
+        for all PPT adversaries $A$.
+    \end{frameddefn}
+
+    \begin{framedthm}{}
+        Let $\Pi' = (\mathrm{Enc}', \mathrm{Dec}')$ be an EtM SKE constructed from the SKE $\Pi_1 = (\mathrm{Enc}, \mathrm{Dec})$ and the MAC $\Pi_2 = (\mathrm{Tag})$. Then, $\Pi'$ satisfies both CPA-security and integrity if $\Pi_1$ is CPA-securite and $\Pi_2$ is SUFCMA-securite.
+    \end{framedthm}
+
+    \begin{proof}
+        TODO.
+    \end{proof}
+
+    \begin{framedcor}{}
+        Let $\Pi' = (\mathrm{Enc}', \mathrm{Dec}')$ be an EtM SKE constructed from the SKE $\Pi_1 = (\mathrm{Enc}, \mathrm{Dec})$ and the MAC $\Pi_2 = (\mathrm{Tag})$. Then, $\Pi'$ is CCA-secure if $\Pi_1$ is CPA-securite and $\Pi_2$ is SUFCMA-securite.
+    \end{framedcor}
+
+    \begin{proof}
+        Follows from the two previous theorems.
+    \end{proof}
+
+    \section{Solved exercises}
+
+    \begin{framedprob}{}
+        Let $\mathcal{F} = \{F_k : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF family and let $\mathcal{F}' = \{F_k : \{0,1\}^{n-1} \to \{0,1\}^{2n}\}_{K \in \{0,1\}^\lambda}$ be a family such that:
+        \[F'_K(m) = F_K(0 \mid\mid m) \mid\mid F_K(m \mid\mid 1)\]
+        Prove or disprove that $\mathcal{F}'$ is a PRF family.
+    \end{framedprob}
+
+    \begin{proof}
+        The claim is false. To disprove it, we define an adversary $A$ as follows:
+
+        $A$ = "On input $w \in \{0,1\}^{2n}$:
+        \begin{enumerate}
+            \item Query $m_1 = 0^{n-1}$ and $m_2 = 0^{n-2} \mid\mid 1$ to $C$, which will answer with $y_1 = J(m_1)$ and $y_2 = J(m_2)$
+            \item Let $s_i, t_i$ be the strings $s,t \in \{0,1\}^{n}$ such that $y_i = s_i \mid\mid t_i$
+            \item If $t_1 = s_2$ return 1, otherwise 0
+        \end{enumerate}
+
+        In $\mathrm{Game}_{\mathcal{F'},A}^{\text{PRF}}(\lambda, 0)$, the challenger will use $J = F'_K$ for some $K \in_R \mathcal{K}$, thus we get that:
+        \[F'_K(m_1) = F'_K(0^{n-1}) = F_K(0^n) \mid\mid F_K(0^{n-1} \mid\mid 1)\]
+        \[F'_K(m_2) = F'_K(0^{n-2} \mid\mid 1) = F_K(0^{n-1} \mid\mid 1) \mid\mid F_K(0^{n-2} \mid\mid 1^2)\]
+
+        making the attacker return 1 with probability 1. In  $\mathrm{Game}_{\mathcal{F'},A}^{\text{PRF}}(\lambda, 1)$, instead, the challenger will use $J \in_R \mathcal{R}(n-1 \to 2n)$, giving no extra information to the attacker, making them return 1 with probability at most $2^{n-1}/2^{2n} = 2^{-n-1}$. Therefore, we conclude that:
+        \[\abs{\Pr[A(w) = 1 : b = 0] - \Pr[A(w) = 1 : b = 1]} \geq 1-\frac{1}{2^{n+1}} \geq \frac{1}{n}\]
+        thus $\mathcal{F}'$ is not a PRF family.
+    \end{proof}
 
 \end{document}

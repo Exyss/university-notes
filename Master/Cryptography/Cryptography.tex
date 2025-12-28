@@ -1858,7 +1858,7 @@
 
     Since the CCA-game is way more complex than the CPA-game due to the presence of decryption queries, we need a simpler procedure to prove that a scheme is CCA-secure. In particular, we'll prove that CPA-security together with an additional property implies CCA-security. This additional property is the computational security equivalent of \textbf{Integrity (INT)}: it must be hard for any adversary PPT to generate a \textit{valid} chipertext without knowing the key chosen by the scheme, otherwise they could use this ability to alter the original message and forge a new chipertext that decrypts into the altered message.
 
-    In $\mathrm{Game}_{\Pi, A}^{\text{INT}}(\lambda)$, the adversary is given access to an oracle for the $\mathrm{Enc}$ function and it is allowed to make $t = \poly(\lambda)$ encryption queries to the oracle. After completing the encryption queries, the adversary returns a chipertext $c^*$ to the challenger (with $c^* \neq c_i$ for all $i \in [t]$). The challenger then computes $\mathrm{Dec}(K, c^*)$ and compares it with a special value $\bot$, which can be tought of as a \curlyquotes{fake message}. If $\mathrm{Dec}(K, c^*) \neq \bot$ is true, the adversary wins. Otherwise, the challenger wins.
+    In $\mathrm{Game}_{\Pi, A}^{\text{INT}}(\lambda)$, the adversary is given access to an oracle for the $\mathrm{Enc}$ function and it is allowed to make $t = \poly(\lambda)$ encryption queries to the oracle. After completing the encryption queries, the adversary returns a chipertext $c^*$ to the challenger (with $c^* \neq c_i$ for all $i \in [t]$). The challenger then computes $\mathrm{Dec}(K, c^*)$ and compares it with a special value $\bot$, which can be thought of as a \curlyquotes{fake message}. If $\mathrm{Dec}(K, c^*) \neq \bot$ is true, the adversary wins. Otherwise, the challenger wins.
 
     \begin{figure}[H]
         \centering
@@ -1981,20 +1981,174 @@
     \end{frameddefn}
 
     \begin{framedthm}{}
-        Let $\Pi' = (\mathrm{Enc}', \mathrm{Dec}')$ be an EtM SKE constructed from the SKE $\Pi_1 = (\mathrm{Enc}, \mathrm{Dec})$ and the MAC $\Pi_2 = (\mathrm{Tag})$. Then, $\Pi'$ satisfies both CPA-security and integrity if $\Pi_1$ is CPA-securite and $\Pi_2$ is SUFCMA-securite.
+        Let $\Pi' = (\mathrm{Enc}', \mathrm{Dec}')$ be an EtM SKE constructed from the SKE $\Pi_1 = (\mathrm{Enc}, \mathrm{Dec})$ and the MAC $\Pi_2 = (\mathrm{Tag})$. Then, $\Pi'$ satisfies both CPA-security and integrity if $\Pi_1$ is CPA-secure and $\Pi_2$ is SUFCMA-secure.
     \end{framedthm}
 
     \begin{proof}
-        TODO.
+        As usual, we proceed with two reductions: one that goes from one CPA-security to the other and one that goes from integrity to SUFCMA-security.
+
+        \textbf{Claim 1}: $\Pi'$ is CPA-secure
+
+        \begin{proof}[Proof of Claim 1.]
+            By way of contradiction, suppose that there is an adversary $A'$ such that $\mathrm{Game}_{\Pi', A'}^{\text{CPA}}(\lambda,0) \not\approx_c \mathrm{Game}_{\Pi', A'}^{\text{CPA}}(\lambda,1)$. We define a new adversary $A_1$ to distinguish $\mathrm{Game}_{\Pi_1, A_1}^{\text{CPA}}(\lambda,0)$ from $\mathrm{Game}_{\Pi_1, A_1}^{\text{CPA}}(\lambda,1)$:
+            \begin{enumerate}
+                \item $A_1$ picks a key $K_2 \in_R \mathcal{K_2}$. This key will be used to compute tags (observe that the challenger $C_1$ also picks a key $K_1 \in_R \mathcal{K_1}$, which will be used for encryptions)
+                \item $A_1$ starts the CPA game both with $A'$ and $C_1$
+                \item Each encryption query $m_i$ from $A'$ to $A_1$ is forwarded to $C_1$, which replies with the chiphertext $c_i$
+                \item Upon receiving $c_i$, $A_1$ computes $\mathrm{Tag}(K_2, c_i) = \tau_i$ and returns $(c_i, \tau_i)$ to $A'$
+                \item After a polynomial amount of encryption queries, $A'$ sends two challenge messages $m_0^*, m_1^*$ to $A_1$, who will forward them to $C_1$. The challenger then replies with the chipertext $c^*$.
+                \item Upon receiving $c^*$, $A_1$ computes $\mathrm{Tag}(K_2, c^*) = \tau^*$ and returns $(c^*, \tau^*)$ to $A'$
+                \item After another exchange of a polynomial amount of encryption queries, $A'$ guesses the value of $b$ by sending $b' \in \{0,1\}$. This bit is then forwarded by $A_1$ to $C_1$
+                \item If $b' = b$, $A_1$ wins the CPA game against $C_1$, otherwise $C_1$ wins.
+            \end{enumerate}
+
+            The above reduction has no particular instruction that must be discusses: $A_1$ just acts as an intermediate between $A'$ and $C_1$, while also tagging the chipertexts sent by $C_1$. Therefore, $A_1$ is able to distinguish the CPA game for $\Pi_1$ if and only if $A'$ is able to do so for $\Pi'$, raising a contradiction on the CPA-security of $\Pi_1$.  
+        \end{proof}
+
+        \textbf{Claim 2}: $\Pi'$ satisfies integrity
+
+        \begin{proof}[Proof of Claim 2.]
+            By way of contradiction, suppose that there is an adversary $A''$ such that $\Pr[\mathrm{Game}_{\Pi', A''}^{\text{INT}}(\lambda) = 1] \geq \lambda^{-c}$ for some $c > 0$. We define a new adversary $A_2$ such that $\Pr[\mathrm{Game}_{\Pi_2, A_2}^{\text{SUFCMA}}(\lambda) = 1] \geq \lambda^{-c}$:
+            \begin{enumerate}
+                \item $A_2$ picks a key $K_1 \in_R \mathcal{K_1}$. This key will be used to compute encryptions (observe that the challenger $C_2$ also picks a key $K_2 \in_R \mathcal{K_2}$, which will be used for taggging)
+                \item $A_2$ starts the INT game with $A''$ and the SUFCMA game with $C_2$
+                \item Each encryption query $m_i$ from $A''$ to $A_2$ is forwarded to $C_2$, which replies with the tag $\tau_i$. 
+                \item Upon receiving $\tau_i$, $A_2$ computes $\mathrm{Enc}(K_1, m_1) = c_i$ and returns $(c_i, \tau_i)$ to $A''$
+                \item After a polynomial amount of encryption queries, $A''$ sends the challenge pair $(c^*, \tau^*)$ to $A_2$, who will forward it to $C_2$.
+                \item If $\mathrm{Tag}(K_2, c^*) = \tau^*$ and $c^* \neq c_i$ for all $c_i$, $A_2$ wins the SUFCMA game against $C_2$, otherwise $C_2$ wins
+            \end{enumerate}
+
+            Unlike the previous claim, this reduction requires some discussion. First of all, we observe that in order to play a valid INT game the adversary $A''$ must pick a challenge pair $(c^*, \tau^*)$ such that $(c^*, \tau^*) \neq (c_i, \tau_i)$ for every encryption query $m_i$. However, this can hold true both when $c^* \neq c_i$ and when $\tau^* \neq \tau_i$ (or both). This is where SUFCMA-security plays a crucial role: we know that each tag $\tau_i$ returned by the challenger $C_2$ is unique. 
+
+            Therefore, when $(c^*, \tau^*)$ is such that $\mathrm{Dec}'((K_1, K_2), (c^*, \tau^*)) \neq \bot$ we know that both $\mathrm{Tag}(K_2, c^*) = \tau^*$ (guaranteed since the decryption works) and $c^* \neq c_i$ for all $c_i$ hold (guaranteed by the uniqueness of tags), declaring the adversary $A_2$ as winner. Otherwise, if  $\mathrm{Dec}'((K_1, K_2), (c^*, \tau^*)) = \bot$ then $\mathrm{Tag}(K_2, c^*) \neq \tau^*$ must hold, declaring the challenger $C_2$ as winner.
+        \end{proof}
     \end{proof}
 
     \begin{framedcor}{}
-        Let $\Pi' = (\mathrm{Enc}', \mathrm{Dec}')$ be an EtM SKE constructed from the SKE $\Pi_1 = (\mathrm{Enc}, \mathrm{Dec})$ and the MAC $\Pi_2 = (\mathrm{Tag})$. Then, $\Pi'$ is CCA-secure if $\Pi_1$ is CPA-securite and $\Pi_2$ is SUFCMA-securite.
+        Let $\Pi' = (\mathrm{Enc}', \mathrm{Dec}')$ be an EtM SKE constructed from the SKE $\Pi_1 = (\mathrm{Enc}, \mathrm{Dec})$ and the MAC $\Pi_2 = (\mathrm{Tag})$. Then, $\Pi'$ is CCA-secure if $\Pi_1$ is CPA-secure and $\Pi_2$ is SUFCMA-secure.
     \end{framedcor}
 
     \begin{proof}
         Follows from the two previous theorems.
     \end{proof}
+
+    \section{Block chiphers and Feistel networks}
+
+    We saw how to get CPA-secure SKEs and UFCMA-secure MACs through PRFs. To get SUFCMA-secure MACS, small changes to the given construction suffice (e.g. using PRFs with unique outputs, such as PRPs). By combining these two constructions in an Encrypt-then-Mac fashion, we finally get our CCA-secure construction, proving that excellent cryptography symmetric-key encryption is theoretically possible. However, we're still missing a link: we need to show that PRP can be constructed.
+
+    PRPs are useful not only for their output uniqueness, but also for their invertibility. In particular, real-world cryptosystems are based on encryption schemes whose decryption function is exacly the inverse of the encryption function. Since the encryption must be efficient both in theory and practice, decryptions based on PRPs also achieve this property.
+    
+    In practical applications, PRPs are referred to as \textbf{block chiphers}. The two most common block chiphers are known as \textit{Data Encryption Standard (DES)} and \textit{Advances Encryption Standard (AES)}. We remark that neither of these block chiphers can be really proven to be secure under standard assumptions (recall that we don't know if PRFs really do exist in practice). However, their design is high inspired by standard results in provable security. The DES block chipher is based on the theoretical notion of \textbf{Feistel networks}, a way to construct a PRP family from any PRF family.
+
+    \begin{frameddefn}{Feistel function}
+        Given a function $f : \{0,1\}^n \to \{0,1\}^n$, the Feistel function over $f$ is the function $\psi_f : \{0,1\}^{2n} \to \{0,1\}^{2n}$ such that:
+        \[\psi_f(x,y) = (y, x \oplus f(y))\]
+        with $x,y \in \{0,1\}^n$
+    \end{frameddefn}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=1]{images/feistel_function.pdf}
+        \caption{A feistel function.}
+    \end{figure}
+
+    By definition, the Feistel function is easily invertible. By setting $\psi_f^{-1}(x',y') = (y' \oplus f(x'), x')$, we get that:
+    \[\psi_f^{-1}(\psi_F(x,y)) = \psi_f^{-1}(y, x \oplus f(y)) = (x \oplus f(y) \oplus f(y), y) = (x,y)\]
+
+    Nonetheless, the Feistel function is not pseudorandom by itself even when $f = F_K$ for some PRF family $\mathcal{F} = \{F_k : \{0,1\}^n \to \{0,1\}\}_{K \in \{0,1\}^n}$: since the second half of the input is equal to the first half of the output, an attacker can easily distinguish it from a truly random function. The strength of the Feistel function comes from repeated applications, using different pseudorandom functions. These repeated applications are called \textbf{Feistel networks}.
+
+    \begin{frameddefn}{Feistel network}
+        Given $t$ functions $f_1, \ldots, f_t : \{0,1\}^n \to \{0,1\}^n$, the Feistel network over $f_1, \ldots, f_t$ is the function  $\psi_{f_1, \ldots, f_t} : \{0,1\}^{2n} \to \{0,1\}^{2n}$ such that:
+        \[\psi_{f_1, \ldots, f_t}(x,y) = \psi_{f_t}(\psi_{f_{t-1}}(\ldots \psi_{f_1}(x,y)))\]
+        with $x,y \in \{0,1\}^n$
+    \end{frameddefn}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=1]{images/feistel_network.pdf}
+        \caption{A 3-layer Feistel network.}
+    \end{figure}
+
+    Is a 2-layer Feistel network enough over independent PRFs to get a PRP? The answer is still no, but they almost suffice. Consider two keys $K_1, K_2 \in \{0,1\}^\lambda$. Then, for any two pairs $(x,y), (x',y') \in \{0,1\}^{2n}$ we have that:
+    \[\begin{split}
+        &\psi_{F_{K_2}, F_{K_1}}(x,y) \oplus \psi_{F_{K_2}, F_{K_1}}(x',y') \\
+        =& \psi_{F_{K_2}}(y, x \oplus F_{K_1}(y)) \oplus \psi_{F_{K_2}}(y', x' \oplus F_{K_1}(y')) \\
+        =& (x \oplus F_{K_1}(y), y \oplus F_{K_2}(x \oplus F_{K_1}(y))) \oplus (x' \oplus F_{K_1}(y'), y' \oplus F_{K_2}(x' \oplus F_{K_1}(y'))) \\
+        =& (x \oplus x', y \oplus y' \oplus F_{K_2}(x \oplus F_{K_1}(y)) \oplus F_{K_2}(x' \oplus F_{K_1}(y')))
+    \end{split}\]
+
+    implying that an attacker can just query $(x,y), (x',y')$ and then check if the first half of the output is $x \oplus x'$ to easily distinguish $\psi_{F_{K_2}, F_{K_1}}$ from a truly random function. Hence, we strictly require \textit{at least} 3 applications: after three applications, both halves of the output will be XORed with a PRF, making them hard to distinguish (recall that the adversary doesn't have access to the key $(K_1, K_2, K_3) \in \{0,1\}^{3\lambda}$ used by the challenger). To formally prove this result, the following lemma is required, for which we omit the proof.
+
+    \begin{framedlem}{}
+        Let $H$ and $H'$ be the two distributions defined as follows:
+        \begin{itemize}
+            \item $H$ is given by $\psi_{R_1, R_2}(\cdot, \cdot)$ where $R_1,R_2 \in_R \mathcal{R}(n \to n)$ 
+            \item $H'$ is given by $R(\cdot, \cdot)$ where $R \in_R \mathcal{R}(2n \to 2n)$ 
+        \end{itemize}
+
+        Assuming all queries $(x_1, y_1), \ldots,$ $(x_q, y_q)$, with $q = \poly(\lambda)$, are \curlyquotes{$y$-unique}, i.e. $y_i \neq y_j$ for all $i \neq j$, for every unbounded attacker $A$ the distributions $S$ and $R$ are computationally indistinguishable.
+    \end{framedlem}
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+
+    \begin{framedthm}{Luby-Rackoff theorem}
+        Let $\mathcal{F} = \{F_k : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF family. Then, for any three independent keys $K_1, K_2, K_3 \in_R \{0,1\}^\lambda$ the 3-layer Feistel network $\psi_{F_{K_1}, F_{K_2}, F_{K_3}}$ is a PRP.
+    \end{framedthm}
+
+    \begin{proof}
+        Let $H_1, H_2, H_3, H_4$ be the four hybrid distribution defined as follows:
+        \begin{itemize}
+            \item $H_1$ is given by $\psi_{F_{K_1}, F_{K_2}, F_{K_3}}(\cdot, \cdot)$ with $K_1,K_2,K_3 \in_R \{0,1\}^\lambda$
+            \item $H_2$ is given by $\psi_{R_1, R_2, R_3}(\cdot, \cdot)$ with $R_1,R_2,R_3 \in_R \mathcal{R}(n \to n)$
+            \item $H_3$ is given by $R(\cdot, \cdot)$ with $R \in_R \mathcal{R}(2n \to 2n)$
+            \item $H_4$ is given by $P(\cdot, \cdot)$ with $P \in_R \mathcal{P}(2n \to 2n)$, where $\mathcal{P}$ is the set of truly random permutations on $\{0,1\}^{2n}$
+        \end{itemize}
+
+        By definition, $\mathrm{Game}_{\psi_{F_{K_1}, F_{K_2}, F_{K_3}}, A}^{\text{PRP}}(\lambda, 0) \equiv H_1$ and $\mathrm{Game}_{\psi_{F_{K_1}, F_{K_2}, F_{K_3}}, A}^{\text{PRP}}(\lambda, 1) \equiv H_4$.
+
+        \textbf{Claim 1}: $H_1 \approx_c H_2$
+
+        \begin{proof}[Proof of Claim 1.]
+            Omitted (standard triple reduction to distinguishibility of PRF)
+        \end{proof}
+
+        \textbf{Claim 2}: $H_3 \approx_c H_4$.
+
+        \begin{proof}[Proof of Claim 2.]
+            Let $B$ be the event such that $B = 1$ if $\exists i,j \in [q]$ with $i \neq j$ such that $R(x_i, y_i) = R(x_j, y_j)$. When conditioning over $B = 0$, we have that $H_3 \equiv H_4$ since $R$ becomes bijective. Therefore:
+            \[\mathrm{SD}(H_3; H_4) \leq \Pr[B = 1] = \sum_{i = 1}^{q} \sum_{\substack{j = 1 :\\ j \neq i}}^{q} \Pr[R(x_i, y_i) = R(x_j, y_j)] \leq \binom{q}{2}\frac{1}{2^{2n}} \leq \mathrm{negl}(n)\]
+        \end{proof}
+
+        \textbf{Claim 3}: $H_2 \approx_c H_3$
+
+        \begin{proof}[Proof of Claim 3.]
+            We'll use the previous lemma to prove this claim. For the following argument, it is more convinient to look at $H_4$ as given by $\psi_{R_1, R_2}(\psi_{R_3}(\cdot, \cdot))$. Consider the queries $(x_1, y_1), \ldots, (x_q, y_q)$, where $(x_i, y_i) \neq (x_j, y_j)$.Let $B'$ be the event such that $B = 1$ if the outputs $\psi_{R_3}(x_i, y_i) = (x_i', y_i')$ are not \curlyquotes{$y'$-unique}, i.e. there are at least two outputs whose second halves are the same.
+
+            By conditioning over $B = 0$, $H_2$ and $H_3$ are indistinguishable thanks to the previous lemma. Therefore:
+            \[\mathrm{SD}(H_2; H_3) \leq \Pr[B = 1]\]
+
+            Fix two indices $i,j \in [q]$ such that $i \neq j$. We may assume that $y_i \neq y_j$ since otherwise if $y_i = y_j$ then $x_i \neq x_j$ since $(x_i, y_i) \neq (x_j, y_j)$ holds. Then, we have that:
+            \[y_i' = x_i \oplus R_3(y_i) \neq x_j \oplus R_3(y_i) = x_j \oplus R_3(y_j) = y_j'\]
+
+            thus these queries don't affect $\Pr[B = 1]$. Now, we observe that:
+            \[\begin{split}
+                y_i' = y_j' &\iff x_i \oplus R_3(y_i) = x_j \oplus R_3(y_j) \\
+                &\iff x_i \oplus x_i \oplus R_3(y_i) \oplus R_3(y_j) = x_i \oplus x_j \oplus R_3(y_j) \oplus R_3(y_j)\\
+                &\iff R_3 \oplus R_3(y_j) = x_i \oplus x_j
+            \end{split}\]
+
+            Therefore, we conclude that:
+            \[\Pr[B = 1] = \sum_{i = 1}^{q} \sum_{\substack{j = 1 :\\ j \neq i}}^{q} \Pr[y_i' = y_j'] \leq \binom{q}{2} \frac{1}{2^n} \leq \mathrm{negl}(n)\]
+        \end{proof}
+    \end{proof}
+
+    In practical implementations, the DES encryption scheme uses a 18-layer Fiestel network over an \textit{heuristic} family instead of a PRF family (no PRF family has been proven to exist!), where the keys $K_1, \ldots, K_{18}$ are generated from a single key $K$. Even thought 18-layers may seem a lot, the DES scheme is actually \underline{very} insecure due to the usage a key that is too short (56 bits), making it very easy to bruteforce by any modern computer. The easiest way to fix this issue is through multiple applications of DES (using independent keys): we're basically doubling the key length without changing the internal structure.
+    
+    Nonetheless, 2-DES can also be broken through a meet-in-the-middle attack (finding the two keys by simultaneously encrypting known plaintext and decrypting the corresponding ciphertext to find matching intermediate values). Intuitively, the meet-in-the-middle attack works doesn't work for $k$-DES with $k > 2$ since the intermediate keys cannot be bruteforced.
+    
+    The 3-DES encryption scheme is the most used out of all the variants of DES since 168 bits for the key length are enough for modern computers. However, 3-DES is very inefficient since it is basically a 54-layer Fiestel network. For this reason, the AES standard was created. This protocol solves the issues of DES by using a longer key (128, 192 or 256 bits) and a different internal network called \textit{Substitution Permutation Network (SPN)}, which is basically the repeated application of XORs and publicly known permutations.
 
     \section{Solved exercises}
 
@@ -2022,5 +2176,6 @@
         \[\abs{\Pr[A(w) = 1 : b = 0] - \Pr[A(w) = 1 : b = 1]} \geq 1-\frac{1}{2^{n+1}} \geq \frac{1}{n}\]
         thus $\mathcal{F}'$ is not a PRF family.
     \end{proof}
+
 
 \end{document}

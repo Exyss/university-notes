@@ -962,7 +962,22 @@
 
     concluding that $A$ is an adversary that distinguishes $G'(U_n)$ from $U_m$ with non-negligible probability.
 
-    \chapter{Symmetric-key encryption schemes}
+    \begin{framedprob}{}
+        Let $f_1, f_2, f_3 : \{0,1\}^n \to \{0,1\}^n$ be arbitrary functions. You know that at least one of them is a OWF, but you don't know which one. Design a OWF $f$ using $f_1,f_2,f_3$ in a black-box manner.
+    \end{framedprob}
+
+    \textit{Solution}:
+
+    Let $f : \{0,1\}^{3n} \to \{0,1\}^{3n}$ be defined by $f(x_1 \mid\mid x_2 \mid\mid x_3) = f_1(x_1) \mid\mid f_2(x_2) \mid\mid f_3(x_3)$. By way of contradiction, suppose that there is an adversary $A^{\text{OWF}}_f$ that inverts $f$ with non-negligible probability. We define three adversaries $A^{\text{OWF}}_{f_1}, A^{\text{OWF}}_{f_2}, A^{\text{OWF}}_{f_3}$ as follows (with $i \in [3]$ fixed):
+    \begin{enumerate}
+        \item $C^{\text{OWF}}_{f}$ sends the output $y$ to $A^{\text{OWF}}_{f_i}$
+        \item $A^{\text{OWF}}_{f_i}$ sets $y_i' = y$ and $y_j' = 0^n$ for $j \in [3]-\{i\}$. They then send $y_1' \mid\mid y_2' \mid\mid y_3'$ to $A^{\text{OWF}}_{f}$
+        \item $A^{\text{OWF}}_{f}$ returns $x_1' \mid\mid x_2' \mid\mid x_3'$ and $A^{\text{OWF}}_{f_i}$ forwards $x_i'$ to $C^{\text{OWF}}$
+    \end{enumerate}
+
+    Since at least one of $f_1, f_2, f_3$ is a OWF, there is at least one index $i$ such that $A^{\text{OWF}}_{f_i}$ forms a reduction from the OWF game of $f$ to the OWF game of $f_i$, raising a contradiction. Therefore, $f$ must be an OWF.
+
+    \chapter{Symmetric-key encryption}
 
     \section{Games as security proofs}
 
@@ -1441,7 +1456,7 @@
 
     \section{Encryption modes for SKEs}
 
-    After proving that OWFs can be used to create PRFs through PRGs, we're going to show that PRFs are enough to achieve practical symmetric-key encryption. As we'll see, for some practical applications we strictly require that the pseudorandom functions are invertible, i.e. that they are PRPs. Practical functions with this property are commonly called \textbf{blockchiphers} (the concept of blockchipers was used way before the introduction of the concept of PRPs). From a theoretical prospective, we'll discuss how PRFs can be used to derive PRPs. From a practical prospective, instead, we'll discuss some blockchipers used in the real world.
+    After proving that OWFs can be used to create PRFs through PRGs, we're going to show that PRFs are enough to achieve practical symmetric-key encryption. As we'll see, for some practical applications we strictly require that the pseudorandom functions are invertible, i.e. that they are PRPs. Practical functions with this property are commonly called \textbf{block ciphers} (the concept of blockchipers was used way before the introduction of the concept of PRPs). From a theoretical prospective, we'll discuss how PRFs can be used to derive PRPs. From a practical prospective, instead, we'll discuss some blockchipers used in the real world.
 
     First of all, we observe that real-world encryption systems must work with messages of \textit{different lengths}. Formally, we say that these SKEs have \textbf{Variable Input Length (VIL)}, meaning that for each message $m$ it holds that $\abs{m} = \poly(\lambda)$, where $\lambda$ is the key length. In order to achieve security for VIL SKEs, we require a \curlyquotes{standardized way} to encrypt messages of variable length. To solve this issue, each message $m$ is split into a variable number of \textbf{blocks} of an equal fixed length $n$ (commonly is a power of 2, such as 256). In other words, each message $m$ is considered as $m = (m_1, \ldots, m_d)$ where $d \in \N$ and $m_i \in \{0,1\}^n$.
     
@@ -1555,7 +1570,7 @@
                 \item For $i \in [t]$ iterations, with $t = \poly(\lambda)$, $A$ sends a message $m^{(i)} = (m^{(i)}_1, \ldots, m^{(i)}_{d_i})$ to $A'$
                 \item Upon receiving $m^{(i)}$, $A'$ sends $r^{(i)}, r^{(i)}+1, \ldots, r^{(i)}+d-1$ to the challenger $C$, which answers with $z^{(i)}_1, \ldots, z^{(i)}_d$
                 \item $A'$ sends $c^{(i)} = (r^{(i)}, c^{(i)}_1, \ldots, c^{(i)}_{d_i})$ back to $A$, where $c^{(i)}_j = z^{(i)}_j \oplus m^{(i)}_j$
-                \item After $i$ iterations, the above istructions are repeated again with the challenge messages $m_0^*, m_1^*$, getting the answer $c^*$
+                \item After $t$ iterations, the above istructions are repeated again with the challenge messages $m_0^*, m_1^*$, getting the answer $c^*$
                 \item Once $A$ receives $c^*$ it returns a final answer $b' \in \{0,1\}$ and $A'$ forwards $b'$ to $C$
                 \item If $b' = b$, $A'$ wins the PRF-game with $C$, otherwise it loses.
             \end{enumerate}
@@ -1572,7 +1587,7 @@
         \begin{proof}[Proof of Claim 2]
             Consider the values $R(r^*), R(r^*+1), \ldots, R(r^*+d^*-1)$ computed during the challenge query of the game $H(\lambda, b)$. Similarly, consider the values $R(r^{(i)}), R(r^{(i)}+1), \ldots, R(r^{(i)}+d_i-1)$ computed during the encryption queries.
 
-            Let $B_i$ be the binary \curlyquotes{bad event} such that $B_i = 1$ if $\exists j \in [0,d_i-1], j^* \in [0, d^*-1]$ such that $r^{(i)} + j = r^* + j^*$, otherwise $B_i = 0$. More generally, let $B = B_1 \cup \ldots cup B_t$
+            Let $B_i$ be the binary \curlyquotes{bad event} such that $B_i = 1$ if $\exists j \in [0,d_i-1], j^* \in [0, d^*-1]$ such that $r^{(i)} + j = r^* + j^*$, otherwise $B_i = 0$. More generally, let $B = B_1 \cup \ldots \cup B_t$
 
             Consider the conditioning over the event $B = 0$. When $B = 0$, the two sequences never overlap over each $i \in [t]$, which means that the challenge ciphertext is distributed as:
             \begin{itemize}
@@ -1766,22 +1781,22 @@
 
     \section{CCA-security and non-malleability}
 
-    In the previous sections we gave the idea behind computationally secure encryption and computationally secure message authentication. Now, we're ready to combine the two concepts. We say that an encryption scheme is \textbf{malleable} if it is possible to transform a  chiphertext $c \in \mathcal{C}$ -- of which we don't know the original plaintext -- into another chiphertext $\widetilde c$ which decrypts to another plaintext related to the original one. Formally, given an encryption $c$ of a plaintext $m$, it is possible to generate another cyphertext $\widetilde c$ of another plaintext $\widetilde m$ that is in some way related to $m$.
+    In the previous sections we gave the idea behind computationally secure encryption and computationally secure message authentication. Now, we're ready to combine the two concepts. We say that an encryption scheme is \textbf{malleable} if it is possible to transform a  ciphertext $c \in \mathcal{C}$ -- of which we don't know the original plaintext -- into another ciphertext $\widetilde c$ which decrypts to another plaintext related to the original one. Formally, given an encryption $c$ of a plaintext $m$, it is possible to generate another cyphertext $\widetilde c$ of another plaintext $\widetilde m$ that is in some way related to $m$.
     
-    For instance, consider again the PRG-OTP scheme, where $\mathrm{Enc}(K,m) = G(K) \oplus$ for some PRG $G$. Suppose that we know a chiphertext $c \in \mathcal{C}$, \underline{without} knowing the original message $m$. Then, for any value $t \in \{0,1\}^n$ we can construct the chiphertext $\widetilde c$ of the message $\widetilde m = m \oplus t$ by XORing $c$ with $t$:
+    For instance, consider again the PRG-OTP scheme, where $\mathrm{Enc}(K,m) = G(K) \oplus$ for some PRG $G$. Suppose that we know a ciphertext $c \in \mathcal{C}$, \underline{without} knowing the original message $m$. Then, for any value $t \in \{0,1\}^n$ we can construct the ciphertext $\widetilde c$ of the message $\widetilde m = m \oplus t$ by XORing $c$ with $t$:
     \[\widetilde c = c \oplus t = \mathrm{Enc}(K,m) \oplus t = (G(K) \oplus m ) \oplus t = G(K) \oplus (m \oplus t) = \mathrm{Enc}(K, \widetilde m)\]
 
-    Malleability is often an undesirable property in a general-purpose cryptosystem (e.g. digital auctions), since it allows an attacker to modify the contents of a message: Eve could steal the chiphertext $c$ from Alice, compute $\widetilde c$ and send it to Bob, which will decrypt it as $\widetilde m$. It's easy to see that even CPA-secure SKEs may be malleable. For instance, consider again the PRF-OTP scheme, where:
+    Malleability is often an undesirable property in a general-purpose cryptosystem (e.g. digital auctions), since it allows an attacker to modify the contents of a message: Eve could steal the ciphertext $c$ from Alice, compute $\widetilde c$ and send it to Bob, which will decrypt it as $\widetilde m$. It's easy to see that even CPA-secure SKEs may be malleable. For instance, consider again the PRF-OTP scheme, where:
     \begin{enumerate}
         \item $\mathrm{Enc}(K,m) = (r, F_K(r) \oplus m)$, where $r \in \{0,1\}^n$ is a nonce
         \item $\mathrm{Dec}(K,(r,c)) = F_K(r) \oplus c$
     \end{enumerate} 
 
-    for a PRF family $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$. We already discussed how this scheme is CPA-secure. Consider now the chiphertext $(r,c) \in \{0,1\}^n \times \mathcal{C}$ of an unknown message $m$, but the same trick used for PRG-OTP works even in this case. Let $\tilde c = c \oplus t$ for any $t \in \{0,1\}^n$. Then, we have that
+    for a PRF family $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$. We already discussed how this scheme is CPA-secure. Consider now the ciphertext $(r,c) \in \{0,1\}^n \times \mathcal{C}$ of an unknown message $m$, but the same trick used for PRG-OTP works even in this case. Let $\tilde c = c \oplus t$ for any $t \in \{0,1\}^n$. Then, we have that
     \[(r, \tilde c) = (r, c \oplus t) = (r, (F_k(r) \oplus m) \oplus t) = (r, F_k(r) \oplus (m \oplus t)) = \mathrm{Enc}(K, \widetilde m)\]
     where $\widetilde m = m \oplus t$.
     
-    In the computational security context, \textit{malleability attacks} are known as \textbf{Chosen-chipher-} \textbf{text Attack (CCA)}. Formally, CCA-security is defined through the game $\mathrm{Game}_{\Pi,A}^{\text{CCA}}(\lambda, b)$, similar to the one for CPA-security with the addition of \textit{decryption queries} after each series of encryption queries (both before and after the sending the challenge messages). Obviously, the chiphertext sent in each decryption query must be strictly different from the challenge chiphertext, otherwise the attacker could win the game with probability 1.
+    In the computational security context, \textit{malleability attacks} are known as \textbf{Chosen-cipher-} \textbf{text Attack (CCA)}. Formally, CCA-security is defined through the game $\mathrm{Game}_{\Pi,A}^{\text{CCA}}(\lambda, b)$, similar to the one for CPA-security with the addition of \textit{decryption queries} after each series of encryption queries (both before and after the sending the challenge messages). Obviously, the ciphertext sent in each decryption query must be strictly different from the challenge ciphertext, otherwise the attacker could win the game with probability 1.
 
     \begin{figure}[H]
         \centering
@@ -1887,7 +1902,7 @@
         \caption{Graphical representation of $\mathrm{Game}^{\text{INT}}_{\Pi, A}(\lambda)$}
     \end{figure}
 
-    Let's solidify the idea behind the INT game: if the adversary is able to forge a chiphertext that decrypts into a message $m$ that is different from the fake message $\bot$, we know that they are clearly capable of forging a valid chipertext even if they don't know the key, breaking the integrity of the scheme.
+    Let's solidify the idea behind the INT game: if the adversary is able to forge a ciphertext that decrypts into a message $m$ that is different from the fake message $\bot$, we know that they are clearly capable of forging a valid chipertext even if they don't know the key, breaking the integrity of the scheme.
 
     \begin{frameddefn}{Integrity (in computational security)}
         Let $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ be a SKE. We say that $\Pi$ satisfies integrity if:
@@ -1902,7 +1917,7 @@
     \begin{proof}[Proof (sketch).]
         The full proof requires to be extremely formal, hence we'll only give a sketch. The idea is simple: we can reduce both the distinguishability of $\mathrm{Game}_{\Pi, A}^{\text{CPA}}(\lambda,b)$ and a win of $\mathrm{Game}_{\Pi,A}^{\text{INT}}(\lambda)$ to the distinguishability of $\mathrm{Game}_{\Pi, A}^{\text{CCA}}(\lambda,b)$.
         
-        We start with the CPA-game. Let $H(\lambda,b)$ be the game identical to the CCA-game where decryption queries are substituted by the following logic: if the attacker queries a chiphertext $\widetilde c_i$ that was the answer to a previous encryption query $m_i$, the challenger returns $m_i$, otherwise it returns the special message $\bot$.
+        We start with the CPA-game. Let $H(\lambda,b)$ be the game identical to the CCA-game where decryption queries are substituted by the following logic: if the attacker queries a ciphertext $\widetilde c_i$ that was the answer to a previous encryption query $m_i$, the challenger returns $m_i$, otherwise it returns the special message $\bot$.
         
         \textbf{Claim 1}: $H(\lambda, 0) \approx_c H(\lambda,1)$
 
@@ -1910,7 +1925,7 @@
             By way of contradiction, suppose that there is an adversary $A$ that is able to distinguish the CCA-game with non-negligible probability. Let $B$ be the adversary defined as follows:
             \begin{enumerate}
                 \item $B$ starts the hybrid game with $A$ and the CPA game with $C$
-                \item $A$ sends a series of encryption queries to $B$. Each query $m_i$ gets forwarded to the challenger $C$, which will answer with a chipertext $c_i$. The chiphertext is then forwarded from $B$ to $A$.
+                \item $A$ sends a series of encryption queries to $B$. Each query $m_i$ gets forwarded to the challenger $C$, which will answer with a chipertext $c_i$. The ciphertext is then forwarded from $B$ to $A$.
                 \item $A$ sends a series of decryption queries to $B$. For each query $\widetilde c_i$, $B$ returns $m_i$ if $(m_i, \widetilde c_i)$ is a query-answer pair of the previous encryption queries, otherwise it returns $\bot$
                 \item $A$ sends the challenge messages $m_0^*, m_1^*$ to $B$, which then forwards them to $C$. Afterwards, $C$ replies with $c^*$, which gets forwarded back to $A$ by $B$.
                 \item $A$ and $B$ play another series of encryption queries followed by decryption queries, using the same rules as the previous ones.
@@ -1930,7 +1945,7 @@
             We define an adversary $B'$ for the INT game:
             \begin{enumerate}
                 \item $B'$ starts both games with $A'$ and $C'$
-                \item $A'$ sends a series of encryption queries to $B'$. Each query $m_i$ gets forwarded to the challenger $C'$, which will answer with a chipertext $c_i$. The chiphertext is then forwarded from $B'$ to $A'$.
+                \item $A'$ sends a series of encryption queries to $B'$. Each query $m_i$ gets forwarded to the challenger $C'$, which will answer with a chipertext $c_i$. The ciphertext is then forwarded from $B'$ to $A'$.
                 \item $A'$ sends a series of decryption queries to $B'$. For each query $\widetilde c_i$, $B'$ returns $m_i$ if $(m_i, \widetilde c_i)$ is a query-answer pair of the previous encryption queries, otherwise it returns $\bot$
                 \item $A'$ sends the challenge messages $m_0^*, m_1^*$ to $B'$, which then forwards them to $C'$. Afterwards, $C'$ replies with $c^*$, which gets forwarded back to $A'$ by $B'$.
                 \item $A'$ and $B'$ play another series of encryption queries followed by decryption queries, using the same rules as the previous ones.
@@ -1994,7 +2009,7 @@
             \begin{enumerate}
                 \item $A_1$ picks a key $K_2 \in_R \mathcal{K_2}$. This key will be used to compute tags (observe that the challenger $C_1$ also picks a key $K_1 \in_R \mathcal{K_1}$, which will be used for encryptions)
                 \item $A_1$ starts the CPA game both with $A'$ and $C_1$
-                \item Each encryption query $m_i$ from $A'$ to $A_1$ is forwarded to $C_1$, which replies with the chiphertext $c_i$
+                \item Each encryption query $m_i$ from $A'$ to $A_1$ is forwarded to $C_1$, which replies with the ciphertext $c_i$
                 \item Upon receiving $c_i$, $A_1$ computes $\mathrm{Tag}(K_2, c_i) = \tau_i$ and returns $(c_i, \tau_i)$ to $A'$
                 \item After a polynomial amount of encryption queries, $A'$ sends two challenge messages $m_0^*, m_1^*$ to $A_1$, who will forward them to $C_1$. The challenger then replies with the chipertext $c^*$.
                 \item Upon receiving $c^*$, $A_1$ computes $\mathrm{Tag}(K_2, c^*) = \tau^*$ and returns $(c^*, \tau^*)$ to $A'$
@@ -2032,13 +2047,13 @@
         Follows from the two previous theorems.
     \end{proof}
 
-    \section{Block chiphers and Feistel networks}
+    \section{Block ciphers and Feistel networks}
 
     We saw how to get CPA-secure SKEs and UFCMA-secure MACs through PRFs. To get SUFCMA-secure MACS, small changes to the given construction suffice (e.g. using PRFs with unique outputs, such as PRPs). By combining these two constructions in an Encrypt-then-Mac fashion, we finally get our CCA-secure construction, proving that excellent cryptography symmetric-key encryption is theoretically possible. However, we're still missing a link: we need to show that PRP can be constructed.
 
     PRPs are useful not only for their output uniqueness, but also for their invertibility. In particular, real-world cryptosystems are based on encryption schemes whose decryption function is exacly the inverse of the encryption function. Since the encryption must be efficient both in theory and practice, decryptions based on PRPs also achieve this property.
     
-    In practical applications, PRPs are referred to as \textbf{block chiphers}. The two most common block chiphers are known as \textit{Data Encryption Standard (DES)} and \textit{Advances Encryption Standard (AES)}. We remark that neither of these block chiphers can be really proven to be secure under standard assumptions (recall that we don't know if PRFs really do exist in practice). However, their design is high inspired by standard results in provable security. The DES block chipher is based on the theoretical notion of \textbf{Feistel networks}, a way to construct a PRP family from any PRF family.
+    In practical applications, PRPs are referred to as \textbf{block ciphers}. The two most common block ciphers are known as \textit{Data Encryption Standard (DES)} and \textit{Advances Encryption Standard (AES)}. We remark that neither of these block ciphers can be really proven to be secure under standard assumptions (recall that we don't know if PRFs really do exist in practice). However, their design is high inspired by standard results in provable security. The DES block cipher is based on the theoretical notion of \textbf{Feistel networks}, a way to construct a PRP family from any PRF family.
 
     \begin{frameddefn}{Feistel function}
         Given a function $f : \{0,1\}^n \to \{0,1\}^n$, the Feistel function over $f$ is the function $\psi_f : \{0,1\}^{2n} \to \{0,1\}^{2n}$ such that:
@@ -2150,6 +2165,227 @@
     
     The 3-DES encryption scheme is the most used out of all the variants of DES since 168 bits for the key length are enough for modern computers. However, 3-DES is very inefficient since it is basically a 54-layer Fiestel network. For this reason, the AES standard was created. This protocol solves the issues of DES by using a longer key (128, 192 or 256 bits) and a different internal network called \textit{Substitution Permutation Network (SPN)}, which is basically the repeated application of XORs and publicly known permutations.
 
+    \section{Collision-resistant hash families}
+    
+    When we discussed domain expansion for secure MACs, we saw how a PRF family $\mathcal{F}$ can be combined with an hash family $\mathcal{H}$ to get a new PRF family $\mathcal{F}(\mathcal{H})$ with an input length that can be way larger than the output length. The idea was to use hash families with inputs longer than the outputs in order to \curlyquotes{compress} the input into a string whose size is compatibile with $\mathcal{F}$.
+    
+    Naturally, an hash family with such property is subject to \textbf{collisions}: by the pidgeonhole principle, a function $h_s : \{0,1\}^{\ell(n)} \to \{0,1\}^n$ with $\ell(n) >> n$ is guaranteed inputs with the same output (actually, a lot of them). Collisions can be used by an attacker to infer information on the structure of the seed and the hash function itself. In our $\mathcal{F}(\mathcal{H})$ construction, this is not an issue since the resulting hashes are passed to a pseudorandom function, making collisions hard to find even for \textit{unbounded} adversaries.
+    
+    In many cases, however, we strictly require to use compressing hash families without passing the output through pseudorandom functions. These families are clearly insecure against unbounded adversaries: even when the seed is hidden, we can just test every input with every seed until we find collisions. Therefore, we require that our compressing hash families are \textbf{collision-resistant (CRH)}, meaning that collisions are hard to find by a \textit{bounded} adversary. To ensure security, this hardness should depend \underline{only} on the structure of the hash family and \underline{not} on the secretness of the seed (in some applications, the seed is required to be public).
+
+    Let $\mathrm{Game}_{\mathcal{H}, A}^{\text{CRH}}(\lambda)$ be the CRH game, defined as follows:
+    \begin{enumerate}
+        \item The challenger sends a seed $s \in_R U_\lambda$
+        \item The adversary returns two inputs $x,x' \in \mathcal{M}$ with $x \neq x'$
+        \item If $h_s(x) = h_s(x')$, the adversary wins. Otherwise, the challenger wins.
+    \end{enumerate}
+    
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=1cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+            \node[] (1) []{$A$};
+            \node[] (2) [left of = 1, xshift = 225]{$C$};
+
+            \node[] (5) [below of = 1]{};
+            \node[] (6) [below of = 2]{};
+
+            \node[] (7) [below of = 5]{};
+            \node[] (8) [below of = 6]{};
+
+            \path[every node/.style={font=\sffamily\small}]
+                (6) edge[swap, near start] node{$s \in_R U_\lambda$} (5)
+                (7) edge[near start] node{$(x,x'), x \neq x'$} (8)
+                ;
+        \end{tikzpicture}
+
+        \caption{Graphical representation of $\mathrm{Game}^{\text{CRH}}_{\mathcal{H}, A}(\lambda)$}
+    \end{figure}
+
+    \begin{frameddefn}{Collision-resistant hash}
+        Let $\mathcal{H} = \{h_s : \{0,1\}^{\ell(n)} \to \{0,1\}^n\}_{s \in \{0,1\}^\lambda}$ be an hash family, where $\ell(n) >> n$. We say that $\mathcal{H}$ is a collision resistant hash when:
+        \[\Pr[\mathrm{Game}^{\text{CRH}}_{\mathcal{H}, A}(\lambda) = 1] \leq \mathrm{negl}(\lambda)\]
+        for all PPT adversaries $A$.
+    \end{frameddefn}
+
+    In the theoretical context, assuming a CRH exists, the domain extension for hash families can be achieve. In particular, we study the \textbf{Merkle-Damg\aa rd transform}. The idea is to start with a CRH family and repeatedly apply it to obtain a CRH family with arbitrary domain size, preserving efficient computability.
+
+    \begin{frameddefn}{Merkle-Damg\aa rd transform}
+        Let $\mathcal{H} = \{h_s : \{0,1\}^{2n} \to \{0,1\}^n\}_{s \in \{0,1\}^\lambda}$ be an hash family. We define the Merkle-Damg\aa rd transform over $\mathcal{H}$ as the hash family $\mathcal{H}_{MD} : \{H_s: \{0,1\}^{dn} \to \{0,1\}^n\}_{s \in \{0,1\}^\lambda}$, for any chosen $d > 2$, such that $H_s$ is defined by:
+        \begin{itemize}
+            \item The input is $x = (x_1, \ldots, x_d)$, with $m_i \in \{0,1\}^\lambda$
+            \item $y_0, \ldots, y_d$ are partial computations, where $y_0 = 0^n$
+            \item For all $i \in [d]$ it holds that $y_i = h_s(x_i \mid\mid y_{i-1})$
+            \item The output is $y = y_d$
+        \end{itemize}
+    \end{frameddefn}
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.5cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+
+            \node[circle, draw] (y0) []{$0^n$};
+
+            \foreach \curr [evaluate = \curr as \prev using {int(\curr-1)}] in {1,...,2}{
+
+                \node[state,  color = white, fill=BlueLagoon] (y\curr) [right of = y\prev]{$h_s$};
+                \node[state] (x\curr) [above left of = y\curr]{$x_{\curr}$};
+
+                \path[every node/.style={font=\sffamily\small}]
+                    (y\prev) edge (y\curr)
+                    (x\curr) edge (y\curr)
+                ;
+            }
+
+            \node[] (z) [right of = y2]{$\cdots$};
+            \node[state,  color = white, fill=BlueLagoon] (yd) [right of = z]{$h_s$};
+            \node[state] (xd) [above left of = yd]{$x_d$};
+
+            \path[every node/.style={font=\sffamily\small}]
+                (y2) edge (z)
+                (z) edge (yd)
+                (xd) edge (yd)
+                (yd) edge +(2, 0)
+            ;
+        \end{tikzpicture}
+
+        \caption{The Merkle-Damg\aa rd transform}
+    \end{figure}
+
+    \begin{framedprop}{}
+        Let $\mathcal{H} = \{h_s : \{0,1\}^{2n} \to \{0,1\}^n\}_{s \in \{0,1\}^\lambda}$ be an hash family. If $\mathcal{H}$ is collision-resistant, $\mathcal{H}_{MD}$ is also collision-resistant for any $d > 2$.
+    \end{framedprop}
+
+    \begin{proof}
+        The idea is to basically reduce a collision for $\mathcal{H}_{MD}$ to a collision for $\mathcal{H}$. Fix a seed $s \in_R U_\lambda$. Assume that $x = (x_1, \ldots, x_d)$ and $x' = (x'_1, \ldots, x'_d)$ are two inputs such that $x \neq x'$ and $H_s(x) = H_s(x')$.
+
+        Given the partial computations $y_1, \ldots, y_d$ and $y'_1, \ldots, y'_d$, consider the largest index $i \in [d]$ such that $(x_i, y_{i-1}) \neq (x', y_{i-1})$  and $h_s(x_i, y_{i-1}) = h_s(x'_i, y'_i)$. Notice that such index always exists since $x \neq x'$ and $H_s(x) = H_s(x')$. Then, index the $i$-th application of $h_s$ gives a collision for $x_i \mid\mid y_{i-1} \neq x'\mid\mid y_{i-1}$ since $h_s(x_i \mid\mid y_{i-1}) = h_s(x'_i \mid\mid y'_i)$. Therefore, we can define a distinguisher for $\mathcal{H}$ using a distinguisher for $\mathcal{H}_{MD}$
+    \end{proof}
+
+    Observe that the above proof only works when $d > 2$ is FIL. However, it doesn't work for VIL. The flaw in the proov is given by the fact that we can't rule out that $h_s(0^{2n}) = 0^n$ may be a possibility since we don't know the structure of $h_s$. When this happens, by construction we have that:
+    \[H_s(x) = H_s(0^n \mid\mid x) = H_s(0^{2n} \mid\mid x) = H_s(0^{3n} \mid\mid x) = \ldots\]
+
+    If the construction has FIL, the number of colliding inputs is finite, thus negligible. When the construction has VIL, instead, this the number of colliding inputs becomes infinite, thus non-negligible.
+
+    Nonetheless, the Merkle-Damg\aa rd transform can be modified to allow VIL. To avoid the previous issue, we encode each input $x$ in a way such that it isn't the suffix of another input, i.e. there is no other input $x'$ such that $x$ is a suffix of $x'$ (making the strings $0^n \mid\mid x$ and $0^{2n} \mid\mid x'$ illegal). To achieve this, it suffices to add a final round that hashes the standard output with an encoding of the number $d$ of blocks in the input, written as $\abk{d}$.
+
+    \begin{frameddefn}{Strenghtened Merkle-Damg\aa rd transform}
+        Let $\mathcal{H} = \{h_s : \{0,1\}^{2n} \to \{0,1\}^n\}_{s \in \{0,1\}^\lambda}$ be an hash family. We define the strenghtened Merkle-Damg\aa rd transform over $\mathcal{H}$ as the hash family $\mathcal{H}_{MD}^* : \{H_s^*: \{0,1\}^{*} \to \{0,1\}^n\}_{s \in \{0,1\}^\lambda}$ such that $H_s^*$ is defined by:
+        \begin{itemize}
+            \item The input is $x = (x_1, \ldots, x_d)$, with $m_i \in \{0,1\}^\lambda$ and with $d$ being any value
+            \item $y_0, \ldots, y_d$ are partial computations, where $y_0 = 0^n$
+            \item For all $i \in [d]$ it holds that $y_i = h_s(x_i \mid\mid y_{i-1})$
+            \item The output is $y = h_s(\abk{d} \mid\mid y_d)$, where $\abk{d}$ is an encoding of $d$ using $n$ bits
+        \end{itemize}
+    \end{frameddefn}
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.5cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+
+            \node[circle, draw] (y0) []{$0^n$};
+
+            \foreach \curr [evaluate = \curr as \prev using {int(\curr-1)}] in {1,...,2}{
+
+                \node[state,  color = white, fill=BlueLagoon] (y\curr) [right of = y\prev]{$h_s$};
+                \node[state] (x\curr) [above left of = y\curr]{$x_{\curr}$};
+
+                \path[every node/.style={font=\sffamily\small}]
+                    (y\prev) edge (y\curr)
+                    (x\curr) edge (y\curr)
+                ;
+            }
+
+            \node[] (z) [right of = y2]{$\cdots$};
+            \node[state,  color = white, fill=BlueLagoon] (yd) [right of = z]{$h_s$};
+            \node[state] (xd) [above left of = yd]{$x_d$};
+            \node[state,  color = white, fill=BlueLagoon] (ydd) [right of = yd]{$h_s$};
+            \node[state] (xdd) [above left of = ydd]{$\abk{d}$};
+
+            \path[every node/.style={font=\sffamily\small}]
+                (y2) edge (z)
+                (z) edge (yd)
+                (xd) edge (yd)
+                (yd) edge (ydd)
+                (xdd) edge (ydd)
+                (ydd) edge +(2, 0)
+            ;
+        \end{tikzpicture}
+
+        \caption{The Strenghtened Merkle-Damg\aa rd transform}
+    \end{figure}
+
+    \begin{framedthm}{}
+        Let $\mathcal{H} = \{h_s : \{0,1\}^{2n} \to \{0,1\}^n\}_{s \in \{0,1\}^\lambda}$ be an hash family. If $\mathcal{H}$ is collision-resistant, $\mathcal{H}_{MD}^*$ is also collision-resistant for VIL.
+    \end{framedthm}
+
+    \begin{proof}
+        The proof is almost identical to the previous proposition. Assume that $x = (x_1, \ldots, x_d)$ and $x' = (x'_1, \ldots, x'_{d'})$ are two inputs such that $x \neq x'$ and $H_s^*(x) = H_s^*(x')$. We have two cases:
+        \begin{itemize}
+            \item If $d = d'$, we can proceed as in the previous proposition since the lengths are equal
+            \item If $d \neq d'$ then the collision happens in the final round since $\abk{d} \mid\mid y_d \neq \abk{d'} \mid\mid y_{d'}$ and $h_s(\abk{d} \mid\mid y_d) = H_s^*(x) = H_s^*(x') = h_s(\abk{d'} \mid\mid y_{d'})$.
+        \end{itemize}
+    \end{proof}
+
+    A good eye may notice a small problem with our last construction: since $\abk{d} \in \{0,1\}^n$, we can have at most $2^n$ blocks, but this is a huge number for real values of $n$ (e.g. 128, 256), making it enough.
+
+    There are many other constructions for achieving CRH families with VIL, such as \textbf{Merkle trees}. The idea behind this construction is simple: instead of applying repeated hashes in a \curlyquotes{linearl-like fashion} as done in the Merkel-Damg\aa rd transform, we apply them in a \curlyquotes{tree-like fashion}.
+
+    \begin{figure}[H]
+        \centering
+
+        \resizebox{1\textwidth}{!}{
+            \begin{tikzpicture}[<-,>=stealth,shorten >=1pt,auto,node distance=2.5cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+
+                \node[state,  color = white, fill=BlueLagoon] (y) []{$h_s$};
+                \node[state,  color = white, fill=BlueLagoon] (y1) [below left of = y, xshift=-40]{$h_s$};
+                \node[state,  color = white, fill=BlueLagoon] (y2) [below right of = y, xshift=40]{$h_s$};
+                \node[state,  color = white, fill=BlueLagoon] (y12) [below of = y1]{$h_s$};
+                \node[state,  color = white, fill=BlueLagoon] (y11) [left of = y12, xshift=-40]{$h_s$};
+                \node[state,  color = white, fill=BlueLagoon] (y21) [below of = y2]{$h_s$};
+                \node[state,  color = white, fill=BlueLagoon] (y22) [right of = y21, xshift=40]{$h_s$};
+
+                \node[state] (y112) [below of = y11]{$x_2$};
+                \node[state] (y111) [left of = y112]{$x_1$};
+                \node[state] (y122) [below of = y12]{$x_4$};
+                \node[state] (y121) [left of = y122]{$x_3$};
+                
+                \node[state] (y211) [below of = y21]{$x_5$};
+                \node[state] (y212) [right of = y211]{$x_6$};
+                \node[state] (y221) [below of = y22]{$x_7$};
+                \node[state] (y222) [right of = y221]{$x_8$};
+
+                \path[every node/.style={font=\sffamily\small}]
+                    (y) edge (y1)
+                    (y) edge (y2)
+
+                    (y1) edge (y11)
+                    (y1) edge (y12)
+                    (y2) edge (y21)
+                    (y2) edge (y22)
+
+                    (y11) edge (y111)
+                    (y11) edge (y112)
+                    (y12) edge (y121)
+                    (y12) edge (y122)
+                    (y21) edge (y211)
+                    (y21) edge (y212)
+                    (y22) edge (y221)
+                    (y22) edge (y222)
+                ;
+                \draw[->] (y) edge +(0,2);
+            \end{tikzpicture}
+        }
+
+        \caption{A Merkle tree with 4 levels.}
+    \end{figure}
+
+    In practical applications (e.g. MD5, SHA-1, SHA-2), the Merkel-Damg\aa rd transform is adapted by replacing the initial CRH  family $\mathrm{H}$ with an heuristic equivalent (similar to what is done in DES, 3-DES and AES). In the theoretical setting, instead, the initial CRH family can indeed be constructed, but it requires additional \textit{number theoretic assumptions} (e.g. the hardness of factoring, discrete log) or \textit{post-quantum assumptions}. A middle-ground solution is obtained by using AES, where $h_s(x_1, x_2) = \mathrm{AES}(x_1, x_2) \oplus x_2$. The security of this last construction can be proven only by assuming that AES is an \textit{ideal cipher}, i.e. a truly random permutation for every choice of the key.
+
+    Hash functions are also used to build MACs. The HMAC scheme uses $\mathrm{Tag}(K, m) = H(K \mid\mid m)$, with $H$ being hash function. If $H(\cdot) \in \mathcal{R}(\ell(n) \to n)$, the HMAC scheme is secure. If $H$ is constructed through the Merkle-Damg\aa rd transform, the scheme can be broken. The study of cryptosystems under the usage of an ideal cipher is called \textbf{Random Oracle Model}.
+
     \section{Solved exercises}
 
     \begin{framedprob}{}
@@ -2177,5 +2413,481 @@
         thus $\mathcal{F}'$ is not a PRF family.
     \end{proof}
 
+    \begin{framedprob}{}
+        Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF family and let $G : \{0,1\}^n \to \{0,1\}^{n+1}$ be a PRG. For each of the following SKE with key space $\mathcal{K} = \{0,1\}^\lambda$, prove or disprove whether the scheme is CPA-secure or not:
+        \begin{enumerate}[label=\Alph*]
+            \item $\Pi_a$ : given a plaintext $m \in \{0,1\}^{n+1}$ and pick nonce $r \in_R \{0,1\}^n$, then output $(r, G(r) \oplus m)$
+            \item $\Pi_b$ : given a plaintext $m \in \{0,1\}^{n}$, pick a key $K \in_R \{0,1\}^\lambda$, then output $F_K(0^n) \oplus m$
+            \item $\Pi_c$ : given a plaintext $m \mid\mid \widehat m \in \{0,1\}^{2n}$ with $m, \widehat m \in \{0,1\}^n$, pick a nonce $r \in_R \{0,1\}^n$ and a key $K \in_R \{0,1\}^\lambda$, then output $(r, F_K(r) \oplus m, F_K(r+1) \oplus \widehat m)$, where $+$ is addition modulo $2^n$
+        \end{enumerate}
+    \end{framedprob}
+    
+
+    \textit{Solution}:
+
+    \begin{enumerate}[label=\Alph*]
+        \item The first scheme is not CPA-secure. In fact, it can be proven that it isn't even 1-time secure. Consider the adversary $A_{\Pi_a}^{\text{1-time}}$ defined as follows:
+        \begin{itemize}
+            \item The adversary $A_{\Pi_a}^{\text{1-time}}$ sends $m_0^*, m_1^*$ and the challenger $C_{\Pi_a}^{\text{1-time}}$ returns $(r^*, c^*)$
+            \item If $c^* = G(r^*) \oplus m_0^*$, the adversary returns 0. Otherwise, they return 1.
+        \end{itemize}
+
+        The above adversary is able to win the 1-time game with probability 1 since they can directly decrypt the challenge ciphertext, concluding that $\Pi_a$ is not 1-time secure and thus not CPA-secure
+
+        \item The second scheme is not CPA-secure. Consider the adversary $A_{\Pi_c}^{\text{CPA}}$ defined as follows:
+        \begin{itemize}
+            \item The adversary $A_{\Pi_a}^{\text{CPA}}$  queries $m$ and the challenger $C_{\Pi_a}^{\text{CPA}}$ returns $c$.
+            \item The adversary sends $m_0^*, m_1^*$ and the challenger returns $(r^*, c^*)$
+            \item The adversary computes $\gamma = c \oplus m$.
+            \item If $c^* = m_0^* \oplus \gamma$, the adversary returns 0. Otherwise, they return 1.
+        \end{itemize}
+
+        The first encryption query allows the adversary to compute $\gamma = c \oplus m = (F_K(0^n) \oplus m) \oplus m = F_K(0^n)$, enabling them to directly decrypt the challenge chiphertext. Therefore, the above adversary is able to win the CPA game with probability 1, concluding that $\Pi_b$ is not CPA-secure.
+
+        \item The third scheme is CPA-secure. In fact, $\Pi_c$ corresponds exactly to the CTR mode SKE with FIL set to 2. The proof of CPA-security for CTR mode can be easily adapted to show that $\Pi_c$ is CPA-secure.
+    \end{enumerate}
+
+    \begin{framedprob}{}
+        Let $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ be a SKE scheme over key space $\mathcal{K}$, message space $\mathcal{M}$ and ciphertext space $\mathcal{C}$, such that $\mathcal{K} \subseteq \mathcal{M}$. We say that $\Pi$ is circularly secure if the standard notion of CPA-security holds even when the adversary is given $\mathrm{Enc}(K,K)$, where $K$ is the key of the scheme. Give a formal definition of circular security. Prove or dispove: CPA-security implies circular security. 
+    \end{framedprob}
+
+    \textit{Solution}:
+
+    A formal definition of circular security can be achieved by adding an intial message sent by the challenger containing $\mathrm{Enc}(K,K)$ to the standard game $\mathrm{Game}_{\Pi, A}^{\text{CPA}}(\lambda, b)$. We refer to this modified game as the CIRC game and we say that $\Pi$ is circularly secure when $\mathrm{Game}_{\Pi, A}^{\text{CIRC}}(\lambda, b) \approx_c \mathrm{Game}_{\Pi, A}^{\text{CIRC}}(\lambda, b)$. By definition, circular security implies CPA-security, but the converse doesn't always hold.
+
+    To prove this, we give a counterexample. Let $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ be a SKE such that:
+    \[\mathrm{Enc}(K,m) = \soe{ll}{
+        K & \text{if } m = K \\
+        \mathrm{Enc}'(K, m) & \text{if } m \neq K
+    } \qquad \mathrm{Dec}(K,c) = \soe{ll}{
+        K & \text{if } c = K \\
+        \mathrm{Dec}'(K, c) & \text{if } c \neq K
+    }\]
+
+    where $\Pi' = (\mathrm{Enc}', \mathrm{Dec}')$ is a CPA-secure SKE. Let $m_1, \ldots, m_q$ be encryption queries, with $q = \poly(\lambda)$, and consider the event $B$ such that $B = 1$ when $\exists i \in [q]$ with $m_i = K$. When conditioning on $B = 0$, we have that $\mathrm{Game}_{\Pi, A}^{\text{CPA}}(\lambda, b) \equiv \mathrm{Game}_{\Pi', A}^{\text{CPA}}(\lambda, b)$, therefore:
+    \[\mathrm{SD}(\mathrm{Game}_{\Pi, A}^{\text{CPA}}(\lambda, b); \mathrm{Game}_{\Pi', A}^{\text{CPA}}(\lambda, b)) \leq \Pr[B = 1] \leq \frac{q}{2^n}\]
+    concluding that $\mathrm{Game}_{\Pi, A}^{\text{CPA}}(\lambda, b) \approx_c \mathrm{Game}_{\Pi', A}^{\text{CPA}}(\lambda, b)$ and thus that $\Pi$ is also CPA-secure. However, $\Pi$ can be easily proven to not be circularly secure after receiving $y_0 = \mathrm{Enc}(K,K)$, we have full access to the key since $y_0 = K$.
+
+    \begin{framedprob}{}
+        Suppose we are given a pseudorandom permutation $P : \mathcal{K} \times \mathcal{X} \to \mathcal{X}$. We want to construct a pseudorandom permutation $P' : \mathcal{K} \times \mathcal{X}' \to \mathcal{X}'$ that operates on a smaller domain $\mathcal{X}' \subseteq \mathcal{X}'$. Given $K \in \mathcal{K}$ and $x \in \mathcal{X}$, we compute $P'(K,x)$ as follows:
+        \begin{enumerate}
+            \item Set $y = P(K,x)$
+            \item Until $y \notin \mathcal{X}'$, set $y = P(K,y)$
+            \item Output $y$
+        \end{enumerate}
+
+        To invert a given $y \in \mathcal{X}'$ one simply computes the inverse permutation until the result lies in $\mathcal{X}'$. Answer the following questions:
+        \begin{itemize}
+            \item Let $t = \abs{\mathcal{X}}/\abs{\mathcal{X}'}$. How many evaluations of $P$ are needed in expectation to evaluate $P'(K,x)$ as a function of $t$? When is the evaluation of $P'$ efficient?
+            \item Using induction on $\abs{\mathcal{X}}- \abs{\mathcal{X}'}$ show that if $P$ is a PRP with domain $\mathcal{X}$ then $P'$ is a PRP with domain $\mathcal{X}'$.
+        \end{itemize}
+    \end{framedprob}
+
+
+    \textit{Solution}:
+
+    Let $I$ be the random variable denoting the number of times $P$ is evaluated to get an output. Since $I$ has geometric distribution, we have that:
+    \[\Exp[I] = \sum_{i = 1}^{+\infty} i \Pr[I = i] = \sum_{i = 1}^{+\infty} i (1-t)^{i-1}t = \frac{1}{t}\]
+
+    The evaluation of $P'$ can therefore be considered efficient when $\frac{1}{t}$ is polynomial in the length $n = \log \abs{\mathcal{X}}$ of an element of $\mathcal{X}$, i.e. when:
+    \[\frac{\abs{\mathcal{X}}}{\abs{\mathcal{X}'}} = \frac{1}{t} \leq \log^c \abs{\mathcal{X}} \implies \abs{X'} \geq \frac{\abs{\mathcal{X}}}{\log^c \abs{\mathcal{X}}} = \frac{2^n}{n^c}\]
+    for some $c > 0$.
+    
+    For the second request, we get a trivial base case when $\abs{\mathcal{X}}-\abs{\mathcal{X}'} = 0$ this is true only when $\mathcal{X} = \mathcal{X}'$. Now, assume that $\abs{\mathcal{X}}-\abs{\mathcal{X}'} > 0$. Fix $\widehat x \in \mathcal{X}-\mathcal{X}'$ and let $\widehat P$ the equivalent of $P'$ but defined on $\widehat X = \mathcal{X}' \cup \{\widehat{x}\}$. By inductive hypothesis, we know that $\widehat P$ is a PRP. By way of contradiction, suppose that there is an adversary $A^{\text{PRP}}$ for the PRP game of $P'$. We notice that $A^{\text{PRP}}$ is also a distinguisher for the PRP game of $\widehat P$:
+    \[\begin{split}
+        &\Pr_{x \in_R \widehat{\mathcal{X}}'}[\widehat{P}(x') = y : y = \widehat{P}(x); x' \gets A^{\text{PRP}}(y)] \\
+        =\,& \Pr_{x \in_R \widehat{\mathcal{X}}}[\widehat{P}(x') = y : y = \widehat{P}(x'); x' \gets A^{\text{PRP}}(y); x \neq \widehat x] \Pr_{x \in_r \widehat{\mathcal{X}}}[x \neq \widehat x] \\
+        =\,& \frac{\abs{\widehat{\mathcal{X}}}-1}{\abs{\widehat{\mathcal{X}}}} \Pr_{x \in_R \mathcal{X}'}[P'(x') = y : x = P'(y); x' \gets A^{\text{PRP}}(y)] \\
+        \geq\,& \mathrm{negl}(\log \abs{\mathcal{X}})
+    \end{split} \]
+    contradicting the fact that $\widehat P$ is a PRP, thus $P'$ must be a PRP.
+
+    \chapter{Number theory in cryptography}
+
+    \section{Brush-up on number theory}
+
+    We briefly discussed how number theoretic assumptions are required to build the theoretical tools that we have seen in the previous chapter. In this chapter, we'll introduce some of these assumptions (e.g. the hardness of factoring, discrete log and learning with erros) and use them to build valid tools.
+
+    Number theory is the field of algebraic mathematics that studies prime numbers and modular arithmetic, i.e. the sets $\Z_n = \{0, 1, \ldots, n-1\}$ with $n \in \N$. In particular, the field studies algebraic structures such as groups (e.g. $(\Z_n, \cdot)$), rings (e.g. $(\Z_n, +, \cdot)$) and fields (e.g. $(\Z_p, +, \cdot)$ with $p \in \Primes$). We recall that:
+    \begin{itemize}
+        \item $(\G, +)$ is a group if $+$ satisfies aassociativity, the existence of a neutral element and the existence of an inverse element 
+        \item $(\G, +, \cdot)$ is a ring if $(\G, +)$ is a group and $\cdot$ satisfies aassociativity and the existence of a neutral element
+        \item $(\G, +, \cdot)$ is a field if $(\G, +)$ is a group and $\cdot$ satisfies aassociativity, the existence of a neutral element and the existence of an inverse element (except for the neutral element of $+$).
+    \end{itemize}
+    where $+ : \G \times \G \to \G$ and $\cdot : \G \times \G \to \G$ are two binary operations (here we'll always assume that they are the standard addition and multiplication). We also recall that in modular arithmetic we have that $a \equiv b \pmod n$ when $a = b+kn$ for some $k \in \Z$. In this section we'll state and proof a list of basic number theory results that will be used in the following sections.
+
+    Let $Z_n^*$ denote the set of invertible elements of $\Z_n$, i.e. the elements $a \in \Z_n$ for which $\exists b \in \Z_n$ such that $ab = 1$. It can be easily proven that an element of $\Z_n$ is invertible if and only if its GCD with $n$ is exactly 1.
+
+    \begin{framedprop}{}
+        Given $a \in \Z_n$, it holds that $a \in \Z_n^*$ if and only if $\gcd(a,n) = 1$
+    \end{framedprop}
+
+    \begin{proof}
+        Let $d = \gcd(a,n)$. Suppose that $a$ is invertible, that is $\exists b \in \Z_n$ such that $ab \equiv 1 \pmod n$. Then, we have that $ab = 1+kn$ for some $k \in \Z$, thus $ab - kn = 1$. By definition of GCD, we have that $d$ must divide $ab - kn$, but the only possible natural number that divides 1 is 1 itself, concluding that $d = 1$. Vice versa, suppose that $d = 1$. Then, $\exists k_1,k_2$ such that $1 = d = k_1a + k_2n$, implying that $k_1a = 1- k_2n$. Therefore, we conclude that $ka \equiv 1 \pmod n$ and thus that $k_1$ is the inverse of $a$. 
+    \end{proof}
+
+    The above proposition immediately concludes that $\Z_n^* = \{a \in \Z_n \mid \gcd(a,n) = 1\}$ and that $\abs{\Z_n^*} = \varphi(n)$, where $\varphi(n)$ is \textbf{Euler's totient function}, the function that returns the number of coprimes of $n$. In the special case of $\Z_p^*$ with $p \in \Primes$, we have that every number $\Z_p$ except zero is coprime with $p$, therefore $\Z_p^* = \{1, \ldots, p-1\}$ and $\phi(p) = p-1$. We'll see ways to compute the totient function for general $n \in \N$ in future sections.
+
+    \begin{framedlem}{}
+        Given $a,b \in \N$ such that $a \geq b > 0$, it holds that:
+        \[\gcd(a,b) = \gcd(b, a \pmod b)\]
+    \end{framedlem}
+
+    \begin{proof}
+        Let $a \equiv x \pmod b$ with $x$ being as small as possible. Let also $d = \gcd(a,b)$ and let $d' = \gcd(b,x)$. Since $a = x + kb$ for some $k \in \Z$, by definition of GCD we know that $d$ must divide $x$ since $x = a-kb$, implying that $x = dq$ for some $q \in \N$. Similarly, by definition of GCD we have that $d'$ divides $a$ since $a = x+kb$, implying that $a = d'q'$ for some $q \in \N$. By transitivity, we conclude that both $d$ and $d'$ divide each other, which is possible only if $d = d'$.
+    \end{proof}
+
+    The above lemma can be used to define an algorithm that iteratively computes the GCD between two numbers by reducing them little by little up until $\gcd(x, 0)$ is reached, outputting $x$. This is known as the \textbf{Euclidean algorithm}.
+    
+    \begin{framedalgo}{Euclidean algorithm}
+        Given $a,b \in \Z$ with $0 < a \leq b$ as input, the Euclidean algorithm is defined as follows and it outputs $\gcd(a,b)$ in $O(\abs{a}+\abs{b})$:
+        \begin{enumerate}
+            \item Set $r_0 := b$ and $r_1 := a$. Initialize $i = 0$
+            \item While $r_i \neq 0$, set $r_{i+1} := r_{i-1} \pmod{r_i}$ (i.e. $r_{i-1} = r_iq_i + r_{i+1}$ with $r_{i+1}$ as small as possible), then increment $i$
+            \item Return $r_{i-1}$
+        \end{enumerate} 
+    \end{framedalgo}
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+
+    We give an example of computation made by the algorithm. Given $a = 14$ and $b = 10$, we have that:
+    \begin{enumerate}
+        \item Set $r_0 = 10$ and $r_1 = 14$
+        \item $r_1 = r_0 \cdot 1 + 4$, thus $r_2 = 4$
+        \item $r_2 = r_1 \cdot 2 + 2$, thus $r_3 = 2$
+        \item $r_3 = r_2 \cdot 2 + 0$, thus $r_4 = 0$
+        \item The output is $r_3 = 2$
+    \end{enumerate}
+    
+    We observe that this algorithm can also be extended to express the GCD as a \textit{Bézout identity}, meaning that $\gcd(a,b) = ak+bh$ for some $k,h \in \Z$. This can be achieved by simply inverting each iteration made by the algorithm. For instance, in our previous example we have that:
+    \begin{enumerate}
+        \item $r_2 = r_1 \cdot 2 + r_3$, thus $r_3 = r_2 - r_1 \cdot 2$
+        \item $r_1 = r_0 \cdot 2 + r_2$, thus $r_2 = r_1 - r_0 \cdot 2$
+        \item Combining all the found relationships we get that:
+        \[r_3 = r_2 - r_1 \cdot 2 = (r_1 - r_0 \cdot 2) - r_0 \cdot 2 = r_1 - 4r_0 = (1) a + (-4) b\]
+    \end{enumerate}
+
+    Observe that when $\gcd(a,n) = 1$, the extended Euclinean algorithm finds two valus $k,h \in \Z$ such that $1 = \gcd(a,n) = ak+hn$, meaning that $ak = 1+(-h)n$ and thus that $k$ is the inverse of $a$ in $\Z_n$.
+
+    After proving that we have a tool to efficiently compute the GCD of two numbers, we require to prove that exponentiation modulo $n$ can also be efficiently computed. Given two numbers $a,b \in \N$, let $b_tb_{t-1}\ldots b_0$ be the binary representation of $b$. Then, we have that:
+    \[a^b \equiv a^{\sum_{i = 0}^t b_i 2^i} \equiv \prod_{i = 0}^t (a^{2^i})^{b_i} \pmod n\]
+
+    Observe that the exponents $b_0, b_1, \ldots, b_t$ acts as a \curlyquotes{toggle}, meaning that we skip the inner exponentiations with $b_i = 0$ and compute only those with $b_j = 1$. The values $a, a^2, a^4, \ldots, a^{2^t} \pmod n$ can be easily computed through a recursive approach (e.g. $a^8 \equiv (a^4)^2 \equiv ((a^2)^2)^2$, thus we can compute $((a^2 \pmod n)^2 \pmod n)^2 \pmod n$) with $\log 2^t = t$ recursion levels. This concludes that exponentiation can also be computed in polynomial time with respect to $\abs{b}$.
+
+    Now, we need one last tool: finding prime numbers. The \textbf{prime number theorem} states that the number $\pi(x)$ of primes up to $x > 0$ is bounded by:
+    \[\pi(x) \geq \frac{x}{3 \log x} \approx \frac{x}{\log x}\] 
+
+    Assuming that we can test if a number is prime or not, we can efficiently generate $\lambda$-bit primes through a random process that is guaranteed to eventually terminate. We sample $n \in_R [2^\lambda-1]$ and test if it is prime. If it's prime, we output it. Otherwise, we repeat the process. Notice that:
+    \[\Pr[\text{no output after $3\lambda^2$ samples}] \leq \rbk{1-\frac{1}{3\log(2^\lambda -1)}}^{3\lambda^2} \leq \rbk{1-\frac{1}{3\lambda}}^{3\lambda^2} \leq e^{-\lambda}\]
+
+    Therefore, we're left with proving that there is an algorithm that can test prime numbers. Almost all the currently known algorithms for primality testing are based on \textbf{Fermat's little theorem}, which states that:
+    \[a^{p-1} \equiv 1 \pmod p \quad \forall p \in \Primes, a \neq 0\]
+
+    Fermat's little theorem is a particular case of Euler's theorem, which states that:
+    \[a^{\varphi(n)} \equiv 1 \pmod n \quad \forall n \in \N, a \in \Z_n^*\]
+
+    and even more generally that:
+    \[a^{b} \equiv a^{b \pmod {\varphi(n)}} \pmod n \quad \forall b,n \in \N, a \in \Z_n^*\]
+    
+    We start by considering the \textbf{Fermat primality test}. On input $n$, sample $a \in_r [2, n-2]$ and test if $a^{n-1} \equiv 1 \pmod n$. If it's true, we output \curlyquotes{maybe prime}. Otherwise, we output \curlyquotes{not prime}. It's easy to see that this test can only distinguish non prime numbers: if the test fails, the input cannot be a prime number since otherwise it would satisfy Fermat's little theorem. When the test succeeds, we cannot ensure that the input is prime: a prime number definitely passes the test, but some non-prime numbers may also pass it for some values of $a$. These inputs are called \textit{Fermat's liars} for $a$.
+    
+    An easy fix could be to iteratively apply the test until we find a nice value of $a$. However, there are some specific values of $n$ that pass the test for \underline{any} possible value of $a$. These inputs are called \textit{Carmicheal numbers}.
+
+    Nonetheless, effective primality tests do exists. The Miller-Robin primality test uses an efficient random process, based on advanced algebra and Fermat's little theorem, that is guaranteed to eventually terminate. The Agrawal-Kayal-Saxena primality test, instead, uses a process similar to that of Miller-Robin without randomness, at the cost of some efficiency. Therefore, generating prime numbers is effectively possible!
+
+    \section{The DL, CDH and DDH assumptions}
+
+    We formally introduce our first number theory hardness assumptions. Consider the equation $a^x = b$ over a continuous setting such as $\R$. With common mathematical tools, this quation can easily by solved as $x = \log_a b$. Consider now the equivalent version of this problem over a discrete set such as $\Z_p$, i.e. $a^x \equiv b \pmod p$. In the continuous context, the problem  has an unique solution. In the discrete context, instead, we have infinite solutions due $\Z_p$ being a \textit{cyclic group}. For instance, for the equation $2^x \equiv 4 \pmod 5$ we have that:
+    \[4 \equiv 2^2 \equiv 2^6 \equiv 2^{10} \equiv 2^{14} \equiv \ldots \pmod 5\]
+
+    Therefore, it's very hard to find the exact value of $x$ that was originally used. This problem is known as the \textbf{Discrete Logarithm (DL)} problem. For centuries, many mathematicians tried to find an efficient way to solve this problem (observe that it can be trivially solved in exponential time through bruteforce). To this day, the best algorithms achieve only a sub-exponential time, which is still worse than polynoamial time. Over time, researchers started to assume that the problem is too hard to be solved in polynomial time even through randomness, i.e. that no PPT algorithm can solve the problem efficiently, even thought this has not yet been proven to be true. This is known as the \textit{DL assumption}.
+    
+    \begin{framedass}{DL assumption}
+        Given a prime $p \in \Primes$, the DL assumption states that:
+        \[\Pr[A(g,p,y) = x : x \in_R \Z_p, y \equiv g^x \pmod p] \leq \mathrm{negl}(\lambda)\]
+        for all PPT adversaries $A$ and for a chosen value $\lambda > 0$
+    \end{framedass}
+
+    It's easy to see that, by definition, the DL assumption automatically implies the existence of an OWF (the discrete log itself). Diffie and Hellman used the DL assumption to start the public key revolution of cryptography. They proposed a \textbf{key exchange protocol} whose security depends only on this assumption.
+
+    \begin{framedalgo}{Diffie-Hellman key exchange}
+        The Diffie-Hellman key exchange allows two users Alice and Bob to generate a sharede key over a public channel without allowing third parties to infer the key:
+        \begin{enumerate}
+            \item Alice samples a prime $p \in_R \Primes$ and computes a generator $g$ of $\Z_p$, sharing the pair $(g,p)$ with Bob
+            \item Alice samples a value from $x \in_R \Z_{p-1}$ and sends $X = g^{x} \pmod p$ to Bob
+            \item Bob samples a value from $y \in_R \Z_{p-1}$ and sends $Y = g^{y} \pmod p$ to Alice
+            \item Alice computes $K = Y^x = g^{xy} \pmod p$, while Bob computes $K = X^y = g^{xy} \pmod p$
+            \item Both parties will use $K$ as the key
+        \end{enumerate}
+    \end{framedalgo}
+
+    We recall that a \textit{generator} $g$ for a cyclic group $\G$ is a value $g \in \G$ such that $\G = \{g^{0}, g^1, g^2, \ldots, g^{o(g)}\}$, where $o(g)$ is the \textit{order} of $g$, i.e. the smallest value such that $g^{o(g)} = 1$ in $\G$.
+
+    The protocol clearly requires some hardness assumptions to hold, otherwise an attacker could intercept the messages $(g,p), X, Y$ and derive the values of $x,y$ from them, computing the key $K = g^{xy}$. This is usually referred to as a \textbf{passive attack} since the thid party eavesdrops without changing the messages. The protocol may also suffer from another type of attack, called \textbf{active attack}, where the third party also changes the messages (also referred to as \textit{man-in-the-middle attack}).
+    
+    We start by analyzing passive security. To \curlyquotes{fix} this issue, we have to assume that the key is hard to compute without knowing the values of $x$ and $y$. Consider the following generalization of the DH key exchange to any cyclic group:
+    \begin{enumerate}
+        \item Alice chooses a cyclic group $\G$, computes a generator $g$ of $\G$ and the order $q$ of $g$ over $\G$, sharing the triple $(\G,g,q)$ with Bob
+        \item Alice samples a value from $x \in_R \Z_q$ and sends $X = g^{x} \pmod p$ to Bob
+        \item Bob samples a value from $y \in_R \Z_q$ and sends $Y = g^{y} \pmod p$ to Alice
+        \item Alice computes $K = Y^x = g^{xy}$ in $\G$, while Bob computes $K = X^y = g^{xy}$ in $\G$
+        \item Both parties will use $K$ as the key
+    \end{enumerate}
+
+    Currently, it is not known if the DL assumption suffices to make it hard to compute the key for passive attackers. This motivates a new assumption, the \textbf{Computatational Diffie-Hellman (CDH)} assumption.
+
+    \begin{framedass}{CDH assumption}
+        Given a triple $(\G,g,q)$ where $\G$ is a cyclig group, $g \in \G$ is a generator and $q$ is the order of $g$ in $\G$, the CDH assumption states that:
+        \[\Pr[A(\G,g,q,g^x,g^y) = g^{xy} : x,y \in_R \Z_q] \leq \mathrm{negl}(\lambda)\]
+        for all PPT adversaries $A$ and for a chosen value $\lambda > 0$
+    \end{framedass}
+
+    Clearly, the CDH assumption implies that the DL assumption is true: if one can solve the DL problem, it can also solve the CDH problem by finding $x,y$. As already stated, the converse implication is currently not known to hold. There is a lot of evidence for the CDH assumption to hold in $\Z_p$ with $p \in \Primes$, but it currenlty hasn't been problem.
+
+    We observe that the CDH assumption is not enough to fix the issue of passive security: an attacker may still infer information about the key without inverting $X$ and $Y$ but simply by analyzing them. What we really need is for the key to be indistinguishable from a value chosen uniformly-at-random over $\G$. This is called the \textbf{Decisional Diffie-Hellman (DDH)} assumption.
+
+    \begin{framedass}{DDH assumption}
+        Given a triple $(\G,g,q)$ where $\G$ is a cyclig group, $g \in \G$ is a generator and $q$ is the order of $g$ in $\G$, the DDH assumption states that:
+        \[(\G,g,q,g^x,g^y, g^{xy}) \approx_c (\G,g,q,g^x,g^y, g^{z})\]
+        with $x,y,z \in_R \Z_q$, for all PPT adversaries $A$ and for a chosen value $\lambda > 0$
+    \end{framedass}
+
+    The DDH assumption implies the CDH assumption, but the converse is proven to not hold for a general triple $(\G,g,q)$. Moreover, the DDH assumption is proven to \underline{not} hold for $\G = \Z_p$. 
+
+    \begin{framedprop}{}
+        The DDH assumption doesn't hold for $\G = \Z_p$.
+    \end{framedprop}
+
+    \begin{proof}
+        Consider the group $\mathbb{QR}_p$ of quadratic residues over $p$, defined as $\mathbb{QR}_p = \{y \in \Z_p \mid \exists x \in \Z_p \; y \equiv x^2 \pmod p\}$. Equivalently, we have that $\mathbb{QR}_p = \{y \in \Z_p \mid \exists k \in \Z \; y \equiv g^{2k} \pmod p\}$ 
+
+        \textbf{Claim}: $y \in \mathbb{QP}_p$ if and only if $y^{\frac{p-1}{2}} \equiv 1 \pmod p$
+
+        \begin{proof}
+            Suppose that $y \in \mathbb{QP}_p$, meaning that $y \equiv g^{2k} \pmod p$ for some $k \in \Z$. Then, we have that:
+            \[y^{\frac{p-1}{2}} \equiv (g^{2k})^{\frac{p-1}{2}} \equiv (g^{p-1})^k \equiv 1 \pmod p\]
+
+            Vice versa, suppose that $y \notin \mathbb{QP}_p$, meaning that $y \equiv g^{2k'+1} \pmod p$ for some $k' \in \Z$. Then, we have that:
+            \[y^{\frac{p-1}{2}} \equiv (g^{2k'+1})^{\frac{p-1}{2}} \equiv (g^{p-1})^k g^{\frac{p-1}{2}} \equiv g^{\frac{p-1}{2}} \not\equiv 1 \pmod p\]
+            since $p-1$ is the order of $g$ in $\Z_p$.
+        \end{proof}
+
+        The above claim easily gives us a distinguisher for the DDH condition. When $Z = g^z$ with $z \in_R \Z_p$ then $Z \in \mathbb{QR}_p$ with probability $1/2$. When $Z = g^{xy}$ with $x,y \in_R \Z_p$, instead, we have that $Z \in \mathbb{QR}_p$ with probability $3/4$: either $g^x \in \mathbb{QR}_p$ or $g^y \in \mathbb{QR}_p$ or both. Therefore, we can build an attacker that distinguishes the DDH condition with probability $3/4 - 1/2 = 1/4$.
+    \end{proof}
+
+    The above implies that we require a new type of cyclic group for which the DDH assumption is believed to hold. Luckily, there are many groups for which this is true. The easiest fix is to set $\G = \mathbb{QP}_{p}$ where $p = 2q+1$ and $p,q \in \Primes$ to break the previous proposition. Another very popular choice is \textit{elliptic curve groups}. An elliptic curve is composed of solutions to an equation $y = x^3 + ax^2+bx+c$, for some coefficients $a,b,c \in \R$. The elliptic curve group modulo $p \in \Primes$ is a group whose elements are the points of an elliptic curve with coordinates modulo $p$.
+
+    What about active security? It's easy to see that even the DDH assumption is not enough. A third party Eve could intercept the message $X = g^x$ sent by Alice and replace it with $X' = g^{x'}$, sending it to Bob. Then, Eve intercepts $Y = g^y$ from Bob and sends $Y' = g^{y'}$ to Alice. Now, Alice will use the key $K_{AE} = Y'^{x} = g^{xy'}$ and Bob will use the key $K_{EB} = X'^{y} = g^{x'y}$, while Eve can compute both keys.
+
+    This issue cannot be fixed under any assumption by itself. Nonetheless, it can be fixed by strengthening the protocol through the use of a \textit{master key} (a key that is already shared between Alice and Bob but never used for communications) to authenticate the messages sent by Alice and Bob, using either MACs or digital signatures. We'll return to this topic when we'll extensively discuss public-key encryption.
+
+    \section{Building crypto-tools through number theory}
+
+    To close our discussion on the DL, CDH and DDH assumptions, let's talk about other ways in which they can be used for cryptography. We already saw that DDH $\to$ CDH $\to$ DL $\to$ OWF, from which we can then prolong our chain to get OWF $\to$ PRG $\to$ PRF $\to$ PRP $\to$ CRH, concluding that the DDH assumption is effectively enough to get secure symmetric encryption. Actually, we don't need to apply each construction of the full chain to get every single tool. In fact, each tool can be derived directly through the DDH assumption (or even the DL assumption).
+    
+    Let's start by building a PRG. Consider any triple $(\G,g,q)$ for which the DDH assumption holds. We define a function $G_{\G,g,q} : \Z_q \to \G^3$ as $G_{\G,g,q}(x,y) = (g^x, g^y, g^{xy})$. Under the DDH assumption, we have that $G_{\G,g,q}(U_{\Z_q^2}) \approx_c (U_{\G}, U_{\G}, U_{\G}) \approx_c U_{\G^3}$. When $\G = \Z_q$, $G_{\G,g,q}$ becomes a PRG with strech 1. This construction can be further improved to a PRG $\G^t_{\G,g,q} : \Z_q^{t+1} \to \G^{2t+1}$ with stretch $t$, where:
+    \[\G^t_{\G,g,q}(x, y_1, \ldots, y_t) = (g^x, g^{y_1}, g^{xy_1}, g^{y_2}, g^{xy_2}, \ldots, g^{y_t}, g^{xy_t})\]
+
+    Now, let's build a PRF. We already saw that PRFs can be constructed through the GGM tree using a PRG whose output can be nicely split in half. Copying this idea, we can construct a nice PRF with a closed form (thus we don't have to recursively compute the two halves of the PRG).
+    
+    Consider the following PRG $G_a : \G \to \G^2$ where $a \in \Z_q$ and $G_a(g^b) = (g^b, g^{ab})$ (proof of pseudorandomness through the DL assumption). By setting $G_{a,0}(g^b) = g^b$ and $G_{a,0}(g^b) = g^{ab}$, we get that $G_a(g^b) = G_{a,0}(g^b) \mid\mid G_{a,1}(g^b)$. Let $\mathcal{F} = \{F_{\vec a} : \{0,1\}^n \to \G\}_{\vec a \in \Z_q^{n+1}}$ where:
+    \[F_{\vec a}(x_1, \ldots, x_n) = g^{a_0 \prod_{i = 1}^n a_i^{x_i}}\]
+
+    After some thought, we can convince ourselves that $\mathcal{F}$ is basically the GGM tree of $G$, proving that it is a PRF. After obtaining a PRF, we can easily construct a PRP through a 3-layer Feistel network.
+    
+    We're left with constructing a valid CRH hash family. Consider the hash function $H_{g_1,g_2}(x_1, x_2) = g_1^{x_1}g_2^{x_2}$ where $g_1, g_2 \in \G$ and $x_1,x_2 \in \Z_q$, with $q$ being the order of $\G$. Suppose that there is an adversary that finds two colliding inputs $(x_1,x_2), (x_1',x_2')$ with $(x_1,x_2) \neq (x_1',x_2')$. Given a DL input triple $(g,q,y)$, if we randomly select an index $i \in_R \{0,1\}$ and set $g_i = y$ and $g_j = g^b$, with $j \neq i$ and $b \in_R \Z_q$, we have that:
+    \[g_1^{x_1}g_2^{x_2} = g_1^{x_1'} g_2^{x_2} \iff y^{x_i-x_i'} = g^{b(x_j-x_j')} \iff y = g^{b(x_i-x_j)^{-1}(x_j-x_j')}\]
+
+    We observe that this holds only if $x_i - x_i' \neq 0$, which is possible with $1/2$ probability since $i$ is randomly selected and $(x_1,x_2) \neq (x_1',x_2')$. Since we reduced the DL game of $\G$ to the CRH game of $H_{g_1, g_2}$, the hash function is collision resistant under the DL assumption.   
+
+    \section{Solved exercises}
+
+    \begin{framedprob}{}
+        Let $\G$ be a cyclic group of prime order $q$ generated by $g \in \G$. Let $n$ be a polynomially bounded parameter. Consider the hash family $\mathcal{H}_{\G,n} : \{H_{g_1, \ldots, g_n} : \Z_q^n \to G\}$ parametrized by the group $\G$ and by $n$ randomly chosen group elements $g_1, \ldots, g_n \in \G$ such that for $x_1, \ldots, x_n \in \Z_q$ it holds that:
+        \[H_{g_1, \ldots, g_n} (x_1, \ldots, x_n) = g_1^{x_1} \cdot \ldots \cdot g_n^{x_n}\]
+        Prove that $\mathcal{H}_{\G,n}$ is collision resistant assuming the DL assumption for $\G$.
+    \end{framedprob}
+
+    \begin{proof}
+        By way of contradiction, suppose that there is an adversary $A^{\text{CRH}}_{\mathcal{H}_{\G,n}}$ that finds a collision with in $\mathcal{H}_{\G,n}$ with probability at least $n^{-c}$ for some $c > 0$. We define a new adversary $A^{\text{DL}}_{\G}$ as follows:
+        \begin{enumerate}
+            \item The challenger $C^{\text{DL}}_{\G}$ sends the input $(g,p,y)$ to $A^{\text{DL}}_{\G}$.
+            \item $A^{\text{DL}}_{\G}$ samples $i \in_R U_n$ and sets $g_i = y$
+            \item For each $j \in [n] - \{i\}$, $A^{\text{DL}}_{\G}$ samples $r_j \in_R \Z_q$ and sets $g_j = g^{r_j}$
+            \item $A^{\text{DL}}_{\G}$ sends $(g_1, \ldots, g_n)$ to $A_{\mathcal{H}}^{\text{CRH}}$, which replies with $(x_1, \ldots, x_n)$ and $(x_1',\ldots, x_n')$ such that $(x_1, \ldots, x_n) \neq (x_1',\ldots, x_n')$
+            \item $A^{\text{DL}}_{\G}$ returns $(x_i-x_i')^{-1} \sum_{j = 1 : j \neq i}^n r_j (x_j-x_j')$ to $C^{\text{DL}}_{\G}$
+        \end{enumerate}
+
+        Suppose that $A_{\mathcal{H}}^{\text{CRH}}$ finds a collision for the seed $(g_1, \ldots, g_n)$, meaning that $g_1^{x_1} \cdot \ldots \cdot g_n^{x_n} = g_1^{x_1'} \cdot \ldots \cdot g_n^{x_n'}$ with $(x_1, \ldots, x_n) \neq (x_1',\ldots, x_n')$. By rearranging the equation, we get that:
+        \[\begin{split}
+            \prod_{k = 1}^n g_k^{x_k} = \prod_{k = 1}^n g_k^{x_k'} &\iff g_i^{x_i-x_i'} = \prod_{\substack{j = 1 :\\j \neq i}}^n g_n^{x_j-x_j'} \\
+            &\iff y^{x_i-x_i'} = \prod_{\substack{j = 1 :\\j \neq i}}^n g^{r_j(x_j-x_j')} \\
+            &\iff y^{x_i-x_i'} = g^{\sum_{j = 1 : j \neq i}^n r_j(x_j-x_j')}
+        \end{split}\]
+        
+        Assuming that $x_i - x_i' \neq 0$, we get that:
+        \[y = g^{(x_i-x_i')^{-1} \sum_{j = 1 : j \neq i}^n r_j(x_j-x_j')}\]
+        
+        Observe that the probability of this assumption to be true is at least $1/n$ since $i \in_R U_n$ and $(x_1, \ldots, x_n) \neq (x_1', \ldots, x_n')$. Therefore, we conclude that:
+        \[\Pr[A^{\text{DL}}_{\G}(g,p,y) = \alpha : \alpha \in_R \Z_q, y = g^\alpha] \geq \frac{1}{n} \frac{1}{n^{c}}\]
+        contradicting the fact that the DL assumption holds in $\G$.
+    \end{proof}
+
+    \chapter{Public-key encryption}
+
+    \section{The aymmetric key paradigm}
+
+    In the previous chapter we introduced key exchange, a basic concept of public-key cryptography. Differently from symmetric-key encryption, in \textbf{public-key encryption (PKE)} the two parties use a pair of keys $(pk, sk)$, where $pk$ is the \textit{public key} and it is used for encryption, while $sk$ is the \textit{secret key} (or \textit{private key}) and it is used for decryption.  
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=1cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+            \node[] (1) []{Alice};
+            \node[draw, rectangle, minimum width=40] (2) [right of = 1, xshift = 75]{$\mathrm{Enc}(pk,m)$};
+            \node[] (x) [right of = 2, xshift = 50]{};
+            \node[draw, rectangle, minimum width=40] (3) [right of = x, xshift = 50]{$\mathrm{Dec}(sk,c)$};
+            \node[] (4) [right of = 3, xshift = 75]{Bob};
+            \node[] (5) [below of = x, yshift = -10]{$(pk,sk)$};
+            \node[] (6) [below of = 2, yshift = -10]{};
+            \node[] (7) [below of = 3, yshift = -10]{};
+
+            \path[every node/.style={font=\sffamily\small}]
+                (1) edge node{$m$} (2)
+                (2) edge[-] node{$c$} (x.center)
+                (x.center) edge (3)
+                (3) edge node{$m$} (4)
+                (5) edge[-] (6.center)
+                (5) edge[-] (7.center)
+                (6.center) edge (2)
+                (7.center) edge (3)
+                ;
+        \end{tikzpicture}
+
+        \caption{Example of public-key encryption.}
+    \end{figure}
+
+    Since we're working with two keys and one must act as the tool to invert the other, in PKE schemes the \textbf{keygen} (\textit{key generation}) algorithm must be explicitily stated (we can't just say \curlyquotes{let $(pk, sk)$ be a public-secret key pair}). Therefore, PKE schemes are formally considered as a triple $\Pi = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$. 
+
+    As the names suggest, the public key must be shared with the other party in order to achieve encryption, meaning that we have to find a way to securely send Bob's public key to Alice without it being subject of a man-in-the-middle attack, similar to what we have seen for the Diffie-Hellman protocol. To achieve this, we'll have to introduce the concept of digital signature and public key infrastructure.
+
+    For now, we start by translating the security concepts that we have already discussed from the symmetric setting to the asymmetric one (CPA-security, CCA-security, \dots). The main idea is to use the same identical games to show the security of PKEs, with the addition of an initial message sent by the challenger. This initial message contains the public key generated together with the secret key at the start of the game. We observe that sending the public key allows the adversary to encrypt the queries by themselves, without having to send them to the challenger. This implies that we can remove encryption queries from both the CPA game and the CCA game. In particular, we recall that the encryption algorithm is assumed to be \underline{randomized}, meaning that the adversary cannot trick the challenger by encrypting the challenge messages $m_0^*, m_1^*$ by themselves and get $c^*$ before the challenger sends it. 
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=1cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+            \node[] (1) []{$A$};
+            \node[] (2) [left of = 1, xshift = 225]{$C$};
+
+            \node[] (1t) [below of = 1]{};
+            \node[] (2t) [below of = 2]{};
+
+            \node[] (7) [below of = 1t]{};
+            \node[] (8) [below of = 2t]{};
+
+            \node[] (9) [below of = 7]{};
+            \node[] (10) [below of = 8]{};
+
+            \node[] (11) [below of = 9]{};
+            \node[] (12) [below of = 10]{};
+
+            \path[every node/.style={font=\sffamily\small}]
+                (2t) edge[swap, near start] node{$pk$} (1t)
+                (7) edge[near start] node{$m_0^*, m_1^* \in \{0,1\}^\lambda$} (8)
+                (10) edge[swap, near start] node{$c^* = \mathrm{Enc}_\Pi(pk, m_b^*)$} (9)
+                (11) edge[near start] node{$b' \in \{0,1\}$} (12)
+                ;
+        \end{tikzpicture}
+
+        \caption{Graphical representation of $\mathrm{Game}_{\Pi, A}^{\text{CPA}}(\lambda, b)$ for public-key encryption.}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=1cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+            \node[] (1) []{$A$};
+            \node[] (2) [left of = 1, xshift = 225]{$C$};
+
+            \node[] (1t) [below of = 1]{};
+            \node[] (2t) [below of = 2]{};
+
+            \node[] (3y) [below of = 1t]{};
+            \node[] (4y) [below of = 2t]{};
+
+            \node[] (5y) [below of = 3y]{};
+            \node[] (6y) [below of = 4y]{};
+
+            \node[] (7) [below of = 5y]{};
+            \node[] (8) [below of = 6y]{};
+
+            \node[] (9) [below of = 7]{};
+            \node[] (10) [below of = 8]{};
+
+            \node[] (3z) [below of = 9]{};
+            \node[] (4z) [below of = 10]{};
+
+            \node[] (5z) [below of = 3z]{};
+            \node[] (6z) [below of = 4z]{};
+
+            \node[] (11) [below of = 5z]{};
+            \node[] (12) [below of = 6z]{};
+
+            \path[every node/.style={font=\sffamily\small}]
+                (2t) edge[swap, near start] node{$pk$} (1t)
+
+                (5y) edge[bend left] node {$\poly(\lambda)$}(3y)
+                (3y) edge[near start] node{$\widetilde c_i \in \{0,1\}^\lambda, \widetilde c_i \neq c^*$} (4y)
+                (6y) edge[swap, near start] node{$\widetilde m_i = \mathrm{Dec}_\Pi(sk, \widetilde c_i)$} (5y)
+
+                (7) edge[near start] node{$m_0^*, m_1^* \in \{0,1\}^\lambda$} (8)
+                (10) edge[swap, near start] node{$c^* = \mathrm{Enc}_\Pi(pk, m_b^*)$} (9)
+
+                (5z) edge[bend left] node {$\poly(\lambda)$}(3z)
+                (3z) edge[near start] node{$\widetilde c_i' \in \{0,1\}^\lambda, \widetilde c_i' \neq c^*$} (4z)
+                (6z) edge[swap, near start] node{$\widetilde m_i' = \mathrm{Dec}_\Pi(sk, \widetilde c_i')$} (5z)
+                
+                (11) edge[near start] node{$b' \in \{0,1\}$} (12)
+                ;
+        \end{tikzpicture}
+
+        \caption{Graphical representation of $\mathrm{Game}_{\Pi, A}^{\text{CCA}}(\lambda, b)$ for public-key encryption.}
+    \end{figure}
+
+    Thanks to our theoretical background with SKEs, we can jump straight away into constructing PKE schemes using the above two games. Our first PKE scheme is the \textbf{ElGamal scheme}.
+
+    \begin{framedalgo}{ElGamal PKE scheme}
+        Given a triple $(\G,g,q)$ where $\G$ is a cyclig group, $g \in \G$ is a generator and $q$ is the order of $g$ in $\G$, the ElGamal PKE scheme $\Pi = (\mathrm{KGen}, \mathrm{Enc}, \mathcal{Dec})$ is defined as follows:
+        \begin{itemize}
+            \item $\mathrm{KGen}(g,q) = (pk, sk)$ where $pk = g^x$ and $sk = x$, for some  $x \in_R \Z_q$
+            \item $\mathrm{Enc}(pk, m) = (c_1, c_2)$ where $c_1 = g^r$ and $c_2 = pk^r\cdot m$, for some $r \in_R \Z_q$
+            \item $\mathrm{Dec}(sk, (c_1, c_2)) = \frac{c_2}{c_1^sk}$ 
+        \end{itemize}
+    \end{framedalgo}
+
+    The correctness of the scheme easily follows by simple substitution:
+    \[\mathrm{Dec}(sk, (c_1, c_2)) = \frac{c_2}{c_1^sk} = \frac{pk^r \cdot m}{(g^{r})^{sk}} = \frac{g^{xr} \cdot m}{g^{rx}} = m\]
+
+    \begin{framedthm}{}
+        The ElGamal PKE scheme is CPA-secure under the DDH assumption.
+    \end{framedthm}
+
+    \begin{proof}
+        Let $G(\lambda,b) = \mathrm{Game}_{\Pi,A}^{\text{CPA}}(\lambda, b)$. We define an hybrid $H(\lambda, b)$ where $pk$ is replaced by $g^z$ for some $z \in_R \Z_q$. Assume that the DDH assumption holds for $\G$ and fix $b \in \{0,1\}$. By way of contradiction, suppose that there is an adversary $A$ that distinguishes $G(\lambda,b)$ from $H(\lambda,b)$ with non-negligible probability. We define a new adversary $A'$ for the DDH assumption:
+        \begin{enumerate}
+            \item The challenger $C$ sends $(\G,g,q,g^x, g^y, Z)$ to $A'$, with $Z$ being either $g^{xy}$ or $g^z$ for some $z \in_R \Z_q$
+            \item $A'$ sends $pk = g^x$ to $A$, which replies with $m_0^*, m_1^*$
+            \item $A'$ then sends $(g^y, Z \cdot m_b)$ to $A$
+            \item $A$ replies with a guessing bit $b'$, which gets forwarded to $C$
+        \end{enumerate}
+
+        Since $A'$ is able to distinguish $G(\lambda,b)$ from $H(\lambda,b)$ with non-negligible probability, they can distinguish $Z = g^{xy}$ from $Z = g^z$, meaning that $A'$ wins breaks the DDH assumption on $\G$. Now, by definition we have $H(\lambda, 0) \equiv H(\lambda, 1)$ since we don't care about which of the two messages actually gets encrypted. This concludes that $G(\lambda,0) \approx_c G(\lambda, 1)$.
+    \end{proof}
+
+    The simplicity of the ElGamal scheme comes at a price since its CCA game can be easily broken: after receiving the challenge ciphertext $(c_1^*, c_2^*)$, we can query $\mathrm{Dec}(sk, (c_1^*, c_2^* \cdot \widehat m'))$ with a fresh message $m'$ and check if the answer is $m_0^*\widehat m'$ or $m_1^* \widehat m'$.
 
 \end{document}

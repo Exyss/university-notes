@@ -106,7 +106,7 @@ Disclaimers ⚠️
 | ----- | :----: | :-----------: |
 | [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms/Advanced%20Algorithms.pdf) | Completed | 30/09/2025 |
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity/Computational%20Complexity.pdf) | Completed | 17/02/2025 |
-| [Cryptography](../../raw/main/Master/Cryptography/Cryptography.pdf) | W.I.P. | 28/12/2025 |
+| [Cryptography](../../raw/main/Master/Cryptography/Cryptography.pdf) | W.I.P. | 31/12/2025 |
 | [Graph Theory](../../raw/main/Master/Graph%20Theory/Graph%20Theory.pdf) | Completed | 16/10/2025 |
 | [Mathematical Logic for Computer Science](../../raw/main/Master/Mathematical%20Logic%20for%20Computer%20Science/Mathematical%20Logic%20for%20Computer%20Science.pdf) | Completed | 25/06/2025 |
 | Models of Computation [ !! ] | - | - |

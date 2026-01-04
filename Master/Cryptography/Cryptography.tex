@@ -173,7 +173,7 @@
 
     \section{Perfect secrecy and Shannon's theorem}
 
-    For now, we'll focus on symmetric cryptography, i.e. cryptosystems where a shared secret key is used for both encryption and decryption. It is widely used due to its speed and efficiency, especially in encrypting large volumes of data. A core model of this approach is \textbf{Secret Key Encryption (SKE)}, which includes three main components:
+    For now, we'll focus on symmetric cryptography, i.e. cryptosystems where a shared secret key is used for both encryption and decryption. It is widely used due to its speed and efficiency, especially in encrypting large volumes of data. A core model of this approach is \textbf{Symmetric-key Encryption (SKE)}, which includes three main components:
     \begin{itemize}
         \item A shared \textit{secret key} $K \in_{R} \mathcal{K}$ chosen uniformly at random
         \item An \textit{encryption function} $\mathrm{Enc} : \mathcal{K} \times \mathcal{M} \to \mathcal{C}$ that transforms plaintext into ciphertext
@@ -444,7 +444,7 @@
     In the min-entropy, instead, we take take the minimum value of $\log\rbk{\frac{1}{p_i}}$, where:
     \[\min_i \log\rbk{\frac{1}{p_i}} = \log \rbk{\min_i \frac{1}{p_i}} = - \log \max_i p_i\]
 
-    Consider a random variable $X \sim U_n$, where $U_n$ is an uniform distribution over $\{0,1\}^n$. In this case, we have that $\Pr[X = x] = 2^{-n}$ for all value $x$ assumable by $X$. Hence, the min-entropy is:
+    Consider a random variable $X \sim \mathcal{U}_n$, where $\mathcal{U}_n$ is an uniform distribution over $\{0,1\}^n$. In this case, we have that $\Pr[X = x] = 2^{-n}$ for all value $x$ assumable by $X$. Hence, the min-entropy is:
     \[H_{\infty}(X) = -\log \max_x \Pr[X = x] = - \log (2^{-n}) = n\]
 
     This concludes that each observation of $X$ provides at least $n$ bits of information. Consider now a constant random variable $X'$, i.e. $\Pr[X' = x^*] = 1$ for some fixed value $x^*$ and $\Pr[X' = x] = 0$ for every $x^* \neq x$. It's easy to see that:
@@ -474,10 +474,10 @@
     \[\abs{\Pr[A(x) = 1 : x \in_R X] - \Pr[A(x) = 1 : x \in_R X']} \leq \varepsilon\]
     
     \begin{frameddefn}{Deterministic extractor}
-        Let $S$ be a random variable, referred to as \textit{seed}. We say that $\mathrm{Ext} : \{0,1\}^d \times \{0,1\}^n \to \{0,1\}^\ell$ is a $(k,\varepsilon)$-extractor if for every random variable $X$ with $H_{\infty}(X) \geq k$ it holds that $(S, \mathrm{Ext}(S,X)) \sim_{\varepsilon} (S, U_\ell)$ when $S \sim U_d$.
+        Let $S$ be a random variable, referred to as \textit{seed}. We say that $\mathrm{Ext} : \{0,1\}^d \times \{0,1\}^n \to \{0,1\}^\ell$ is a $(k,\varepsilon)$-extractor if for every random variable $X$ with $H_{\infty}(X) \geq k$ it holds that $(S, \mathrm{Ext}(S,X)) \sim_{\varepsilon} (S, \mathcal{U}_\ell)$ when $S \sim \mathcal{U}_d$.
     \end{frameddefn}
 
-    We notice that the condition $(S, \mathrm{Ext}(S,X)) \sim_{\varepsilon} (S, U_\ell)$ implies that the seed must be \textit{public}. This requirement is forced in order to avoid trivial extractors such as $\mathrm{Ext}(S,X) = S$. The idea is to use a source of randomness with high min-entropy in order to force that the output of a \curlyquotes{good} hash function is statistically close to uniform -- even if the input seed wasn't. This result is known as the \textbf{left-over hash lemma}.
+    We notice that the condition $(S, \mathrm{Ext}(S,X)) \sim_{\varepsilon} (S, \mathcal{U}_\ell)$ implies that the seed must be \textit{public}. This requirement is forced in order to avoid trivial extractors such as $\mathrm{Ext}(S,X) = S$. The idea is to use a source of randomness with high min-entropy in order to force that the output of a \curlyquotes{good} hash function is statistically close to uniform -- even if the input seed wasn't. This result is known as the \textbf{left-over hash lemma}.
     
     The goodness of the hash functions is measured in terms of \textbf{low collision probability}, defined as the expected value that a random variable $Y$ over a set $\mathcal{Y}$ and a copy $Y'$ of $Y$, giving two i.i.d (identical and independend distributions) variables, return the same result:
     \[\mathrm{Col}(Y) = \Pr[Y = Y']\]
@@ -683,7 +683,7 @@
         \begin{itemize}
             \item $f$ is computable in $\poly(n)$-time
             \item for every PPT algorithm $A$ there is a negligible function $\negl(n)$ such that:
-            \[\Pr_{x \in_R U_n}[f(x') = y : y = f(x); x' \gets A(y)] \leq \negl(n)\]
+            \[\Pr_{x \in_R \mathcal{U}_n}[f(x') = y : y = f(x); x' \gets A(y)] \leq \negl(n)\]
         \end{itemize}
 
         \textit{Note}: $x \gets A(y)$ is read as \curlyquotes{$x$ is the output of $A(y)$}
@@ -706,15 +706,15 @@
         Let $G : \{0,1\}^n \to \{0,1\}^{n+\ell}$ be a function where $\ell \geq 1$. We say that $G$ is a pseudorandom generator (PRG) with expansion factor $\ell$ if:
         \begin{itemize}
             \item $G$ can be computed in $\poly(n)$-time
-            \item $G(U_n) \approx_c U_{n+\ell}$.
+            \item $G(\mathcal{U}_n) \approx_c \mathcal{U}_{n+\ell}$.
         \end{itemize}
     \end{frameddefn}
 
-    The above definition requires a bit of discussion in order to be fully understood. First, we observe that $G$ is \underline{deterministic}, making $G(U_n) \approx_c U_{n+\ell}$ a very strong property. Then, we observe that the idea behind a PRG is to generate new bits that look like they are truly random, as long as the initial seed is already truly random (in practice, we use a seed that is computationally indistinguishable from a truly random one). Hence, we can use a randomness extractor to get an initial seed and then pass it to a PRG in order to \curlyquotes{expand the seed} up to any desired length: after constructing a simple PRG $G : \{0,1\}^n \to \{0,1\}^{n+1}$, it can be used to construct a new PRG $G : \{0,1\}^n \to \{0,1\}^{n+\ell}$ up to any polynomial value $\ell > 0$.
+    The above definition requires a bit of discussion in order to be fully understood. First, we observe that $G$ is \underline{deterministic}, making $G(\mathcal{U}_n) \approx_c \mathcal{U}_{n+\ell}$ a very strong property. Then, we observe that the idea behind a PRG is to generate new bits that look like they are truly random, as long as the initial seed is already truly random (in practice, we use a seed that is computationally indistinguishable from a truly random one). Hence, we can use a randomness extractor to get an initial seed and then pass it to a PRG in order to \curlyquotes{expand the seed} up to any desired length: after constructing a simple PRG $G : \{0,1\}^n \to \{0,1\}^{n+1}$, it can be used to construct a new PRG $G : \{0,1\}^n \to \{0,1\}^{n+\ell}$ up to any polynomial value $\ell > 0$.
 
     To prove this result, we use a technique known as \textbf{hybrid argument}. We define a sequence $H_0, \ldots, H_\ell$ of distributions such that:
     \begin{itemize}
-        \item $H_0 \approx_c G^\ell(U_n)$ and $H_\ell \approx_c U_{n+\ell}$
+        \item $H_0 \approx_c G^\ell(\mathcal{U}_n)$ and $H_\ell \approx_c \mathcal{U}_{n+\ell}$
         \item $H_i \approx_c H_{i+1}$ for each $i \in [0, \ell-1]$
         \item Each $H_i$ is an hybrid of truly random and pseudorandom bits, where the number of truly random bits increases as $i$ grows, getting replacing the pseudorandom bits
     \end{itemize}
@@ -729,17 +729,17 @@
         $f_i$ = "On input $s \in \{0,1\}^n$: 
         \begin{enumerate}
             \item Set $s_i = s$
-            \item For each $j \leq i$ set $b_j$ as a truly random bit, i.e. $b_j \in_R U_1$
+            \item For each $j \leq i$ set $b_j$ as a truly random bit, i.e. $b_j \in_R \mathcal{U}_1$
             \item For each $j > i$ set $s_j$ and $b_j$ as the values such that $G(s_{j-1}) = s_j \concat b_j$, where $s_j \in \{0,1\}^n$ and $b_j \in \{0,1\}$.
             \item Return $b_1 \mid\mid \ldots \mid\mid b_\ell \mid\mid s_\ell$.
         \end{enumerate}
 
-        It's easy to see that each $i \in [0,\ell]$ the function $f_i$ is PPT-computable since $G$ is a PPT algorithm by hypothesis and $\ell = \poly(n)$. Moreover, $f_0$ is deterministic since it doesn't generate random bits. Let $H_0, \ldots, H_\ell$ be the distributions over the outputs of the functions $f_0, \ldots, f_\ell$. We observe that $H_\ell = U_{n+\ell}$ since every bit is truly random in $f_\ell$. Hence, by letting $G^\ell = f_0$ we get that $H_0 = G^\ell(U_n)$ and $H_\ell = U_{n+\ell}$.
+        It's easy to see that each $i \in [0,\ell]$ the function $f_i$ is PPT-computable since $G$ is a PPT algorithm by hypothesis and $\ell = \poly(n)$. Moreover, $f_0$ is deterministic since it doesn't generate random bits. Let $H_0, \ldots, H_\ell$ be the distributions over the outputs of the functions $f_0, \ldots, f_\ell$. We observe that $H_\ell = \mathcal{U}_{n+\ell}$ since every bit is truly random in $f_\ell$. Hence, by letting $G^\ell = f_0$ we get that $H_0 = G^\ell(\mathcal{U}_n)$ and $H_\ell = \mathcal{U}_{n+\ell}$.
 
         \textbf{Claim:} For each $i \in [0,\ell-1]$ it holds that $H_i \approx_c H_{i+1}$.
 
         \begin{proof}[Proof of the claim.]
-            Fix $i \in [0,\ell-1]$. We prove the claim by reducing the distinguishability of $G(U_n)$ from $U_{n+1}$ to the distinguishability of $H_i$ from $H_{i+1}$. By way of contradiction, suppose that $H_i \not\approx_c H_{i+1}$, meaning that there is a distinguisher $D_i$ such that:
+            Fix $i \in [0,\ell-1]$. We prove the claim by reducing the distinguishability of $G(\mathcal{U}_n)$ from $\mathcal{U}_{n+1}$ to the distinguishability of $H_i$ from $H_{i+1}$. By way of contradiction, suppose that $H_i \not\approx_c H_{i+1}$, meaning that there is a distinguisher $D_i$ such that:
             \[\abs{\Pr[D_i(z) = 1 : z \in_R H_i] - \Pr[D_i(z) = 1 : z \in_R H_{i+1}]} > \frac{1}{n^c}\]
             for some $c > 0$. Let $D$ be the algorithm defined as follows:
 
@@ -751,16 +751,16 @@
                 \item Return $D_i(z_w)$."
             \end{enumerate}
 
-            We observe that $H_i$ and $H_{i+1}$ differ from each other only by one bit: in $f_i$, the bit $b_i$ is the last bit of $G(s_{i-1})$, while in $f_{i+1}$ it is a truly random bit. Hence, when $D$ is given an input $w \in G(U_n)$, the last bit of $w$ is generated through $G$, making the string $z'$ built by $D$ an input sampled from $H_i$. Vice versa, when $D$ is given an input $w \in_R U_{n+1}$, the last bit of $w$ is truly random, making the string $z'$ built by $D$ an in input sampled from $H_{i+1}$. Therefore, we get that:
+            We observe that $H_i$ and $H_{i+1}$ differ from each other only by one bit: in $f_i$, the bit $b_i$ is the last bit of $G(s_{i-1})$, while in $f_{i+1}$ it is a truly random bit. Hence, when $D$ is given an input $w \in G(\mathcal{U}_n)$, the last bit of $w$ is generated through $G$, making the string $z'$ built by $D$ an input sampled from $H_i$. Vice versa, when $D$ is given an input $w \in_R \mathcal{U}_{n+1}$, the last bit of $w$ is truly random, making the string $z'$ built by $D$ an in input sampled from $H_{i+1}$. Therefore, we get that:
             \[\begin{split}
-                &\abs{\Pr[D(w) = 1 : w \in_R G(U_n)] - \Pr[D(w) = 1 : w \in_R U_{n+1}]}\\
+                &\abs{\Pr[D(w) = 1 : w \in_R G(\mathcal{U}_n)] - \Pr[D(w) = 1 : w \in_R \mathcal{U}_{n+1}]}\\
                 = &\abs{\Pr[D_i(z') = 1 : z' \in_R H_i] - \Pr[D_i(z') = 1 : z' \in_R H_{i+1}]} \\
                 > &\frac{1}{n^c}
             \end{split}\]
             concluding that $D$ is a distinguisher for $G$, raising a contradiction over $G$ being a PRG.
         \end{proof}
 
-        By transitivy of $\approx_c$ and the above claim, we conclude that $G^\ell(U_n) = H_0 \approx_c \ldots \approx_c H_\ell = U_{n+\ell}$, meaning that $G^\ell$ is a PRG.
+        By transitivy of $\approx_c$ and the above claim, we conclude that $G^\ell(\mathcal{U}_n) = H_0 \approx_c \ldots \approx_c H_\ell = \mathcal{U}_{n+\ell}$, meaning that $G^\ell$ is a PRG.
     \end{proof}
 
     \begin{figure}[H]
@@ -865,7 +865,7 @@
         \[f(x_1 \concat \ldots \concat x_{2n}) = G(x_1 \concat \ldots \concat x_n)\]
         
         By way of contradiction, suppose that $f$ is not a OWF, meaning that there is an adversary $A$ such that:
-        \[\Pr_{x \in_R U_n}[f(x') = y : y = f(x); x' \gets A(y)] \geq \frac{1}{n^c}\]
+        \[\Pr_{x \in_R \mathcal{U}_n}[f(x') = y : y = f(x); x' \gets A(y)] \geq \frac{1}{n^c}\]
         for some $c > 0$. We build an adversary $D$ defined as:
 
         $D$ = "On input $z \in \{0,1\}^{2n}$:
@@ -874,8 +874,8 @@
             \item If $G(b_1 \concat \ldots \concat b_n) = z$ accept, otherwise reject."
         \end{enumerate}
 
-        If $z \in_R U_{2n}$, the adversary $D$ accepts with probability at most $2^{-n}$ since the first half of the output $A(z)$ is also uniform at random. If $z \in_R G(U_{n})$, instead, the adversary $D$ accepts with probability at least $n^{-c}$ since it first inverts the output and then recomputes it to distinguish it. Hence, we conclude that:
-        \[\abs{\Pr[D(z) = 1 : z \in_R G(U_n)] - \Pr[D(z) = 1 : z \in_R U_{2n}]} \geq \frac{1}{n^c} - \frac{1}{2^n} \geq \frac{1}{n^c}\]
+        If $z \in_R \mathcal{U}_{2n}$, the adversary $D$ accepts with probability at most $2^{-n}$ since the first half of the output $A(z)$ is also uniform at random. If $z \in_R G(\mathcal{U}_{n})$, instead, the adversary $D$ accepts with probability at least $n^{-c}$ since it first inverts the output and then recomputes it to distinguish it. Hence, we conclude that:
+        \[\abs{\Pr[D(z) = 1 : z \in_R G(\mathcal{U}_n)] - \Pr[D(z) = 1 : z \in_R \mathcal{U}_{2n}]} \geq \frac{1}{n^c} - \frac{1}{2^n} \geq \frac{1}{n^c}\]
         contradicting the assumption of $G$ being a PRG.
     \end{proof}
 
@@ -883,10 +883,10 @@
 
     \begin{frameddefn}{Hard-core predicate}
         Let $f : \{0,1\}^n \to \{0,1\}^m$ be a PPT-computable function. We say that a function $h : \{0,1\}^n \to \{0,1\}$ is a hard-core predicate for $f$ if for every PPT adversary $A$ it holds that:
-        \[\Pr[A(y) = h(x) : x \in_R U_n, y = f(x)] \leq \frac{1}{2} + \negl(n)\]
+        \[\Pr[A(y) = h(x) : x \in_R \mathcal{U}_n, y = f(x)] \leq \frac{1}{2} + \negl(n)\]
     \end{frameddefn}
     
-    From the very definition that we just gave, it's easy to get an equivalent formulation: $h$ is hard-core for $f$ if and only if $(f(x), h(x)) \approx_c (f(x), U_1)$ with $x \in_R U_n$ (proof is left as an exercise).
+    From the very definition that we just gave, it's easy to get an equivalent formulation: $h$ is hard-core for $f$ if and only if $(f(x), h(x)) \approx_c (f(x), \mathcal{U}_1)$ with $x \in_R \mathcal{U}_n$ (proof is left as an exercise).
     
     We observe that both definitions we gave don't require that $f$ is a OWF. However, hard-core predicates are -- intuitively -- what allows a function to be one-way: if we can establish an hard-core bit for every input $x$, any adversary will have a hard time inverting $f(x)$ due to this very bit. From these observation, we ask three questions:
     \begin{enumerate}
@@ -896,22 +896,22 @@
     \end{enumerate}
 
     For the first question, the answer is \textit{no}. Suppose that such $h^*$ exists. Fix a OWF $f$ and let $\widetilde f$ be defined $\widetilde f(x) = h^*(x) \concat f(x)$. It's easy to see that the adversary $A^*$ that always returns the first bit of the output $\widetilde f(x)$ is such that:
-    \[\Pr[A^*(y) = h^*(x) : x \in_R U_n, y = \widetilde f(x)] = 1\]
+    \[\Pr[A^*(y) = h^*(x) : x \in_R \mathcal{U}_n, y = \widetilde f(x)] = 1\]
     concluding that $h^*$ is not an hard-core predicate for $\widetilde f$. By way of contradiction, suppose that $\widetilde f$ is not a OWF, i.e. there is an adversary $\widetilde A$ such that:
-    \[\Pr_{x \in_R U_n}[\widetilde f(x') = y : y = \widetilde f(x); x' \gets \widetilde A(y)] \geq \frac{1}{n^c}\]
-    for some $c > 0$. We build an adversary $A$ such that $A(y) = \widetilde A(b \concat y)$, where $b \in_R U_1$. By construction, we have that:
+    \[\Pr_{x \in_R \mathcal{U}_n}[\widetilde f(x') = y : y = \widetilde f(x); x' \gets \widetilde A(y)] \geq \frac{1}{n^c}\]
+    for some $c > 0$. We build an adversary $A$ such that $A(y) = \widetilde A(b \concat y)$, where $b \in_R \mathcal{U}_1$. By construction, we have that:
     \[\begin{split}
-        &\Pr_{x \in_R U_n}[f(x') = y : y = f(x); x' \gets A(y)]\\
-        \geq\,& \Pr_{x \in_R U_n}[b = h^*(x), f(x') = y : y = f(x); x' \gets \widetilde A(b \concat y); b \in_R U_1] \\
-        =\,& \frac{1}{2}\Pr_{x \in_R U_n}[f(x') = y : y = f(x); x' \gets \widetilde A(h^*(x) \concat y)] \\
-        =\,& \frac{1}{2}\Pr_{x \in_R U_n}[\widetilde f(x') = h^*(x') \concat y : y = f(x); x' \gets \widetilde A(h^*(x) \concat y)] \\
+        &\Pr_{x \in_R \mathcal{U}_n}[f(x') = y : y = f(x); x' \gets A(y)]\\
+        \geq\,& \Pr_{x \in_R \mathcal{U}_n}[b = h^*(x), f(x') = y : y = f(x); x' \gets \widetilde A(b \concat y); b \in_R \mathcal{U}_1] \\
+        =\,& \frac{1}{2}\Pr_{x \in_R \mathcal{U}_n}[f(x') = y : y = f(x); x' \gets \widetilde A(h^*(x) \concat y)] \\
+        =\,& \frac{1}{2}\Pr_{x \in_R \mathcal{U}_n}[\widetilde f(x') = h^*(x') \concat y : y = f(x); x' \gets \widetilde A(h^*(x) \concat y)] \\
         =\,& \frac{1}{2n^c}
     \end{split}\]
     which contradicts the assumption of $f$ being OWF. Hence, $\widetilde f$ must be an OWF without $h^*$ as an hard-predicate.
 
-    For the second question, the answer is also \textit{no}. Let $f$ be the function such that drops the last bit of the input, i.e. $f(x_1 \concat \ldots \concat x_n) = x_1 \concat \ldots \concat x_{n-1}$. Let $h$ be the function that returns only the last bit of the input, i.e. $h(x_1 \concat \ldots \concat x_n) = x_n$. By construction, $h$ is trivially an hard-core predicate for $f$ since the last bit is independent from the others when $x \in_R U_n$. However, $f$ is not a OWF since an adversary that picks a random bit $b \in_R U_1$ has 50\% chance of guessing $b = x_n$, inverting the output.
+    For the second question, the answer is also \textit{no}. Let $f$ be the function such that drops the last bit of the input, i.e. $f(x_1 \concat \ldots \concat x_n) = x_1 \concat \ldots \concat x_{n-1}$. Let $h$ be the function that returns only the last bit of the input, i.e. $h(x_1 \concat \ldots \concat x_n) = x_n$. By construction, $h$ is trivially an hard-core predicate for $f$ since the last bit is independent from the others when $x \in_R \mathcal{U}_n$. However, $f$ is not a OWF since an adversary that picks a random bit $b \in_R \mathcal{U}_1$ has 50\% chance of guessing $b = x_n$, inverting the output.
 
-    What about the third question? In this case, the answer is \textit{yes, kinda}. Goldreich and Levin showed that every OWF can be trivially modified to obtain a new OWF that has a specific hard-core predicate. For any OWF $f : \{0,1\}^n \to \{0,1\}^m$, the \textbf{Goldreich-Levin alteration} of $f$ is the function $g : \{0,1\}^{2n} \to \{0,1\}^{m+n}$ defined as $g(x,r) = f(x) \concat r$, where $r$ is supposed to be taken as $r \in_R U_n$. We omit the proof due to it being too convoluted.
+    What about the third question? In this case, the answer is \textit{yes, kinda}. Goldreich and Levin showed that every OWF can be trivially modified to obtain a new OWF that has a specific hard-core predicate. For any OWF $f : \{0,1\}^n \to \{0,1\}^m$, the \textbf{Goldreich-Levin alteration} of $f$ is the function $g : \{0,1\}^{2n} \to \{0,1\}^{m+n}$ defined as $g(x,r) = f(x) \concat r$, where $r$ is supposed to be taken as $r \in_R \mathcal{U}_n$. We omit the proof due to it being too convoluted.
 
     \begin{framedthm}{The Goldreich-Levin theorem}
         Let $f$ be an OWF and let $g$ be obtained through the Goldreich-Levin construction. Then, $g$ is an OWF function with an hard-core predicate $h(x,r) = \bigoplus_{i = 1}^n x_i r_i$.
@@ -928,8 +928,8 @@
     \end{framedprop}
 
     \begin{proof}
-        Consider the first $n$ bits of the output $G(s)$, i.e. the bits $f(s)$. When $s$ is taken uniformly at random, the output $f(s)$ will also be uniform at random due to $f$ being a permutation. For the last $n+1$ bit of the output, instead, we know that $h(s)$ is by definition computationally hard to distinguish from a bit $b \in_R U_1$. This concludes that:
-        \[G(U_n) \equiv (f(U_n), h(U_n)) \approx_c (U_n, U_1) \equiv U_{n+1} \]
+        Consider the first $n$ bits of the output $G(s)$, i.e. the bits $f(s)$. When $s$ is taken uniformly at random, the output $f(s)$ will also be uniform at random due to $f$ being a permutation. For the last $n+1$ bit of the output, instead, we know that $h(s)$ is by definition computationally hard to distinguish from a bit $b \in_R \mathcal{U}_1$. This concludes that:
+        \[G(\mathcal{U}_n) \equiv (f(\mathcal{U}_n), h(\mathcal{U}_n)) \approx_c (\mathcal{U}_n, \mathcal{U}_1) \equiv \mathcal{U}_{n+1} \]
     \end{proof}
 
     The above proposition can be strenghtened by generalizing to every OWF instead of OWPs (the idea is to mix multiple outputs of $f$ with their hard-core bits).
@@ -958,9 +958,9 @@
     \end{split}\]
 
     In other words, the last bit of $G'(s)$ will always be 0. Consider now the adversary $A$ that checks the input $z \in \{0,1\}^{m}$ and returns 1 if $z_m = 0$ and 0 otherwise. Then:
-    \[\abs{\Pr[A(z) = 1 : z \in_R G'(U_n)] - \Pr[A(z) = 1 : z \in_R U_m]} = \abs{1-\frac{1}{2}} = \frac{1}{2}\]
+    \[\abs{\Pr[A(z) = 1 : z \in_R G'(\mathcal{U}_n)] - \Pr[A(z) = 1 : z \in_R \mathcal{U}_m]} = \abs{1-\frac{1}{2}} = \frac{1}{2}\]
 
-    concluding that $A$ is an adversary that distinguishes $G'(U_n)$ from $U_m$ with non-negligible probability.
+    concluding that $A$ is an adversary that distinguishes $G'(\mathcal{U}_n)$ from $\mathcal{U}_m$ with non-negligible probability.
 
     \begin{framedprob}{}
         Let $f_1, f_2, f_3 : \{0,1\}^n \to \{0,1\}^n$ be arbitrary functions. You know that at least one of them is a OWF, but you don't know which one. Design a OWF $f$ using $f_1,f_2,f_3$ in a black-box manner.
@@ -1042,12 +1042,12 @@
         Let $\ell = \poly(n)$ be the expansion factor of the PRG $G$ used inside PRG-OTP. We use an argument similar to the hybrid argument. Let $\mathrm{Hyb}(\lambda, b)$ be the 2-player game defined as follows:
         \begin{enumerate}
             \item The adversary $A$ sends two messages $m_0, m_1 \in \{0,1\}^\lambda$ to the challenger $C$
-            \item $C$ picks $z \in_R U_{\lambda+\ell}$ and sends $z \oplus m_b = c$ back to $A$
+            \item $C$ picks $z \in_R \mathcal{U}_{\lambda+\ell}$ and sends $z \oplus m_b = c$ back to $A$
             \item $A$ analyzes $c$ and tries to guess if it was obtained through $m_0$ or $m_1$ by sending a bit $b' \in \{0,1\}$
             \item If $b' \neq b$, the challenger wins. Otherwise, the adversary wins. 
         \end{enumerate}
 
-        We observe that the difference between $\mathrm{Game}_{\Pi, A}^{\text{1-time}}(\lambda, b)$ and $\mathrm{Hyb}(\lambda, b)$ is given by $G(K)$ being replaced by a uniform at random string $z \in_R U_{\lambda+\ell}$. Since $G(U_\lambda) \approx_c U_{\lambda+\ell}$ by choice of $G$, the hybrid game and the original game are expected to also be indistinguishable from each other.
+        We observe that the difference between $\mathrm{Game}_{\Pi, A}^{\text{1-time}}(\lambda, b)$ and $\mathrm{Hyb}(\lambda, b)$ is given by $G(K)$ being replaced by a uniform at random string $z \in_R \mathcal{U}_{\lambda+\ell}$. Since $G(\mathcal{U}_\lambda) \approx_c \mathcal{U}_{\lambda+\ell}$ by choice of $G$, the hybrid game and the original game are expected to also be indistinguishable from each other.
         
         \textbf{Claim}: For each $b \in \{0,1\}$ it holds that $\mathrm{Game}_{\Pi, A}^{\text{1-time}}(\lambda, b) \approx_c \mathrm{Hyb}(\lambda, b)$
 
@@ -1063,15 +1063,15 @@
                 \item $D$ accepts if $A'$ wins, otherwise $D$ rejects."
             \end{enumerate}
 
-            Since $A'$ can distinguish the two games, it is also able to distinguish if the string $c$ passed by $D$ was computed with $z$ taken from $G(U_\lambda)$ or $U_{\lambda+\ell}$. This implies that:
-            \[\Pr[D(z) = 1 : z \in_R G(U_\lambda)] = \Pr\sbk{A'(b') = 1 : b' \gets \mathrm{Game}_{\Pi, A'}^{\text{1-time}}(\lambda, b)}\]
+            Since $A'$ can distinguish the two games, it is also able to distinguish if the string $c$ passed by $D$ was computed with $z$ taken from $G(\mathcal{U}_\lambda)$ or $\mathcal{U}_{\lambda+\ell}$. This implies that:
+            \[\Pr[D(z) = 1 : z \in_R G(\mathcal{U}_\lambda)] = \Pr\sbk{A'(b') = 1 : b' \gets \mathrm{Game}_{\Pi, A'}^{\text{1-time}}(\lambda, b)}\]
 
             and:
-            \[\Pr[D(z) = 1 : z \in_R U_{\lambda+\ell}] = \Pr\sbk{A'(b') = 1 : b' \gets \mathrm{Hyb}(\lambda, b)}\]
+            \[\Pr[D(z) = 1 : z \in_R \mathcal{U}_{\lambda+\ell}] = \Pr\sbk{A'(b') = 1 : b' \gets \mathrm{Hyb}(\lambda, b)}\]
 
             concluding that:
             \[\begin{split}
-                &\abs{\Pr[D(z) = 1 : z \in_R G(U_\lambda)] - \Pr[D(z) = 1 : z \in_R U_{\lambda+\ell}]} \\
+                &\abs{\Pr[D(z) = 1 : z \in_R G(\mathcal{U}_\lambda)] - \Pr[D(z) = 1 : z \in_R \mathcal{U}_{\lambda+\ell}]} \\
                 =& \abs{\Pr\sbk{A'(b') = 1 : b' \gets \mathrm{Game}_{\Pi, A'}^{\text{1-time}}(\lambda, b)} - \Pr\sbk{A'(b') = 1 : b' \gets \mathrm{Hyb}(\lambda, b)}} \\
                 \geq& \frac{1}{\lambda^c}
             \end{split}\]
@@ -1281,34 +1281,34 @@
     \end{figure}
     
     \begin{framedlem}[label={t_prg_uniform}]{}
-        Let $G : \{0,1\}^\lambda \to \{0,1\}^{2\lambda}$ be a PRG. Given $K_1, \ldots, K_t \in_R U_\lambda$, with $t = \poly(\lambda)$ and $K_i \neq K_j$ for all $i \neq j$, it holds that:
-        \[(G(K_1), \ldots, G(K_t)) \approx_c (U_{2\lambda}, \ldots, U_{2\lambda})\] 
+        Let $G : \{0,1\}^\lambda \to \{0,1\}^{2\lambda}$ be a PRG. Given $K_1, \ldots, K_t \in_R \mathcal{U}_\lambda$, with $t = \poly(\lambda)$ and $K_i \neq K_j$ for all $i \neq j$, it holds that:
+        \[(G(K_1), \ldots, G(K_t)) \approx_c (\mathcal{U}_{2\lambda}, \ldots, \mathcal{U}_{2\lambda})\] 
     \end{framedlem}
 
     \begin{proof}
         We define $t$ hybrid distributions $H_0, \ldots, H_t$ such that for each $i \in [t]$ it holds that:
-        \[H_i = (G(K_1), \ldots, G(K_{t-i}), \underbrace{U_{2\lambda}, \ldots, U_{2\lambda}}_{i \text{ times}})\]
+        \[H_i = (G(K_1), \ldots, G(K_{t-i}), \underbrace{\mathcal{U}_{2\lambda}, \ldots, \mathcal{U}_{2\lambda}}_{i \text{ times}})\]
 
-        We observe that $H_0 \equiv (G(K_1), \ldots, G(K_t))$ and $H_t \equiv (U_{2\lambda}, \ldots, U_{2\lambda})$.
+        We observe that $H_0 \equiv (G(K_1), \ldots, G(K_t))$ and $H_t \equiv (\mathcal{U}_{2\lambda}, \ldots, \mathcal{U}_{2\lambda})$.
 
         \textbf{Claim:} For each $i \in [0,t-1]$ it holds that $H_i \approx_c H_{i+1}$.
 
         \begin{proof}[Proof of the claim]
-            Fix $i \in [0, t-1]$. We prove the claim by reducing the distinguishability of $G(K_{t-i})$ from $U_{2\lambda}$ to the distinguishability of $H_i$ from $H_{i+1}$. By way of contradiction, suppose that $H_i \not\approx_c H_{i+1}$, meaning that there is a distinguisher $D_i$ such that:
+            Fix $i \in [0, t-1]$. We prove the claim by reducing the distinguishability of $G(K_{t-i})$ from $\mathcal{U}_{2\lambda}$ to the distinguishability of $H_i$ from $H_{i+1}$. By way of contradiction, suppose that $H_i \not\approx_c H_{i+1}$, meaning that there is a distinguisher $D_i$ such that:
             \[\abs{\Pr[D_i(z) = 1 : z \in_R H_i] - \Pr[D_i(z) = 1 : z \in_R H_{i+1}]} > \frac{1}{n^c}\]
             for some $c > 0$. Let $D$ be the algorithm defined as follows:
 
             $D$ = "On input $z \in \{0,1\}^{2\lambda}$:
 
             \begin{enumerate}
-                \item Extract $t-i$ keys $K_1, \ldots, K_{t-i} \in_R U_\lambda$
-                \item Extract $i-1$ strings $w_{1}, \ldots, w_{i-1} \in_R U_{2\lambda}$
+                \item Extract $t-i$ keys $K_1, \ldots, K_{t-i} \in_R \mathcal{U}_\lambda$
+                \item Extract $i-1$ strings $w_{1}, \ldots, w_{i-1} \in_R \mathcal{U}_{2\lambda}$
                 \item Return $D_i(G(K_1) \concat \ldots \concat G(K_{t-i}) \concat z \concat w_1 \concat \ldots \concat w_{i-1})$"
             \end{enumerate}
             
             We observe that $H_i$ and $H_{i+1}$ differ only on the $i$-th string of $2n$ bits: the former contains an output of $G$ while the latter contains a truly random strng. This implies that:
             \[\begin{split}
-                &\abs{\Pr[D(w) = 1 : w \in_R G(K_{t-i})] - \Pr[D(w) = 1 : w \in_R U_{2\lambda}]}\\
+                &\abs{\Pr[D(w) = 1 : w \in_R G(K_{t-i})] - \Pr[D(w) = 1 : w \in_R \mathcal{U}_{2\lambda}]}\\
                 = &\abs{\Pr[D_i(z') = 1 : z' \in_R H_i] - \Pr[D_i(z') = 1 : z' \in_R H_{i+1}]} \\
                 > &\frac{1}{n^c}
             \end{split}\]
@@ -1316,7 +1316,7 @@
         \end{proof}
          
         By transitivity of $\approx_c$, the claim concludes that:
-        \[(G(K_1), \ldots, G(K_t)) \equiv H_0 \approx_c \ldots \approx_c H_t \equiv (U_{2\lambda}, \ldots, U_{2\lambda})\]
+        \[(G(K_1), \ldots, G(K_t)) \equiv H_0 \approx_c \ldots \approx_c H_t \equiv (\mathcal{U}_{2\lambda}, \ldots, \mathcal{U}_{2\lambda})\]
     \end{proof}
 
     \begin{framedthm}{The GGM theorem}
@@ -1326,7 +1326,7 @@
     \begin{proof}
         Let $G : \{0,1\}^\lambda \to \{0,1\}^{2\lambda}$ be a PRG and let $G_0, G_1 : \{0,1\}^\lambda \to \{0,1\}^\lambda$ be the two functions such that $G(x) = G_0(x) \concat G_1(x)$. Let also $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^\lambda\}_{K \in \{0,1\}^\lambda}$ be the GGM function family.
 
-        Fix a key $K \in \{0,1\}^\lambda$. We proceed by induction on the length $n$ of the input. When $n = 1$ it holds that $F_K(x) = G_x(K)$. Since $U_{2\lambda} \approx_c G(K) \equiv (G_0(K), G_1(K))$, we know that $G_0(K) \approx_c U_\lambda$ and $G_1(K) \approx_c U_\lambda$. This concludes that, independently from the value of $x$, the output $F_K(x)$ is undistinguishable from a string taken from $U_\lambda$, making it undistinguishable from a random function taken from $\mathcal{R}(1 \to \lambda)$. 
+        Fix a key $K \in \{0,1\}^\lambda$. We proceed by induction on the length $n$ of the input. When $n = 1$ it holds that $F_K(x) = G_x(K)$. Since $\mathcal{U}_{2\lambda} \approx_c G(K) \equiv (G_0(K), G_1(K))$, we know that $G_0(K) \approx_c \mathcal{U}_\lambda$ and $G_1(K) \approx_c \mathcal{U}_\lambda$. This concludes that, independently from the value of $x$, the output $F_K(x)$ is undistinguishable from a string taken from $\mathcal{U}_\lambda$, making it undistinguishable from a random function taken from $\mathcal{R}(1 \to \lambda)$. 
 
         We now assume that the inductive hypothesis holds for $n-1$, i.e. that the GGM family $\mathcal{F} = \{F_K : \{0,1\}^{n-1} \to \{0,1\}^{\lambda}\}_{K \in \{0,1\}^\lambda}$ is a PRF. First, we observe that for each key $K \in \{0,1\}^\lambda$, for each $x \in \{0,1\}^n$ and for each $y \in \{0,1\}^{n-1}$ it holds that $F_K(x \concat y) = G_{x}(F_K'(y))$.
         
@@ -1360,7 +1360,7 @@
         \textbf{Claim 2}: $\mathrm{Hyb}_1 \approx \mathrm{Hyb}_2$
 
         \begin{proof}[Proof of Claim 2]
-            We reduce the distinguishability of $(G(K_1), \ldots, G(K_t))$ from $(U_{2\lambda}, \ldots, U_{2\lambda})$ to the distinguishability of $\mathrm{Hyb}_1$ from $\mathrm{Hyb}_2$. By way of contradiction, suppose that there is an algorithm $D_{12}$ that distinguishes $\mathrm{Hyb}_1$ from $\mathrm{Hyb}_{2}$
+            We reduce the distinguishability of $(G(K_1), \ldots, G(K_t))$ from $(\mathcal{U}_{2\lambda}, \ldots, \mathcal{U}_{2\lambda})$ to the distinguishability of $\mathrm{Hyb}_1$ from $\mathrm{Hyb}_2$. By way of contradiction, suppose that there is an algorithm $D_{12}$ that distinguishes $\mathrm{Hyb}_1$ from $\mathrm{Hyb}_{2}$
             For each string $w \in \{0,1\}^{2\lambda}$, let $w^0, w^1 \in \{0,1\}^{\lambda}$ denote the first and last $\lambda$ bits of $w$, i.e. $w = w^0 \concat w^1$. Let $A_{12}$ be the algorithm defined as follows:
 
             $A_{12}$ = "On input $z = z_1 \concat \ldots \concat z_t$ with $z_i \in \{0,1\}^{2\lambda}$:
@@ -1371,7 +1371,7 @@
                 \item When $D_{01}$ gives the final bit $b'$, $A_{01}$ returns $b'$
             \end{enumerate}
 
-            When $z_1, \ldots, z_t \in U_{2\lambda}$, all values returned by $A_{12}$ to $D_{12}$ will be truly random, making $D_{12}$ assume that the values are taken from the distribution $\mathrm{Hyb}_2$. When $z_1, \ldots, z_t \in G(U_{\lambda})$, instead, all values will be outputs of $G$, making $D_{12}$ assume that the values are taken from the distribution $\mathrm{Hyb}_1$. This concludes that $A_{12}$ is a distinguisher for $(G(K_1), \ldots, G(K_t))$ and $(U_{2\lambda}, \ldots, U_{2\lambda})$, contradicting \Cref{t_prg_uniform}.
+            When $z_1, \ldots, z_t \in \mathcal{U}_{2\lambda}$, all values returned by $A_{12}$ to $D_{12}$ will be truly random, making $D_{12}$ assume that the values are taken from the distribution $\mathrm{Hyb}_2$. When $z_1, \ldots, z_t \in G(\mathcal{U}_{\lambda})$, instead, all values will be outputs of $G$, making $D_{12}$ assume that the values are taken from the distribution $\mathrm{Hyb}_1$. This concludes that $A_{12}$ is a distinguisher for $(G(K_1), \ldots, G(K_t))$ and $(\mathcal{U}_{2\lambda}, \ldots, \mathcal{U}_{2\lambda})$, contradicting \Cref{t_prg_uniform}.
         \end{proof}
     \end{proof}
 
@@ -1480,7 +1480,7 @@
     \begin{frameddefn}{Cipher Block Chaining (CBC) mode}
         Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF. Let $K \in \{0,1\}^\lambda$ be a chosen key. On input $m = (m_1, \ldots, m_d)$ the CBC encryption mode returns the ciphertext $c = (c_1, \ldots, c_d)$ constructed as:
         \begin{itemize}
-            \item $c_0 \in_R U_n$ is a nonce value (IV)
+            \item $c_0 \in_R \mathcal{U}_n$ is a nonce value (IV)
             \item For all $i \in [d]$ it holds that $c_i = F_K(c_{i-1} \oplus m_i)$
         \end{itemize}
     \end{frameddefn}
@@ -1497,7 +1497,7 @@
     \begin{frameddefn}{Cipher Feedback (CFB) mode}
         Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF. Let $K \in \{0,1\}^\lambda$ be a chosen key. On input $m = (m_1, \ldots, m_d)$ the CFB encryption mode returns the ciphertext $c = (c_1, \ldots, c_d)$ constructed as:
         \begin{itemize}
-            \item $c_0 \in_R U_n$ is a nonce value (IV)
+            \item $c_0 \in_R \mathcal{U}_n$ is a nonce value (IV)
             \item For all $i \in [d]$ it holds that $c_i = F_K(c_{i-1}) \oplus m_i$
         \end{itemize}
     \end{frameddefn}
@@ -1513,7 +1513,7 @@
     \begin{frameddefn}{Output Feedback (OFB) mode}
         Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF. Let $K \in \{0,1\}^\lambda$ be a chosen key. On input $m = (m_1, \ldots, m_d)$ the OFB encryption mode returns the ciphertext $c = (c_1, \ldots, c_d)$ constructed as:
         \begin{itemize}
-            \item $q_0 \in_R U_n$ is a nonce value (IV)
+            \item $q_0 \in_R \mathcal{U}_n$ is a nonce value (IV)
             \item For all $i \in [d]$ it holds that $q_i = F_K(q_{i-1})$
             \item For all $i \in [d]$ it holds that $c_i = q_i \oplus m_i$
         \end{itemize}
@@ -1530,7 +1530,7 @@
     \begin{frameddefn}{Counter (CTR) mode}
         Let $\mathcal{F} = \{F_K : \{0,1\}^n \to \{0,1\}^n\}_{K \in \{0,1\}^\lambda}$ be a PRF. Let $K \in \{0,1\}^\lambda$ be a chosen key. On input $m = (m_1, \ldots, m_d)$ the CTR encryption mode returns the ciphertext $c = (c_0, c_1, \ldots, c_d)$ constructed as:
         \begin{itemize}
-            \item $r \in_R U_n$ is a nonce value (IV)
+            \item $r \in_R \mathcal{U}_n$ is a nonce value (IV)
             \item $c_0 = r$
             \item For all $i \in [d]$ it holds that $c_i = F_K(r+i-1) \oplus m_i$
         \end{itemize}
@@ -1555,7 +1555,7 @@
     \begin{proof}
         We prove the theorem only for CTR. Let $G(\lambda, b) := \mathrm{Game}^{\text{CPA}}_{\Pi,A}(\lambda,b)$, where $\Pi$ is a CTR mode scheme constructed through a PRF $\mathcal{F}$.
 
-        Recall that for $G(\lambda, b)$ the challenge is given by two messages $m_0^*, m_1^*$ such that $m_b^* = (m^*_{b,1}, \ldots, m^*_{b,d^*})$ and an answer $c^* = (c^*_0, c^*_1, \ldots, c^*_{d^*})$ such that $c^*_0 = r^* \in_R U_n$ and $c^*_i = F_K(r^*+i-1) \oplus m^*_{b,i}$.
+        Recall that for $G(\lambda, b)$ the challenge is given by two messages $m_0^*, m_1^*$ such that $m_b^* = (m^*_{b,1}, \ldots, m^*_{b,d^*})$ and an answer $c^* = (c^*_0, c^*_1, \ldots, c^*_{d^*})$ such that $c^*_0 = r^* \in_R \mathcal{U}_n$ and $c^*_i = F_K(r^*+i-1) \oplus m^*_{b,i}$.
 
         We define an hybrid distribution for both values of $b$. Let $H(\lambda, b)$ be the distribution obtained by replacing $F_K(\cdot) \in \mathcal{F}$ with $R(\cdot) \in \mathcal{R}(n \to n)$ in the game $G(\lambda, b)$ (in other words, we're using a random function $R$ for the encryption instead of $F_K$).
 
@@ -1580,9 +1580,9 @@
             If $b = 0$, $C$ will use a pseudorandom function to compute the outputs, thus $A$ will recognize that we're playing $G(\lambda, b)$, outputting $0$. If $b = 1$, $C$ will use a truly random function to compute the outputs, thus $A$ will recognize that we're playing $H(\lambda, b)$, outputting $1$. Therefore, $A'$ distinguishes $F_K$ from $R$ with non-negligible probability, contradicting the fact that $\mathcal{F}$ is a PRF.
         \end{proof}
 
-        Now, show that both $H(\lambda,0)$ and $H(\lambda, 1)$ are indistinguishable from $U_{n(d^*+1)}$, concluding the proof of the theorem through transitivity of $\approx_c$.
+        Now, show that both $H(\lambda,0)$ and $H(\lambda, 1)$ are indistinguishable from $\mathcal{U}_{n(d^*+1)}$, concluding the proof of the theorem through transitivity of $\approx_c$.
 
-        \textbf{Claim 2}: $H(\lambda, b) \approx_c U_{n(d^*+1)}$ for $b \in \{0,1\}$
+        \textbf{Claim 2}: $H(\lambda, b) \approx_c \mathcal{U}_{n(d^*+1)}$ for $b \in \{0,1\}$
 
         \begin{proof}[Proof of Claim 2]
             Consider the values $R(r^*), R(r^*+1), \ldots, R(r^*+d^*-1)$ computed during the challenge query of the game $H(\lambda, b)$. Similarly, consider the values $R(r^{(i)}), R(r^{(i)}+1), \ldots, R(r^{(i)}+d_i-1)$ computed during the encryption queries.
@@ -1592,11 +1592,11 @@
             Consider the conditioning over the event $B = 0$. When $B = 0$, the two sequences never overlap over each $i \in [t]$, which means that the challenge ciphertext is distributed as:
             \begin{itemize}
                 \item $c^*_0 = r^*$
-                \item $c^*_{j^*} = m^*_{b,{j^*}} \oplus u_{j^*}$ with $u_{j^*} \in_R U_n$ for $j^* \in [0,d^*-1]$
+                \item $c^*_{j^*} = m^*_{b,{j^*}} \oplus u_{j^*}$ with $u_{j^*} \in_R \mathcal{U}_n$ for $j^* \in [0,d^*-1]$
             \end{itemize}
 
-            which is indistinguishable from $U_{n(d^*+1)}$. As a consequence of this, we get that:
-            \[\mathrm{SD}(H(\lambda, b); U_{n(d+1)}) \leq \Pr[B = 1]\]
+            which is indistinguishable from $\mathcal{U}_{n(d^*+1)}$. As a consequence of this, we get that:
+            \[\mathrm{SD}(H(\lambda, b); \mathcal{U}_{n(d+1)}) \leq \Pr[B = 1]\]
 
             We're left with computing $\Pr[B = 1]$. Fix $i \in [t]$. Without loss of generality, assume that $d_i = d^* = t = q$. Since the event $B_i = 1$ holds when $r^*, r^*+1, \ldots, r^*+1-1$ overlaps with $r^{(i)}, r^{(i)}+1, \ldots, r^{(i)}+q-1$, this can happen only when:
             \[r^*-q+1 \leq r^{(i)} \leq r^* + q-1\]
@@ -1607,10 +1607,10 @@
             Finally, through the union bound we conclude that:
             \[\Pr[B = 1] \leq \sum_{i = 1}^{q} \Pr[B_i = 1] = \frac{q(2q-1)}{2^n}\]
 
-            thus $H(\lambda, b) \approx_c U_{n(d^*+1)}$.
+            thus $H(\lambda, b) \approx_c \mathcal{U}_{n(d^*+1)}$.
         \end{proof}
 
-        The two claims conclude that $G(\lambda,0) \approx_c H(\lambda, 0) \approx_c U_(n(d^*+1)) \approx H(\lambda, 1) \approx_c G(\lambda, 1)$.
+        The two claims conclude that $G(\lambda,0) \approx_c H(\lambda, 0) \approx_c \mathcal{U}_(n(d^*+1)) \approx H(\lambda, 1) \approx_c G(\lambda, 1)$.
     \end{proof}
 
     \section{UFCMA-security and universal hash families}
@@ -2175,7 +2175,7 @@
 
     Let $\mathrm{Game}_{\mathcal{H}, A}^{\text{CRH}}(\lambda)$ be the CRH game, defined as follows:
     \begin{enumerate}
-        \item The challenger sends a seed $s \in_R U_\lambda$
+        \item The challenger sends a seed $s \in_R \mathcal{U}_\lambda$
         \item The adversary returns two inputs $x,x' \in \mathcal{M}$ with $x \neq x'$
         \item If $h_s(x) = h_s(x')$, the adversary wins. Otherwise, the challenger wins.
     \end{enumerate}
@@ -2194,7 +2194,7 @@
             \node[] (8) [below of = 6]{};
 
             \path[every node/.style={font=\sffamily\small}]
-                (6) edge[swap, near start] node{$s \in_R U_\lambda$} (5)
+                (6) edge[swap, near start] node{$s \in_R \mathcal{U}_\lambda$} (5)
                 (7) edge[near start] node{$(x,x'), x \neq x'$} (8)
                 ;
         \end{tikzpicture}
@@ -2258,7 +2258,7 @@
     \end{framedprop}
 
     \begin{proof}
-        The idea is to basically reduce a collision for $\mathcal{H}_{MD}$ to a collision for $\mathcal{H}$. Fix a seed $s \in_R U_\lambda$. Assume that $x = (x_1, \ldots, x_d)$ and $x' = (x'_1, \ldots, x'_d)$ are two inputs such that $x \neq x'$ and $H_s(x) = H_s(x')$.
+        The idea is to basically reduce a collision for $\mathcal{H}_{MD}$ to a collision for $\mathcal{H}$. Fix a seed $s \in_R \mathcal{U}_\lambda$. Assume that $x = (x_1, \ldots, x_d)$ and $x' = (x'_1, \ldots, x'_d)$ are two inputs such that $x \neq x'$ and $H_s(x) = H_s(x')$.
 
         Given the partial computations $y_1, \ldots, y_d$ and $y'_1, \ldots, y'_d$, consider the largest index $i \in [d]$ such that $(x_i, y_{i-1}) \neq (x', y_{i-1})$  and $h_s(x_i, y_{i-1}) = h_s(x'_i, y'_i)$. Notice that such index always exists since $x \neq x'$ and $H_s(x) = H_s(x')$. Then, index the $i$-th application of $h_s$ gives a collision for $x_i \mid\mid y_{i-1} \neq x'\mid\mid y_{i-1}$ since $h_s(x_i \mid\mid y_{i-1}) = h_s(x'_i \mid\mid y'_i)$. Therefore, we can define a distinguisher for $\mathcal{H}$ using a distinguisher for $\mathcal{H}_{MD}$
     \end{proof}
@@ -2384,7 +2384,11 @@
 
     In practical applications (e.g. MD5, SHA-1, SHA-2), the Merkel-Damg\aa rd transform is adapted by replacing the initial CRH  family $\mathrm{H}$ with an heuristic equivalent (similar to what is done in DES, 3-DES and AES). In the theoretical setting, instead, the initial CRH family can indeed be constructed, but it requires additional \textit{number theoretic assumptions} (e.g. the hardness of factoring, discrete log) or \textit{post-quantum assumptions}. A middle-ground solution is obtained by using AES, where $h_s(x_1, x_2) = \mathrm{AES}(x_1, x_2) \oplus x_2$. The security of this last construction can be proven only by assuming that AES is an \textit{ideal cipher}, i.e. a truly random permutation for every choice of the key.
 
-    Hash functions are also used to build MACs. The HMAC scheme uses $\mathrm{Tag}(K, m) = H(K \mid\mid m)$, with $H$ being hash function. If $H(\cdot) \in \mathcal{R}(\ell(n) \to n)$, the HMAC scheme is secure. If $H$ is constructed through the Merkle-Damg\aa rd transform, the scheme can be broken. The study of cryptosystems under the usage of an ideal cipher is called \textbf{Random Oracle Model}.
+    Hash functions are also used to build MACs. The HMAC scheme uses $\mathrm{Tag}(K, m) = H(K \mid\mid m)$, with $H$ being hash function. Assuming that $H(\cdot) \in \mathcal{R}(\ell(n) \to n)$ and that it can be computed only by querying an oracle, the HMAC scheme is secure. If $H$ is constructed through the Merkle-Damg\aa rd transform, the scheme can be broken. The study of cryptosystems under the usage of an ideal cipher is called \textbf{Random Oracle Model (ROM)}.
+
+    \begin{framedass}{Random Oracle Model}
+        Given an hash function $H$, in the Random Oracle Model (ROM) we assume that $H$ is a truly random function and that it can be computed only through access to an oracle. 
+    \end{framedass}
 
     \section{Solved exercises}
 
@@ -2687,7 +2691,7 @@
 
     To close our discussion on the DL, CDH and DDH assumptions, let's talk about other ways in which they can be used for cryptography. We already saw that DDH $\to$ CDH $\to$ DL $\to$ OWF, from which we can then prolong our chain to get OWF $\to$ PRG $\to$ PRF $\to$ PRP $\to$ CRH, concluding that the DDH assumption is effectively enough to get secure symmetric encryption. Actually, we don't need to apply each construction of the full chain to get every single tool. In fact, each tool can be derived directly through the DDH assumption (or even the DL assumption).
     
-    Let's start by building a PRG. Consider any triple $(\G,g,q)$ for which the DDH assumption holds. We define a function $G_{\G,g,q} : \Z_q \to \G^3$ as $G_{\G,g,q}(x,y) = (g^x, g^y, g^{xy})$. Under the DDH assumption, we have that $G_{\G,g,q}(U_{\Z_q^2}) \approx_c (U_{\G}, U_{\G}, U_{\G}) \approx_c U_{\G^3}$. When $\G = \Z_q$, $G_{\G,g,q}$ becomes a PRG with strech 1. This construction can be further improved to a PRG $\G^t_{\G,g,q} : \Z_q^{t+1} \to \G^{2t+1}$ with stretch $t$, where:
+    Let's start by building a PRG. Consider any triple $(\G,g,q)$ for which the DDH assumption holds. We define a function $G_{\G,g,q} : \Z_q \to \G^3$ as $G_{\G,g,q}(x,y) = (g^x, g^y, g^{xy})$. Under the DDH assumption, we have that $G_{\G,g,q}(\mathcal{U}_{\Z_q^2}) \approx_c (\mathcal{U}_{\G}, \mathcal{U}_{\G}, \mathcal{U}_{\G}) \approx_c \mathcal{U}_{\G^3}$. When $\G = \Z_q$, $G_{\G,g,q}$ becomes a PRG with strech 1. This construction can be further improved to a PRG $\G^t_{\G,g,q} : \Z_q^{t+1} \to \G^{2t+1}$ with stretch $t$, where:
     \[\G^t_{\G,g,q}(x, y_1, \ldots, y_t) = (g^x, g^{y_1}, g^{xy_1}, g^{y_2}, g^{xy_2}, \ldots, g^{y_t}, g^{xy_t})\]
 
     Now, let's build a PRF. We already saw that PRFs can be constructed through the GGM tree using a PRG whose output can be nicely split in half. Copying this idea, we can construct a nice PRF with a closed form (thus we don't have to recursively compute the two halves of the PRG).
@@ -2714,7 +2718,7 @@
         By way of contradiction, suppose that there is an adversary $A^{\text{CRH}}_{\mathcal{H}_{\G,n}}$ that finds a collision with in $\mathcal{H}_{\G,n}$ with probability at least $n^{-c}$ for some $c > 0$. We define a new adversary $A^{\text{DL}}_{\G}$ as follows:
         \begin{enumerate}
             \item The challenger $C^{\text{DL}}_{\G}$ sends the input $(g,p,y)$ to $A^{\text{DL}}_{\G}$.
-            \item $A^{\text{DL}}_{\G}$ samples $i \in_R U_n$ and sets $g_i = y$
+            \item $A^{\text{DL}}_{\G}$ samples $i \in_R \mathcal{U}_n$ and sets $g_i = y$
             \item For each $j \in [n] - \{i\}$, $A^{\text{DL}}_{\G}$ samples $r_j \in_R \Z_q$ and sets $g_j = g^{r_j}$
             \item $A^{\text{DL}}_{\G}$ sends $(g_1, \ldots, g_n)$ to $A_{\mathcal{H}}^{\text{CRH}}$, which replies with $(x_1, \ldots, x_n)$ and $(x_1',\ldots, x_n')$ such that $(x_1, \ldots, x_n) \neq (x_1',\ldots, x_n')$
             \item $A^{\text{DL}}_{\G}$ returns $(x_i-x_i')^{-1} \sum_{j = 1 : j \neq i}^n r_j (x_j-x_j')$ to $C^{\text{DL}}_{\G}$
@@ -2730,11 +2734,12 @@
         Assuming that $x_i - x_i' \neq 0$, we get that:
         \[y = g^{(x_i-x_i')^{-1} \sum_{j = 1 : j \neq i}^n r_j(x_j-x_j')}\]
         
-        Observe that the probability of this assumption to be true is at least $1/n$ since $i \in_R U_n$ and $(x_1, \ldots, x_n) \neq (x_1', \ldots, x_n')$. Therefore, we conclude that:
+        Observe that the probability of this assumption to be true is at least $1/n$ since $i \in_R \mathcal{U}_n$ and $(x_1, \ldots, x_n) \neq (x_1', \ldots, x_n')$. Therefore, we conclude that:
         \[\Pr[A^{\text{DL}}_{\G}(g,p,y) = \alpha : \alpha \in_R \Z_q, y = g^\alpha] \geq \frac{1}{n} \frac{1}{n^{c}}\]
         contradicting the fact that the DL assumption holds in $\G$.
     \end{proof}
 
+    \addtocontents{toc}{\protect\newpage}
     \chapter{Public-key encryption}
 
     \section{The aymmetric key paradigm}
@@ -2861,7 +2866,7 @@
     Thanks to our theoretical background with SKEs, we can jump straight away into constructing PKE schemes using the above two games. Our first PKE scheme is the \textbf{ElGamal scheme}.
 
     \begin{framedalgo}{ElGamal PKE scheme}
-        Given a triple $(\G,g,q)$ where $\G$ is a cyclig group, $g \in \G$ is a generator and $q$ is the order of $g$ in $\G$, the ElGamal PKE scheme $\Pi = (\mathrm{KGen}, \mathrm{Enc}, \mathcal{Dec})$ is defined as follows:
+        Given a triple $(\G,g,q)$ where $\G$ is a cyclig group, $g \in \G$ is a generator and $q$ is the order of $g$ in $\G$, the ElGamal PKE scheme $\Pi = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ is defined as follows:
         \begin{itemize}
             \item $\mathrm{KGen}(g,q) = (pk, sk)$ where $pk = g^x$ and $sk = x$, for some  $x \in_R \Z_q$
             \item $\mathrm{Enc}(pk, m) = (c_1, c_2)$ where $c_1 = g^r$ and $c_2 = pk^r\cdot m$, for some $r \in_R \Z_q$
@@ -2890,4 +2895,363 @@
 
     The simplicity of the ElGamal scheme comes at a price since its CCA game can be easily broken: after receiving the challenge ciphertext $(c_1^*, c_2^*)$, we can query $\mathrm{Dec}(sk, (c_1^*, c_2^* \cdot \widehat m'))$ with a fresh message $m'$ and check if the answer is $m_0^*\widehat m'$ or $m_1^* \widehat m'$.
 
+    \section{RSA encryption and trapdoor permutations}
+
+    We study the computational security of the ever-famous Rivest-Shamir-Adleman (RSA) public-key encryption scheme. The original PKE construction was based on the hardness of factoring a number $n$ composed of two primes, i.e. finding the primes $p,q \in \Primes$ such that $n = pq$. As for the discrete-log problem, we state the hardness of factoring through a computational assumption, the \textbf{FACTORING assumption}.
+
+    \begin{framedass}{FACTORING assumption}
+        The FACTORING assumption states that:
+        \[\Pr[A(n) = (p,q) : p,q \in_R \Primes, n = pq] \leq \mathrm{negl}(\lambda)\]
+        for all PPT adversaries $A$ and for a chosen value $\lambda > 0$
+    \end{framedass}
+
+    \begin{framedalgo}{RSA PKE scheme}
+        The RSA PKE scheme $\Pi = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ is defined as follows:
+        \begin{itemize}
+            \item $ (pk, sk) \in_R \mathrm{KGen}(1^{\lambda})$ where $pk = (n,e)$ and $sk = (n,d)$, with $n = pq$ for two primes $p,q \in \Primes$ of approximately $\lambda$ bits and $e,d$ being each other's inverse in $\Z_{\varphi(n)}$, i.e. $ed \equiv 1 \pmod{\varphi(n)}$
+            \item $\mathrm{Enc}(pk, m) = m^e \pmod n$
+            \item $\mathrm{Dec}(sk, c) = c^d \pmod n$ 
+        \end{itemize}
+    \end{framedalgo}
+
+    The correctness of the RSA scheme comes from Euler's theorem, which we already discussed in the previous chapter. First, we observe that $\phi(n) = (p-1)(q-1)$. Second, we observe that $ed \equiv 1 \pmod{\phi(n)}$ implies that $ed = 1+k \phi(n)$ for some $k \in \Z$. Therefore, assuming $c = \mathrm{Enc}(pk, m)$, we have that:
+    \[\mathrm{Dec}(sk, c) = c^d \equiv (m^{ed}) \equiv m^{k\phi(n)+1} \equiv m(m^{\phi(n)})^k \equiv m \pmod{n}\]
+
+    It's easy to see that the scheme is not CPA-secure since the scheme is deterministic. To fix this, we encode the message $m$ into a string $\widehat m$ in a randomized -- but invertible -- fashion. The Public-key Cryptography Standard (PKCS) \#1.5 sets $\widehat m = m \mid\mid r$ with randomly chosen string $r$. Clearly, $r$ must have strictly more that $\Omega(\log \lambda)$ bits, otherwise we could just find it through bruteforce. Unfortunately, for real-world values of $r$ we can't prove the CPA-security of RSA even with PKCS \#1.5, except when $m \in \{0,1\}$. Nonetheless, this last result requires a stronger computational assumption about the RSA scheme itself.
+    
+    The RSA assumption states that RSA is a \textbf{trapdoor permutation (TDP)}. A trapdoor permutation is formed by two functions $f$ and $f^{-1}$ that work, respectively, with a public and a secret key.The first function is assumed to be a \textit{one-way function} even when the public key is known. The second function is an inverse of the first one, but it is must be efficiently computable only when the secret key is known (hence the name \textit{trapdoor}).
+
+    \begin{frameddefn}{Trapdoor permutation}
+        We say that a triple $(\mathrm{KGen}, f, f^{-1})$ with parameter $\lambda$ is a trapdoor permutation when:
+        \begin{itemize}
+            \item $(pk,sk) \in_R \mathrm{KGen}(1^\lambda)$, with $pk,sk \in \{0,1\}^\lambda$
+            \item $f : \{0,1\}^\lambda \times \{0,1\}^n \to \{0,1\}^n$ is a OWF
+            \item $f^{-1} : \{0,1\}^\lambda \times \{0,1\}^n \to \{0,1\}^n$ is such that $f^{-1}(sk, f(pk, x)) = x$ for all $x \in \{0,1\}^n$
+            \item $f^{-1}(K, x)$ is efficiently computable only when $K = sk$ 
+        \end{itemize}
+    \end{frameddefn}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.6]{images/tdp.png}
+        \caption{Graphical representation of a trapdoor permutation.}
+    \end{figure}
+
+    \begin{framedass}{RSA assumption}
+        The RSA PKE scheme is a trapdoor permutation.
+    \end{framedass}
+
+    It's easy to see that the RSA assumption implies the FACTORING assumption: if we could easily solve factoring, we could also easily break RSA by finding the two primes $p,q$ forming $n$. From trapdoor permutations we can easily construct CPA-secure PKE schemes using the hard-core predicate of the encrypting function.
+
+    \begin{framedthm}{}
+        Let $(\mathrm{KGen}, f, f^{-1})$ be a TDP. Given the hard-core predicate $h$ of $f$, let $\Pi = (\mathrm{KGen}, \mathrm{Enc},$ $\mathrm{Dec})$ be the PKE defined by:
+        \[\mathrm{Enc}(pk, m) = (f(pk, r), h(pk, r) \oplus m )\]
+        \[\mathrm{Dec}(sk, (c_0, c_1)) = c_1 \oplus h(pk, f^{-1}(sk, c_0))\]
+
+        with $m \in \{0,1\}$. Then, $\Pi$ is CPA-secure.
+    \end{framedthm}
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+
+    We also observe that PKE CPA-secure schemes for one bit can be extended to a polynomial amount of bits. Therefore, the RSA assumption and the above TDP construction implies that we can achieve CPA-secure public-key encryption. But what about CCA-security? The PKCS \#2.0 uses a different encoding to achieve this in \textbf{Optimal Asymmetric Encryption Padding (OAEP)}. The idea is very similar to a 2-layer Feistel network using two different hash functions $H, H'$ on $m\mid\mid r$, with $r$ is chosen uniform-at-random. The CCA-security of this scheme can be proven only under the RSA assumption and in the \textit{Random Oracle Model (ROM)}: $H,H'$ are assumed to be truly random hash functions and they can be computed \underline{only} by querying an oracle.
+
+    \begin{framedalgo}{OAEP PKE scheme}
+        Let $\Pi_{\text{RSA}}= (\mathrm{KGen}', \mathrm{Enc}', \mathrm{Dec}')$ be the RSA PKE and $H,H'$ be two hash functions. The OAEP PKE scheme $\Pi_{\text{OAEP}} = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ is defined as follows:
+        \begin{itemize}
+            \item Fix $\lambda_1, \lambda_2 \in \N$ and sample $r \in_R \{0,1\}^\lambda$
+            \item Let $s = m \mid\mid 0^{\lambda_1} \oplus H(r)$ and $t = r \mid\mid H'(s)$
+            \item $\mathrm{Enc}(pk, m) = (s \mid\mid t)^e$, with $pk = (n,e)$ being the RSA public key
+        \end{itemize}
+    \end{framedalgo}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=1]{images/oaep.pdf}
+        \caption{The OAEP scheme.}
+    \end{figure}
+
+    \begin{framedthm}{}
+        The OAEP PKE scheme is CCA-secure under the RSA assumption in the ROM.
+    \end{framedthm}
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+
+    \section{Digital signatures}
+
+    After proving that CCA-security is achievable also for public-key cryptography, we're left with constructing the equivalent of MACs for PKEs. In the context of asymmetric encryption, we talk about \textbf{Digital Signatures (DS)} schemes. The critical difference between MACs and DSs is that the signature is \underline{publicly verifiable}: we don't need to know the key that was used for tagging. This gives birth to a some-what mirror concept of public-key encryption were we use the secret key to sign the message and then use the public key to verify it, instead of using the public key for encryption and the secret key for decryption.
+    
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=1cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+            \node[] (1) []{Alice};
+            \node[draw, rectangle, minimum width=40] (2) [right of = 1, xshift = 75]{$\mathrm{Sign}(sk,m)$};
+            \node[] (x) [right of = 2, xshift = 50]{};
+            \node[draw, rectangle, minimum width=40] (3) [right of = x, xshift = 50]{$\mathrm{Vrfy}(pk,\sigma)$};
+            \node[] (4) [right of = 3, xshift = 75]{Bob};
+            \node[] (5) [below of = x, yshift = -10]{$(pk,sk)$};
+            \node[] (6) [below of = 2, yshift = -10]{};
+            \node[] (7) [below of = 3, yshift = -10]{};
+
+            \path[every node/.style={font=\sffamily\small}]
+                (1) edge node{$m$} (2)
+                (2) edge[-] node{$(m,\sigma)$} (x.center)
+                (x.center) edge (3)
+                (3) edge node{$0/1$} (4)
+                (5) edge[-] (6.center)
+                (5) edge[-] (7.center)
+                (6.center) edge (2)
+                (7.center) edge (3)
+                ;
+        \end{tikzpicture}
+
+        \caption{Example of digital signature.}
+    \end{figure}
+
+    Just like MACs, digital signatures are used to authenticate a message to guarantee its integrity. Moreover, the asymmetric paradigm allows us to form some sort of hierarchy of authentications. If Alice wants to know Bob's public key without being subject of a man-in-the-middle attack, they can ask the key to the \textit{Certificate Authority (CA)} to which Bob previously sent his key in an authenticated manner. The idea here is that the CA is also authenticated by another CA of \curlyquotes{higher grade}, which is also authenticated by a CA of higher grade and so on and so forth, until we reach a final CA with the highest grade of authority (usually, a physical entity subject to very strict regulations). This is known as the Public Key Infrastructure (PKI).
+
+    The simplest digital signature scheme can be constructed through RSA itself. The idea is to use the decryption function as the signing function and the encryption function as the verifying function. This process simple idea works thanks to how the public and secret key are inverse of each other: we don't care about the order of application.
+
+    \begin{framedalgo}{RSA DS scheme}
+        The RSA DS scheme $\Pi = (\mathrm{KGen}, \mathrm{Sign}, \mathrm{Vrfy})$ is defined as follows:
+        \begin{itemize}
+            \item $ (pk, sk) \in_R \mathrm{KGen}(1^{\lambda})$ where $pk = (n,e)$ and $sk = (n,d)$, with $n = pq$ for two primes $p,q \in \Primes$ of approximately $\lambda$ bits and $e,d$ being each other's inverse in $\Z_{\varphi(n)}$, i.e. $ed \equiv 1 \pmod{\varphi(n)}$
+            \item $\mathrm{Sign}(sk, m) = (m, m^d \pmod n)$
+            \item $\mathrm{Vrfy}(pk, (m, \sigma)) = 1$ if $m \equiv \sigma^e \pmod n$ and $0$ otherwise.
+        \end{itemize}
+    \end{framedalgo}
+
+    For the computational security of digital signatures, we still use the concept of UFCMA-security. Similarly to what we did with CPA-security and CCA-security, the UFCMA game for PKEs is identical to the one for SKEs, with the addition of an initial message sent by the challenger containing the public key. 
+    
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=1cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+            \node[] (1) []{$A$};
+            \node[] (2) [left of = 1, xshift = 225]{$C$};
+
+            \node[] (1t) [below of = 1]{};
+            \node[] (2t) [below of = 2]{};
+
+            \node[] (3) [below of = 1t]{};
+            \node[] (4) [below of = 2t]{};
+
+            \node[] (5) [below of = 3]{};
+            \node[] (6) [below of = 4]{};
+
+            \node[] (7) [below of = 5]{};
+            \node[] (8) [below of = 6]{};
+
+            \path[every node/.style={font=\sffamily\small}]
+                (2t) edge[swap, near start] node{$pk$} (1t)
+                (5) edge[bend left] node {$\poly(\lambda)$}(3)
+                (3) edge[near start] node{$m_i \in \{0,1\}^\lambda$} (4)
+                (6) edge[swap, near start] node{$\tau_i = \mathrm{Tag}(K, m_i)$} (5)
+                (7) edge[near start] node{$m^*, \tau^* \in \{0,1\}^\lambda$} (8)
+                ;
+        \end{tikzpicture}
+
+        \caption{Graphical representation of $\mathrm{Game}^{\text{UFCMA}}_{\Pi, A}(\lambda)$ for PKEs}
+    \end{figure}
+    
+    It's easy to see that the standard RSA digital signature is not UFCMA-secure. Given two messages $m_1$ and $m_2$, let $\sigma_1$ and $\sigma_2$ be their signatures under RSA. Now, observe that:
+    \[(\sigma_1 \sigma_2)^e \equiv \sigma_1^e \sigma_2^e \equiv m_1 m_2 \pmod n \]
+    
+    Therefore, an adversary can just query $m_1, m_2$ and then send the challenge pair $(m_1m_2, \sigma_1\sigma_2)$ to win with probability 1. Nonetheless, we can fix this issue with a simple trick: we can hash each message before signing it. Even more generally, we can use a trapdoor permutation instead of the RSA scheme. This is known as the \textbf{Full-Domain Hash (FDH)} signature scheme.
+
+    \begin{framedalgo}{FDH DS scheme}
+        Let $(\mathrm{KGen}, f, f^{-1})$ be a TDP and let $H$ be an hash function. The Full-Domain Hash (FDH) DS scheme $\Pi_{\text{FDH}} = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ is defined as follows:
+        \begin{itemize}
+            \item $(pk, sk) \in_R \mathrm{KGen}(1^{\lambda})$ where $pk = (n,e)$ and $sk = (n,d)$, with $n = pq$ for two primes $p,q \in \Primes$ of approximately $\lambda$ bits and $e,d$ being each other's inverse in $\Z_{\varphi(n)}$, i.e. $ed \equiv 1 \pmod{\varphi(n)}$
+            \item $\mathrm{Sign}(sk, m) = f^{-1}(sk, H(s))$
+            \item $\mathrm{Vrfy}(pk, (m, \sigma)) = 1$ if $H(m) = f(pk, \sigma)$ and $0$ otherwise.
+        \end{itemize}
+    \end{framedalgo}
+
+    \begin{framedthm}{}
+        The FDH signature scheme is UFCMA-secure in the ROM when constructed through a TDP.
+    \end{framedthm}
+
+    \begin{proof}
+        This will be our first proof in the Random Oracle Model. We recall that in the ROM the hash function $H$ is assumed to be truly random and that an attacker may compute it only through queries to an oracle.
+        
+        Let $\Pi = (\mathrm{KGen}, \mathrm{Sign}, \mathrm{Vrfy})$ be the FDH scheme constructed through a TDP $(\mathrm{KGen}, f, f^{-1})$. We build a reduction from the distinguishability of the UFCMA game of $\Pi$ to the OWF security of $f$. By way of contradiction, suppose that there is an adversary $A^H$ that distinguishes the UFCMA game of $\Pi$ with probability at least $n^{-c}$ for some $c > 0$, where $A^H$ also makes RO queries for $H$. We build a new adversary $A$ as follows:
+        \begin{enumerate}
+            \item $A$ will substitute the oracle for $H$, answering $A^H$ RO queries.
+            \item The challenger $C$ sends the pair $(pk, y)$ to $A$, who then forwards $pk$ to $A$
+            \item $A^H$ tells $A$ that they will make $q = \poly(\lambda)$ RO queries. 
+            \item $A$ samples $j \in_R \mathcal{U}_{q_h}$ and sets $H'$ as the function such that $H'(m_i) = y$ when $i = j$ and $H(m_i) = f(pk, x_i)$, for $x_i \in_R \mathcal{U}_n$, when $i \neq j$
+            \item $A^H$ starts the RO queries. For each query $m_i$, $A$ will answer with $y_i = H'(m_i)$. One of these RO queries will be for the future challenge message $m^*$, meaning that $m^* = m_{i^*}$ for some $i^* \in [q]$, but $A$ doesn't know which one 
+            \item $A^H$ starts the sign queries. For each previously queried $m_i$ such that $m_i \neq m^*$, $A^H$ queries the signature of $m_i$ to $A$, which replies with $x_i$ if $i \neq j$ and with ABORT when $i = j$.
+            \item After receiving the ABORT message, $A^H$ sends the challenge pair $(m^*, \sigma^*)$ to $A$, who then forwards $\sigma^*$ to $C$
+        \end{enumerate}
+
+        We observe that if the signature $\sigma^*$ sent by $A^H$ is valid then $\sigma^*$ is a pre-image of $y^* = H'(m^*)$. Therefore, the main trick of the reduction is to enforce with good enough probability that $y^* = y$. This is true if and only if $j = i^*$, which happens with probability $1/q$. If $j$ is guessed correcly by $A$, $A^H$ will find $y$ with non-negligible probability. Therefore, we conclude that:
+        \[\Pr[A \text{ wins}] = \Pr[j = i^*] \Pr[A^H \text{ wins } \mid j = i^*] > \frac{1}{q n^c}\]
+    \end{proof}
+
+    \chapter{Identification schemes}
+
+    \section{$\Sigma$-protocols and zero-knowledge proofs}
+
+    An \textbf{identification scheme} is a protocol whereby Peggy the Prover proves to Victor the Verifier that she is indeed who she says she is. In practice, Peggy's identity is encoded in a private key $a$ and a public key $y$. The protocol takes the form of Peggy proving to Victor that she has knowledge of the private key $a$. For instance, suppose that private key is a value $a \in \Z_{p-1}$ and that the public key $y$ is such that $y \equiv x^a \pmod p$ for some $x \in \Z_p$ with $p \in \Primes$. Peggy can prove her to Victor by demonstrating that she knows the discrete logarithm of $y$ to the base $x$.
+
+    In order for an identification scheme to be a valid method of identification, we require that Peggy must be able to always convince the Victor of her rightfulness (\textbf{perfect correctness}), even when they act through random choices -- meaning that they are PPT algorithms. This requirement translates to making Victor accept with probability 1 for each possible exchange of messages, namely a \textit{transcript}. We denote the set of all transcripts between a prover  $P$ and a verifier $V$ with $P(pk, sk) \rightleftarrows V(pk)$.
+    
+    \begin{frameddefn}{Identification scheme}
+        We say that a triple $\Pi = (\mathrm{KGen}, P, V)$ is an identification scheme (IDS) when:
+        \begin{itemize}
+            \item $(pk,sk) \in_R \mathrm{KGen}(1^\lambda)$, with $pk,sk \in \{0,1\}^\lambda$
+            \item $P$ and $V$ are two PPT algorithms, called prover and verifier, such that $P(pk,sk)$ tries to prove to $V(pk)$ that it knows $sk$
+            \item $P(pk, sk) \rightleftarrows V(pk)$ denotes the set of all transcripts, i.e. sequences of messages, between $P(pk, sk)$ and $V(pk)$
+            \item $\mathrm{out}(P(pk, sk) \rightleftarrows V(pk))$ is a r.v. such that $\mathrm{out}(P(pk, sk) \rightleftarrows V(pk))(\tau) = 1$ when $\tau$ is a transcript that convinces $V$ and $0$ otherwise
+            \item \textit{Perfect correctness}: for all $\lambda \in \N$ and for all $(pk,sk)$ it holds that:
+            \[\Pr[\mathrm{out}(P(pk, sk) \rightleftarrows V(pk)) = 1] = 1\]
+            meaning that the prover always convinces the verifier with probability 1
+        \end{itemize}
+    \end{frameddefn}
+
+
+    We observe that Peggy \underline{cannot} simply tell Victor that the value is $a$ to prove her identity in a secure way since $a$ is her private key, meaning that he could impersonate her in the future. A viable identification scheme must prevent this from happening; we require that Victor can't impersonate Peggy even if she proves her identity to him polynomially many times (\textbf{passive security}). Differently from the other constraint, this one can be enforced through a game. Let $\mathrm{Game}_{\Pi, A}^{\text{ID}}(\lambda)$ be the 2-player game defined as follows:
+    \begin{enumerate}
+        \item The adversary $A = (A_1, A_2)$ is composed of two separate algorithms.
+        \item The challenger $C$ generates a key pair $(pk, sk)$ and sends $pk$ to the adversary $A$
+        \item $A$ makes $q = \poly(\lambda)$ transcript queries to $C$, which replies with $\tau_1, \ldots, \tau_q \in_R P(pk, sk) \rightleftarrows V(pk)$
+        \item $A$ computes $A_1(\tau_1, \ldots, \tau_q) = s$, where $s$ is a \curlyquotes{state}
+        \item $A$ samples $\tau^* \in_R A_2(s, pk) \rightleftarrows V(pk)$
+        \item $A$ wins if $\mathrm{out}(P(pk, sk) \rightleftarrows V(pk))(\tau^*) = 1$, otherwise $C$ wins
+    \end{enumerate}
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=1cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+            \node[] (1) []{$A$};
+            \node[] (2) [left of = 1, xshift = 225]{$C$};
+
+            \node[] (1t) [below of = 1]{};
+            \node[] (2t) [below of = 2]{};
+
+            \node[] (3) [below of = 1t]{};
+            \node[] (4) [below of = 2t]{};
+
+            \node[] (5) [below of = 3]{};
+            \node[] (6) [below of = 4]{};
+
+            \node[] (7) [below of = 5]{};
+            \node[] (8) [below of = 6]{};
+
+            \path[every node/.style={font=\sffamily\small}]
+                (2t) edge[swap, near start] node{$pk$} (1t)
+                (5) edge[bend left] node {$\poly(\lambda)$}(3)
+                (3) edge[near start] node{$\varnothing$} (4)
+                (6) edge[swap, near start] node{$\tau_i \in_R P(pk, sk) \rightleftarrows V(pk)$} (5)
+                (7) edge[] node{$\tau^* \in_R A_2(A_1(\tau_1, \ldots, \tau_q), pk) \rightleftarrows V(pk)$} (8)
+                ;
+        \end{tikzpicture}
+
+        \caption{Graphical representation of $\mathrm{Game}_{\Pi, A}^{\text{ID}}(\lambda)$.}
+    \end{figure}
+
+    \begin{frameddefn}{Passive security for IDSs}
+        Let $\Pi = (\mathrm{KGen}, P, V)$ be an IDS. We say that $\Pi$ has passive security if:
+        \[\Pr[\mathrm{Game}_{\Pi, A}^{\text{ID}}(\lambda) = 1] \leq \mathrm{negl}(\lambda)\]
+        for all PPT adversaries $A$
+    \end{frameddefn}
+
+    By definition of the game itself, proving that an IDS has passive security is really hard. Similarly to what we did for CCA-security, we'll prove a result that allows us to get passive security from simpler properties. 
+
+    We will work with a particular type of identification schemes, called \textbf{$\Sigma$-protocols}. In these IDS we add a constraint on the length of the transcripts: only 3 messages are allowed before $V$ declares the output (2 from the prover and 1 from the verifier). Each message is randomized for both parties (\textit{3-move public coins protocol}). Moreover, we also want the first message of the prover to be hard to guess to avoid trivial protocols.
+
+    \begin{frameddefn}{$\Sigma$-protocols}
+        We say that a triple $\Pi = (\mathrm{KGen}, P, V)$ is a $\Sigma$-protocol when:
+        \begin{itemize}
+            \item $\Pi$ is an identification scheme where $P = (P_1, P_2)$ and $V = (V_1, V_2)$
+            \item The transcriptions have three randomized messages $\alpha,\beta,\gamma$:
+            \begin{enumerate}
+                \item The prover sends $\alpha \in_R P_1(pk,sk)$
+                \item The verifier answers with $\beta \in_R V_1(pk, \alpha)$
+                \item The prover replies with $\gamma \in_R P_2(pk, sk, \alpha, \beta)$
+                \item The verifier outputs $V_2(pk, sk, \alpha, \beta, \gamma)$
+            \end{enumerate} 
+            \item \textit{Non-triviality}: it's hard to predict the first message:
+            \[\forall \widehat \alpha \; \forall (pk, sk) \; \Pr[\alpha = \widehat \alpha] \leq \mathrm{negl}(\lambda)\]
+        \end{itemize}
+    \end{frameddefn}
+    
+    We give an example of a standard $\Sigma$-protocol, that is \textbf{Schnorr's protocol}.
+
+    \begin{framedalgo}{Schnorr's $\Sigma$-protocol}
+        The Schnorr $\Sigma$-protocol $\Sigma_{\text{Schorr}} = (\mathrm{KGen}, \mathrm{Sign}, \mathrm{Vrfy})$ is defined as follows:
+        \begin{itemize}
+            \item $(\G, g, q)$ are the protocol parameters, where $\G$ is a cyclic group generated by $g \in \G$ with order $q$
+            \item $(pk, sk) \in_R \mathrm{KGen}(1^{\lambda})$ where $pk = g^x$ and $s_k = x$, with $x \in_R \Z_q$
+            \item The transcripts are given by:
+            \begin{enumerate}
+                \item $P_1(pk,sk) = \alpha$ such that $\alpha = g^a$ for some $a \in_R \Z_q$
+                \item $V_1(pk, \alpha) = \beta$ such that $\beta \in_R \Z_q$
+                \item $P_2(pk,sk,\alpha, \beta) = \gamma$ such that $\gamma = \beta x + \alpha$
+                \item $V_2(pk, \alpha, \beta, \gamma) = 1$ if $g^\gamma = \alpha (pk)^{\beta}$ and $0$ otherwise
+            \end{enumerate}
+        \end{itemize}
+    \end{framedalgo}
+
+    Through some algebraic manipulation, we can show that this protocol has perfect correctness. First, we observe that:
+    \[g^\gamma = g^{\beta x + \alpha} = \alpha (pk)^\beta\]
+
+    Then, we observe the fact that $\gamma$ can be correctly computed if and only if the prover $P$ really knows the value $x$ of the secret key. After some tought, we can also convince ourselves of the protocol's non-leakage of the secret key. In fact, Schnorr's protocol also satisfies passive security and non-triviality, meaning that it is in fact a $\Sigma$-protocol.
+
+    To show the passive security of this protocol, we have to introduce two stronger properties that when summed up give passive security as a natural byproduct: \textbf{Honest-verifier Zero-knowledge (HVZK)} and \textbf{Special Soundness (SS)}. The first property tells us that real transcripts computed by the protocol are computationally indistinguishable from \textit{simulated transcripts} produced by an simulation algorithm. In other words, the transcripts don't give any information to the verifier.
+
+    \begin{frameddefn}{Honest-verifier Zero-knowledge}
+        Let $\Pi = (\mathrm{KGen}, P, V)$ be an IDS. We say that $\Pi$ has Honest-verifier Zero-knowledge (HVZK) if:
+        \[(pk, sk, \mathrm{Sim}(pk)) \approx_c (pk,sk P(pk,sk) \rightleftarrows V(pk))\]
+        for some PPT simulator $\mathrm{Sim}$
+    \end{frameddefn}
+
+    \begin{framedprop}{}
+        Schnorr's protocol has HVZK.
+    \end{framedprop}
+
+    \begin{proof}
+        Consider $\Sigma_{\text{Schnorr}} = (\mathrm{KGen}, P, V)$ and let $\mathrm{Sim}$ be the such that $\mathrm{Sim}(pk) = (\alpha', \beta', \gamma')$, where $\beta',\gamma' \in_R \Z_q$ and $\alpha' = g^{\gamma'} (pk)^{-\beta'}$.Given the value $a'= \gamma'-\beta' x$, we observe that $\alpha' =  g^{\gamma'-\beta' x} = g^{a'}$.
+        
+        Consider now a transcript $(\alpha, \beta, \gamma) \in_R P(pk,sk) \rightleftarrows V(pk)$. Since $\gamma = \beta x + \alpha$ and $a \in_R \Z_q$, we get that $(\alpha', \beta', \gamma')$ and $(\alpha, \beta, \gamma)$ have the same probability since the first and third element of both distributions constrain other in the same way.
+    \end{proof}
+
+    The second property, instead, is restricted only to $\Sigma$-protocols and it describes the impossibility of an adversary to forge valid transcripts starting from the same initial message $\alpha$ sent by $P_1$. Let $\mathrm{Game}_{\Pi, A}^{\text{SS}}(\lambda)$ be the 2-player game defined as follows:
+    \begin{enumerate}
+        \item The challenger $C$ generates $(pk, sk)$ and sends $pk$ to the adversary $A$
+        \item $A$ returns two transcripts $\tau = (\alpha, \beta, \gamma)$ and $\tau' = (\alpha, \beta', \gamma')$
+        \item $A$ wins if $\beta \neq \beta'$ and $V_2(p_k, \alpha, \beta, \gamma) = V_2(p_k, \alpha, \beta', \gamma') = 1$
+    \end{enumerate}
+
+    \begin{frameddefn}{Special Soundness}
+        Let $\Sigma = (\mathrm{KGen}, P, V)$ be a $\Sigma$-protocol. We say that $\Sigma$ has special soundness if:
+        \[\Pr[\mathrm{Game}_{\Pi, A}^{\text{SS}}(\lambda) = 1] \leq \mathrm{negl}(\lambda)\]
+        for all PPT adversaries $A$
+    \end{frameddefn}
+
+    \begin{framedprop}{}
+        Schnorr's protocol has special soundness under the DL assumption.
+    \end{framedprop}
+
+    \begin{proof}
+        Consider $\Sigma_{\text{Schnorr}} = (\mathrm{KGen}, P, V)$. By way of contradiction, suppose that there is a distinguisher $A$ for the SS of $\Sigma_{\text{Schnorr}}$. Suppose that $A$ finds two transcripts $\tau = (\alpha, \beta, \gamma)$ and $\tau' = (\alpha, \beta', \gamma')$ such that $\beta \neq \beta'$ and $V_2(p_k, \alpha, \beta, \gamma) = V_2(p_k, \alpha, \beta', \gamma') = 1$. Then, we have that:
+        \[g^{\gamma-\gamma'} = \alpha(pk)^{\beta} \alpha^{-1} (pk)^{-\beta'} \iff g^{\gamma-\gamma'} = (g^x)^{\beta- \beta} \iff g^x = g^{(\gamma-\gamma')(\beta-\beta')^{-1}}\]
+
+        Therefore, we can build a new distinguisher $A'$ through $A$ that computes $x$ from $g^x$ with non-negligible probability.
+    \end{proof}
+
+    \begin{framedthm}{HVZK$+$SS implies passive security}
+        Let $\Sigma = (\mathrm{KGen}, P, V)$ be a $\Sigma$-protocol. Then, $\Sigma$ has passive security if has HVZK and special soundness.
+    \end{framedthm}
+
+    \begin{proof}
+        To do.
+    \end{proof}
 \end{document}

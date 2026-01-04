@@ -112,7 +112,7 @@ Disclaimers ⚠️
 | Models of Computation [ !! ] | - | - |
 | [Quantum Computing](https://raw.githubusercontent.com/aflaag-notes/quantum-computing/main/src/Quantum%20Computing.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 | [Network Algorithms](https://raw.githubusercontent.com/aflaag-notes/network-algs/main/src/Network%20Algorithms.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
-| [Autonomous Networking](https://raw.githubusercontent.com/loresaba/scritti-di-informatica/refs/heads/master/master/first%20year/autonomous_networking/autonomous_netwoking.pdf) | Written by [@loresaba] | - |
+| [Autonomous Networking](https://raw.githubusercontent.com/loresaba/scritti-di-informatica/refs/heads/master/master/first%20year/autonomous_networking/autonomous_netwoking.pdf) | Written by [@loresaba](https://github.com/loresaba) | - |
 | [Computer Network Performance](../../raw/main/Master/Computer%20Network%20Performance/Computer%20Network%20Performance.pdf) | Completed | 05/12/2025 |
 | Internet of Things | - | - |
 | [Distributed Systems](../../raw/main/Master/Distributed%20Systems/Distributed%20Systems.pdf) | Only exercises | 13/11/2025 |

@@ -479,7 +479,7 @@
 
     We notice that the condition $(S, \mathrm{Ext}(S,X)) \sim_{\varepsilon} (S, \mathcal{U}_\ell)$ implies that the seed must be \textit{public}. This requirement is forced in order to avoid trivial extractors such as $\mathrm{Ext}(S,X) = S$. The idea is to use a source of randomness with high min-entropy in order to force that the output of a \curlyquotes{good} hash function is statistically close to uniform -- even if the input seed wasn't. This result is known as the \textbf{left-over hash lemma}.
     
-    The goodness of the hash functions is measured in terms of \textbf{low collision probability}, defined as the expected value that a random variable $Y$ over a set $\mathcal{Y}$ and a copy $Y'$ of $Y$, giving two i.i.d (identical and independend distributions) variables, return the same result:
+    The goodness of the hash functions is measured in terms of \textbf{low collision probability}, defined as the probability that a random variable $Y$ over a set $\mathcal{Y}$ and a copy $Y'$ of $Y$ return the same result:
     \[\mathrm{Col}(Y) = \Pr[Y = Y']\]
 
     In particular, we observe that since $Y$ and $Y'$ are i.i.d. we get that:
@@ -1059,7 +1059,7 @@
 
             $D$ = "On input $z \in \{0,1\}^{\lambda+\ell}$.
             \begin{enumerate}
-                \item $D$ challenges $A'$ to play $\mathrm{Hyb}(\lambda, b)$ (thus $D$ is the challenger and $A'$ is the adversary). $D$ will use $z$ to compute $m_b \oplus z = c$ instead of choosing a random string.
+                \item $D$ challenges $A'$ to play the 1-time game (thus $D$ is the challenger and $A'$ is the adversary). $D$ will use $z$ to compute $m_b \oplus z = c$ instead of choosing a random string.
                 \item $D$ accepts if $A'$ wins, otherwise $D$ rejects."
             \end{enumerate}
 
@@ -2007,7 +2007,7 @@
         \begin{proof}[Proof of Claim 1.]
             By way of contradiction, suppose that there is an adversary $A'$ such that $\mathrm{Game}_{\Pi', A'}^{\text{CPA}}(\lambda,0) \not\approx_c \mathrm{Game}_{\Pi', A'}^{\text{CPA}}(\lambda,1)$. We define a new adversary $A_1$ to distinguish $\mathrm{Game}_{\Pi_1, A_1}^{\text{CPA}}(\lambda,0)$ from $\mathrm{Game}_{\Pi_1, A_1}^{\text{CPA}}(\lambda,1)$:
             \begin{enumerate}
-                \item $A_1$ picks a key $K_2 \in_R \mathcal{K_2}$. This key will be used to compute tags (observe that the challenger $C_1$ also picks a key $K_1 \in_R \mathcal{K_1}$, which will be used for encryptions)
+                \item $A_1$ picks a key $K_2 \in_R \mathcal{K}_2$. This key will be used to compute tags (observe that the challenger $C_1$ also picks a key $K_1 \in_R \mathcal{K}_1$, which will be used for encryptions)
                 \item $A_1$ starts the CPA game both with $A'$ and $C_1$
                 \item Each encryption query $m_i$ from $A'$ to $A_1$ is forwarded to $C_1$, which replies with the ciphertext $c_i$
                 \item Upon receiving $c_i$, $A_1$ computes $\mathrm{Tag}(K_2, c_i) = \tau_i$ and returns $(c_i, \tau_i)$ to $A'$
@@ -2025,7 +2025,7 @@
         \begin{proof}[Proof of Claim 2.]
             By way of contradiction, suppose that there is an adversary $A''$ such that $\Pr[\mathrm{Game}_{\Pi', A''}^{\text{INT}}(\lambda) = 1] \geq \lambda^{-c}$ for some $c > 0$. We define a new adversary $A_2$ such that $\Pr[\mathrm{Game}_{\Pi_2, A_2}^{\text{SUFCMA}}(\lambda) = 1] \geq \lambda^{-c}$:
             \begin{enumerate}
-                \item $A_2$ picks a key $K_1 \in_R \mathcal{K_1}$. This key will be used to compute encryptions (observe that the challenger $C_2$ also picks a key $K_2 \in_R \mathcal{K_2}$, which will be used for taggging)
+                \item $A_2$ picks a key $K_1 \in_R \mathcal{K}_1$. This key will be used to compute encryptions (observe that the challenger $C_2$ also picks a key $K_2 \in_R \mathcal{K}_2$, which will be used for taggging)
                 \item $A_2$ starts the INT game with $A''$ and the SUFCMA game with $C_2$
                 \item Each encryption query $m_i$ from $A''$ to $A_2$ is forwarded to $C_2$, which replies with the tag $\tau_i$. 
                 \item Upon receiving $\tau_i$, $A_2$ computes $\mathrm{Enc}(K_1, m_1) = c_i$ and returns $(c_i, \tau_i)$ to $A''$
@@ -2213,7 +2213,7 @@
     \begin{frameddefn}{Merkle-Damg\aa rd transform}
         Let $\mathcal{H} = \{h_s : \{0,1\}^{2n} \to \{0,1\}^n\}_{s \in \{0,1\}^\lambda}$ be an hash family. We define the Merkle-Damg\aa rd transform over $\mathcal{H}$ as the hash family $\mathcal{H}_{MD} : \{H_s: \{0,1\}^{dn} \to \{0,1\}^n\}_{s \in \{0,1\}^\lambda}$, for any chosen $d > 2$, such that $H_s$ is defined by:
         \begin{itemize}
-            \item The input is $x = (x_1, \ldots, x_d)$, with $m_i \in \{0,1\}^\lambda$
+            \item The input is $x = (x_1, \ldots, x_d)$, with $x_i \in \{0,1\}^\lambda$
             \item $y_0, \ldots, y_d$ are partial computations, where $y_0 = 0^n$
             \item For all $i \in [d]$ it holds that $y_i = h_s(x_i \mid\mid y_{i-1})$
             \item The output is $y = y_d$
@@ -2506,6 +2506,36 @@
     \end{split} \]
     contradicting the fact that $\widehat P$ is a PRP, thus $P'$ must be a PRP.
 
+    \begin{framedprob}{}
+        Consider the following game $\mathrm{Game}_{\Pi,A}^{\$CPA}(\lambda, b)$ for an SKE $\Pi = (\mathrm{Enc}, \mathrm{Dec})$:
+        \begin{enumerate}
+            \item The challenger samples $K \in_R \mathcal{K}$
+            \item Upon query $m_i \in \mathcal{M}$ for $i \in [q]$ from the adversary , with $q = \poly(\lambda)$:
+            \begin{itemize}
+                \item If $b = 0$ the challenger answers with $c_i \in_R \mathrm{Enc}(K, m_i)$
+                \item If $b = 1$ the challenger answers with $c_i \in_R \mathcal{C}$
+            \end{itemize}
+            \item The adversary guesses $b$ by sending $b' \in \{0,1\}$
+        \end{enumerate}
+
+        We say that an SKE is \$CPA secure when $\mathrm{Game}_{\Pi,A}^{\$CPA}(\lambda, 0) \approx_C \mathrm{Game}_{\Pi,A}^{\$CPA}(\lambda, 1)$. Prove or disprove: CPA-security is equivalent to \$CPA-security.
+    \end{framedprob}
+
+    \textit{Solution}: The two security notions are not equivalent. Consider the following SKE $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ where:
+    \[\mathrm{Enc}(K, m) = 0 \mid\mid \mathrm{Enc}'(K,m) \qquad \mathrm{Enc}'(K, c_0\mid\mid c_1) = \1[c_0 = 0] \cdot (\mathrm{Dec}'(K,c_1))\]
+
+    where $\Pi' = (\mathrm{Enc}', \mathrm{Dec}')$ is CPA-secure SKE. We can easily prove that $\Pi$ is also CPA-secure through a reduction. By way of contradiction, suppose that there is an adversary $A^{\text{CPA}}_{\Pi}$ that wins the CPA game of $\Pi$ with non-distinguishable probability. We build a new adversary $A^{\text{CPA}}_{\Pi'}$ for the CPA game of $\Pi'$:
+    \begin{enumerate}
+        \item $A^{\text{CPA}}_{\Pi}$ makes $q = \poly(\lambda)$ encryption queries to $A^{\text{CPA}}_{\Pi'}$. For each query $m_i$, $A^{\text{CPA}}_{\Pi'}$ forwards $m_i$ to $A^{\text{CPA}}_{\Pi'}$, which returns $c_i$. $A^{\text{CPA}}_{\Pi'}$ then returns $0 \mid\mid c_i$ to $A^{\text{CPA}}_{\Pi}$
+        \item The above procedure is repeated with the two challenge messages $m_0^*, m_b^*$ sent by $A^{\text{CPA}}_{\Pi}$, where $A^{\text{CPA}}_{\Pi'}$ returns the challenge ciphertext $c^*$ obtained from $C^{\text{CPA}}_{\Pi'}$
+        \item After playing polynomially more encryption queries, $A^{\text{CPA}}_{\Pi}$ guesses the value of $b$ by sending $b' \in \{0,1\}$ to $A^{\text{CPA}}_{\Pi'}$, who then forwards it to $C^{\text{CPA}}_{\Pi'}$
+    \end{enumerate}
+
+    It's easy to see that this is a perfect reduction since $A^{\text{CPA}}_{\Pi'}$ acts only as an intermediate machine that adds a 0 as prefix to every ciphertext, meaning that $A^{\text{CPA}}_{\Pi'}$ forms a distinguisher for the CPA game of $\Pi'$, and thus raising a contradiction. Therefore, we conclude that $\Pi$ must be CPA-secure.
+
+    We can also easily prove that $\Pi$ is not \$CPA secure. When $b = 1$, each of the $p = \poly(\lambda)$ ciphertexts sent by the challenger may be a string with 1 as prefix, which is never an output of $\mathrm{Enc}$. Since the probability of this happening for each ciphertext is 1/2, we can build an adversary that distinguishes the \$CPA game with non-negligible probability: if at least one of the ciphertexts has 1 as prefix, return $b' = 1$ as final answer, otherwise return $b' = 0$.
+
+
     \chapter{Number theory in cryptography}
 
     \section{Brush-up on number theory}
@@ -2661,11 +2691,11 @@
     The DDH assumption implies the CDH assumption, but the converse is proven to not hold for a general triple $(\G,g,q)$. Moreover, the DDH assumption is proven to \underline{not} hold for $\G = \Z_p$. 
 
     \begin{framedprop}{}
-        The DDH assumption doesn't hold for $\G = \Z_p$.
+        The DDH assumption doesn't hold for $\G = \Z_p^*$.
     \end{framedprop}
 
     \begin{proof}
-        Consider the group $\mathbb{QR}_p$ of quadratic residues over $p$, defined as $\mathbb{QR}_p = \{y \in \Z_p \mid \exists x \in \Z_p \; y \equiv x^2 \pmod p\}$. Equivalently, we have that $\mathbb{QR}_p = \{y \in \Z_p \mid \exists k \in \Z \; y \equiv g^{2k} \pmod p\}$ 
+        Consider the group $\mathbb{QR}_p$ of quadratic residues over $p$, defined as $\mathbb{QR}_p = \{y \in \Z_p^* \mid \exists x \in \Z_p^* \; y \equiv x^2 \pmod p\}$. Equivalently, we have that $\mathbb{QR}_p = \{y \in \Z_p^* \mid \exists k \in \Z \; y \equiv g^{2k} \pmod p\}$ 
 
         \textbf{Claim}: $y \in \mathbb{QP}_p$ if and only if $y^{\frac{p-1}{2}} \equiv 1 \pmod p$
 
@@ -2675,10 +2705,10 @@
 
             Vice versa, suppose that $y \notin \mathbb{QP}_p$, meaning that $y \equiv g^{2k'+1} \pmod p$ for some $k' \in \Z$. Then, we have that:
             \[y^{\frac{p-1}{2}} \equiv (g^{2k'+1})^{\frac{p-1}{2}} \equiv (g^{p-1})^k g^{\frac{p-1}{2}} \equiv g^{\frac{p-1}{2}} \not\equiv 1 \pmod p\]
-            since $p-1$ is the order of $g$ in $\Z_p$.
+            since $p-1$ is the order of $g$ in $\Z_p^*$.
         \end{proof}
 
-        The above claim easily gives us a distinguisher for the DDH condition. When $Z = g^z$ with $z \in_R \Z_p$ then $Z \in \mathbb{QR}_p$ with probability $1/2$. When $Z = g^{xy}$ with $x,y \in_R \Z_p$, instead, we have that $Z \in \mathbb{QR}_p$ with probability $3/4$: either $g^x \in \mathbb{QR}_p$ or $g^y \in \mathbb{QR}_p$ or both. Therefore, we can build an attacker that distinguishes the DDH condition with probability $3/4 - 1/2 = 1/4$.
+        The above claim easily gives us a distinguisher for the DDH condition. When $Z = g^z$ with $z \in_R \Z_p^*$ then $Z \in \mathbb{QR}_p$ with probability $1/2$. When $Z = g^{xy}$ with $x,y \in_R \Z_p^*$, instead, we have that $Z \in \mathbb{QR}_p$ with probability $3/4$: either $g^x \in \mathbb{QR}_p$ or $g^y \in \mathbb{QR}_p$ or both. Therefore, we can build an attacker that distinguishes the DDH condition with probability $3/4 - 1/2 = 1/4$.
     \end{proof}
 
     The above implies that we require a new type of cyclic group for which the DDH assumption is believed to hold. Luckily, there are many groups for which this is true. The easiest fix is to set $\G = \mathbb{QP}_{p}$ where $p = 2q+1$ and $p,q \in \Primes$ to break the previous proposition. Another very popular choice is \textit{elliptic curve groups}. An elliptic curve is composed of solutions to an equation $y = x^3 + ax^2+bx+c$, for some coefficients $a,b,c \in \R$. The elliptic curve group modulo $p \in \Primes$ is a group whose elements are the points of an elliptic curve with coordinates modulo $p$.
@@ -2866,16 +2896,16 @@
     Thanks to our theoretical background with SKEs, we can jump straight away into constructing PKE schemes using the above two games. Our first PKE scheme is the \textbf{ElGamal scheme}.
 
     \begin{framedalgo}{ElGamal PKE scheme}
-        Given a triple $(\G,g,q)$ where $\G$ is a cyclig group, $g \in \G$ is a generator and $q$ is the order of $g$ in $\G$, the ElGamal PKE scheme $\Pi = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ is defined as follows:
+        Given a triple $(\G,g,q)$ where $\G$ is a cyclig group, $g \in \G$ is a generator and $q$ is the order of $g$ in $\G$, the ElGamal PKE scheme $\Pi_{ElGamal} = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ is defined as follows:
         \begin{itemize}
             \item $\mathrm{KGen}(g,q) = (pk, sk)$ where $pk = g^x$ and $sk = x$, for some  $x \in_R \Z_q$
             \item $\mathrm{Enc}(pk, m) = (c_1, c_2)$ where $c_1 = g^r$ and $c_2 = pk^r\cdot m$, for some $r \in_R \Z_q$
-            \item $\mathrm{Dec}(sk, (c_1, c_2)) = \frac{c_2}{c_1^sk}$ 
+            \item $\mathrm{Dec}(sk, (c_1, c_2)) = c_2 (c_1)^{-sk}$ 
         \end{itemize}
     \end{framedalgo}
 
     The correctness of the scheme easily follows by simple substitution:
-    \[\mathrm{Dec}(sk, (c_1, c_2)) = \frac{c_2}{c_1^sk} = \frac{pk^r \cdot m}{(g^{r})^{sk}} = \frac{g^{xr} \cdot m}{g^{rx}} = m\]
+    \[\mathrm{Dec}(sk, (c_1, c_2)) = \frac{c_2}{c_1^{sk}} = \frac{pk^r \cdot m}{(g^{r})^{sk}} = \frac{g^{xr} \cdot m}{g^{rx}} = m\]
 
     \begin{framedthm}{}
         The ElGamal PKE scheme is CPA-secure under the DDH assumption.
@@ -2917,7 +2947,7 @@
     The correctness of the RSA scheme comes from Euler's theorem, which we already discussed in the previous chapter. First, we observe that $\phi(n) = (p-1)(q-1)$. Second, we observe that $ed \equiv 1 \pmod{\phi(n)}$ implies that $ed = 1+k \phi(n)$ for some $k \in \Z$. Therefore, assuming $c = \mathrm{Enc}(pk, m)$, we have that:
     \[\mathrm{Dec}(sk, c) = c^d \equiv (m^{ed}) \equiv m^{k\phi(n)+1} \equiv m(m^{\phi(n)})^k \equiv m \pmod{n}\]
 
-    It's easy to see that the scheme is not CPA-secure since the scheme is deterministic. To fix this, we encode the message $m$ into a string $\widehat m$ in a randomized -- but invertible -- fashion. The Public-key Cryptography Standard (PKCS) \#1.5 sets $\widehat m = m \mid\mid r$ with randomly chosen string $r$. Clearly, $r$ must have strictly more that $\Omega(\log \lambda)$ bits, otherwise we could just find it through bruteforce. Unfortunately, for real-world values of $r$ we can't prove the CPA-security of RSA even with PKCS \#1.5, except when $m \in \{0,1\}$. Nonetheless, this last result requires a stronger computational assumption about the RSA scheme itself.
+    It's easy to see that the scheme is not CPA-secure since the scheme is deterministic. To fix this, we encode the message $m$ into a string $\widehat m$ in a randomized -- but invertible -- fashion. The Public-key Cryptography Standard (PKCS) \#1.5 sets $\widehat m = m \mid\mid r$ with randomly chosen string $r$. Clearly, $r$ must have $\omega(\log \lambda)$ bits (i.e. strictly more than $\Omega(\log \lambda)$ bits), otherwise we could just find it through bruteforce. Unfortunately, for real-world values of $r$ we can't prove the CPA-security of RSA even with PKCS \#1.5, except when $m \in \{0,1\}$. Nonetheless, this last result requires a stronger computational assumption about the RSA scheme itself.
     
     The RSA assumption states that RSA is a \textbf{trapdoor permutation (TDP)}. A trapdoor permutation is formed by two functions $f$ and $f^{-1}$ that work, respectively, with a public and a secret key.The first function is assumed to be a \textit{one-way function} even when the public key is known. The second function is an inverse of the first one, but it is must be efficiently computable only when the secret key is known (hence the name \textit{trapdoor}).
 
@@ -2943,7 +2973,7 @@
 
     It's easy to see that the RSA assumption implies the FACTORING assumption: if we could easily solve factoring, we could also easily break RSA by finding the two primes $p,q$ forming $n$. From trapdoor permutations we can easily construct CPA-secure PKE schemes using the hard-core predicate of the encrypting function.
 
-    \begin{framedthm}{}
+    \begin{framedthm}[label={cpa_tdp}]{}
         Let $(\mathrm{KGen}, f, f^{-1})$ be a TDP. Given the hard-core predicate $h$ of $f$, let $\Pi = (\mathrm{KGen}, \mathrm{Enc},$ $\mathrm{Dec})$ be the PKE defined by:
         \[\mathrm{Enc}(pk, m) = (f(pk, r), h(pk, r) \oplus m )\]
         \[\mathrm{Dec}(sk, (c_0, c_1)) = c_1 \oplus h(pk, f^{-1}(sk, c_0))\]
@@ -2952,7 +2982,7 @@
     \end{framedthm}
 
     \begin{proof}
-        Omitted.
+        Given as exercise (\Cref{cpa_tdp_ex}).
     \end{proof}
 
     We also observe that PKE CPA-secure schemes for one bit can be extended to a polynomial amount of bits. Therefore, the RSA assumption and the above TDP construction implies that we can achieve CPA-secure public-key encryption. But what about CCA-security? The PKCS \#2.0 uses a different encoding to achieve this in \textbf{Optimal Asymmetric Encryption Padding (OAEP)}. The idea is very similar to a 2-layer Feistel network using two different hash functions $H, H'$ on $m\mid\mid r$, with $r$ is chosen uniform-at-random. The CCA-security of this scheme can be proven only under the RSA assumption and in the \textit{Random Oracle Model (ROM)}: $H,H'$ are assumed to be truly random hash functions and they can be computed \underline{only} by querying an oracle.
@@ -3067,7 +3097,7 @@
         Let $(\mathrm{KGen}, f, f^{-1})$ be a TDP and let $H$ be an hash function. The Full-Domain Hash (FDH) DS scheme $\Pi_{\text{FDH}} = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ is defined as follows:
         \begin{itemize}
             \item $(pk, sk) \in_R \mathrm{KGen}(1^{\lambda})$ where $pk = (n,e)$ and $sk = (n,d)$, with $n = pq$ for two primes $p,q \in \Primes$ of approximately $\lambda$ bits and $e,d$ being each other's inverse in $\Z_{\varphi(n)}$, i.e. $ed \equiv 1 \pmod{\varphi(n)}$
-            \item $\mathrm{Sign}(sk, m) = f^{-1}(sk, H(s))$
+            \item $\mathrm{Sign}(sk, m) = (m, f^{-1}(sk, H(s)))$
             \item $\mathrm{Vrfy}(pk, (m, \sigma)) = 1$ if $H(m) = f(pk, \sigma)$ and $0$ otherwise.
         \end{itemize}
     \end{framedalgo}
@@ -3082,9 +3112,9 @@
         Let $\Pi = (\mathrm{KGen}, \mathrm{Sign}, \mathrm{Vrfy})$ be the FDH scheme constructed through a TDP $(\mathrm{KGen}, f, f^{-1})$. We build a reduction from the distinguishability of the UFCMA game of $\Pi$ to the OWF security of $f$. By way of contradiction, suppose that there is an adversary $A^H$ that distinguishes the UFCMA game of $\Pi$ with probability at least $n^{-c}$ for some $c > 0$, where $A^H$ also makes RO queries for $H$. We build a new adversary $A$ as follows:
         \begin{enumerate}
             \item $A$ will substitute the oracle for $H$, answering $A^H$ RO queries.
-            \item The challenger $C$ sends the pair $(pk, y)$ to $A$, who then forwards $pk$ to $A$
+            \item The challenger $C$ sends the pair $(pk, y)$ to $A$, who then forwards $pk$ to $A^H$
             \item $A^H$ tells $A$ that they will make $q = \poly(\lambda)$ RO queries. 
-            \item $A$ samples $j \in_R \mathcal{U}_{q_h}$ and sets $H'$ as the function such that $H'(m_i) = y$ when $i = j$ and $H(m_i) = f(pk, x_i)$, for $x_i \in_R \mathcal{U}_n$, when $i \neq j$
+            \item $A$ samples $j \in_R [q]$ and sets $H'$ as the function such that $H'(m_i) = y$ when $i = j$ and $H(m_i) = f(pk, x_i)$, for $x_i \in_R \mathcal{U}_n$, when $i \neq j$
             \item $A^H$ starts the RO queries. For each query $m_i$, $A$ will answer with $y_i = H'(m_i)$. One of these RO queries will be for the future challenge message $m^*$, meaning that $m^* = m_{i^*}$ for some $i^* \in [q]$, but $A$ doesn't know which one 
             \item $A^H$ starts the sign queries. For each previously queried $m_i$ such that $m_i \neq m^*$, $A^H$ queries the signature of $m_i$ to $A$, which replies with $x_i$ if $i \neq j$ and with ABORT when $i = j$.
             \item After receiving the ABORT message, $A^H$ sends the challenge pair $(m^*, \sigma^*)$ to $A$, who then forwards $\sigma^*$ to $C$
@@ -3094,9 +3124,175 @@
         \[\Pr[A \text{ wins}] = \Pr[j = i^*] \Pr[A^H \text{ wins } \mid j = i^*] > \frac{1}{q n^c}\]
     \end{proof}
 
+    \section{Solved exercises}
+
+    \begin{framedprob}[label={cpa_tdp_ex}]{}
+        Prove \Cref{cpa_tdp}
+    \end{framedprob}
+
+    \begin{proof}
+        By way of contradiction, suppose that there is a distinguisher $A^{\text{CPA}}_{\Pi}$ for the CPA game of $\Pi$ with probability at least $n^{c}$, for some $c > 0$. We build a new adversary $A^{\text{HPC}}_{h_{pk}}$ for the hard-core predicate game of $h_{pk}$:
+        \begin{enumerate}
+            \item The challenger $C^{\text{HPC}}_h$ generates $(pk, sk)$ and sends the pair $(pk, y)$ to $A^{\text{HPC}}_{h_{pk}}$, where $y$ is an output of $f_{pk}$
+            \item $A^{\text{HPC}}_{h_{pk}}$ forwards $pk$ to $A^{\text{CPA}}_{\Pi}$
+            \item $A^{\text{CPA}}_{\Pi}$ makes $q = \poly(n)$ encryption queries to $A^{\text{HPC}}_{h_{pk}}$. For each query $m_i$, $A^{\text{HPC}}_{h_{pk}}$ returns $(f_{pk}(r_i), h_{pk}(r_i) \oplus m_i)$, for some random $r_i \in_R \mathcal{U}_n$
+            \item $A^{\text{CPA}}_{\Pi}$ sends the challenge bits $m_0^*, m_1^*$. $A^{\text{HPC}}_{h_{pk}}$ generates a random bit $b^{\#} \in_R \mathcal{U}_1$ and returns the pair $(y, b^{\#})$
+            \item $A^{\text{CPA}}_{\Pi}$ guesses $b' \in \{0,1\}$. $A^{\text{HPC}}_{h_{pk}}$ returns $b^{\#} \oplus m_{b'}$ to $C^{\text{HPC}}_h$
+        \end{enumerate}
+
+        Given $y = f_{pk}(x)$, we observe that $b^{\#} = h_{pk}(x) \oplus m_b$ happens with probability 1/2 since $b^{\#} \oplus m_b$ has the same distribution as $\mathcal{U}_1$ and $h_{pk}(x)$ is indistinguishable from a random bit by definition of hard-core predicate. Now, observe that:
+        \[\begin{split}
+            \Pr[\text{$A^{\text{HPC}}_{h_{pk}}$ wins} \mid b^{\#} \oplus m_b = h_{pk}(x)] &= \Pr[b^{\#} \oplus m_{b'} = h_{pk}(x) \mid b^{\#} \oplus m_b = h_{pk}(x)] \\
+            &= \Pr[b' = b \mid b^{\#} = h_{pk}(x) \oplus m_b] \\
+            &\geq \frac{1}{2}+\frac{1}{n^c} \\
+        \end{split}\] 
+
+        When conditioning on the opposite event, instead, the distinguisher $A^{\text{CPA}}_{\Pi}$ gets no additional information, meaning that it can guess $b \neq b'$ with probability 1/2. Therefore, we have that:
+        \[\begin{split}
+            \Pr[\text{$A^{\text{HPC}}_{h_{pk}}$ wins} \mid b^{\#} \oplus m_b \neq h_{pk}(x)] &= \Pr[b^{\#} \oplus m_{b'} = h_{pk}(x) \mid b^{\#} \oplus m_b \neq h_{pk}(x)] \\
+            &= \Pr[b' \neq b \mid b^{\#} \neq h_{pk}(x) \oplus m_b] \\
+            &= \frac{1}{2} \\
+        \end{split}\] 
+        Using total probability, we conclude that:
+        \[\Pr[\text{$A^{\text{HPC}}_{h_{pk}}$ wins}] \geq \frac{1}{2} \rbk{\frac{1}{2}+\frac{1}{n^c}} + \frac{1}{2} \cdot \frac{1}{2} = \frac{1}{2}+\frac{1}{n^c}\]
+
+        contradicting the fact that $h$ is an hard-core predicate for $f_{pk}$.
+    \end{proof}
+
+    \begin{framedprob}{}
+        Let $\Pi = (\text{KGen, Sign, Vrfy})$ be a signature scheme over message space $\mathcal{M} = \{0, 1\}^n$. Consider the following derived signature scheme $\Pi' = (\text{KGen, Sign', Vrfy'})$ over $\mathcal{M}$:
+        \[ \text{Sign}'(sk, m) = (r, \text{Sign}(sk, m \oplus r), \text{Sign}(sk, r)) \text{ for } r \leftarrow_s \{0, 1\}^n \]
+        \[ \text{Vrfy}'(pk, m, (r, \sigma_0, \sigma_1)) = (\text{Vrfy}(pk, m \oplus r, \sigma_0)) \land (\text{Vrfy}(pk, r, \sigma_1)). \]
+
+        Prove or disprove: The above signature scheme $\Pi'$ is UFCMA-secure assuming $\Pi$ is UFCMA-secure.
+    \end{framedprob}
+
+    \textit{Solution}: No, the scheme $\Pi$ is not UFCMA-secure. To prove this, consider the following adversary $A$:
+    \begin{enumerate}
+        \item The challenger $C$ sends the public key $pk$ to $A$
+        \item $A$ sends a message $m_1$ to $C$, which replies with the sign $\sigma_1' = (r_1, \sigma^{(1)}_0, \sigma_1^{(2)})$
+        \item $A$ sends the message $m_2 = m_1 \oplus r$ to $C$, which replies with the sign $\sigma_2' = (r_2, \sigma^{(1)}_0, \sigma_1^{(2)})$
+        \item $A$ challenges $C$ with the pair $(m_1 \oplus r_2, (r_1, \sigma^{(2)}_0, \sigma^{(1)}_1))$
+    \end{enumerate}
+
+    Since the challenger replies the sign queries correctly, we know that:
+    \begin{itemize}
+        \item $\sigma_1' = (r_1, \sigma^{(1)}_0, \sigma_1^{(2)}) = (r_1, \mathrm{Sign}(sk, m_1 \oplus r_1), \mathrm{Sign}(sk, r_1))$
+        \item $\sigma_2' = (r_2, \sigma^{(1)}_0, \sigma_1^{(2)}) = (r_2, \mathrm{Sign}(sk, m_1 \oplus r_1 \oplus r_2), \mathrm{Sign}(sk, r_2))$
+    \end{itemize}
+
+    Therefore, we have that:
+    \[\begin{split}
+        &\text{Vrfy}'(pk, m_1 \oplus r_2, (r_1, \sigma^{(2)}_0, \sigma^{(1)}_1)) \\
+        =& (\text{Vrfy}(pk, m_1 \oplus r_2 \oplus r_1, \sigma_0^{(2)})) \land (\text{Vrfy}(pk, r_1, \sigma_1^{(1)})) \\
+        =& (\text{Vrfy}(pk, m_1 \oplus r_2 \oplus r_1, \mathrm{Sign}(sk, m_1 \oplus r_1 \oplus r_2))) \land (\text{Vrfy}(pk, r_1, \mathrm{Sign}(sk, r_1))) \\
+        =& 1
+    \end{split}\]
+
+    \begin{framedprob}{}
+        Let $\Pi = (\mathrm{KGen}, \mathrm{Sign}, \mathrm{Vrfy})$ be a digital signature scheme over message space $\mathcal{M}$. We say that $\Pi$ satisfies strong binding if no efficient adversary can win the following game with more than a negligible probability: upon an empty input, the adversary outputs $(pk, m, pk', m', \sigma)$ and wins if and only if $(pk, m) \neq (pk', m')$ and $\mathrm{Vrfy}(pk, m, \sigma) = \mathrm{Vrfy}(pk', m', \sigma) = 1$. Show how to combine any collision-resistant family of hash functions $\mathcal{H}$ with an UFCMA digital signature scheme $\Pi$ into a digital signature scheme $\Pi^*$ that satisfies both UFCMA and strong binding. (The message space of $\Pi^*$ should be $\mathcal{M}$, but signatures in $\Pi^*$ may be longer than signatures in $\Pi$.)
+    \end{framedprob}
+
+    \textit{Solution}: Let $\Pi' = (\mathrm{KGen}', \mathrm{Sign}', \mathrm{Vrfy}')$ be a digital signature scheme and let $\mathcal{H} = \{H_s : \{0,1\}^{\lambda+n} \to \{0,1\}^n \}_{s \in \{0,1\}^{\lambda}}$ be an hash family. We define the digital signature scheme $\Pi_{\mathcal{H}} = (\mathrm{KGen}, \mathrm{Sign}, \mathrm{Vrfy})$ as follows:
+    \begin{itemize}
+        \item $s \in_R \{0,1\}^{\lambda}$ is a fixed seed
+        \item $\mathrm{KGen}(1^\lambda) = (pk, (pk, sk))$ where $(pk,sk) \in_R \mathrm{KGen}'(1^{\lambda})$
+        \item $\mathrm{Sign}((pk,sk), m) = (h, \mathrm{Sign}'(sk, h))$, where $h = H_s(pk \mid\mid m)$
+        \item $\mathrm{Vrfy}(pk, m, (h, \sigma)) = \1[h = H_s(pk \mid\mid m)] \cdot \mathrm{Vrfy}'(pk, h, \sigma)$
+    \end{itemize}
+
+    We prove with two claims that $\Pi_{\mathcal{H}}$ is UFCMA-secure with strong binding when $\Pi'$ is UFCMA-secure and $\mathcal{H}$ is collision-resistant.
+
+    \textbf{Claim 1}: $\Pi_{\mathcal{H}}$ is UFCMA-secure when $\Pi$ is UFCMA-secure
+
+    \begin{proof}[Proof of Claim 1.]
+        By way of contradiction, suppose that there is an adversary $A^{\text{UFCMA}}_{\Pi_{\mathcal{H}}}$ that breaks the UFCMA-security of $\Pi_{\mathcal{H}}$. We define a new adversary $A^{\text{UFCMA}}_{\Pi'}$ for the UFCMA game of $\Pi'$ as follows:
+        \begin{enumerate}
+            \item $A^{\text{UFCMA}}_{\Pi'}$ samples a seed $s \in_R \{0,1\}^{\lambda}$
+            \item The challenger $C^{\text{UFCMA}}_{\Pi'}$ sends the public key $pk$ to $A^{\text{UFCMA}}_{\Pi'}$, who then forwards it to $A^{\text{UFCMA}}_{\Pi_{\mathcal{H}}}$
+            \item $A^{\text{UFCMA}}_{\Pi_{\mathcal{H}}}$ makes $q = \poly(\lambda)$ signature queries to $A^{\text{UFCMA}}_{\Pi'}$. For each query $m_i$, $A^{\text{UFCMA}}_{\Pi'}$ forwards $H_s(pk \mid\mid m_i)$ to $C^{\text{UFCMA}}_{\Pi'}$. $C^{\text{UFCMA}}_{\Pi'}$ replies with $\sigma_i$, which gets forwarded back to $A^{\text{UFCMA}}_{\Pi_{\mathcal{H}}}$
+            \item $A^{\text{UFCMA}}_{\Pi_{\mathcal{H}}}$ sends a pair $(m^*, (h^*,  \sigma^*))$ to $A^{\text{UFCMA}}_{\Pi'}$, who then forwards $(h^*, \sigma^*)$ to $C^{\text{UFCMA}}_{\Pi'}$,
+        \end{enumerate}
+
+        When $A^{\text{UFCMA}}_{\Pi_{\mathcal{H}}}$ correctly guesses $(m^*, (h^*,\sigma^*))$ for $\Pi_{\mathcal{H}}$, meaning that $\mathrm{Vrfy}(pk, m^*, (h^*, \sigma^*)) = 1$, by definition we know that $h^* = H_s(pk \mid\mid m^*)$ and $\mathrm{Vrfy}'(pk, h^*, \sigma^*) = 1$ must hold. Therefore, the pair $(h^*, \sigma^*)$ will also be a correct guess for $\Pi'$. Since this happens with non-negligible probability, $A^{\text{UFCMA}}_{\Pi'}$ breaks the UFCMA-security of $\Pi'$, raising a contradiction.
+    \end{proof}
+
+    \textbf{Claim 2}: $\Pi_{\mathcal{H}}$ has strong binding when $\mathcal{H}$ is a CRH family
+
+    \begin{proof}[Proof of Claim 2.]
+        By way of contradiction, suppose that there is an adversary $B^{\text{SB}}_{\Pi_{\mathcal{H}}}$ that breaks the strong binding of $\Pi_{\mathcal{H}}$. We define a new adversary $B^{\text{CRH}}_{\mathcal{H}}$ for the CRH game of $\mathcal{H}$ as follows:
+        \begin{enumerate}
+            \item The challenger $C^{\text{CRH}}_{\mathcal{H}}$ sends a seed $s \in_R \{0,1\}^\lambda$ to $B^{\text{CRH}}_{\mathcal{H}}$, who then forwards it to $B^{\text{SB}}_{\Pi_\mathcal{H}}$
+            \item $B^{\text{CRH}}_{\mathcal{H}}$ sends an empty message to $B^{\text{SB}}_{\Pi_\mathcal{H}}$, who replies with $(pk, m, pk', m', (h, \sigma))$.
+            \item $B^{\text{CRH}}_{\mathcal{H}}$ sends $(pk \mid\mid m, pk' \mid\mid m')$ to $C^{\text{CRH}}_{\mathcal{H}}$
+        \end{enumerate}
+
+        When $B^{\text{SB}}_{\Pi_{\mathcal{H}}}$ correctly guesses $(pk, m, pk', m', (h, \sigma))$, by definition we have that:
+        \begin{itemize}
+            \item $\mathrm{Vrfy}(pk, m, (h, \sigma)) = 1$ implies that $h = H_s(pk \mid\mid m)$ and $\mathrm{Vrfy}'(pk, h, \sigma) = 1$
+            \item $\mathrm{Vrfy}(pk', m', (h, \sigma)) = 1$ implies that $h = H_s(pk' \mid\mid m')$ and $\mathrm{Vrfy}'(pk', h, \sigma) = 1$
+        \end{itemize}
+        Since $(pk, m) \neq (pk', m')$ and $H_s(pk \mid\mid m) = H_s(pk' \mid\mid m')$, the two strings $pk \mid\mid m \neq pk' \mid\mid m'$ form a collision on $H_s$. Therefore, $B^{\text{CRH}}_{\Pi}$ find a collision on $H_s$ with non-negligible probability, contradicting the collision-resistance of $\mathcal{H}$
+    \end{proof}
+
+    \begin{framedprob}{}
+        Suppose that $t$ receivers publish their public keys $pk_1, \ldots, pk_t$. Alice wants to send an encrypteed message to one of the receivers in such a way that no adversary can tell which of the $t$ receivers is the intended recipient of the message.
+        \begin{enumerate}
+            \item Define a security model that captures this requirement for the base case $t = 2$. A PKE scheme that has this property is said to be an anonymous PKE scheme. Explain why considering $t = 2$ is sufficient.
+            \item Show that the ElGamal PKE scheme is anonymous under the DDH assumption
+            \item Show that the RSA PKE scheme is not anonymous (even under the DDH assumption)
+        \end{enumerate}
+    \end{framedprob}
+
+    \textit{Solution:} 
+    
+    \begin{enumerate}
+        \item Let $\mathrm{Game}_{\Pi, A}^{\mathrm{ANON}}(\lambda, t, j)$ be the game defined as follows:
+        \begin{enumerate}
+            \item The challenger $C$ sends $t$ different public keys $pk_0, \ldots, pk_{t-1}$
+            \item The adversary sends a message $m^*$ and the challenger replies with a ciphertext $c^*$ obtained by encrypting $m^*$ with $pk_j$
+            \item The adversary guesses $j$ by sending $j'$. The adversary wins if and only if $j = j'$.
+        \end{enumerate}
+        where $0 \leq j \leq t-1$ and $t \geq 2$. It's easy to see that the $t$-player game can be simulated by playing multiple instances of the 2-player game (using the pairs $(pk_0,pk_1), (pk_1, pk_2), \ldots, (pk_{t-1}, pk_t))$. Therefore, we say that $\Pi$ is anonymous when $\mathrm{Game}_{\Pi, A}^{\mathrm{ANON}}(\lambda, 2, 0) \approx_c \mathrm{Game}_{\Pi, A}^{\mathrm{ANON}}(\lambda, 2, 1)$. 
+
+        \item Let $\Pi$ be the ElGamal PKE. By way of contradiction suppose that there is an adversary $A^{\text{ANON}}_{\Pi}$ that breaks anonymity for $\Pi$. We define an adversary $A^{\text{DDH}}$ for the DDH game as follows:
+        \begin{enumerate}
+            \item The challenger $C^{\text{DDH}}$ sends the tuple $(\G, g, q, X, Y, Z)$ to $A^{\text{DDH}}$, who then forwards $(X,Y)$ to $A^{\text{ANON}}_{\Pi}$
+            \item $A^{\text{ANON}}_{\Pi}$ sends $m^*$. $A^{\text{DDH}}$ samples $W \in_R \{X,Y\}$ and sends $(W, m^* Z)$ to $A^{\text{ANON}}_{\Pi}$
+            \item $A^{\text{ANON}}_{\Pi}$ sends $b'$ to $A^{\text{DDH}}$, who then forwards it to $C^{\text{DDH}}$
+        \end{enumerate}
+
+        Assume that $X = g^x$ and $Y = g^y$ for $x,y \in_R \Z_q$. Observe that when $Z = g^{xy}$, then $(W, m^* Z) = (g^x, m^* Y^x)$ when $W = X$, while $(W, m^* Z) = (g^y, m^* X^y)$ when $W = X$. Therefore, we have that:
+        \[\begin{split}
+            \Pr[b' = b \mid Z = g^{xy}] &= \frac{1}{2} \Pr[b' = b \mid Z = g^{xy}, W = g^x] + \frac{1}{2} \Pr[b' = b \mid Z = g^{xy}, W = g^y] \\
+            &\geq \frac{1}{2} \frac{1}{n^c} + \frac{1}{2} \frac{1}{n^c}
+        \end{split}\]
+
+        When $Z = g^z$ with $z \in_R \Z_q$, the adversary $A^{\text{ANON}}_{\Pi}$ gets no additional information since the ciphertext is actually invalid. Therefore, we have that $\Pr[b' = b \mid Z = g^{z}] = \frac{1}{2}$, concluding that:
+        \[\abs{\Pr[b' = b \mid Z = g^{xy}] - \Pr[b' = b \mid Z = g^z]} \geq \frac{1}{2} + \frac{1}{n^c}\]
+        breaking the DDH assumption on $(\G, g, q)$.
+
+        \item Consider the following adversary $A$ for the ANON game of RSA, defined as follows:
+        \begin{enumerate}
+            \item The challenger sends $pk_0 =(n_0, e_0)$ and $pk_1 = (n_1, e_1)$
+            \item The adversary sends a message $m^*$ and gets $c^*$ as answer
+            \item The adversary returns $b' = \1[c^* < n_0]$
+        \end{enumerate}
+        
+        W.l.o.g. assume $n_0 < n_1$. When $b = 0$ the condition $c^* < n_0$ is always true, therefore $\Pr[A \text{ returns } 0 \mid b = 0] = \Pr[c^* < n_0 \mid b= 0 ] =  1$. When $b = 1$, instead, we have that
+
+        $$\Pr[A \text{ returns } 1 \mid b = 1] = \Pr[c^* \geq n_0 \mid b= 1 ] =  1 - \frac{n_1 - n_0}{n_1} = \frac{n_0}{n_1} \geq  \frac{1}{4}$$
+
+        where the latter inequality comes from the fact that $2^{2\lambda-2} \leq n_0, n_1 \leq 2^{2\lambda}$ since they are the product of two pairs of primes each having approximately $\lambda$ bits. Therefore, we conclude that:
+
+        $$\Pr[A \text{ wins }] = \frac{1}{2} \Pr[A \text{ returns } 0 \mid b = 0] + \frac{1}{2} \Pr[A \text{ returns } 1 \mid b = 1]  \geq \frac{1}{2} \cdot 1 + \frac{1}{2} \cdot \frac{1}{4}= \frac{5}{8}$$
+
+        proving that RSA is not anonymous
+    \end{enumerate}
+    
     \chapter{Identification schemes}
 
-    \section{$\Sigma$-protocols and zero-knowledge proofs}
+    \section{$\Sigma$-protocols and zero-knowledge}
 
     An \textbf{identification scheme} is a protocol whereby Peggy the Prover proves to Victor the Verifier that she is indeed who she says she is. In practice, Peggy's identity is encoded in a private key $a$ and a public key $y$. The protocol takes the form of Peggy proving to Victor that she has knowledge of the private key $a$. For instance, suppose that private key is a value $a \in \Z_{p-1}$ and that the public key $y$ is such that $y \equiv x^a \pmod p$ for some $x \in \Z_p$ with $p \in \Primes$. Peggy can prove her to Victor by demonstrating that she knows the discrete logarithm of $y$ to the base $x$.
 
@@ -3121,7 +3317,7 @@
         \item The adversary $A = (A_1, A_2)$ is composed of two separate algorithms.
         \item The challenger $C$ generates a key pair $(pk, sk)$ and sends $pk$ to the adversary $A$
         \item $A$ makes $q = \poly(\lambda)$ transcript queries to $C$, which replies with $\tau_1, \ldots, \tau_q \in_R P(pk, sk) \rightleftarrows V(pk)$
-        \item $A$ computes $A_1(\tau_1, \ldots, \tau_q) = s$, where $s$ is a \curlyquotes{state}
+        \item $A$ plays the $A_1(\tau_1, \ldots, \tau_q) = s$, where $s$ is a \curlyquotes{state}
         \item $A$ samples $\tau^* \in_R A_2(s, pk) \rightleftarrows V(pk)$
         \item $A$ wins if $\mathrm{out}(P(pk, sk) \rightleftarrows V(pk))(\tau^*) = 1$, otherwise $C$ wins
     \end{enumerate}
@@ -3205,11 +3401,11 @@
 
     Then, we observe the fact that $\gamma$ can be correctly computed if and only if the prover $P$ really knows the value $x$ of the secret key. After some tought, we can also convince ourselves of the protocol's non-leakage of the secret key. In fact, Schnorr's protocol also satisfies passive security and non-triviality, meaning that it is in fact a $\Sigma$-protocol.
 
-    To show the passive security of this protocol, we have to introduce two stronger properties that when summed up give passive security as a natural byproduct: \textbf{Honest-verifier Zero-knowledge (HVZK)} and \textbf{Special Soundness (SS)}. The first property tells us that real transcripts computed by the protocol are computationally indistinguishable from \textit{simulated transcripts} produced by an simulation algorithm. In other words, the transcripts don't give any information to the verifier.
+    To show the passive security of this protocol, we have to introduce two stronger properties that when summed up give passive security as a natural byproduct: \textbf{Honest-verifier Zero-knowledge (HVZK)} and \textbf{Special Soundness (SS)}. The first property tells us that real transcripts computed by the protocol are computationally indistinguishable from \textit{simulated transcripts} produced by a simulation algorithm. In other words, the transcripts don't give any information to the verifier.
 
     \begin{frameddefn}{Honest-verifier Zero-knowledge}
         Let $\Pi = (\mathrm{KGen}, P, V)$ be an IDS. We say that $\Pi$ has Honest-verifier Zero-knowledge (HVZK) if:
-        \[(pk, sk, \mathrm{Sim}(pk)) \approx_c (pk,sk P(pk,sk) \rightleftarrows V(pk))\]
+        \[(pk, sk, \mathrm{Sim}(pk)) \approx_c (pk,sk, P(pk,sk) \rightleftarrows V(pk))\]
         for some PPT simulator $\mathrm{Sim}$
     \end{frameddefn}
 
@@ -3252,6 +3448,195 @@
     \end{framedthm}
 
     \begin{proof}
-        To do.
+        Let $G_0(\lambda) = \mathrm{Game}^{\text{ID}}_{\Sigma, A}$ and let $G_1(\lambda)$ be game played as $G_0(\lambda)$ but where transcript queries answers are taken from $\mathrm{Sim}(pk)$ instead of $P(pk,sk) \rightleftarrows V(pk)$.
+
+        Let $q = \poly(\lambda)$ be the number of transcript queries made in the two games. We define $q+1$ hybrids $H_0, \ldots, H_q$ such that each $H_i$ answers  the first $i$ queries using $\mathrm{Sim}(pk)$ instead of $P(pk,sk) \rightleftarrows V(pk)$. By definition, we have that $G_0(\lambda) = H_0(\lambda)$ and $G_1(\lambda) = H_q(\lambda)$.
+
+        \textbf{Claim 1}: $H_i \approx_c H_{i+1}$ for all $i \in [q-1]$
+
+        \begin{proof}{Proof of Claim 1.}
+            We prove the claim through a reduction from the HVZK property. By way of contradiction, suppose that there is an adversary $A$ that distinguishes $H_i(\lambda)$ from $H_{i+1}(\lambda)$ with non-negligible probability.. We build a new adversary $A'$ defined as follows:
+            \begin{enumerate}
+                \item The challenger $C$ sends $(pk, sk, \tau)$ to $A'$, who then forwards $pk$ to $A$
+                \item $A$ makes $q$ transcript queries to $A'$. For each $j$-th query, $A'$ answers with $\tau_j$ such that:
+                \[\tau_j \in_R \soe{ll}{
+                    \mathrm{Sim}(pk) & \text{ if } j \leq i \\
+                    \{\tau\} & \text{ if } j = i+1 \\
+                    P(pk,sk) \rightleftarrows V(pk) & \text{ if } j > i+1 \\
+                }\]
+                \item $A$ guesses the value of $b$ by sending $b' \in \{0,1\}$ to $A'$, who will forward it to $C$ 
+            \end{enumerate}
+
+            When $b = 0$, the transcript $\tau$ sent by $C$ is taken from $\mathrm{Sim}(pk)$, otherwise it is taken from $P(pk,sk) \rightleftarrows V(pk)$. Therefore, $A$ can distinguish $H_i(\lambda)$ from $H_{i+1}(\lambda)$ through the $(i+1)$-th transcript, immediately concluding that $A'$ is a distinguisher for the HVZK game with non-negligible probability.
+        \end{proof}
+
+        \textbf{Claim 2}: for all PPT adversaries $A$ it holds that $\Pr[G_1(\lambda) = 1] \leq \mathrm{negl}(\lambda)$
+
+        \begin{proof}{Proof of Claim 2.}
+            This time we'll use a reduction from special soundness. By way of contradiction, suppose that there is an adversary $B = (B_1, B_2)$ that wins the $G_1(\lambda)$ game with probability at least $n^{-c}$ for some $c > 0$. We build a new adversary $B'$ defined as follows:
+            \begin{enumerate}
+                \item The challenger $C'$ sends $pk$ to $B'$, who will forward it to $B$
+                \item $B$ makes $q$ transcript queries to $B'$. For each $j$-th query, $B'$ will answer with $\tau_j \in_R \mathrm{Sim}(pk)$. 
+                \item Given the output $s = B_1(\tau_1, \ldots, \tau_q)$, play $\Sigma$ with $B_2(s,pk)$ instead of $P(pk,sk)$ and $\mathcal{B}_{\lambda, pk}$ instead of $V(pk)$, where $\mathcal{B}_{\lambda, pk}$ is the set of all second messages with $\omega(\log \lambda)$ bits that can be sent in $\Sigma$ using $pk$.
+                \item $B$ returns $(\alpha^*, \beta_0^*, \gamma_0^*) \in_R B_2(s, pk) \rightleftarrows \mathcal{B}_{\lambda, pk}$ to $B'$
+                \item The previous instructions between $B$ and $B'$ are repeated a second time (using the same $\tau_1, \ldots, \tau_q$ answers and the same first message $\alpha^*$), obtaining a second transcript $(\alpha^*, \beta_1^*, \gamma_1^*) \in_R B_2(s, pk) \rightleftarrows \mathcal{B}_{\lambda, pk}$
+                \item $B'$ returns $(\alpha^*, \beta_0^*, \gamma_0^*), (\alpha^*, \beta_1^*, \gamma_1^*)$ to $C$
+            \end{enumerate}
+
+            The above reduction must be carefully analyzed. Let $Z \in \{0,1\}^*$ be the random variable representing the state of $B_2(s, pk)$ after sending the first message $\alpha^*$. Let also $\delta_z = \Pr[G_1(\lambda) = 1 \mid Z = z]$. We observe that:
+            \[\frac{1}{n^c} \leq \Pr[G_1(\lambda) = 1] = \sum_{z \in \{0,1\}^*} \Pr[Z = z] \delta_z = \Exp[\delta_z]\]
+
+            therefore $\Exp[\delta_z] \geq n^{-c}$. Let $G$ be the event such that $G = 1$ when $\beta_0^* \neq \beta_1^*$. When conditioning on $G = 1$, we get that:
+            \[\begin{split}
+                \Pr[\mathrm{Game}_{\Sigma, B'}^{SS}(\lambda) = 1] &\geq \Pr[G = 1] \Pr[\mathrm{Game}_{\Sigma, B'}^{SS}(\lambda) = 1 \mid G = 1] \\
+                &= \rbk{1- \frac{1}{\abs{\mathcal{B}_{\lambda, pk}}}} \Pr[\mathrm{Game}_{\Sigma, B'}^{SS}(\lambda) = 1 \mid G = 1] \\
+                &= \Pr[\mathrm{Game}_{\Sigma, B'}^{SS}(\lambda) = 1 \mid G = 1] - \frac{1}{\abs{\mathcal{B}_{\lambda, pk}}} \\
+                &\geq \rbk{\sum_{z \in \{0,1\}^*} \Pr[Z = z] \delta_z \delta_z} - \frac{1}{2^{\omega(\log \lambda)}} \\
+                &= \Exp[\delta_z^2] - \frac{1}{2^{\omega(\log \lambda)}} \\
+            \end{split}\]
+
+            By Jensen's inequality we know that for any function $f$ on a r.v. $X$ it holds that $\Exp[f(X)] \geq f(\Exp[X])$. Therefore, we conclude that:
+            \[\Pr[\mathrm{Game}_{\Sigma, B'}^{SS}(\lambda) = 1] \geq \Exp[\delta_z^2] - \frac{1}{2^{\omega(\log \lambda)}} \geq \Exp[\delta_z]^2 - \frac{1}{2^{\omega(\log \lambda)}} \geq \frac{1}{n^{2c-1}}\]
+            
+            and thus that $B'$ can win the SS game with non-negligible probability.
+        \end{proof}
     \end{proof}
+
+    \begin{framedcor}{}
+        Schnorr's protocol has passive security.
+    \end{framedcor}
+
+    \section{The Fiat-Shamir transform}
+
+    From the very definition of identification schemes, it's easy to see that they are closely related to the concept of digital signature. In particular, IDSs can be used to construct \textit{zero-knowledge digital signatures}. The first construction was given by Fiat and Shamir, without a proof of its security (later prove by Pointcheval and Stern). The idea is to construct an UFCMA-secure signature scheme starting from a non-trivial passively secure $\Sigma$-protocol (e.g. Schnorr's protocol).
+
+    \begin{frameddefn}{Fiat-Shamir transform}
+        Let $\Sigma = (\mathrm{KGen}, P, V)$ be a $\Sigma$-protocol and let $H$ be an hash function. We define the Fiat-Shamir transform as the digital signature $\Pi_{\Sigma, H} = (\mathrm{KGen}, \mathrm{Sign}, \mathrm{Vrfy})$ constructed as follows:
+        \begin{itemize}
+            \item $\mathrm{Sign}(sk, m) = (\alpha, \gamma)$, where $\alpha \in_R P_1(pk,sk)$, $\beta = H(\alpha, m)$ and $\gamma \in_R P_2(pk,sk,\alpha,$ $\beta)$
+            \item $\mathrm{Vrfy}(pk, (\alpha, \gamma), m) = V(pk, \alpha, H(\alpha, m), \gamma)$
+        \end{itemize}
+    \end{frameddefn}
+
+    \begin{framedthm}{}
+        Let $\Sigma = (\mathrm{KGen}, P, V)$ be a $\Sigma$-protocol and let $H$ be an hash function. If $\Sigma$ is non-trivial and passively secure, the Fiat-Shamir transform $\Pi_{\Sigma, H}$ is UFCMA-secure in the ROM.
+    \end{framedthm}
+
+    \begin{proof}
+        By way of contradiction, suppose that there is an adversary $A^H$ breaking UFCMA-security of $\Pi_{\Sigma, H}$ in the ROM. Without loss of generality, we assume that:
+        \begin{itemize}
+            \item $A^H$ never repeats queries and it makes a RO query before each signature query
+            \item $A^H$ never queries $(\alpha, m)$ to the RO after receiving a signature $\sigma$ (this comes in handy since each signature query defines $\sigma = (\alpha,m)$ and $\beta = H(\alpha, m)$)
+        \end{itemize}
+
+        Let $\mathcal{B}_{\lambda, pk}$ is the set of all second messages with $\omega(\log \lambda)$ bits that can be sent in $\Sigma$ using $pk$.
+
+        We build a new adversary $A$ for the ID-game of $\Sigma$, defined as follows:
+        \begin{enumerate}
+            \item $A$ will substitute the oracle for $H$, answering $A^H$ RO queries.
+            \item The challenger $C$ sends $ok$ to $A$, who then forwards it to $A^H$
+            \item $A^H$ tells $A$ that they will make $q = \poly(\lambda)$ RO queries. 
+            \item For each $i \in [q]$, $A$ makes a transcript query to $C$, who then replies with $\tau_i = (\alpha_i, \beta_i, \gamma_i)$
+            \item $A$ samples $j \in_R [q]$ and sets $H'$ as the function such that $H'(\alpha_i, m_i) = \beta_i$ when $i \neq j$ and $H'(\alpha_i m_i) = \beta^{\#}$ when $i = j$, where $\beta^{\#}$ is obtained by playing the first two messages of $\Sigma$ with $C$ ($A$ sends $\alpha_i$, $C$ returns $\beta^{\#}$ and the game gets paused)
+            \item $A^H$ starts the RO queries. For each query $(\alpha_i, m_i)$, $A$ will answer with $\beta_i = H'(\alpha_i, m_i)$. One of these RO queries will be for the future challenge message $m^*$, meaning that $(\alpha^*, m^*) = (\alpha_{i^*}, m_{i^*})$ for some $i^* \in [q]$, but $A$ doesn't know which one 
+            \item $A^H$ starts the sign queries. For each previously queried $m_i$ such that $m_i \neq m^*$, $A^H$ queries the signature of $m_i$ to $A$, which replies with $(\alpha_i, \gamma_i)$ if $i \neq j$ and with ABORT when $i = j$.
+            \item After receiving the ABORT message, $A^H$ sends the challenge signature $(\alpha^*, \gamma^*)$ to $A$. $A$ then checks if $V(pk, \alpha^*, \beta^{\#}, \gamma^*) = 1$. If true, $A$ ends the game with $C$ sending the third message $\gamma^*$, otherwise $A$ sends a random final message.
+        \end{enumerate}
+
+        When the final check succeeds, the reduction is perfect since $\beta^{\#}$ guaranteed to be a valid pick. When $j = i^*$, this final check will always succeed (but it could also succeed in other cases), which happens with probability $1/q$.
+    \end{proof}
+
+    \begin{framedcor}{}
+        The Fiat-Shamir transform $\Pi_{\Sigma_{\text{Schnorr}}, H}$ is UFCMA-secure in the ROM
+    \end{framedcor}
+
+    \chapter{Post-quantum cryptography}
+
+    \section{Lattices and post-quantum hardness}
+
+    After concluding our exploration of SKEs, PKEs and IDSs with standard computers, we explore the challenges provided by the advent of quantum computers. Currently, Quantum Turing Machines (QTMs) have proven to be more powerful than standard Turing Machines due to their capability of efficiently solving some problems that are believed to be hard for TMs. In particular, Shor's quantum algorithm solves the factoring problem in polynomial time and it can be adapted to also solve the discrete logarithm problem. As we have seen, almost everything in modern theoretical cryptography is based on the DL and FACTORING assumptions, meaning that \underline{everything} that we have seen up until now doesn't work for quantum computers.
+
+    Even tought real-world quantum computers are far from being able to properly compute Shor's algorithm (it requires a huge number of qbits and quantum gates compared to what we can currently build), cryptologists believe it is just a matter of time. Back in 2017, the National Institute of Standards and Technology (NIST) started the standardization program for \textbf{post-quantum cryptography}.
+
+    Post-quantum cryptography means that the two parties Alice and Bob still use classic non-quantum computers, while attackers may use quantum ones. The minimal requirement for this model are problems that are believed to be hard even for quantum computers. Luckily, there are many problems with this characteristic, such as lattices and isogenies over elliptic curves. In partiucular, we'll focus on the first problem.
+
+    \begin{frameddefn}{Lattice}
+        Given a basis $B = \{b_1, \ldots, b_n\}$ with $b_i \in \R^n$, we define the lattice $\mathcal{L}(B)$ as the set of all integer linear combinations of $B$:
+        \[\mathcal{L}(B) = \{\sum_{i = 1}^{n} z_i b_i \mid z_1, \ldots, z_n \in \Z\}\]
+    \end{frameddefn}
+
+    We start by observing that a lattice is not uniquely defined by a basis. Given a basis $B$, for any \textit{unimodular matrix} $U \in \Z^{n \times n}$ (meaning that $\mathrm{det}(U) = \pm 1$) it holds that $\mathcal{L}(B) = \mathcal{L}(BU)$.
+    
+    Given a lattice $\mathcal{L}$, we denote with $\lambda_i(\mathcal{L})$ the $i$-th successive minima of $\mathcal{L}$, that being the smallest value $r$ such that $\mathcal{L}$ has $i$ linearnly independent vectors of length at most $r$. Typically, we're interested in the value $\lambda_1(\mathcal{L})$,  since it represents the length $\lambda_1(\mathcal{L})$ of the shortest non-zero vector in $\mathcal{L}$. In particular, we have that:
+    \[\lambda_1(\mathcal{L}) = \min_{v \in \mathcal{L} - \{\vec 0\}} \norm{v}\]
+    where $\norm{\cdot}$ is the euclidean-norm.
+
+    There are many problems involving the metric $\lambda_i(\mathcal{L})$ that are believed to be hard for post-quantum cryptography:
+    \begin{itemize}
+        \item \textit{Shortest Vector Problem (SVP)}: given a basis $B$ and a function $\gamma$, find a vector $v \in \mathcal{L}(B)-\{\vec 0\}$ such that $\norm{v} = \lambda_1(\mathcal{L}(B))$ or $\norm{v} \leq \gamma(n) \lambda_1(\mathcal{L}(B))$
+        \item \textit{Shortest Independent Vectors Problem (SVP)}: given a basis $B$ and a function $\gamma$, find $n$ vectors $v_1, \ldots, v_n \in \mathcal{L}(B)-\{\vec 0\}$ such that $\norm{v_i} \leq \gamma(n) \lambda_n(\mathcal{L}(B))$ for all $i \in [n]$
+        \item \textit{Gap of Shortest Vector Problem (SVP)}: given a basis $B$ and a function $\gamma$, determine if $\lambda_1(\mathcal{L}(B)) \leq 1$ or $\lambda_1(\mathcal{L}(B)) > \gamma(n)$.
+    \end{itemize}
+
+    In modern days, an equivalent problem is used for post-quantum cryptographic assumptions: the \textbf{Shortest Integer Solution (SIS)} problem. This problem is easier to reason with for modern crypto, due to its use of modular arithmetic. Given $m$ random vectors $a_i \in \Z_q^n$ forming a matrix $A \in \Z_q^{m \times n}$, the problem $\mathrm{SIS}_{n,q,\beta,m}$ asks to find a vector $z \in \Z_q^m-\{\vec 0\}$ with norm $\norm{z} = \beta$ such that $Az = \vec 0$.
+
+    We give some remarks on the SIS problem:
+    \begin{itemize}
+        \item The problem is easy without the constraint on $\norm{z}$ or when $\beta = q$
+        \item Any solution $A$ can be converted to a solution $[A \mid A']$ by expanding zeroes
+        \item The values $\beta$ and $m$ must be large enough for a solution to exist (in particular $\beta \geq \sqrt{k}$ and $m \geq k$, where $k = \ceil{n \log q}$)
+        \item It can be proven that $h_A(z) = Az$ is collision resistant
+    \end{itemize}
+
+    \section{Building crypto-tools through lattices}
+
+    We introduce another problem believed to be hard for quantum computers, the \textbf{learning with errors (LWE)} problem. The problem is based on the idea of representing secret information as a set of equations with errors. In other words, LWE is a way to hide the value of a secret by introducing noise to it.
+    
+    Given a vector $\vec s \in \Z_q^n$ and an error distribution $\mathcal{X}$ over $\Z_q$, we define the LWE distribution $A_{\vec s,\mathcal{X}}$ as the distribution over $\Z_q^n \times \Z_q$ obtained by sampling a vector $\vec a \in_R \Z_q^n$ and an error $e \in_R \mathcal{X}$ and then outputting $(\vec a, b)$, where $b = \abk{\vec s,\vec a} +e \pmod q$. Given $m$ samples $(\vec a_i, \vec b_i) \in_R A_{\vec s,\mathcal{X}}$ for some unknown $\vec s^* \in \Z_q^{n}$, the $\mathrm{SEARCH-LWE}_{n,q,\mathcal{X},m}$ problem asks us to find $\vec s^*$ -- in other words, we're asked to find the distribution from which the $m$ samples have been extracted.
+
+    We give some remarks on the SEARCH-LWE problem:
+    \begin{itemize}
+        \item The problem is easy without introducing the randomly sampled noise value $e \in_R \mathcal{X}$
+        \item The error distribution $\mathcal{X}$ is such that $\Pr[\abs{e} > \alpha q : e \in_R \mathcal{X}] \leq \mathrm{negl}(\lambda)$, with $\alpha << 1$
+        \item $Z_q = \{\floor{-q/2}, \floor{-q/2} + 1, \ldots, 0, \ldots, \floor{q/2}-1, \floor{q/2}\}$
+        \item The $m$ samples can be combined into a pair $(A,\vec b)$ such that $A \in_R \Z_q^{m \times n}$ and $\vec b = \vec s A + \vec e \pmod q$, where $e \in_R \mathcal{X}^m$
+        \item The decisional version $\mathrm{LWE}_{n,q,\mathcal{X},m}$ asks to distinguish a given $(A, \vec b)$ from $(X, \vec y) \in_R \Z_q^{m \times (n+1)}$.
+        \item LWE is as hard as GapSPV
+    \end{itemize}
+
+    \begin{framedass}{LWE assumption}
+        The LWE assumption states that:
+        \[(A_{\vec s, \mathcal{X}}) \approx_c (\Z_q^{m \times (n+1)})\]
+    \end{framedass}
+
+    The decisional version of the LWE problem can be used to construct a post-quantum PKE scheme, namely \textbf{Regev's PKE}.
+
+    \begin{framedalgo}{Regev's PKE scheme}
+        Given a vector $\vec s \in \Z_q^n$ and a value $m$ (with $m \approx (n+1) \log q$), the Regev PKE scheme $\Pi_{\text{Regev}} = \mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec}$ is defined as follows:
+        \begin{itemize}
+            \item $\mathrm{KGen}(1^\lambda) = (pk, sk)$ where $pk = \smat{\overline{A} & \vec b^T}^T$ and $sk = \vec s$, with each column of $A$ corresponding to a sample $(\overline{a_i}, b_i)$ with $b_i = \abk{\vec s, \overline{a_i}} + e_i \pmod q$
+            \item $\mathrm{Enc}(pk, m) = \vec c$ where $m \in \{0,1\}$ and $\vec c = (pk) \vec r + \smat{\vec 0 & m \floor{q/2}}^T$, for some $\vec r \in_R \{0,1\}^m$
+            \item $\mathrm{Dec}(pk, \vec c) = 1$ when $\smat{-\vec s, 1}^T \vec c \approx m \floor{q/2}$ and 0 otherwise
+        \end{itemize}
+    \end{framedalgo}
+
+    To show the correctness of the above scheme, we observe that:
+    \[\smat{- \vec s, 1}^T A = - \vec s \overline{A}+\overline{b}^T = \vec e^T= \vec 0 \pmod q\]
+
+    Therefore, if $\vec c$ is a correct ciphertext we have that:
+    \[\smat{- \vec s, 1}^T \vec c = \smat{- \vec s, 1}^T A \vec r + m \floor{\frac{q}{2}} = \vec e^T \vec r +  m \floor{\frac{q}{2}}\]
+
+    which is almost equal to $m \floor{\frac{q}{2}}$ as long as $\abk{\vec e, \vec r}$ is less than $q/4$
+
+    \begin{framedthm}{}
+        Regev's PKE scheme is CPA-secure under the LWE assumption.
+    \end{framedthm}
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+
+
+    
+
 \end{document}

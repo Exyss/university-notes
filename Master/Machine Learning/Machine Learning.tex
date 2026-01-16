@@ -153,7 +153,7 @@
         \item $\mathrm{rt}(b)$ is the number of black pieces threatened by red pieces
     \end{itemize}
 
-    With this formulation, we have reduced the concept of leaning checkers to estimating the best possible values of the coefficients $w_1, \ldots, w_6$, which care called \textbf{weights}, that maximize the value of $V(b)$ for any board state $b$. This estimation process is referred to as \textit{learning the function $V$}.
+    With this formulation, we have reduced the concept of learning checkers to estimating the best possible values of the coefficients $w_1, \ldots, w_6$, which care called \textbf{weights}, that maximize the value of $V(b)$ for any board state $b$. This estimation process is referred to as \textit{learning the function $V$}.
 
     \begin{frameddefn}{Learned function}
         Given a target function $f : X \to Y$ with weights $w_1, \ldots, w_k$, we define the \textbf{learned function} $\widehat{f} : X \to Y$ as the current approximation of $f$ computed by a learning algorithm.
@@ -278,7 +278,7 @@
     \begin{frameddefn}{Sample error}
         Let $f : X \to Y$ be a classification problem. Given a hypothesis $h$, the \textbf{sample error} of $h$ with respect to $f$ and a data sample $S$ over $\mathcal{D}$, written as $\mathrm{error}_S(h)$, is defined as:
         \[\mathrm{error}_\mathcal{S}(h) = \frac{1}{n} \sum_{x \in S} \delta(x)\]
-        where $\delta(x) = 1$ if $h(x) \neq f(x)$ and $\delta(x) = 0$ otherwise. The \textit{sample accuracy} is defined as $\mathrm{accuracy}_S(h) = 1-\mathrm{error}_{S}(h)$.
+        where $n=\abs{S}$, $\delta(x) = 1$ if $h(x) \neq f(x)$ and $\delta(x) = 0$ otherwise. The \textit{sample accuracy} is defined as $\mathrm{accuracy}_S(h) = 1-\mathrm{error}_{S}(h)$.
     \end{frameddefn}
     
     The sample error can be efficiently computed over a small data sample. The goal of a learning system is to be accurate in $h(x)$. However, sample accuracy may often fool us into thinking that our hypothesis is good: if $\mathrm{accuracy}_{S}(h)$ is very high but but $\mathrm{accuracy}_\mathcal{D}(h)$ is poor, our system is not be very useful.
@@ -549,14 +549,14 @@
     For regression problems $f : X \to \R^k$, we need a different type of metrics. In particular, given a test set $S = \{(x_i, t_i)\}_{i \in [N]}$, performance can be measured in various ways:
     \begin{itemize}
         \item \textbf{Mean Absolute Error (MAE)}
-        \[\frac{1}{N} \sum_{i = 1}^N \abs{\widehat{f}(x_i) - t_i}\]
+        \[\frac{1}{N} \sum_{i=1}^N \abs{\widehat{f}(x_i) - t_i} \]
         \item \textbf{Mean Squared Error (MSE)}
-        \[\frac{1}{N} \sum_{i = 1}^N (\widehat{f}(x_i) - t_i)^2\]
+        \[\frac{1}{N} \sum_{i = 1}^N \abs{\widehat{f}(x_i) - t_i}^2\]
         \item \textbf{Root Mean Squared Error (RMSE)}
-        \[\sqrt{\frac{1}{N} \sum_{i = 1}^N (\widehat{f}(x_i) - t_i)^2}\]
+        \[\sqrt{\frac{1}{N} \sum_{i = 1}^N \abs{\widehat{f}(x_i) - t_i}^2}\]
     \end{itemize}
 
-    The K-Fold Cross Validation algorithm can also be adapted to compute these performance measures.
+    where $\abs{\cdot}$ is the L2-norm operator. The K-Fold Cross Validation algorithm can also be adapted to compute these performance measures.
 
     \chapter{Decision trees}
 
@@ -773,7 +773,7 @@
 
     \subsection{Overfitting in decision trees}
 
-    A common issue in decision tree learning is the \textbf{size} of the decision tree yield by the algorithm, that is the number of nodes int the output tree on average. The importance of size comes from the nature of the algorithm itself: since the hypothesis space is complete, if allow the tree to have an uge number of nodes then it will eventually become a perfect approximation of the dataset.
+    A common issue in decision tree learning is the \textbf{size} of the decision tree yield by the algorithm, that is the number of nodes in the output tree on average. The importance of size comes from the nature of the algorithm itself: since the hypothesis space is complete, if allow the tree to have an uge number of nodes then it will eventually become a perfect approximation of the dataset.
 
     \begin{figure}[H]
         \centering
@@ -788,7 +788,7 @@
     In \textbf{reduced-error pruning}, the data is split into a training and a validation set.The easiest way to achieve each pruning step is to greedily select the subtree that is cut.
     \begin{enumerate}
         \item We copy the decision tree and randomly select a subtree
-        \item We replace the whole subtree it with a single leaf node labeled with the most common leaf label in the subtree.
+        \item We replace the whole subtree with a single leaf node labeled with the most common leaf label in the subtree.
         \item We test the accuracy on the new subtree through the validation set
     \end{enumerate}
 
@@ -1058,7 +1058,7 @@
         h_{\mathrm{MAP}} \in \argmax_{h \in H} \Pr[h \mid D] = \argmax_{h \in H} \Pr[D \mid h] \cdot \Pr[h]\\
     \end{split}\]
 
-    The latter, instead, also assumes that the hypotheses are \textbf{uniformly distributed}, i.e. that they all have the same probability. In this case, since $\Pr[h_i] = \Pr_[h_j]$ for all $h_i,h_j \in H$, we can ignore this probability:
+    The latter, instead, also assumes that the hypotheses are \textbf{uniformly distributed}, i.e. that they all have the same probability. In this case, since $\Pr[h_i] = \Pr[h_j]$ for all $h_i,h_j \in H$, we can ignore this probability:
     \[h_{\mathrm{ML}} \in \argmax_{h \in H} \Pr[h \mid D] = \argmax_{h \in H} \Pr[D \mid h] \cdot \Pr[h] = \argmax_{h \in H} \Pr[D \mid h]\]
 
     \begin{frameddefn}{MAP and ML hypotheses}
@@ -1366,7 +1366,7 @@
     \end{enumerate}
 
     \begin{framedobs}{Gradient}
-        For those who aren't confident with multivariate calculus, the gradient of a function $f : \R^n \to \R^m$ is defined as:
+        For those who aren't confident with multivariate calculus, the gradient of a function $f : \R^n \to \R$ is defined as:
         \[\nabla f(x) = \smat{\frac{\partial  f}{\partial  x_1}(x) \\ \vdots \\ \frac{\partial  f}{\partial  x_n}(x)}\]
         In other words, the gradient of $f$ is the vector whose components are the partial derivatives of $f$ with respect to the components of the input
     \end{framedobs}
@@ -1501,7 +1501,7 @@
     Given the following matrix:
     \[y(x) = \smat{y_1(x) \\ \vdots \\ y_k(x)} = \smat{\widetilde{w_1}^T \\ \vdots \\ \widetilde{w_k}^T} \widetilde{x} = \widetilde{W}^T \widetilde{x}\]
 
-    where $\widetilde{W} = \smat{\widetilde{w_1} & \cdots & \widetilde{w_k}}$, leaning a linear model is equivalent to estimating the matrix $\widetilde{W}$ for which $y(x) = \widetilde{W}^T \widetilde{X}$ defines the $K$-class discriminant.
+    where $\widetilde{W} = \smat{\widetilde{w_1} & \cdots & \widetilde{w_k}}$, learning a linear model is equivalent to estimating the matrix $\widetilde{W}$ for which $y(x) = \widetilde{W}^T \widetilde{X}$ defines the $K$-class discriminant.
 
     In particular, we'll restrict our interest to models working directly on the samples $x$. All the results that we will discuss also hold if we consider a non-linear transformation of the inputs $\phi(x)$, called \textbf{basis functions}. The idea is to use these transformations to convert the feature space into a linearly separable one in order to apply the discussed methods. In particular, decision boundaries will be linear in the feature space $\phi(x)$ and non-linear in the original space $x$. Clearly, classes that are linearly separable in the feature space $\phi(x)$ may not be as easily separable in the input space $x$.
 
@@ -1588,7 +1588,7 @@
     Consider a linear classification problem $f : \R^d \to \{C_1, C_2\}$. We want to determine a linear discriminant $y = {w}^T {x}$ with a vector ${w} = \smat{w_0 & w_1 & \cdots w_d}^T$ for which $x \in C_1$ if $y \geq -w_0$ and $x \in C_2$ otherwise.
 
     Consider a dataset with $N_1$ points in $C_1$ and $N_2$ points in $C_2$. Let $m_1$ and $m_2$ be the average of their distributions:
-    \[m_1 = \frac{1}{N_1} \sum_{x_i \in C_1} x_1 \qquad\qquad m_2 = \frac{1}{N_2} \sum_{x_i \in C_2} x_i\]
+    \[m_1 = \frac{1}{N_1} \sum_{x_i \in C_1} x_i \qquad\qquad m_2 = \frac{1}{N_2} \sum_{x_i \in C_2} x_i\]
 
     To maximize class separation, we have to adjust the value of ${w}$ in order to maximize the function $J( w) = {w}^T (m_2 - m_1)$, subject to $\norm{{w}} = 1$ -- implying that ${w} \propto m_2 - m_1$.
     
@@ -1886,7 +1886,7 @@
     \[E({w}) = \frac{1}{2} \sum_{i = 1}^N (t_i - {w}^T x_i)^2 + \lambda {w}^T {w}\]
 
     This error function can be re-written as:
-    \[E({w}) = \frac{1}{2} \sum_{i = 1}^N ({t}-X {w})^T({t}-X {w}) + \lambda \norm{w}^2\]
+    \[E({w}) = \frac{1}{2}  ({t}-X {w})^T({t}-X {w}) + \lambda \norm{w}^2\]
     
     where ${t} = \smat{t_1 & \cdots & t_N}^T$ is the output vector and $X = \smat{x_1 & \cdots & x_N}^T$ is the design matrix. Here, the optimal solution is obtained by $\nabla E({w}) = 0$, which happens when:
     \[{w^*} = -\frac{1}{\lambda} \sum_{i = 1}^N (t_i - {w}^T {x_i}) {x_i} = \sum_{i = 1}^N \alpha_i x_i\]
@@ -1927,7 +1927,7 @@
 
     The kernel trick can also be applied to the regularization of a loss function. Consider the following loss function:
     \[E( w) = C \sum_{i = 1}^N E(y_i, t_i) + \frac{1}{2}\norm{{w}}^2\]
-    where $y_i = {w}^T {x_i}$ and $C$ is the inverse of $\lambda$ (recall that $\alpha = (K + \lambda I_N)^{-1} {t}$) and $E_\varepsilon$ is an $\epsilon$-insensitive error function.
+    where $y_i = {w}^T {x_i}$ and $C$ is the inverse of $\lambda$ (recall that $\alpha = (K + \lambda I_N)^{-1} {t}$) and $E_\varepsilon$ is an $\varepsilon$-insensitive error function.
     \[E_\varepsilon(y_i, t_i) = \soe{ll}{
         0 & \text{if } \abs{y_i - t-i} < \varepsilon \\
         \abs{y_i-t_i} & \text{otherwise}
@@ -2226,7 +2226,7 @@
     \end{figure}
 
     The full model is thus equal to:
-    \[y(x) = f(x; \theta) = w^T \mathrm{max}(0, W^T,x+c)+b\]
+    \[y(x) = f(x; \theta) = w^T \mathrm{max}(0, W^Tx+c)+b\]
     with $\theta = \abk{W,c,w,b}$.
 
     Once the model has been defined, we can now learn the parameters $\theta$ by minimizing the MSE loss function, obtaining that:
@@ -2269,7 +2269,7 @@
 
     In other words, the maximum likelihood estimation with additive Gaussian noise corresponds to the mean squared error minimization.
     
-    The choice the \textbf{output unit activating function} is strictly related to the choice of the cost function. Let $h$ be the output of the last hidden layer, meaning that $y = f^{(n)}(h; \theta)$. Since the universal approximation theorem requires that this activating function is linear, we have a restricted set of choices.
+    The choice of the \textbf{output unit activating function} is strictly related to the choice of the cost function. Let $h$ be the output of the last hidden layer, meaning that $y = f^{(n)}(h; \theta)$. Since the universal approximation theorem requires that this activating function is linear, we have a restricted set of choices.
     \begin{itemize}
         \item For \textit{regression}, the identity is chosen as activating function -- meaning that $y = W^Th + b$ -- while the chosen loss functions is the mean squared error (equivalent to maximum likelihood under additive Gaussian noise assumption). In this setup, the output units never saturate due to them being linear.
         
@@ -2391,7 +2391,7 @@
     \[\nabla_{\alpha^{(1)}} J(\theta) = \smat{\frac{\partial J(\theta)}{\partial h_1^{(1)}} \frac{\partial h_1^{(1)}}{\partial \alpha_1^{(1)}} \\ \frac{\partial J(\theta)}{\partial h_2^{(1)}} \frac{\partial h_2^{(1)}}{\partial \alpha_2^{(1)}}} =
     \smat{\frac{\partial J(\theta)}{\partial h_1^{(1)}} \cdot \mathrm{step}(\alpha_1^{(1)}) \\ \frac{\partial J(\theta)}{\partial h_2^{(1)}} \cdot \mathrm{step}(\alpha_2^{1})} = ((y-t) (W^{(2)})^T)\mathrm{step}(\alpha^{(1)})\]
 
-    where $\mathrm{step}$ is the step function, the derivative of the $\mathrm{ReLU}$ function:
+    where $\mathrm{step}$ is the step function, used as the derivative of the ReLU:
     \[\mathrm{step}(x) = \soe{ll}{
         1 & \text{if } x \geq 0 \\
         0 & \text{if } x < 0
@@ -2454,7 +2454,7 @@
         \end{algorithmic}
     \end{framedalgo}
 
-    The stopping condition usually used in stochastic gradient descent is a treshold parameter for improvement or a fixed number of iterations. In some advanced models, the hyperparameter $\eta$ changes according to some rule through iterations, where for the first $\tau$ iteration ($k \leq tau$) we have:
+    The stopping condition usually used in stochastic gradient descent is a treshold parameter for improvement or a fixed number of iterations. In some advanced models, the hyperparameter $\eta$ changes according to some rule through iterations, where for the first $\tau$ iteration ($k \leq \tau$) we have:
     \[\eta^{(k+1)} = \rbk{1- \frac{k}{\tau}} \eta^{(k)} + \frac{k}{\tau} \eta^{(\tau)}\]
     while for all other iterations $(k > \tau)$ we have $\eta^{(k)} = \eta^{(\tau)}$. This partially removes the overhead of having to find a good static hyperparameter $\eta$ -- the algorithm may diverge if $\eta$ is too large, while it may be too slow if $\eta$ is too small. 
 
@@ -2612,7 +2612,7 @@
     The first stage of a convolutional layer applies 2D convolution. We observe that in this stage, 2D convolution is actually applied through cross-correlation:
     \[(I * K)(i,j) = \sum_{m \in S_1} \sum_{n \in S_2} I(i+m, j+n) K(m,n)\]
 
-    This process is very efficient in terms of memory requirements and generalization accuracy, in particular \textbf{sparse connectivity} and \textbf{parameter sharing}. In the former (also called \textit{sparse interactions}), the outputs depend only on a few inputs. In other words, instead of having a completely connected network, we have a sparse network. To achieve this, we use a kernel that is much smaller than input. This property is particularly useful signals such as images: we expect that each pixel has more influence on other pixels that are close ot it, while far away pixels will be not be influenced by it. In this case, we would prefer a sparse connectivity patter that connects pixels that are close to each other to the same units.
+    This process is very efficient in terms of memory requirements and generalization accuracy, in particular \textbf{sparse connectivity} and \textbf{parameter sharing}. In the former (also called \textit{sparse interactions}), the outputs depend only on a few inputs. In other words, instead of having a completely connected network, we have a sparse network. To achieve this, we use a kernel that is much smaller than input. This property is particularly useful for signals such as images: we expect that each pixel has more influence on other pixels that are close ot it, while far away pixels will be not be influenced by it. In this case, we would prefer a sparse connectivity patter that connects pixels that are close to each other to the same units.
 
     \begin{figure}[H]
         \centering
@@ -3054,7 +3054,7 @@
         \caption{Schematic of adversarial training in GANs}
     \end{figure}
 
-    The generator produces samples from the distribution $\Pr[X]$, while the discriminator identifies if a sample actually comes from $\Pr[X]$ or not (the distribution is unknown to the discriminator). To make the two networks compete with each other, the generator tries to foold the discriminator in believing that the sample is correct, while the discriminator tries to separate real samples from the fake ones.
+    The generator produces samples from the distribution $\Pr[X]$, while the discriminator identifies if a sample actually comes from $\Pr[X]$ or not (the distribution is unknown to the discriminator). To make the two networks compete with each other, the generator tries to fool the discriminator in believing that the sample is correct, while the discriminator tries to separate real samples from the fake ones.
     \begin{enumerate}
         \item Train the discriminator with a batch of data $\{(x_i, \mathrm{real})\} \cup \{x'_j, \mathrm{fake}\}$, where $x_i \in X_D$ and $x_j'$ are images generated from the generator with random values for the latent variables
         \item Train the generator by using the entire model with discriminator layers fixed, i.e. non-trainable, with a batch of data $\{(r_k, \mathrm{real})\}$, where $r_k$ are random values of the latent variable
@@ -3073,7 +3073,7 @@
     \section{Dynamic systems}
 
     A \textbf{dynamic system} is a system that evolves over time. At any given time $k$, a dynamic system has a \textit{state} $x_k$ representing the current situation of the system.
-    The \textit{state transition model} (or \textit{evolition rule}) of the dynamical system is a function $f_k$ that describes what future states follow from the current state $x_k$ and the current state noise $w_k$, i.e. $f_k(x_k, w_k) = x_{k+1}$. The function is often deterministic but in some cases it is also randomized. The system is also provided with an \textit{observation model}, a function $h_k$ that takes in input the current state $x_k$ and the current observation noise $v_k$, returning the current observation $z_k$.
+    The \textit{state transition model} (or \textit{evolution rule}) of the dynamical system is a function $f_k$ that describes what future states follow from the current state $x_k$ and the current state noise $w_k$, i.e. $f_k(x_k, w_k) = x_{k+1}$. The function is often deterministic but in some cases it is also randomized. The system is also provided with an \textit{observation model}, a function $h_k$ that takes in input the current state $x_k$ and the current observation noise $v_k$, returning the current observation $z_k$.
 
     \begin{figure}[H]
         \centering
@@ -3172,7 +3172,7 @@
         \caption{Example of optimal policy for the stochastic MDP of the previous example. The green squares represent a $\mathrm{Right}$ action, while the red squares represent a $\mathrm{Left}$ action.}
     \end{figure}
 
-    Figuring out the optimal policy depends entirely on which parts of the MDP are known or not. For instance, if the whole quadruple $(X,A,\delta,r)$ is known, the optimal policy can be found through reasoning or planning. If some parts of the tuple are unknown (typically the reward function), a leaning phase is needed.
+    Figuring out the optimal policy depends entirely on which parts of the MDP are known or not. For instance, if the whole quadruple $(X,A,\delta,r)$ is known, the optimal policy can be found through reasoning or planning. If some parts of the tuple are unknown (typically the reward function), a learning phase is needed.
 
     To give an example, suppose that we are playing on a bandit with $n$ arms. This machine can be viewed as a one-state MDP $(\{x_0\}, A, \delta, r)$ where $\delta(x_0, a_i) = x_0$ for all $a_i \in A$ and $r : A \to \R$. 
 
@@ -3229,7 +3229,7 @@
     
     Hence, we cannot use samples of the form $(x_{(j)}, \pi(x_{j}))$ in order to learn $\pi^*$. In the general case, to learn a policy we use \textbf{experimentation strategies}. The idea is to explore possible strategies in order to find the actions that maximize the value of a quality function $\widehat{Q}(x,a)$ and then repeat the process on strategies using those actions. We split this process in two phases. In the \textit{exploration phase}, we randomly select an action $a$ (usually with a low value of $\widehat{Q}(x,a)$). In the \textit{exploitation phase}, we select the action $a$ that maximizes $\widehat{Q}(x,a)$.
 
-    The simples experimentaton strategy is the \textbf{$\mathbf{\varepsilon}$-greedy strategy}: given a value $\varepsilon \in [0,1]$, we select either a random action with probability $\varepsilon$ or the best action with probability $1-\varepsilon$. The $\varepsilon$ value usually decreases over time (exploration followed by exploitation).
+    The simplest experimentaton strategy is the \textbf{$\mathbf{\varepsilon}$-greedy strategy}: given a value $\varepsilon \in [0,1]$, we select either a random action with probability $\varepsilon$ or the best action with probability $1-\varepsilon$. The $\varepsilon$ value usually decreases over time (exploration followed by exploitation).
 
     A more advanced experimentation strategy is the \textbf{soft-max strategy}. Actions with higher $\widetilde{Q}$ values are assigned higher probabilities and all actions have at least some probability, i.e. no action has probability zero. For every state $x \in X$ and every action $a_i \in A$, we have that:
     \[\Pr[a_i \mid x] = \frac{k^{\widehat{Q}(x,a_i)}}{\sum_{a_j \in A} k^{\widehat{Q}(x,a_j)}}\]
@@ -3452,7 +3452,7 @@
         \caption{Non-deterministic MDP describing the grid goal problem where we're also allowed to move right by two squares.}
     \end{figure}
 
-    For non-deterministic learning there are also more advanced Q-Learning algorithm: the TD algorithm and the SARSA algorithm. \textbf{Temporal difference (TD)} Q-learning is a variant of Q-leaning where the discrepancy between successive Q estimates reduces over time. Given a value $n$, the $n$ step time difference of the function Q is given by:
+    For non-deterministic learning there are also more advanced Q-Learning algorithm: the TD algorithm and the SARSA algorithm. \textbf{Temporal difference (TD)} Q-learning is a variant of Q-learning where the discrepancy between successive Q estimates reduces over time. Given a value $n$, the $n$ step time difference of the function Q is given by:
     \[\widehat{Q}^{*^{(n)}}(x_t,a_t) = \overline{r}_{t} + \gamma \overline{r}_{t+1} + \gamma^{n-1}\overline{r}_{t+n-1} + \gamma^n \max_{a' \in A} \widehat{Q}(x_{t+n}, a')\]
 
     Given a value $\lambda \in [0,1]$, we define:
@@ -3487,7 +3487,7 @@
     In \textbf{policy iteration} we directly estimate the optimal policy $\pi$ instead of estimanting the functions $V$ and $Q$. Each policy can be parametricly represented as:
     \[\pi_\theta(x) = \max_{a \in A} \widehat{Q}_\theta(x,a)\]
 
-    Let $\rho(\theta)$, called \textit{policy value}, be the expected value of executing $\pi_\theta$. The policy gradient is given by $\nabla_\theta \rho(\theta)$. In its generic formThe policy gradient algorithm for a parametric representation of the policy $\pi_\theta(x)$ corresponds to:
+    Let $\rho(\theta)$, called \textit{policy value}, be the expected value of executing $\pi_\theta$. The policy gradient is given by $\nabla_\theta \rho(\theta)$. In its generic form, the policy gradient algorithm for a parametric representation of the policy $\pi_\theta(x)$ corresponds to:
     \begin{enumerate}
         \item Choose $\theta$
         \item Repeat until terminating condition: estimate $\nabla_\theta \rho(\theta)$ through experiments and set $\theta := \theta + \eta \nabla_\theta \rho(\theta)$
@@ -3687,7 +3687,7 @@
     By substituting the definitions of $\tau$ and $\rho$, we get that:
     \[V(b) = \max_{a \in A} \sum_{x \in X} b(x) r(x,a) + \gamma sum_{z \in Z} \Pr[z \mid b,a] \cdot V(b_z^a)\]
 
-    where $b_z^a$ is the belief state obtained from action $a$ and observation $z$. To estimate the value function, variants of Q-leaning can be used on a discretized version of the belief MDP obtained by discretizing the distributions $b(x)$. A similar method can be devised for any MDP solving technique.
+    where $b_z^a$ is the belief state obtained from action $a$ and observation $z$. To estimate the value function, variants of Q-learning can be used on a discretized version of the belief MDP obtained by discretizing the distributions $b(x)$. A similar method can be devised for any MDP solving technique.
 
     Finally, we observe that, by construction, the optimal belief policy $\pi^* : B \to A$ that we obtain is observation-based: since the belief state is determined by observations, in the final policy the next action will also depend on the observed values. In other words, the optimal solutions is actually a \textbf{policy tree} where, after an action is executed, the computation branches based on the observed values.
 

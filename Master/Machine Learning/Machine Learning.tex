@@ -551,9 +551,9 @@
         \item \textbf{Mean Absolute Error (MAE)}
         \[\frac{1}{N} \sum_{i=1}^N \abs{\widehat{f}(x_i) - t_i} \]
         \item \textbf{Mean Squared Error (MSE)}
-        \[\frac{1}{N} \sum_{i = 1}^N \abs{\widehat{f}(x_i) - t_i}^2\]
+        \[\frac{1}{N} \sum_{i = 1}^N (\widehat{f}(x_i) - t_i)^2\]
         \item \textbf{Root Mean Squared Error (RMSE)}
-        \[\sqrt{\frac{1}{N} \sum_{i = 1}^N \abs{\widehat{f}(x_i) - t_i}^2}\]
+        \[\sqrt{\frac{1}{N} \sum_{i = 1}^N (\widehat{f}(x_i) - t_i)^2}\]
     \end{itemize}
 
     where $\abs{\cdot}$ is the L2-norm operator. The K-Fold Cross Validation algorithm can also be adapted to compute these performance measures.
@@ -773,7 +773,7 @@
 
     \subsection{Overfitting in decision trees}
 
-    A common issue in decision tree learning is the \textbf{size} of the decision tree yield by the algorithm, that is the number of nodes in the output tree on average. The importance of size comes from the nature of the algorithm itself: since the hypothesis space is complete, if allow the tree to have an uge number of nodes then it will eventually become a perfect approximation of the dataset.
+    A common issue in decision tree learning is the \textbf{size} of the decision tree yield by the algorithm, that is the number of nodes in the output tree on average. The importance of size comes from the nature of the algorithm itself: since the hypothesis space is complete, if allow the tree to have a huge number of nodes then it will eventually become a perfect approximation of the dataset.
 
     \begin{figure}[H]
         \centering

@@ -59,7 +59,7 @@ Disclaimers ⚠️
 | [Progettazione di Sistemi Digitali](../../raw/main/Bachelor/Primo%20Anno/Progettazione%20di%20Sistemi%20Digitali/Progettazione%20di%20Sistemi%20Digitali.pdf) | Completi | 16/03/2025 |
 | [Architettura degli Elaboratori](../../raw/main/Bachelor/Primo%20Anno/Architettura%20degli%20Elaboratori/Architettura%20degli%20Elaboratori.pdf) | Completi | 16/03/2025 |
 | Fondamenti di Programmazione [ ! ] | - | - |
-| [Metodologie di Programmazione](https://github.com/ajhxia/UNI/raw/main/Primo%20Anno/Metodologie%20di%20Programmazione/Teoria/Metodologie_di_Programmazione/Metodologie_di_Programmazione.pdf) [ !! ]| Scritti da [@ajhxia](https://github.com/ajhxia) | - |
+| [Metodologie di Programmazione](https://raw.githubusercontent.com/ajhxia/UNI/c02ef1b27f924af41cb701ff60353be31e79438c/Primo%20Anno/Metodologie%20di%20Programmazione/Teoria/Metodologie_di_Programmazione.pdf) [ !! ]| Scritti da [@ajhxia](https://github.com/ajhxia) | - |
 </details>
 </div>
 
@@ -106,11 +106,11 @@ Disclaimers ⚠️
 | ----- | :----: | :-----------: |
 | [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms/Advanced%20Algorithms.pdf) | Completed | 30/09/2025 |
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity/Computational%20Complexity.pdf) | Completed | 17/02/2025 |
-| [Cryptography](../../raw/main/Master/Cryptography/Cryptography.pdf) | W.I.P. | 31/12/2025 |
+| [Cryptography](../../raw/main/Master/Cryptography/Cryptography.pdf) | Last chapter missing | 17/01/2026 |
 | [Graph Theory](../../raw/main/Master/Graph%20Theory/Graph%20Theory.pdf) | Completed | 16/10/2025 |
 | [Mathematical Logic for Computer Science](../../raw/main/Master/Mathematical%20Logic%20for%20Computer%20Science/Mathematical%20Logic%20for%20Computer%20Science.pdf) | Completed | 25/06/2025 |
 | Models of Computation [ !! ] | - | - |
-| [Quantum Computing](https://raw.githubusercontent.com/aflaag-notes/quantum-computing/main/src/Quantum%20Computing.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
+| [Quantum Computing](https://raw.githubusercontent.com/aflaag-notes/quantum-computing/main/src/QuantumComputing.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 | [Network Algorithms](https://raw.githubusercontent.com/aflaag-notes/network-algs/main/src/Network%20Algorithms.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 | [Autonomous Networking](https://raw.githubusercontent.com/loresaba/scritti-di-informatica/refs/heads/master/master/first%20year/autonomous_networking/autonomous_netwoking.pdf) | Written by [@loresaba](https://github.com/loresaba) | - |
 | [Computer Network Performance](../../raw/main/Master/Computer%20Network%20Performance/Computer%20Network%20Performance.pdf) | Completed | 05/12/2025 |

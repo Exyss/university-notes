@@ -373,7 +373,7 @@
     \textbf{Esempio:}
 
     \begin{itemize}
-        \item Date le due algebre $(\R, +)$ e $(\R_{> 0}, \cdot)$, sappiamo giò che $\funcmap{\mathrm{exp}}{\R}{\R_{> 0}}{x}{e^x}$ sia un omomorfismo
+        \item Date le due algebre $(\R, +)$ e $(\R_{> 0}, \cdot)$, sappiamo già che $\funcmap{\mathrm{exp}}{\R}{\R_{> 0}}{x}{e^x}$ sia un omomorfismo
         \item Poiché $\exists \; \func{\mathrm{ln}}{\R_{> 0}}{\R} \mid \mathrm{ln}(\mathrm{exp}(x)) = x$, ne segue che $\mathrm{exp}$ sia invertibile, dunque che essa sia biettiva
         \item Di conseguenza, $\mathrm{exp}$ risulta essere un isomorfismo, concludendo che $\R \cong \R_{>0}$
     \end{itemize}
@@ -832,7 +832,7 @@
         \[\func{\cdot}{Env \times Env}{Env}\]
         dove:
         \[(E_1E_2)(x) = \soe{ll}{
-            E_2(x) & \text{ se } x \in dom(E_1)\\
+            E_2(x) & \text{ se } x \in dom(E_2)\\
             E_1(x) & \text{ altrimenti }\\
         }\]
         \textbf{Nota}: tale operazione può essere interpretata come una sovrascrittura in $E_1$ di tutte le variabili definite in $E_2$
@@ -1115,7 +1115,7 @@
     \end{frameddefn}
 
     \begin{frameddefn}{Scoping dinamico}
-        Definiamo un linguaggio come linguaggio a \textbf{scoping statico} se durante la valutazione di un'espressione viene utilizzato l'ambiente definito al tempo di valutazione stesso.
+        Definiamo un linguaggio come linguaggio a \textbf{scoping dinamico} se durante la valutazione di un'espressione viene utilizzato l'ambiente definito al tempo di valutazione stesso.
     \end{frameddefn}
 
     Difatti, nell'esempio precedente ci troviamo in due situazioni:
@@ -1757,7 +1757,7 @@
         \[\ttt{prod} := \fn{z}{\fn{w}{z (\ttt{sum } w) \;\ttt{zero}}}\]
 
         \item La funzione \ttt{power} che eleva un numero di Church ad un altro numero di Church:
-        \[\ttt{prod} := \fn{z}{\fn{w}{w z}}\]
+        \[\ttt{power} := \fn{z}{\fn{w}{w z}}\]
     \end{itemize}
 
     Oltre ai numeri naturali, il lambda calcolo ci permette di descrivere anche la \textbf{logica booleana} di Church, dove i due valori \ttt{True} e \ttt{False} sono definiti come:
@@ -2113,7 +2113,7 @@
         \[\func{\cdot}{Store \times Store}{Store}\]
         dove:
         \[(S_1S_2)(x) = \soe{ll}{
-            S_2(x) & \text{ se } x \in dom(S_1)\\
+            S_2(x) & \text{ se } x \in dom(S_2)\\
             S_1(x) & \text{ altrimenti }\\
         }\]
     \end{frameddefn}
@@ -3858,7 +3858,7 @@
 
     Consideriamo ora il seguente termine e il suo tipo principale:
     \[\fn{x}{\fn{y}{x}} : \forall X,Y.X \to Y \to X\]
-    In senso improprio, possiamo dire che tale tipo afferma che textit{"indipendentemente dal tipo $Y$, verrà restituito un elemento di tipo $X$"}.
+    In senso improprio, possiamo dire che tale tipo afferma che \textit{"indipendentemente dal tipo $Y$, verrà restituito un elemento di tipo $X$"}.
 
     Notiamo che tale tipo corrisponda esattamente al \textbf{primo assioma logico}, ossia:
     \[A \implies (B \implies A)\]

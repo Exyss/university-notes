@@ -1,6 +1,8 @@
 \documentclass[a4paper, 12pt]{report}
 
 \usepackage[dvipsnames]{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 
 %%%%%%%%%%%%%%%%
 % Set Variables %
@@ -773,7 +775,7 @@
 
     \subsection{Overfitting in decision trees}
 
-    A common issue in decision tree learning is the \textbf{size} of the decision tree yield by the algorithm, that is the number of nodes in the output tree on average. The importance of size comes from the nature of the algorithm itself: since the hypothesis space is complete, if allow the tree to have an uge number of nodes then it will eventually become a perfect approximation of the dataset.
+    A common issue in decision tree learning is the \textbf{size} of the decision tree yield by the algorithm, that is the number of nodes in the output tree on average. The importance of size comes from the nature of the algorithm itself: since the hypothesis space is complete, if allow the tree to have an huge number of nodes then it will eventually become a perfect approximation of the dataset.
 
     \begin{figure}[H]
         \centering
@@ -1557,11 +1559,13 @@
 
     Since we're working with real values, the minimization problem can be solved through derivatives and an iterative approach. This is called the \textbf{perceptron training rule}.
     \begin{enumerate}
-        \item First, compute the derivative of $E( w)$ with respect to each component of $w_j$ of $ w$
-        \[\frac{\partial  E}{\partial  w_j} = \sum_{i = 1}^N (t_i - o(x_i))(-x_{j,i})\]
+        \item First, compute the derivative of  a variant\footnote{
+            since the sign function is not differentiable, we consider a variant of the error function without the filtering term.
+        } of $E(w)$ with respect to each component $w_j$ of $ w$
+        \[\frac{\partial  E}{\partial  w_j} = \sum_{i = 1}^N (t_i - w^Tx_i)(-x_{j,i})\]
     
         \item Update each component $w_j$ by setting $ w_j := w_j + \Delta w_j$, where:
-        \[\Delta w_j = - \eta \frac{\partial  E}{\partial  w_j} = \eta \sum_{i = 1}^N (t_i - o(x_i))x_{j,i}\]
+        \[\Delta w_j = - \eta \frac{\partial  E}{\partial  w_j} = \eta \sum_{i = 1}^N (t_i - w^Tx_i)x_{j,i}\]
         with $\eta$ being a small constant called \textit{learning rate}
 
         \item Repeat until a certain improvement treshold is reached (or after a fixed number of iterations)
@@ -1926,10 +1930,10 @@
     \[w_0^* = \frac{1}{\abs{SV}} \sum_{x_k \in SV} \rbk{t_k - \sum_{x_i \in SV} a_i^* t_i k(x_k, x_i)}\]
 
     The kernel trick can also be applied to the regularization of a loss function. Consider the following loss function:
-    \[E( w) = C \sum_{i = 1}^N E(y_i, t_i) + \frac{1}{2}\norm{{w}}^2\]
+    \[E( w) = C \sum_{i = 1}^N E_{\varepsilon}(y_i, t_i) + \frac{1}{2}\norm{{w}}^2\]
     where $y_i = {w}^T {x_i}$ and $C$ is the inverse of $\lambda$ (recall that $\alpha = (K + \lambda I_N)^{-1} {t}$) and $E_\varepsilon$ is an $\varepsilon$-insensitive error function.
     \[E_\varepsilon(y_i, t_i) = \soe{ll}{
-        0 & \text{if } \abs{y_i - t-i} < \varepsilon \\
+        0 & \text{if } \abs{y_i - t_i} < \varepsilon \\
         \abs{y_i-t_i} & \text{otherwise}
     } \]
     

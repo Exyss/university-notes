@@ -1,6 +1,8 @@
 \documentclass[a4paper, 12pt]{report}
 
 \usepackage[dvipsnames]{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 
 %%%%%%%%%%%%%%%%
 % Set Variables %
@@ -153,6 +155,7 @@
         \item $\mathrm{rt}(b)$ is the number of black pieces threatened by red pieces
     \end{itemize}
 
+    With this formulation, we have reduced the concept of learning checkers to estimating the best possible values of the coefficients $w_1, \ldots, w_6$, which care called \textbf{weights}, that maximize the value of $V(b)$ for any board state $b$. This estimation process is referred to as \textit{learning the function $V$}.
     With this formulation, we have reduced the concept of learning checkers to estimating the best possible values of the coefficients $w_1, \ldots, w_6$, which care called \textbf{weights}, that maximize the value of $V(b)$ for any board state $b$. This estimation process is referred to as \textit{learning the function $V$}.
 
     \begin{frameddefn}{Learned function}
@@ -551,9 +554,9 @@
         \item \textbf{Mean Absolute Error (MAE)}
         \[\frac{1}{N} \sum_{i=1}^N \abs{\widehat{f}(x_i) - t_i} \]
         \item \textbf{Mean Squared Error (MSE)}
-        \[\frac{1}{N} \sum_{i = 1}^N (\widehat{f}(x_i) - t_i)^2\]
+        \[\frac{1}{N} \sum_{i = 1}^N \abs{\widehat{f}(x_i) - t_i}^2\]
         \item \textbf{Root Mean Squared Error (RMSE)}
-        \[\sqrt{\frac{1}{N} \sum_{i = 1}^N (\widehat{f}(x_i) - t_i)^2}\]
+        \[\sqrt{\frac{1}{N} \sum_{i = 1}^N \abs{\widehat{f}(x_i) - t_i}^2}\]
     \end{itemize}
 
     where $\abs{\cdot}$ is the L2-norm operator. The K-Fold Cross Validation algorithm can also be adapted to compute these performance measures.
@@ -1557,11 +1560,13 @@
 
     Since we're working with real values, the minimization problem can be solved through derivatives and an iterative approach. This is called the \textbf{perceptron training rule}.
     \begin{enumerate}
-        \item First, compute the derivative of $E( w)$ with respect to each component of $w_j$ of $ w$
-        \[\frac{\partial  E}{\partial  w_j} = \sum_{i = 1}^N (t_i - o(x_i))(-x_{j,i})\]
+        \item First, compute the derivative of  a variant\footnote{
+            since the sign function is not differentiable, we consider a variant of the error function without the filtering term.
+        } of $E(w)$ with respect to each component $w_j$ of $ w$
+        \[\frac{\partial  E}{\partial  w_j} = \sum_{i = 1}^N (t_i - w^Tx_i)(-x_{j,i})\]
     
         \item Update each component $w_j$ by setting $ w_j := w_j + \Delta w_j$, where:
-        \[\Delta w_j = - \eta \frac{\partial  E}{\partial  w_j} = \eta \sum_{i = 1}^N (t_i - o(x_i))x_{j,i}\]
+        \[\Delta w_j = - \eta \frac{\partial  E}{\partial  w_j} = \eta \sum_{i = 1}^N (t_i - w^Tx_i)x_{j,i}\]
         with $\eta$ being a small constant called \textit{learning rate}
 
         \item Repeat until a certain improvement treshold is reached (or after a fixed number of iterations)
@@ -1926,10 +1931,10 @@
     \[w_0^* = \frac{1}{\abs{SV}} \sum_{x_k \in SV} \rbk{t_k - \sum_{x_i \in SV} a_i^* t_i k(x_k, x_i)}\]
 
     The kernel trick can also be applied to the regularization of a loss function. Consider the following loss function:
-    \[E( w) = C \sum_{i = 1}^N E(y_i, t_i) + \frac{1}{2}\norm{{w}}^2\]
+    \[E( w) = C \sum_{i = 1}^N E_{\varepsilon}(y_i, t_i) + \frac{1}{2}\norm{{w}}^2\]
     where $y_i = {w}^T {x_i}$ and $C$ is the inverse of $\lambda$ (recall that $\alpha = (K + \lambda I_N)^{-1} {t}$) and $E_\varepsilon$ is an $\varepsilon$-insensitive error function.
     \[E_\varepsilon(y_i, t_i) = \soe{ll}{
-        0 & \text{if } \abs{y_i - t-i} < \varepsilon \\
+        0 & \text{if } \abs{y_i - t_i} < \varepsilon \\
         \abs{y_i-t_i} & \text{otherwise}
     } \]
     

@@ -2756,7 +2756,7 @@
     \[\Pr[z] = \prod_{k = 1}^K p_k^{z_k}\]
 
     For a given value $z$, we have that $\Pr[x \mid z_k = 1] = \mathcal{N}(x; \mu_k, \Sigma_k)$. Thus, we get that:
-    \[\Pr[x \mid z] = \prod_{k = 1}^K \mathrm{N}(x; \mu_k, \Sigma_k)^{z_k}\]
+    \[\Pr[x \mid z] = \prod_{k = 1}^K \mathcal{N}(x; \mu_k, \Sigma_k)^{z_k}\]
 
     Since $z$ is a 1-out-of-K encoding and $\Pr[z_k = 1] = p_k$, using total probability we have
     \[\Pr[x] = \sum_{z} \Pr[z] \Pr[x \mid z] = \sum_{k = 1}^K p_k \mathcal{N}(x; \mu_k, \Sigma_k)\]
@@ -2869,7 +2869,7 @@
     \[\frac{1}{N} \sum_{i = 1}^N (u_1^Tx_i - u_1^T \overline{x})^2 = u_1 S u_1\]
 
     where $S$ is the covariance matrix of the dataset:
-    \[S = \frac{1}{N} \sum_{i = 1}^N (x_i - \overline{x_i}) (x_i - \overline{x_i})^T = \frac{1}{N}X^TX\]
+    \[S = \frac{1}{N} \sum_{i = 1}^N (x_i - \overline{x}) (x_i - \overline{x})^T = \frac{1}{N}X^TX\]
 
     with $X$ being the data-centered matrix of the dataset:
     \[X = \smat{(x_1 - \overline{x})^T \\ \vdots \\ (x_N - \overline{x})^T} \]
@@ -3006,7 +3006,7 @@
         \caption{Schematic of an autoencoder.}
     \end{figure}
 
-    Autoencoders are formed by reduced size hidden layers (bottleneck) which learn to reconstruct their input by minimizing a loss function. Given a dataset $D = \{x_i \mid i \in [N]\}$, autoencoders are trained with the same sample $x_i$ used both for input and output. Autoencoders learn ho to encode and decode the samples in a dataset into a low-dimensional space. For this reason, they can also be seen as a method for non-linear principal component analysis.
+    Autoencoders are formed by reduced size hidden layers (bottleneck) which learn to reconstruct their input by minimizing a loss function. Given a dataset $D = \{x_i \mid i \in [N]\}$, autoencoders are trained with the same sample $x_i$ used both for input and output. Autoencoders learn how to encode and decode the samples in a dataset into a low-dimensional space. For this reason, they can also be seen as a method for non-linear principal component analysis.
 
     \begin{figure}[H]
         \centering
@@ -3027,7 +3027,7 @@
 
     Autoencoders can be based on different learning methods. The most common ones are \textbf{Variational Autoencoders (VAE)}, which focus on learning the latent space structure, and \textbf{Generative Adversarial Networks (GAN)}, which focus on learning a distribution and don't use a latent space.
     
-    In VAEs, the goal is to modify data in specific directions, identifying the most meaningful ones for the latent spacae (e.g. \curlyquotes{distort} faces by adding glasses or changin expressions, produce digits from differet hand-writing styles, distort 3D meshes, ...). In other words, we want to feed vectors to the VAE and get a realistic samples of $\Pr[X]$, where $X$ is the sample set. We expect that similar vector values should produce similar generated instances. To achieve this, the encoder produces a distribution instead of an actual encoding, while the decoder operates on sample from this distribution
+    In VAEs, the goal is to modify data in specific directions, identifying the most meaningful ones for the latent space (e.g. \curlyquotes{distort} faces by adding glasses or changin expressions, produce digits from differet hand-writing styles, distort 3D meshes, ...). In other words, we want to feed vectors to the VAE and get a realistic samples of $\Pr[X]$, where $X$ is the sample set. We expect that similar vector values should produce similar generated instances. To achieve this, the encoder produces a distribution instead of an actual encoding, while the decoder operates on sample from this distribution
 
     \begin{figure}[H]
         \centering
@@ -3413,10 +3413,18 @@
     While the training rule is adapted as:
     \[\begin{split}
         \widehat{Q}_{(t)}(x,a) &= \widehat{Q}_{(t-1)}(x, a) + \alpha_{(t-1)}(\overline{r} + \gamma \max_{a' \in A} (\widehat{Q}_{(t-1)}(x', a')) - \widehat{Q}_{(t-1)}(x, a)) \\
-        &= (1-\alpha_{(t-1)}) \widehat{Q}_{(t-1)}(x, a) + \alpha(\overline{r} + \gamma \max_{a' \in A} \widehat{Q}_{(t-1)}(x', a'))
+        &= (1-\alpha_{(t-1)}) \widehat{Q}_{(t-1)}(x, a) + \alpha_{(t-1)}(\overline{r} + \gamma \max_{a' \in A} \widehat{Q}_{(t-1)}(x', a'))
     \end{split}\]
 
-    where $\alpha_{(t-1)} = \frac{1}{1+v_{(t-1)}(x,a)}$, with $v_{(t-1)}(x,a)$ being the total number of times the state-action pair $(x,a)$ has been visited up to the $t$-th iteration. Through this rule, the non-deterministic Q-Learning algorithm is guaranteed to converge when every pair state-action is visited infinitely often.
+    where $\alpha_{(t-1)} = \frac{1}{1+v_{(t-1)}(x,a)}$, with $v_{(t-1)}(x,a)$ being the total number of times the state-action pair $(x,a)$ has been visited up to the $t$-th iteration. 
+    
+    The new training rule is made up of two terms:
+    \begin{itemize}
+        \item $(1-\alpha_{(t-1)}) \widehat{Q}_{(t-1)}(x, a)$: this is the previous estimation of $Q^*(x,a)$ and is weighted by $1-\alpha_{(t-1)}$. If the pair $(x,a)$ has been visited a low number of times during the iterations, $1-\alpha_{(t-1)}$ will be near to zero and the new estimation will be more important.
+        \item $\alpha_{(t-1)}(\overline{r} + \gamma \max_{a' \in A} \widehat{Q}_{(t-1)}(x', a'))$: this is the new estimation (except for $\alpha_{(t-1)}$, is identical to the non deterministic $Q$-learning rule) and have less value if the pair $(x,a)$ has been visited more times during the iterations. 
+    \end{itemize}
+
+    Through this rule, the non-deterministic Q-Learning algorithm is guaranteed to converge when every pair state-action is visited infinitely often.
 
     \begin{figure}[H]
         \centering
@@ -3484,14 +3492,14 @@
         \caption{Comparison of the non-deterministic Q-Learning variants.}
     \end{figure}
 
-    We observe that, in all variants, an explicit representation of $\widehat{Q}$ through a table may not be feasible for large models. In this case, we define an approximating function $Q_\theta(x,a) = \theta_0 + \theta_1 F_1(x,a) + \ldots + \theta_n F_n(x,a)$ and use a linear regression to learn it, usually through a neural network.
+    We observe that, in all variants, an explicit representation of $\widehat{Q}$ through a table may not be feasible for large models. In this case, we can define an approximating function $Q_\theta(x,a) = \theta_0 + \theta_1 F_1(x,a) + \ldots + \theta_n F_n(x,a)$ and use a linear regression to learn it, or directly training a neural network to approximate $\widehat{Q}$.
 
     \subsection{Policy iteration}
 
     In \textbf{policy iteration} we directly estimate the optimal policy $\pi$ instead of estimanting the functions $V$ and $Q$. Each policy can be parametricly represented as:
     \[\pi_\theta(x) = \max_{a \in A} \widehat{Q}_\theta(x,a)\]
 
-    Let $\rho(\theta)$, called \textit{policy value}, be the expected value of executing $\pi_\theta$. The policy gradient is given by $\nabla_\theta \rho(\theta)$. In its generic form, the policy gradient algorithm for a parametric representation of the policy $\pi_\theta(x)$ corresponds to:
+    Let $\rho(\theta)$, called \textit{policy value}, be the expected value (of the cumulative reward) of executing $\pi_\theta$. The policy gradient is given by $\nabla_\theta \rho(\theta)$. In its generic form, the policy gradient algorithm for a parametric representation of the policy $\pi_\theta(x)$ corresponds to:
     \begin{enumerate}
         \item Choose $\theta$
         \item Repeat until terminating condition: estimate $\nabla_\theta \rho(\theta)$ through experiments and set $\theta := \theta + \eta \nabla_\theta \rho(\theta)$
@@ -3503,7 +3511,7 @@
         \item Repeat until terminating condition: compute $t$ random perturbations of $\pi$  $R_1, \ldots, R_k$ and set $\pi$ as the best combination of $R_1, \ldots, R_k$
     \end{enumerate}
 
-    The perturbations are generated from $\pi$ by setting $R_i = \{\theta_1 + \delta_1, \ldots, \theta_N + \delta_N\}$, with $\delta_i$ being randomly chosed from $\{-\varepsilon_j, 0, +\varepsilon_j\}$ for some small fixed value $\varepsilon_j$ relative to $\theta_j$.
+    The perturbations are generated from $\pi$ by setting $R_i = \{\theta_1 + \delta_1, \ldots, \theta_N + \delta_N\}$, with $\delta_j$ being randomly chosed from $\{-\varepsilon_j, 0, +\varepsilon_j\}$ for some small fixed value $\varepsilon_j$ relative to $\theta_j$.
     The last step is usually problem-specific. In the eastiest case, we set 
     \[\pi \in \argmax_{j \in [k]} F(R_j)\]
     for some evaluation function $F$. For more complex cases, we combine $R_1, \ldots, R_t$ by setting:

@@ -775,7 +775,7 @@
 
     \subsection{Overfitting in decision trees}
 
-    A common issue in decision tree learning is the \textbf{size} of the decision tree yield by the algorithm, that is the number of nodes in the output tree on average. The importance of size comes from the nature of the algorithm itself: since the hypothesis space is complete, if allow the tree to have an huge number of nodes then it will eventually become a perfect approximation of the dataset.
+    A common issue in decision tree learning is the \textbf{size} of the decision tree yield by the algorithm, that is the number of nodes in the output tree on average. The importance of size comes from the nature of the algorithm itself: since the hypothesis space is complete, if we allow the tree to have a huge number of nodes then it will eventually become a perfect approximation of the dataset.
 
     \begin{figure}[H]
         \centering
@@ -787,7 +787,7 @@
 
     To determine the optimal tree size, we use a separate set of examples (distinct from the training examples) to evaluate the utility of post-pruning, then apply a statistical test to estimate accuracy of a tree on the entire data distribution.
 
-    In \textbf{reduced-error pruning}, the data is split into a training and a validation set.The easiest way to achieve each pruning step is to greedily select the subtree that is cut.
+    In \textbf{reduced-error pruning}, the data is split into a training and a validation set. The easiest way to achieve each pruning step is to greedily select the subtree that is cut.
     \begin{enumerate}
         \item We copy the decision tree and randomly select a subtree
         \item We replace the whole subtree with a single leaf node labeled with the most common leaf label in the subtree.
@@ -871,7 +871,7 @@
     A random variable associates one of the values in $B$ to every single element of the sample space. To work with a random variable $X : \Omega \to B$, we often consider the event \curlyquotes{$X = x_i$}, where $x_i \in B$. This event is equivalent to the set $\{\omega \in \Omega \mid X(\omega) = x_i\}$. Due to this, a random variable can be viewed both as a function and a variable.
     \[\Pr[X = x_i] = \Pr[\{\omega \in \Omega \mid X(\omega) = x_i\}] = \sum_{\substack{\omega \in \Omega \; :\\ X(\omega) = x_i}} \Pr[\omega]\]
 
-    When we're working with a boolean random variable, i.e. when the value set $B$ is $\{0,1\}$, we often denote the event \curlyquotes{$X = 1$} with $X$, while the event \curlyquotes{$X = 1$} is denoted with $\lnot X$. This allows us to write intersections and unions of events as simple conjunctions and disjunctions of boolean random variables.
+    When we're working with a boolean random variable, i.e. when the value set $B$ is $\{0,1\}$, we often denote the event \curlyquotes{$X = 1$} with $X$, while the event \curlyquotes{$X = 0$} is denoted with $\lnot X$. This allows us to write intersections and unions of events as simple conjunctions and disjunctions of boolean random variables.
     \[\Pr[\lnot A \land B] = \sum_{\substack{\omega \in \Omega \;:\\ A(\omega) = 0, B(\omega) = 1}} \Pr[\omega]\]
 
     Instead of working with a probability space in order to compute the probabilities of each value assumable by a random variable, we often directly consider a \textbf{probability distribution}, a function assigning a probability value to all possible assignments of a random variable. The \textit{joint probability distribution} for a set of random variables gives the probability of every atomic joint event on those random variables.
@@ -1182,7 +1182,7 @@
 
     \subsection{Naïve Bayes classifier}
 
-    The Bayes Optimal Classifier discussed in the previous section provides the best result, but it's not practical when the hypothesis space is large due to the necessity of enumerating all hypotheses. Instead, we usually work with a weaker version of this classifier, the \textbf{Naïve Bayes classifier}.
+    The Optimal Bayes Classifier discussed in the previous section provides the best result, but it's not practical when the hypothesis space is large due to the necessity of enumerating all hypotheses. Instead, we usually work with a weaker version of this classifier, the \textbf{Naïve Bayes classifier}.
 
     Consider a target function $f : X \to Y$. Each instance $x \in X = A_1 \times \ldots \times A_n$ is described by a sequence of values $a_1, a_2, \ldots , a_n$, hence:
     \[\begin{split}
@@ -1320,7 +1320,7 @@
     where $\alpha_h = \ln \Pr[x \mid C_h] \Pr[C_h]$. This model is called \textbf{Gaussian Naïve Bayes classification}, where $\forall j \in [k]$ we have: 
     \[\begin{array}{ccc}
         \widehat \Pr[C_j \mid D] = \widehat p_j = \dfrac{N_j}{N} &\qquad\qquad& \Pr[x \mid C_j,D] = \mathcal{N}(x; \mu_j, \Sigma)\\\\
-        \widehat \mu_j = \dfrac{1}{N_j} \sum\limits_{i = 1}^N t_{i,j} x_i &\qquad\qquad& \widehat \Sigma = \sum_{j = 1}^k \dfrac{N_j}{N} S_j
+        \widehat \mu_j = \dfrac{1}{N_j} \sum\limits_{i = 1}^N t_{i,j} x_i &\qquad\qquad& \widehat \Sigma = \sum\limits_{j = 1}^k \dfrac{N_j}{N} S_j
     \end{array}\]
 
     where $S_j = \frac{1}{N_j} \sum_{i \in C_j} (x_i - \widehat \mu_j)(x_i - \widehat \mu_j)^T$. The use of matrix-like computation can be further extended by also modeling other elements as matrices. For instance, given a problem $f : \R^d \to Y$, a dataset $D = \{(x_i, t_i) \mid i \in [N]\}$ can also be represented as $\abk{X,t}$, where $X$ is an $N \times d$ matrix of input values and $t$ is a vector of $N$ output values.
@@ -1503,7 +1503,7 @@
     Given the following matrix:
     \[y(x) = \smat{y_1(x) \\ \vdots \\ y_k(x)} = \smat{\widetilde{w_1}^T \\ \vdots \\ \widetilde{w_k}^T} \widetilde{x} = \widetilde{W}^T \widetilde{x}\]
 
-    where $\widetilde{W} = \smat{\widetilde{w_1} & \cdots & \widetilde{w_k}}$, learning a linear model is equivalent to estimating the matrix $\widetilde{W}$ for which $y(x) = \widetilde{W}^T \widetilde{X}$ defines the $K$-class discriminant.
+    where $\widetilde{W} = \smat{\widetilde{w_1} & \cdots & \widetilde{w_k}}$, learning a linear model is equivalent to estimating the matrix $\widetilde{W}$ for which $y(x) = \widetilde{W}^T \widetilde{x}$ defines the $K$-class discriminant.
 
     In particular, we'll restrict our interest to models working directly on the samples $x$. All the results that we will discuss also hold if we consider a non-linear transformation of the inputs $\phi(x)$, called \textbf{basis functions}. The idea is to use these transformations to convert the feature space into a linearly separable one in order to apply the discussed methods. In particular, decision boundaries will be linear in the feature space $\phi(x)$ and non-linear in the original space $x$. Clearly, classes that are linearly separable in the feature space $\phi(x)$ may not be as easily separable in the input space $x$.
 
@@ -1516,7 +1516,7 @@
 
     \subsection{Least squares method}
 
-    The first method that we'll discuss is the \textbf{least squares method}. Consider problem $f : \R^d \to Y$ a dataset $D = \{(x_i, t_i) \mid i \in [N]\}$, where each $t$ is a 1-of-$K$ encoding, meaning that $t_{i,j} = 1$ if $x_i \in C_j$, otherwise $t_{i,j} = 0$. We want to find the linear discriminant $y(x) = \widetilde{W}^Tx\widetilde{x}$. Let $\widetilde{X} = \smat{\widetilde{x_1} & \cdots & \widetilde{x_N}}^T$ and let $T = \smat{t_1 & \cdots & t_N}$. We notice that each row of the product $\widetilde{X} \widetilde{W}$ contains the predicted class for the associated input, while the matrix $T$ contains the real class for the input. When the two matrices are equal, the model is perfect. Hence, we want to minimize the difference between such matrices. To do so, we minimize the \textbf{sum-of-squares error function}.
+    The first method that we'll discuss is the \textbf{least squares method}. Consider problem $f : \R^d \to Y$ a dataset $D = \{(x_i, t_i) \mid i \in [N]\}$, where each $t$ is a 1-of-$K$ encoding, meaning that $t_{i,j} = 1$ if $x_i \in C_j$, otherwise $t_{i,j} = 0$. We want to find the linear discriminant $y(x) = \widetilde{W}^T\widetilde{x}$. Let $\widetilde{X} = \smat{\widetilde{x_1} & \cdots & \widetilde{x_N}}^T$ and let $T = \smat{t_1 & \cdots & t_N}$. We notice that each row of the product $\widetilde{X} \widetilde{W}$ contains the predicted class for the associated input, while the matrix $T$ contains the real class for the input. When the two matrices are equal, the model is perfect. Hence, we want to minimize the difference between such matrices. To do so, we minimize the \textbf{sum-of-squares error function}.
 
     \begin{frameddefn}{Sum-of-squares error function}
         Given a linearly separable classification problem $f : \R^d \to Y$ and a dataset $D =  \{(x_i, t_i) \mid i \in [N]\}$, the \textbf{sum-of-squares error function} is defined as:
@@ -2590,7 +2590,7 @@
         \item \textit{Receptive field}: region in the input space that a particular feature is affected by 
     \end{itemize}
 
-    When the \textbf{multiple kernels} are used, convolution produces multiple feature maps. For instance, if we have an input of size $32 \times 32 \time 1$ and we apply 2D convolution on 1 kernel with dimensions $5 \times 5 \times 1$ kernel, we get a feature map of size $28 \times 28$. Instead, if we apply 6 kernels with dimensions $5 \times 5 \times 3$, each kernel is individually applied on a copy of the input, producing 6 feature maps of size $28 \times 28$. These 6 feature maps are then represented by a $28 \times 28 \times 6$ tensor. In general, if we have an input of size
+    When the \textbf{multiple kernels} are used, convolution produces multiple feature maps. For instance, if we have an input of size $32 \times 32 \time 1$ and we apply 2D convolution on 1 kernel with dimensions $5 \times 5 \times 1$ kernel, we get a feature map of size $28 \times 28$. Instead, if we apply 6 kernels with dimensions $5 \times 5 \times 1$, each kernel is individually applied on a copy of the input, producing 6 feature maps of size $28 \times 28$. These 6 feature maps are then represented by a $28 \times 28 \times 6$ tensor. In general, if we have an input of size
     \[w_{\mathrm{in}} \times h_{\mathrm{in}} \times d_{\mathrm{in}}\]
     and $d_{\mathrm{out}}$ kernels of size 
     \[w_{\mathrm{k}} \times h_{\mathrm{k}} \times d_{\mathrm{k}}\]
@@ -2686,7 +2686,7 @@
 
     In order for this process to work, there must be some intersection between the labels $Y_S, Y_T$ and the inputs $X_S, X_T$. If the intersection is too small, learning capabilities cannot be transferred.
 
-    The first solution for transfer learning is \textbf{fine tuning}. In this case, for the target problem we use the same network architecture of the pre-trained model up to some layer, while also \curlyquotes{copying} their parameters. The copied layers cannot are fixed (\textit{frozen weights}) and they cannot be trained on the new model. To adapt the model for the new task, the last layer of the architecture is usually slightly changed.
+    The first solution for transfer learning is \textbf{fine tuning}. In this case, for the target problem we use the same network architecture of the pre-trained model up to some layer, while also \curlyquotes{copying} their parameters. The copied layers are fixed (\textit{frozen weights}) and they cannot be trained on the new model. To adapt the model for the new task, the last layer of the architecture is usually slightly changed.
 
     \begin{figure}[H]
         \centering
@@ -3016,7 +3016,7 @@
 
     For example, consider an autoencoder for a dataset representing the values $\{0, \ldots, 7\}$, where each value is represented with an 1-out-of-8 encoding, i.e. $4$ is represented as $\smat{0 & 0 & 0& 0& 1 & 0 & 0 & 0}$. A possible autoencoder layout for this dataset is the network formed an input layer with 8 nodes, a hidden layer with 3 nodes and an output layer with 8 nodes. After training, the first layer will have learned how to optimally encode the values $\{0, \ldots, 7\}$ with a 3 dimensional vector.
 
-    Autoencoders are also very useful for anomaly detection, which can be viewed as a binary classification problem $f : X \to \{n, a\}$, where $n$ is the \curlyquotes{normal} class and $a$ is the \curlyquotes{abnormal} class. Using a dataset that contains only normal samples, i.e. $D = \{(x_i, n) \mid \i \in [N]\}$, the autoencoder is capable of predicting if a test $x \in X-X_D$ is normal or abnormal.
+    Autoencoders are also very useful for anomaly detection, which can be viewed as a binary classification problem $f : X \to \{n, a\}$, where $n$ is the \curlyquotes{normal} class and $a$ is the \curlyquotes{abnormal} class. Using a dataset that contains only normal samples, i.e. $D = \{(x_i, n) \mid i \in [N]\}$, the autoencoder is capable of predicting if a test $x \in X-X_D$ is normal or abnormal.
     \begin{enumerate}
         \item Train an autoencoder with a dataset $\{x_i \mid i \in [N]\}$ assuming that each sample in the dataset is not abnormal
         \item Compute the final train loss
@@ -3161,7 +3161,7 @@
     Given an MDP, we want to find the function $\pi : X \to A$ representing the optimal action to be executed for each state. This function is called \textbf{optimal policy}. The optimality criteria is defined with respect to the expected value of the \textit{cumulative discounted reward} $V^{\pi}(x)$. In the deterministic case, we define:
     \[V^{\pi}(x) = \sum_{i = 1}^{+\infty} \gamma^{i-1} \overline{r_i}\]
     where $\overline{r_i} = r(x_i, a_i, x_{i+1}), a_i = \pi(x_i)$ and $\gamma \in [0,1]$ is the discount factor for future rewards, while in the non-deterministic or stochastic case we define:
-    \[V^{\pi}(x) = \Exp \sbk{\sum_{i = 1}^{+\infty} \gamma_{i-1} \overline{r_i}}\]
+    \[V^{\pi}(x) = \Exp \sbk{\sum_{i = 1}^{+\infty} \gamma_{i-1} \overline{r_i}} =  \sum_{i = 1}^{+\infty} \gamma_{i-1} \Exp \sbk{\overline{r_i}}\]
 
      The optimal policy is the one that maximizes $V^{\pi}(x)$ over all $x \in X$:
     \[\pi^* \in \argmax_{\pi} V^{\pi}(x) \; \forall x \in X\]

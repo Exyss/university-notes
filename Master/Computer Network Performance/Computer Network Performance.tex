@@ -2398,6 +2398,7 @@
     
     \subsection{Analysis of M/M/1/M$_Q$ devices}
     
+    \label{mmm1}
     The \curlyquotes{standard} device that we have considered up until now is a device with memoryless arrivals, memoryless departures, one server and an infinte queue. Using Kendall's notation, this device is described as M/M/1. 
 
     \begin{figure}[H]
@@ -2974,5 +2975,71 @@
     \[\Exp[N] = \Exp[N_1] + \Exp[N_2] = \frac{\rho_1}{1-\rho_1} + \frac{\rho_2}{1-\rho_2}\]
 
     Other performance measures can be computed in similar ways.
+
+    \section{Entry-specific response time in Jackson networks}
+
+    Since jobs can enter a Jackson network from multiple entry points, we're often more interested in the \textbf{entry-specific response time} instead of a \textit{global response time}. This new performance metric, often denoted with $\Exp[T_i^{\text{tot}}]$ for device $i$, describes the mean system response time for a packet entering at device $i$. We remark that this metric is \underline{different} from the device response time $\Exp[R_i]$ (or $\Exp[T_i]$ for closed devices): the latter metric describes \textit{only} the sum of waiting time and service time inside device $i$, while the new metric describes the average time required by a job entering at device $i$ to leave the \underline{whole} system, not only device $i$.
+
+    From the above explanation, it should be immediate to think of $\Exp[T_i^{\text{tot}}]$ as some kind of \curlyquotes{recursive metric}: the entry-specific response time of device $i$ will clearly depend on the entry-specific response time of every device in the network (since packets entering from device $i$ may not be guaranteed to go out of the system), which in turn will depend on the entry-specific response time of device $i$ (and the other devices themselves). Indeed, this can also formally proven.
+
+    \begin{framedthm}{Recursive entry-specific response time}
+        Given a device $i$ inside a Jackson network, it holds that:
+        \[\Exp[T_i^{\text{tot}}] = \Exp[R_i] + \sum_{\substack{j = 0}}^{n} p_{i,j} \Exp[T_j^{\text{tot}}] \]
+    \end{framedthm}
+
+    \begin{proof}
+        Let $K_i$ be the random variable denoting the next device where the current job of device $i$ is forwarded (we allow the special value $K_i = \text{out}$ to denote the fact that the packet left the system). Using the total formula of expected value, we get that:
+        \[\Exp[T_i^{\text{tot}}] = p_{i, \text{out}}\Exp[T_i^{\text{tot}} \mid K = \text{ out}] + \sum_{j = 0}^n p_{i,j} \Exp[T_i^{\text{tot}} \mid K = j]\]
+
+        Now, observe that $\Exp[T_i^{\text{tot}} \mid K = \text{ out}] = \Exp[R_i]$ since the job gets processed by device $i$ and then immediately leaves the network. Similarly, we have that $\Exp[T_i^{\text{tot}} \mid K = \text{ out}] = \Exp[R_i] + \Exp[T_j^{\text{tot}}]$ since the job gets processed by device $i$ and then gets forwarded to device $j$. Therefore, we conclude that:
+        \[\Exp[T_i^{\text{tot}}] = p_{i, \text{out}}\Exp[R_i] + \sum_{j = 0}^n p_{i,j} (\Exp[R_i] + \Exp[T_j^{\text{tot}}]) = \Exp[R_i] + \sum_{j = 0}^n p_{i,j} \Exp[T_j^{\text{tot}}]\]
+    \end{proof}
+
+    Intuitively, the above theorem can be used to derive a system of linear equations by applying it on every device, which can be solved to get all the entry-specific response times. For instance, consider the following Jackson network where the exact value of $r_1$ is unknown.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.65]{images/entry_specific_ex.png}
+        \caption{A Jackson network}
+    \end{figure}
+    
+    We start by computing the maximum possible value of $r_1$, namely $r_1^{\max}$. First, we setup the network equations given by the system using the procedure shown at the end of the previous section.
+    \[\soe{ll}{
+        \lambda_1 &= r_1 + \frac{1}{3} \lambda_2 \\
+        \lambda_2 &= r_2 + \frac{1}{3} \lambda_1 + \frac{1}{3} \lambda_2
+    }\]
+
+    Solving the system, we get that:
+    \[\soe{ll}{
+        \lambda_1 &= \frac{6}{5} r_1 + \frac{3}{5} \\
+        \lambda_2 &= \frac{3}{5} r_1 + \frac{9}{5}
+    }\]
+
+    Since $\lambda_1 < \mu_1 = 3$ and $\lambda_2 < \mu_2 = 5$ must hold in order for the system to be stable, we know that:
+    \[\soe{ll}{
+        3 &> \frac{6}{5} r_1 + \frac{3}{5} \\
+        5 &> \frac{3}{5} r_1 + \frac{9}{5}
+    } \implies \soe{ll}{
+        r_1 &< 2 \\
+        r_1 &< \frac{16}{3}
+    } \implies r_1^{\max} = \min\rbk{2, \frac{16}{3}} = 2\]
+
+    Now, suppose that we -- somehow -- get to know that $r_1 = 0.9 \cdot r_1^{\max} = \frac{9}{5}$. We can now compute the exact arrival rate of each device by simply substituting the exact value of $r_1$ in the previous system:
+    \[\lambda_1 = \frac{6}{5} \cdot \frac{9}{5} + \frac{3}{5} = \frac{69}{25} \qquad\quad \lambda_2 = \frac{3}{5} \cdot \frac{9}{5} + \frac{9}{5} = \frac{72}{25} \]
+
+    Using the M/M/1 formulas proven in \Cref{mmm1}, we conclude that:
+    \[\Exp[R_1] = \frac{1}{\mu_1 - \lambda_1} = \frac{1}{3-\frac{69}{25}} = \frac{25}{6} \qquad\quad \Exp[R_2] = \frac{1}{\mu_2 - \lambda_2} = \frac{1}{5-\frac{72}{25}} = \frac{25}{53}\]
+    
+    We're now left with computing the values of $\Exp[T_1^{\text{tot}}]$ and $\Exp[T_2^{\text{tot}}]$. Using the previous theorem, we know that:
+    \[\Exp[T_1^{\text{tot}}] = \Exp[R_1] + \frac{1}{3} \Exp[T_2^{\text{tot}}]\]
+    \[\Exp[T_2^{\text{tot}}] = \Exp[R_2] + \frac{1}{3} \Exp[T_2^{\text{tot}}] + \frac{1}{3} \Exp[T_2^{\text{tot}}]\]
+
+    To make things easier to read, let $X = \Exp[T_1^{\text{tot}}]$ and $Y = \Exp[T_2^{\text{tot}}]$. Then, we get the following system of linear equations:
+    \[\soe{ll}{
+        X = \frac{25}{6} + \frac{1}{3} Y \\
+        Y = \frac{25}{53} + \frac{1}{3} X + \frac{1}{3} Y
+    }\]
+
+    which yields the solutions $X=\frac{280}{53}$ and $Y=\frac{355}{106}$.
     
 \end{document}

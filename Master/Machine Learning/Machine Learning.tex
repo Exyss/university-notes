@@ -1191,7 +1191,7 @@
     \end{split}\]
 
     If we \underline{assume} that the values of $a_1, \ldots, a_n$ are independent from each other, we get that:
-    \[\argmax_{C \in Y} \Pr[a_1, \ldots, a_n \mid C, D] \cdot \Pr[C \mid D] = \argmax_{C \in Y} \Pr[C \mid D] \prod_{a_i \in x}  \Pr[a_1 \mid C,D]\]
+    \[\argmax_{C \in Y} \Pr[a_1, \ldots, a_n \mid C, D] \cdot \Pr[C \mid D] = \argmax_{C \in Y} \Pr[C \mid D] \prod_{a_i \in x}  \Pr[a_i \mid C,D]\]
 
     We observe that the assumption $\Pr[a_1, \ldots, a_n \mid C, D] \approx \prod_{a_i \in x}  \Pr[a_i \mid C,D]$ is often false. However, it still works surprisingly well, enabling us to estimate the probability without enumerating the whole hypothesis space.
 
@@ -2015,7 +2015,7 @@
     A commonly used distance function is $\mathrm{dist}(x,x') = \norm{x-x'}^2$. In fact, this distance function can be easily kernelized with a kernel function $k$:
     \[\norm{x-x'}^2 = x^T x + {x'}^Tx' - 2x^Tx' = k(x,x) + k(x',x') - 2 k(x,x')\]
 
-    The K-NN algorithm can also be used to compute a \textbf{locally weighted regression}, a regression model formulated on the $K$-nearest neighbors of a query sample. The union of mode locally weighted regressions can be used to estimate a rough regression model for the feature space.
+    The K-NN algorithm can also be used to compute a \textbf{locally weighted regression}, a regression model formulated on the $K$-nearest neighbors of a query sample. The union of more locally weighted regressions can be used to estimate a rough regression model for the feature space.
 
     \begin{framedalgo}{Locally weighted regression}
         Given a classification problem $f : X \to \R$, a dataset $D = \{(x_i, t_i) \mid i \in [N]\}$ and an query sample $x_q \in X-X_D$, the algorithm fits a local regression model around $x_q$

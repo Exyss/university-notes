@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70218" creator="Ipe 7.2.28">
-<info created="D:20260124164845" modified="D:20260128160718"/>
+<info created="D:20260124164845" modified="D:20260128161123"/>
 <preamble>\usepackage{amssymb}
 \usepackage{amsmath}</preamble>
 <ipestyle name="basic">
@@ -381,7 +381,7 @@ h
 <path matrix="1 0 0 1 240 -40" stroke="black" fill="white">
 8 0 0 8 24 696 e
 </path>
-<text matrix="0.680056 0 0 0.680056 233.779 162.338" pos="8 696" stroke="black" type="label" width="95.143" height="19.759" depth="15.8" halign="center" valign="center" size="footnote" style="math">o=\begin{cases}1 &amp;\text{ if }\displaystyle\sum_{i=1}^nw_ix_i\ge 0\\
-0 &amp;\text{ else}\end{cases}</text>
+<text matrix="0.680056 0 0 0.680056 233.779 162.338" pos="8 696" stroke="black" type="label" width="101.729" height="19.759" depth="15.8" halign="center" valign="center" size="footnote" style="math">o=\begin{cases}+1 &amp;\text{ if }\displaystyle\sum_{i=1}^nw_ix_i&gt; 0\\
+-1 &amp;\text{ else}\end{cases}</text>
 </page>
 </ipe>

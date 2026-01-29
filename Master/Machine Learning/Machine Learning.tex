@@ -98,7 +98,7 @@
 
     While many common tasks can be easily solved by computers through an algorithm, some are hard to formalize as a series of steps to be executed in a deterministic way. As an analogy, consider how language is made of syntax and semantics. Syntax can easily be formalized as a sequence of sub-structures that make up a phrase. If a sentence is slightly malformed, the machine can have a hard time trying to reconstruct the correct syntax, but in most cases this can be achieved. For semantics, instead, we have a whole different problem: some words could have more meanings, giving sentences different interpretations depending on the context of the conversation. This task is clearly harder for a machine. Sometimes, not even humans are capable of solving it!
 
-    In the past, these type of tasks where solved through \textit{expert systems}, that being any system programmed by a human expert to solve a specific task. Expert systems can be viewed as a sequence of if-else conditions: if the task requires $x$ then do $y$, and so on. Not all tasks can be solved through expert systems. In particular, some tasks need different solutions for many cases, making these primitive systems useless due to all cases being impossible to program.
+    In the past, these type of tasks were solved through \textit{expert systems}, that being any system programmed by a human expert to solve a specific task. Expert systems can be viewed as a sequence of if-else conditions: if the task requires $x$ then do $y$, and so on. Not all tasks can be solved through expert systems. In particular, some tasks need different solutions for many cases, making these primitive systems useless due to all cases being impossible to program.
 
     To solve this type of complex and variable tasks, we use \textbf{machine learning}, which slowly teaches the machine how to solve the problem in the best way possible. The idea here is to program computers in a way that improves a specific \textit{performance criterion} through \textit{example data} and \textit{past experiences}.
 
@@ -208,7 +208,7 @@
     Given a performance measure $P$ over a dataset $D$ and a hypothesis space $H$, the learning task is to find the best approximation $h^* \in H$ of the function $f$ using the dataset $D$.
     \[h^* \in \argmax_{h \in H} P(h,D)\]
 
-    Finding such optimal hypothesis is the core of a learning problem. However, by definition, a hypothesis space may also contain hypotheses that are clearly a wrong approximation of $f$ over $D$. For instance, given a dataset $D$ for a target function $f$, for any hypothesis $h \in H$ we can check wether $h(x) = f(x)$ only for instances $x \in X_D$ since the other values are unknown in $D$. This means that some hypothesis may have some values that are \textit{inconsistent} with the dataset itself, making them useless in the learning process. A hypothesis $h \in H$ is said to be \textbf{consistent} with a dataset $D$ of a target function $f$ if and only if $h(x) = f(x)$ for all $x \in X_D$. The subset of hypothesis that are consistent with a dataset is called \textbf{version space}. 
+    Finding such optimal hypothesis is the core of a learning problem. However, by definition, a hypothesis space may also contain hypotheses that are clearly a wrong approximation of $f$ over $D$. For instance, given a dataset $D$ for a target function $f$, for any hypothesis $h \in H$ we can check whether $h(x) = f(x)$ only for instances $x \in X_D$ since the other values are unknown in $D$. This means that some hypothesis may have some values that are \textit{inconsistent} with the dataset itself, making them useless in the learning process. A hypothesis $h \in H$ is said to be \textbf{consistent} with a dataset $D$ of a target function $f$ if and only if $h(x) = f(x)$ for all $x \in X_D$. The subset of hypothesis that are consistent with a dataset is called \textbf{version space}. 
 
     \begin{frameddefn}{Version space}
         The \textbf{version space} of a target function $f$ with respect to the hypothesis space $H$ and the dataset $D$, written as $\mathrm{VS}_{H,D}$, is the subset of $H$ that contains all the hypotheses that are consistent with $D$.
@@ -357,7 +357,7 @@
     \begin{framedalgo}{K-Fold Cross Validation for Comparison}
         Given a dataset $D$, two learning algorithms $L_A, L_B$ for a function $f$ and a value $k > 0$, if the algorithm returns True then we expect that $L_A$ is better than $L_B$
         \begin{algorithmic}
-            \Function{kFoldCrossComparison}{$D,L_A,L_Bk$}
+            \Function{kFoldCrossComparison}{$D,L_A,L_B,k$}
                 \State{Partition $D$ into $k$ sets $S_1, \ldots, S_k$ where $\abs{S_i} > 30$}
                 \For{$i$ = $1, \ldots, k$}
                     \State{$T_i$ = $D-S_i$}
@@ -724,7 +724,7 @@
     \[\mathrm{Entropy}(S_{\mathrm{Strong}}) = -\frac{3}{6} \log_2 \rbk{\frac{3}{6}} - \frac{3}{6} \log_2 \rbk{\frac{3}{6}} = 1\] 
     
     Hence, the information gain on $S$ knowing the attribute $\mathrm{Wind}$ corresponds to:
-    \[\mathrm{Gain}(S,\mathrm{Wind}) = \mathrm{Entropy}(S) - \frac{8}{14} \mathrm{Entropy}(S_\mathrm{Weak}) - \frac{6}{14} \mathrm{Entropy}(S_\mathrm{Strng}) \approx 0.048\]
+    \[\mathrm{Gain}(S,\mathrm{Wind}) = \mathrm{Entropy}(S) - \frac{8}{14} \mathrm{Entropy}(S_\mathrm{Weak}) - \frac{6}{14} \mathrm{Entropy}(S_\mathrm{Strong}) \approx 0.048\]
 
     Each time the ID3 algorithm has to select the best attribute, it always chooses the one with the highest information gain, corresponding to the one that most reduces the entropy. Eventually, the entropy of the \curlyquotes{implicitely partitioned} dataset will reach 1 or 0, meaning that the associated portion of the dataset contains only positive or negative values.
 
@@ -1192,7 +1192,7 @@
     \end{split}\]
 
     If we \underline{assume} that the values of $a_1, \ldots, a_n$ are independent from each other, we get that:
-    \[\argmax_{C \in Y} \Pr[a_1, \ldots, a_n \mid C, D] \cdot \Pr[C \mid D] = \argmax_{C \in Y} \Pr[C \mid D] \prod_{a_i \in x}  \Pr[a_1 \mid C,D]\]
+    \[\argmax_{C \in Y} \Pr[a_1, \ldots, a_n \mid C, D] \cdot \Pr[C \mid D] = \argmax_{C \in Y} \Pr[C \mid D] \prod_{a_i \in x}  \Pr[a_i \mid C,D]\]
 
     We observe that the assumption $\Pr[a_1, \ldots, a_n \mid C, D] \approx \prod_{a_i \in x}  \Pr[a_i \mid C,D]$ is often false. However, it still works surprisingly well, enabling us to estimate the probability without enumerating the whole hypothesis space.
 
@@ -1230,7 +1230,7 @@
     We notice that this estimate has a flaw: if none of the training instances in the dataset with target class $C$ have attribute value $a_i$ then $\widehat \Pr[a_i \mid C, D] = 0$, meaning that $\widehat \Pr[C \mid D] \prod_{a_i \in x} \widehat \Pr[a_i \mid C,D] = 0$, meaning that no new instance can get classified as $C$. To fix this issue, we use a small additional value $m$ acting as \curlyquotes{virtual} instances and the value $p$, the previous estimate of $\Pr[a_i \mid C,D]$.
     \[\widehat \Pr[a_i \mid C, D] = \frac{mp + \abs{(a,b) \in D \mid b = C \text{ and } a_i \text{ is an attr. of $a$}}}{m + \abs{(a,b) \in D \mid b = C}}\]
 
-    We also notice that, since we're interested in the solution maximizing the probability, these approximations don't have to be accurate. In fact, they must only try to preserve which solution will be chose. For instance, the previous estimations preserve the maximum-likelihood solution.
+    We also notice that, since we're interested in the solution maximizing the probability, these approximations don't have to be accurate. In fact, they must only try to preserve which solution will be chosen. For instance, the previous estimations preserve the maximum-likelihood solution.
 
 
     Surprisingly, the Naïve Bayes Classifier can also be adapted to learn how to classify text, i.e. identify them as spam, e-mail, web reviews, etc. Consider the target function $f : \mathrm{Docs} \to Y$. Any document $d \in \mathrm{Docs}$ is described by a sequence of words $d = w_1 w_2 \ldots w_k$. Using the classifier we have that:
@@ -1374,7 +1374,7 @@
         In other words, the gradient of $f$ is the vector whose components are the partial derivatives of $f$ with respect to the components of the input
     \end{framedobs}
 
-    These computation can also be made more compact and immediate -- thus the strength of this model:
+    This computation can also be made more compact and immediate -- thus the strength of this model:
     \[\nabla E(\widetilde{w}) = \widetilde{X} ^T (p(\widetilde{w}) - t)\]
     \[H(\widetilde{w}) = \widetilde{X}^T R(\widetilde{w}) \widetilde{X}\]
 
@@ -1551,7 +1551,7 @@
 
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.55]{images/perceptron.png}
+        \includegraphics[scale=1.2]{images/perceptron.eps} %
         \caption{A tresholded perceptron}
     \end{figure}
     
@@ -1577,7 +1577,7 @@
 
     Moreover, when $\eta$ is small, the final solution will either be very close to the samples of the first class or very close to the samples of the second class. In other words, the solution \underline{cannot lie in the middle} of the two sample groups. It can be proven that this procedure will converge if the training data is linearly separable and $\eta$ is sufficiently small. However, convergence doesn't imply termination, hence the terminating condition.
 
-    After learning the optimal $ w$, the predicted class of a new instance $x \in \R^d-\R^d_D$ is -- in both treshholded and untresholded perceptrons -- given by $\mathrm{sign}({w}^T{x})$.
+    After learning the optimal $ w$, the predicted class of a new instance $x \in \R^d-\R^d_D$ is -- in both tresholded and untresholded perceptrons -- given by $\mathrm{sign}({w}^T{x})$.
     
 
     \begin{figure}[H]
@@ -1691,7 +1691,7 @@
     
     After the maximum margin hyperplane $h^* : w^{*^T}x+w_0^*$ is found, there will be at least two closest points $x_k^{\oplus}$ and $x_k^{\ominus}$, one for each class.
 
-    We also notice that, since this doesn't affect the solution, we can also rescale all the points in such a way that $t_i(w^Tx + w_0) = 1$ holds for all $i \in [N]$. Hence, we consider the canonical representation where $t_i(w^Tx + w_0) \geq 1$ for all $i \in [N]$. In this setup, the optimal solution is given by:
+    We also notice that, since this doesn't affect the solution, we can also rescale all the points in such a way that the closest have unitary length. Hence, we consider the canonical representation where $t_i(w^Tx + w_0) \geq 1$ for all $i \in [N]$. In this setup, the optimal solution is given by:
     \[w^*, w_0^* \in \argmax_{w, w_0} \frac{1}{\norm{w}} \min_{i \in [N]} t_i(w^Tx + w_0) = \argmax_{w, w_0} \frac{1}{\norm{w}} = \argmin_{w, w_0} \frac{1}{2} \norm{w}^2\]
     subject to $t_i(w^Tx + w_0) \geq 1$ for all $i \in [N]$. Hence, we get a quadratic programming optimization problem, which can be solved through the Lagrangian method. For our interest, we won't dive into how this problem is solved, considering directly its solution:
     \[w^* = \sum_{i = 1}^{N} a_i^* t_i x_i\]
@@ -1720,7 +1720,7 @@
     Moreover, since $t_i \in \{-1,+1\}$, we know that $t_i^2 = 1$, concluding that:
     \[w_0^* = t_k - \sum_{x_i \in SV} a_i^* t_i x_k^T x_i\]
 
-    The optimization problem for determining $w^*,w_0^*$ ($d + 1$ dimensions) is thus transformed into an optimization problem for determining $a^*$ ($\abs{D}$ dimensions). This method is very efficient when $d \ll \abs{D}$, in particular when $d$ is large or infinite.
+    The optimization problem for determining $w^*,w_0^*$ ($d + 1$ dimensions) is thus transformed into an optimization problem for determining $a^*$ ($\abs{D}$ dimensions). This method is very efficient when $d \ll \abs{D}$ (the problem becomes sparse), and is also efficient when $d$ is large or infinite, as we reduce the size of the problem.
 
     A more stable solution can be obtained by averaging over all support vectors:
     \[w_0^* = \frac{1}{\abs{SV}} \sum_{x_k \in SV} \rbk{t_k - \sum_{x_i \in SV} a_i^* t_i x_k^T x_i}\]
@@ -1790,7 +1790,7 @@
     Hence, we get that:
     \[\Pr[t \mid {x}, {w}, \beta] = \mathcal{N}(t \mid y({x}; {w}), \beta^{-1})\]
 
-    Moreover, assuming that the observations $t_1, \ldots, t_N$ are i.i.d., the maximum likelihood function is given by:
+    Moreover, assuming that the observations $t_1, \ldots, t_N$ are i.i.d., the likelihood function is given by:
     \[\Pr[t_1, \ldots, t_N \mid {x_1}, \ldots {x_N}, {w}, \beta] = \prod_{i = 1}^N \mathcal{N}(t_i \mid {w}^T \phi({x_i}), \beta^{-1})\]
 
     By applying the logarithmic, we get that:
@@ -2016,7 +2016,7 @@
     A commonly used distance function is $\mathrm{dist}(x,x') = \norm{x-x'}^2$. In fact, this distance function can be easily kernelized with a kernel function $k$:
     \[\norm{x-x'}^2 = x^T x + {x'}^Tx' - 2x^Tx' = k(x,x) + k(x',x') - 2 k(x,x')\]
 
-    The K-NN algorithm can also be used to compute a \textbf{locally weighted regression}, a regression model formulated on the $K$-nearest neighbors of a query sample. The union of mode locally weighted regressions can be used to estimate a rough regression model for the feature space.
+    The K-NN algorithm can also be used to compute a \textbf{locally weighted regression}, a regression model formulated on the $K$-nearest neighbors of a query sample. The union of more locally weighted regressions can be used to estimate a rough regression model for the feature space.
 
     \begin{framedalgo}{Locally weighted regression}
         Given a classification problem $f : X \to \R$, a dataset $D = \{(x_i, t_i) \mid i \in [N]\}$ and an query sample $x_q \in X-X_D$, the algorithm fits a local regression model around $x_q$
@@ -2040,7 +2040,7 @@
 
     Until now, we have focused on trying to find a powerful complex model capable solving our problems. In the \textbf{multiple learners approach}, instead, we focus on training many different models to then combine their results. These models can be trained in parallel (via \textit{voting} or \textit{bagging}) or in sequence (via \textit{boosting}).
 
-    Given a dataset $D = \{(x_i,t_i) \mid i \in [N]\}$, the \textbf{voting} method first trains a set of models $y_1(x), \ldots, y_m$ on the same dataset to then make predictions using:
+    Given a dataset $D = \{(x_i,t_i) \mid i \in [N]\}$, the \textbf{voting} method first trains a set of models $y_1, \ldots, y_m$ on the same dataset to then make predictions using:
     \begin{itemize}
         \item \textit{Regression}:
         \[y_{\mathrm{voting}}(x) = \sum_{j = 1}^M w_j y_j(x)\]
@@ -2340,7 +2340,7 @@
     \[\frac{dz}{dx} = \frac{dz}{dy} \frac{dy}{dx}\]
 
     Similarly, for the vector functions $g : \R^m \to \R^n, f : \R^n \to \R$ we have that:
-    \[\frac{\partial z}{\partial x_i} = \sum_{j} \frac{\partial z}{\partial y_j} \frac{\partial y_j}{\partial x_j}\]
+    \[\frac{\partial z}{\partial x_i} = \sum_{j} \frac{\partial z}{\partial y_j} \frac{\partial y_j}{\partial x_i}\]
 
     Equivalently, in vector notation we have that:
     \[\nabla_{x} z = \rbk{\frac{\partial y}{\partial x}}^T \nabla_y z\]
@@ -2597,7 +2597,7 @@
     \[w_{\mathrm{k}} \times h_{\mathrm{k}} \times d_{\mathrm{k}}\]
     where $d_\mathrm{k} = \mathrm{in}$, the output will always be a 3D tensor of size
     \[w_{\mathrm{out}} \times h_{\mathrm{out}} \times d_{\mathrm{out}}\]
-    where $w_{\mathrm{out}}$ and $h_{\mathrm{out}}$ are computed according to \textit{stride} and \textit{padding} (we'll see how in the next sections). For 3D convolutions, the constraint becomes $d_\mathrm{in} > d_\mathrm{k}$ ad the output is a 4D tensor of size $w_{\mathrm{out}} \times h_{\mathrm{out}} \times z_{\mathrm{out}} \times d_{\mathrm{out}}$,  where $z_{\mathrm{out}}$ is also computed according to \textit{stride} and \textit{padding}.
+    where $w_{\mathrm{out}}$ and $h_{\mathrm{out}}$ are computed according to \textit{stride} and \textit{padding} (we'll see how in the next sections). For 3D convolutions, the constraint becomes $d_\mathrm{in} > d_\mathrm{k}$ as the output is a 4D tensor of size $w_{\mathrm{out}} \times h_{\mathrm{out}} \times z_{\mathrm{out}} \times d_{\mathrm{out}}$,  where $z_{\mathrm{out}}$ is also computed according to \textit{stride} and \textit{padding}.
 
     \subsection{Convolution in neural networks}
 
@@ -2617,7 +2617,7 @@
     The first stage of a convolutional layer applies 2D convolution. We observe that in this stage, 2D convolution is actually applied through cross-correlation:
     \[(I * K)(i,j) = \sum_{m \in S_1} \sum_{n \in S_2} I(i+m, j+n) K(m,n)\]
 
-    This process is very efficient in terms of memory requirements and generalization accuracy, in particular \textbf{sparse connectivity} and \textbf{parameter sharing}. In the former (also called \textit{sparse interactions}), the outputs depend only on a few inputs. In other words, instead of having a completely connected network, we have a sparse network. To achieve this, we use a kernel that is much smaller than input. This property is particularly useful for signals such as images: we expect that each pixel has more influence on other pixels that are close ot it, while far away pixels will be not be influenced by it. In this case, we would prefer a sparse connectivity patter that connects pixels that are close to each other to the same units.
+    This process is very efficient in terms of memory requirements and generalization accuracy, in particular \textbf{sparse connectivity} and \textbf{parameter sharing}. In the former (also called \textit{sparse interactions}), the outputs depend only on a few inputs. In other words, instead of having a completely connected network, we have a sparse network. To achieve this, we use a kernel that is much smaller than input. This property is particularly useful for signals such as images: we expect that each pixel has more influence on other pixels that are close ot it, while far away pixels will be not be influenced by it. In this case, we would prefer a sparse connectivity pattern that connects pixels that are close to each other to the same units.
 
     \begin{figure}[H]
         \centering
@@ -2665,7 +2665,7 @@
     Since the only trainable element in the layer is the kernel, the total number of trainable parameters of the convolutional layer is:
     \[\abs{\theta} = \underbrace{w_{\mathrm{k}} \cdot h_{\mathrm{k}} \cdot  d_{\mathrm{in}} \cdot d_{\mathrm{out}}}_{\text{kernel weights}} + \underbrace{d_{\mathrm{out}}}_{\text{bias}}\]
 
-    By applying these three stages, each convolutional layer inside a CNN applies reduces the size of a single feature map while also increasing the number of such feature maps. In other words, we sequentially trade size for depth until we reach a \textbf{flattened layer}, i.e. a very deep 1D tensor. Once this layer has been reached the network proceeds with a sequence of traditional fully connected layers that classify the extracted flattened layer.
+    By applying these three stages, each convolutional layer inside a CNN reduces the size of a single feature map while also increasing the number of such feature maps. In other words, we sequentially trade size for depth until we reach a \textbf{flattened layer}, i.e. a very deep 1D tensor. Once this layer has been reached the network proceeds with a sequence of traditional fully connected layers that classify the extracted flattened layer.
 
     \begin{figure}[H]
         \centering
@@ -2675,7 +2675,7 @@
         \caption{Typical structure of a CNN with multiple convolutional layers.}
     \end{figure}
 
-    The recent success of CNNs is yielded by continuous theoretical advancements in neural networks. However, they also have some downsides: they require massive parallel computing capacities to speed up computations (GPUs/TPUs), very large training sets (ImageNet/MS COCO) and developing frameworks (Keras, Theano, Tensorflow, PyTorch, ...).
+    The recent success of CNNs is yielded by continuous theoretical advancements in neural networks. However, they also have some downsides: they require massive parallel computing capacities to speed up computations (GPUs/TPUs), very large training sets (ImageNet/MS COCO) and developing frameworks (Keras, Theano, Tensorflow, PyTorch and others...). %this has been changed since in the compiled latex the three dots were alone in the next line
 
     \subsection{Transfer learning}
 
@@ -2703,7 +2703,7 @@
 
     In previous chapter, we have strictly focused on supervised learning, i.e. learning methods where the dataset contains a target value for each datapoint. In \textbf{unsupervised learning}, instead, the dataset has no target values. In other words, the dataset is always of the form $D = \{x_i \mid i \in [N]\}$.
 
-    A simple unsupervised learning model is the \textbf{Gaussian Mixture Model (GMM)}. Here, the dataset is generated by a mixed probability distribution is formed by the weighted average of $K$ different gaussian distributions.
+    A simple unsupervised learning model is the \textbf{Gaussian Mixture Model (GMM)}. Here, we assume that the dataset is generated by a mixed probability distribution, that is formed by the weighted average of $K$ different gaussian distributions.
     \[\Pr[x] = \sum_{k = 1}^K p_k \mathcal{N}(x; \mu_k, \Sigma_k)\]
 
     where $p_k, \mu_k$ and $\Sigma_k$ are respectively the prior probability, the mean and the covariance matrix. Each instance $x_i$ of the dataset is generated by:
@@ -3021,7 +3021,7 @@
     \begin{enumerate}
         \item Train an autoencoder with a dataset $\{x_i \mid i \in [N]\}$ assuming that each sample in the dataset is not abnormal
         \item Compute the final train loss
-        \item Determine a treshold $\delta$, such as $\delta = \mathrm{mean}(loss) + \mathrm{std}(loss)$
+        \item Determine a treshold $\delta$, such as $\delta = \mathrm{mean(loss)} + \mathrm{std(loss)}$
         \item Given $x' \in X-X_D$, reconstuct $x$ with the autoencoder and compute $\mathrm{loss}'$
         \item If $\mathrm{loss}' < \delta$ return $n$, otherwise return $a$
     \end{enumerate}
@@ -3077,7 +3077,7 @@
 
     \section{Dynamic systems}
 
-    A \textbf{dynamic system} is a system that evolves over time. At any given time $k$, a dynamic system has a \textit{state} $x_k$ representing the current situation of the system.
+    A \textbf{dynamic system} is a system that evolves over time. At any given time $k$, a dynamic system has a \textit{state} $x_k$ representing the current configuration of the system.
     The \textit{state transition model} (or \textit{evolution rule}) of the dynamical system is a function $f_k$ that describes what future states follow from the current state $x_k$ and the current state noise $w_k$, i.e. $f_k(x_k, w_k) = x_{k+1}$. The function is often deterministic but in some cases it is also randomized. The system is also provided with an \textit{observation model}, a function $h_k$ that takes in input the current state $x_k$ and the current observation noise $v_k$, returning the current observation $z_k$.
 
     \begin{figure}[H]
@@ -3465,7 +3465,7 @@
         \caption{Non-deterministic MDP describing the grid goal problem where we're also allowed to move right by two squares.}
     \end{figure}
 
-    For non-deterministic learning there are also more advanced Q-Learning algorithm: the TD algorithm and the SARSA algorithm. \textbf{Temporal difference (TD)} Q-learning is a variant of Q-learning where the discrepancy between successive Q estimates reduces over time. Given a value $n$, the $n$ step time difference of the function Q is given by:
+    For non-deterministic learning there are also more advanced Q-Learning algorithms: the TD algorithm and the SARSA algorithm. \textbf{Temporal difference (TD)} learning is a variant of Q-learning where the discrepancy between successive Q estimates reduces over time. Given a value $n$, the $n$ step time difference of the function Q is given by:
     \[\widehat{Q}^{*^{(n)}}(x_t,a_t) = \overline{r}_{t} + \gamma \overline{r}_{t+1} + \gamma^{n-1}\overline{r}_{t+n-1} + \gamma^n \max_{a' \in A} \widehat{Q}(x_{t+n}, a')\]
 
     Given a value $\lambda \in [0,1]$, we define:
@@ -3608,7 +3608,7 @@
         \[\beta_t^k = \sum_{j} \beta^i_{t+1} a_{k,j} b_j(z_{t+1}) \]
     \end{enumerate}
 
-    During the learning phase, given the output sequences we want to determine the maximum lihelihood estimate of the parameters of the HMM (transmission and emission probabilities). If the states can be observed at training time, the transition and observation models can be estimated with statistical analysis by setting:
+    During the learning phase, given the output sequences we want to determine the maximum likelihood estimate of the parameters of the HMM (transmission and emission probabilities). If the states can be observed at training time, the transition and observation models can be estimated with statistical analysis by setting:
     \[a_{i,j} = \Pr[x_t = j \mid x_{t-1} = i] = \frac{\abs{\{i \to j \text{ transitions}\}}}{\abs{\{i \to * \text{ transitions}\}}}\]
     \[b_k(z) =  \Pr[z_t \mid x_t = k] = \frac{\abs{\{\text{observe $z$ in state $k$}\}}}{\abs{\{\text{observe $*$ in state $k$}\}}}\]
 

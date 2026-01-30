@@ -2600,7 +2600,7 @@
 
     \subsection{Convolution in neural networks}
 
-    As the name suggests, CNNs are just FNNs that use convolution in one or more layers. The learning phase finds which kernels are optimal for each layer \textbf{convolutional layer}. Each of these layers is formed by three sub-layers, called \textit{stages}:
+    As the name suggests, CNNs are just FNNs that use convolution in one or more layers. The learning phase finds which kernels are optimal for each \textbf{convolutional layer}. Each of these layers is formed by three sub-layers, called \textit{stages}:
     \begin{enumerate}
         \item \textbf{Convolution stage}: application of 2D convolution between input and kernel
         \item \textbf{Detector stage}: application of non-linear activation function on the output of the previous stage
@@ -2616,7 +2616,7 @@
     The first stage of a convolutional layer applies 2D convolution. We observe that in this stage, 2D convolution is actually applied through cross-correlation:
     \[(I * K)(i,j) = \sum_{m \in S_1} \sum_{n \in S_2} I(i+m, j+n) K(m,n)\]
 
-    This process is very efficient in terms of memory requirements and generalization accuracy, in particular \textbf{sparse connectivity} and \textbf{parameter sharing}. In the former (also called \textit{sparse interactions}), the outputs depend only on a few inputs. In other words, instead of having a completely connected network, we have a sparse network. To achieve this, we use a kernel that is much smaller than input. This property is particularly useful for signals such as images: we expect that each pixel has more influence on other pixels that are close ot it, while far away pixels will be not be influenced by it. In this case, we would prefer a sparse connectivity pattern that connects pixels that are close to each other to the same units.
+    This process is very efficient in terms of memory requirements and generalization accuracy, in particular \textbf{sparse connectivity} and \textbf{parameter sharing}. In the former (also called \textit{sparse interactions}), the outputs depend only on a few inputs. In other words, instead of having a completely connected network, we have a sparse network. To achieve this, we use a kernel that is much smaller than input. This property is particularly useful for signals such as images: we expect that each pixel has more influence on other pixels that are close to it, while far away pixels will be not be influenced by it. In this case, we would prefer a sparse connectivity pattern that connects pixels that are close to each other to the same units.
 
     \begin{figure}[H]
         \centering

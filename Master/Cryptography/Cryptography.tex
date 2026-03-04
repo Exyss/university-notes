@@ -182,9 +182,9 @@
 
     In order to be functional, SKEs must be \textbf{correct}, meaning that if a message $m \in \mathcal{M}$ gets encrypted with $K \in_R \mathcal{K}$ obtaining the ciphertext $c \in \mathcal{C}$, the decryption process over $c$ using the same key $K$ must give back the original message.
 
-    \begin{frameddefn}{Correctness in SKEs}
-        An SKE $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ is said to be correct if $\forall m \in \mathcal{M}, \forall K \in_R \mathcal{K}$ it holds that:
-        \[\mathrm{Dec}(K, \mathrm{Enc}(K, m)) = m\]
+    \begin{frameddefn}{Symmetric-key Encryption (SKE) schemes}
+        Given two functions $\mathrm{Enc} : \mathcal{K} \times \mathcal{M} \to \mathcal{C}$ and $\mathrm{Dec} : \mathcal{K} \times \mathcal{C} \to \mathcal{M}$, we say that $\Pi = (\mathrm{Enc}, \mathrm{Dec})$ is a correct Symmetric-key Encryption (SKE) scheme when:
+        \[\forall m \in \mathcal{M}, \forall K \in_R \mathcal{K} \qquad \mathrm{Dec}(K, \mathrm{Enc}(K, m)) = m\]
     \end{frameddefn}
 
     \begin{figure}[H]
@@ -2829,8 +2829,8 @@
             \node[draw, rectangle, minimum width=40] (3) [right of = x, xshift = 50]{$\mathrm{Dec}(sk,c)$};
             \node[] (4) [right of = 3, xshift = 75]{Bob};
             \node[] (5) [below of = x, yshift = -10]{$(pk,sk)$};
-            \node[] (6) [below of = 2, yshift = -10]{};
-            \node[] (7) [below of = 3, yshift = -10]{};
+            \node[] (6) [below of = 1, yshift = -10]{};
+            \node[] (7) [below of = 4, yshift = -10]{};
 
             \path[every node/.style={font=\sffamily\small}]
                 (1) edge node{$m$} (2)
@@ -2839,8 +2839,8 @@
                 (3) edge node{$m$} (4)
                 (5) edge[-] (6.center)
                 (5) edge[-] (7.center)
-                (6.center) edge (2)
-                (7.center) edge (3)
+                (6.center) edge (1)
+                (7.center) edge (4)
                 ;
         \end{tikzpicture}
 
@@ -2848,6 +2848,11 @@
     \end{figure}
 
     Since we're working with two keys and one must act as the tool to invert the other, in PKE schemes the \textbf{keygen} (\textit{key generation}) algorithm must be explicitily stated (we can't just say \curlyquotes{let $(pk, sk)$ be a public-secret key pair}). Therefore, PKE schemes are formally considered as a triple $\Pi = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$. 
+
+    \begin{frameddefn}{Public-key Encryption (PKE) schemes}
+        Given three functions $\mathrm{KGen} : \{1\}^* \to \mathcal{K}_{\mathrm{pub}} \times \mathcal{K}_\mathrm{Sec}$, $\mathrm{Enc} : \mathcal{K}_{\mathrm{pub}} \times \mathcal{M} \to \mathcal{C}$ and $\mathrm{Dec} : \mathcal{K}_{\mathrm{sec}} \times \mathcal{C} \to \mathcal{M}$, we say that $\Pi = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ is a correct Public-key Encryption (SKE) scheme when:
+        \[\forall m \in \mathcal{M}, \forall n \in \N, \forall (pk,sk) \in_R \mathrm{KGen}(1^n) \qquad \mathrm{Dec}(sk, \mathrm{Enc}(pk, m)) = m\]
+    \end{frameddefn}
 
     As the names suggest, the public key must be shared with the other party in order to achieve encryption, meaning that we have to find a way to securely send Bob's public key to Alice without it being subject of a man-in-the-middle attack, similar to what we have seen for the Diffie-Hellman protocol. To achieve this, we'll have to introduce the concept of digital signature and public key infrastructure.
 
@@ -3065,11 +3070,11 @@
             \node[] (1) []{Alice};
             \node[draw, rectangle, minimum width=40] (2) [right of = 1, xshift = 75]{$\mathrm{Sign}(sk,m)$};
             \node[] (x) [right of = 2, xshift = 50]{};
-            \node[draw, rectangle, minimum width=40] (3) [right of = x, xshift = 50]{$\mathrm{Vrfy}(pk,\sigma)$};
+            \node[draw, rectangle, minimum width=40] (3) [right of = x, xshift = 50]{$\mathrm{Vrfy}(pk,m,\sigma)$};
             \node[] (4) [right of = 3, xshift = 75]{Bob};
-            \node[] (5) [below of = x, yshift = -10]{$(pk,sk)$};
-            \node[] (6) [below of = 2, yshift = -10]{};
-            \node[] (7) [below of = 3, yshift = -10]{};
+            \node[] (5) [below of = x, yshift = -10]{$(sk,pk)$};
+            \node[] (6) [below of = 1, yshift = -10]{};
+            \node[] (7) [below of = 4, yshift = -10]{};
 
             \path[every node/.style={font=\sffamily\small}]
                 (1) edge node{$m$} (2)
@@ -3078,13 +3083,18 @@
                 (3) edge node{$0/1$} (4)
                 (5) edge[-] (6.center)
                 (5) edge[-] (7.center)
-                (6.center) edge (2)
-                (7.center) edge (3)
+                (6.center) edge (1)
+                (7.center) edge (4)
                 ;
         \end{tikzpicture}
 
         \caption{Example of digital signature.}
     \end{figure}
+
+    \begin{frameddefn}{Digital Signature (DS) schemes}
+        Given three functions $\mathrm{KGen} : \{1\}^* \to \mathcal{K}_{\mathrm{pub}} \times \mathcal{K}_\mathrm{Sec}$, $\mathrm{Sign} : \mathcal{K}_{\mathrm{sec}} \times \mathcal{M} \to \mathcal{T}$ and $\mathrm{Vrfy} : \mathcal{K}_{\mathrm{pub}} \times \mathcal{M} \times \mathcal{T} \to \{0,1\}$, we say that $\Pi = (\mathrm{KGen}, \mathrm{Sign}, \mathrm{Vrfy})$ is a correct Digital Signature (DS) scheme when:
+        \[\forall m \in \mathcal{M}, \forall \sigma \in \mathcal{T}, \forall n \in \N, \forall (pk,sk) \in_R \mathrm{KGen}(1^n) \qquad \mathrm{Vrfy}(pk, m, \sigma) = \1[\sigma = \mathrm{Sign}(sk, m)]\]
+    \end{frameddefn}
 
     Just like MACs, digital signatures are used to authenticate a message to guarantee its integrity. Moreover, the asymmetric paradigm allows us to form some sort of hierarchy of authentications. If Alice wants to know Bob's public key without being subject of a man-in-the-middle attack, they can ask the key to the \textit{Certificate Authority (CA)} to which Bob previously sent his key in an authenticated manner. The idea here is that the CA is also authenticated by another CA of \curlyquotes{higher grade}, which is also authenticated by a CA of higher grade and so on and so forth, until we reach a final CA with the highest grade of authority (usually, a physical entity subject to very strict regulations). This is known as the Public Key Infrastructure (PKI).
 
@@ -3637,7 +3647,7 @@
 
     \begin{frameddefn}{Lattice}
         Given a basis $B = \{b_1, \ldots, b_n\}$ with $b_i \in \R^n$, we define the lattice $\mathcal{L}(B)$ as the set of all integer linear combinations of $B$:
-        \[\mathcal{L}(B) = \{\sum_{i = 1}^{n} z_i b_i \mid z_1, \ldots, z_n \in \Z\}\]
+        \[\mathcal{L}(B) = \cbk{\sum_{i = 1}^{n} z_i b_i \mid z_1, \ldots, z_n \in \Z}\]
     \end{frameddefn}
 
     We start by observing that a lattice is not uniquely defined by a basis. Given a basis $B$, for any \textit{unimodular matrix} $U \in \Z^{n \times n}$ (meaning that $\mathrm{det}(U) = \pm 1$) it holds that $\mathcal{L}(B) = \mathcal{L}(BU)$.
@@ -3775,9 +3785,334 @@
         The Fiat-Shamir transform constructed through Lyubashevsky's protocol is UFCMA-secure in the ROM under the LWE assumption.
     \end{framedcor}
 
-    (TODO: \textit{final part about lattice trapdoors is missing})
 
-    \chapter{ID based encryption (TODO)}
+    What about secure signatures? Similarly to public-key encryption, it suffices to show that basic tools can be constructed through quantum-safe assumptions. In particular, we'll focus on \textbf{lattice trapdoors}, i.e. trapdoors built on the LWE/SIS assumptions.
+
+    We already know the drill: in the ROM, trapdoors can be used as an easy way to get signature schemes. For instance, consider the following signature scheme $\Pi = (\mathrm{Sign}, \mathrm{Vrfy})$ such that:
+    \begin{itemize}
+        \item $\mathrm{Sign}(sk, \mu)$ outputs a short vector $\vec x$ such that $A \vec x = H(\mu) = \vec u$ using a trapdoor $R$ associated with $A$
+
+        \item $\mathrm{Vrfy}(pk, \mu, \sigma)$ checks if $\sigma$ is short and $A \sigma = H(\mu)$
+    \end{itemize}
     
+    where $H$ is a secure hash function. The proof of UFCMA-security in the ROM is very similar to the one seen for the Full-Domain Hash digital signature. We still require a way to generate trapdoors from lattices. The main idea is to use the easiness of the LWE and SIS problems for some particular structures.
 
+    Consider the vector $\vec g = \smat{1 & 2 & \cdots & 2^{\ell-1}}^T \in \Z_{q}^{\ell}$ with $\ell = \ceil{\log q}$. A short $\vec x \in \Z^m$ such that $\abk{\vec g, \vec x} \equiv \vec u \pmod q$ is easily given by the vector $\vec x$ corresponding to the base 2 coefficients of $\mu$. In other words, given that $\mu = \sum_{i = 1}^{\ell} b_i \cdot 2^{i-1}$ for some coefficients $b_1, \ldots, b_\ell \in \{0,1\}$, if we set $\vec x = \smat{b_1 & b_2 & \ldots & b_\ell}$ the condition is satisfied. This gives a solution for the SIS problem.
+
+    For simplicity, assume that $q = 2^\ell$. Consider a vector $\vec b$ such that $\vec b \approx s \cdot \vec g \pmod q$, with $s \in Z_q$. Since the $\ell$-th entry of $\vec b$ is such that $\vec b_\ell \approx s \cdot 2^{\ell-1} = s_\ell \cdot \frac{q}{2}$ -- with $s_\ell$ being the most significant bit of $s$ -- we have that $s_\ell \approx \frac{2\vec b_\ell}{q}$. The values of $s_{\ell-1}, \ldots, s_1$ can be found accordingly.
+
+    This idea can also be extended to multi-dimensional settings. Consider the matrix $G = I_n \otimes \vec g^T$, where $\otimes$ is the Kronecker product operator:
+    \[G = \smat{
+        1 \cdot \vec g^T & 0 \cdot \vec g^T & \ldots & 0 \cdot \vec g^T \\
+        0 \cdot \vec g^T & 1 \cdot \vec g^T & \ldots & 0 \cdot \vec g^T \\
+        \vdots & \vdots & \ddots & \vdots\\
+        0 \cdot \vec g^T & 0 \cdot \vec g^T & \ldots & 1 \cdot \vec g^T \\
+    } = \smat{
+        1 & 2 & \cdots & 2^{\ell-1} & 0 & 0 & \cdots & 0 & \cdots & 0 \\
+        0 & 0 & \cdots & 0 & 1 & 2 & \cdots & 2^{\ell-1} & \cdots & 0 \\
+        \vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \ddots & \vdots & \ddots & \vdots \\
+        0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 & \cdots & 2^{\ell-1}
+    }\]
+
+    It's easy to see that for any invertible matrix $H$ the LWE (or SIS) problem is still easy with respect to $HG \in \Z_{q}^{n \times n\ell}$ because $(HG) \vec x = \vec u$ if and only if $G \vec x = H^{-1} \vec u$.
+
+    Therefore, given a matrix $A \in \Z_q^{n \times m}$, any short matrix $R \in \Z_q^{m \times n\ell}$ such that $AR \equiv HG \pmod q$, for some invertible $H$, is effectively a trapdoor for $A$. Many techniques are known to generate matrices $A,R$ and $H$ related in this way, but we won't dive into them.
+
+    \chapter{Identity-based encryption}
+
+    \section{Encryption with a central authority} 
+    
+    \textbf{Identity-based encryptyon (IDE)} is a generalization of the concept of public-key encryption. Briefly explained, IBE schemes are PKE schemes where each public key can be any arbitrary string uniquely associated with the identity of its owner. In other words, Bob can send an encrypted message to Alice only by knowing her unique secure ID.
+
+    Similar to what we've seen for PKE applications (certificates, public key distribution, \dots), we require a central authority from which IDs can be securely retrieved. The central authority acts as an intermediate user between Alice and Bob that generates new decryption keys starting from their IDs and their master keys. The master keys $(mpk, msk)$, respectively the public master key and the private master key, are previosuly generated by Alice and Bob.
+    
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=1cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+            \node[] (1) []{Alice};
+            \node[draw, rectangle, minimum width=40] (2) [right of = 1, xshift = 75]{$\mathrm{Enc}(mpk,\mathrm{ID},m)$};
+            \node[] (3) [right of = 2, xshift = 75]{Bob};
+            \node[] (4) [above of = 3, yshift = 40]{Authority};
+
+            \node[] (5) [below of = 2, yshift = -10]{$(mpk,msk)$};
+            \node[] (6) [below of = 1, yshift = -10]{};
+            \node[] (7) [below of = 3, yshift = -10]{};
+            \node[draw, rectangle, minimum width=40] (8) [right of = 3, xshift = 60]{$\mathrm{Dec}(d_{\mathrm{ID}},c)$};
+            \node[] (9) [right of = 8, xshift = 50]{};
+            
+            \path[every node/.style={font=\sffamily\small}]
+                (1) edge node{$m$} (2)
+                (2) edge node{$c$} (3)
+                (3) edge[bend left] node{$msk, \mathrm{ID}$} (4)
+                (4) edge[bend left] node{$d_{\mathrm{ID}}$}(3)
+                (5) edge[-] (6.center)
+                (5) edge[-] (7.center)
+                (6.center) edge (1)
+                (7.center) edge (3)
+                (3) edge node{$c$} (8)
+                (8) edge node{$m$} (9)
+                ;
+        \end{tikzpicture}
+
+        \caption{Example of identity-based encryption. Alice's ID is publicly known by every user.}
+    \end{figure}
+
+    The way in which this type of encryption generalizes public-key encryption is kinda subtle. Both parties can ignore Alice's ID and just use the master keys. In particular, Bob can act as the third party authority that always generates $d_{\mathrm{ID}} = msk$.
+
+    \begin{frameddefn}{Identity-based Encryption (IDE) scheme}
+        We say that a quadruple $\Pi = (\mathrm{Setup}, \mathrm{KGen}, \mathrm{Enc}, \mathcal{Dec})$ is an identification scheme (IDS) when:
+        \begin{itemize}
+            \item $(mpk,msk) \in_R \mathrm{Setup}(1^\lambda)$, with $mpk,msk \in \{0,1\}^\lambda$
+            \item $\mathrm{ID}$ is a public unique identifier associated with the encrypting party
+            \item $d_{\mathrm{ID}} \in_R \mathrm{KGen}(msk, \mathrm{ID})$ is a private key generated by the central authority
+            \item $\forall m \in \mathcal{M}$ it holds that $\mathrm{Dec}(d_{\mathrm{ID}}, \mathrm{Enc}(mpk, \mathrm{ID}, m)) = m$
+        \end{itemize}
+    \end{frameddefn}
+
+    IDE schemes come with a new issue arising from their very own definition: the third party authority has the ability to generate all secret keys, thus it can decrypt everything! This is known as \textbf{key escrow}. Then why is this type of encryption interesting if it adds a new problem? The idea is that there is no additional overload required regarding certificates and PKI (since the entire encryption scheme basically already contains this idea). This allows us to reason about a complete system without wasting energy in thinking how different parts should be connected together.
+
+    Let's now focus on security definitions. The CPA game of IDE schemes is very similar to that of PKE schemes, with the additional complexity given by the third party authority generating secret keys: the attacker can also make a polynomial amount of \textbf{key extraction queries} before and after sending the challenger ciphertext. This version of the CPA game is referred to as ID-CPA.
+
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=1cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+            \node[] (1) []{$A$};
+            \node[] (2) [left of = 1, xshift = 225]{$C$};
+
+            \node[] (1t) [below of = 1]{};
+            \node[] (2t) [below of = 2]{};
+
+            \node[] (3) [below of = 1t]{};
+            \node[] (4) [below of = 2t]{};
+
+            \node[] (5) [below of = 3]{};
+            \node[] (6) [below of = 4]{};
+
+            \node[] (7) [below of = 5]{};
+            \node[] (8) [below of = 6]{};
+
+            \node[] (9) [below of = 7]{};
+            \node[] (10) [below of = 8]{};
+
+            \node[] (3t) [below of = 9]{};
+            \node[] (4t) [below of = 10]{};
+
+            \node[] (5t) [below of = 3t]{};
+            \node[] (6t) [below of = 4t]{};
+
+            \node[] (11) [below of = 5t]{};
+            \node[] (12) [below of = 6t]{};
+
+            \path[every node/.style={font=\sffamily\small}]
+                (2t) edge[swap, near start] node{$mpk$} (1t)
+                (3) edge node{$\mathrm{ID}_i$} (4)
+                (6) edge[swap] node{$d_{\mathrm{ID}_i}$} (5)
+                (5) edge[bend left] node {$\poly(\lambda)$}(3)
+                (7) edge[near start] node{$\mathrm{ID}^*, m_0^*, m_1^*$} (8)
+                (10) edge[swap, near start] node{$c^* = \mathrm{Enc}_\Pi(mpk,\mathrm{ID}^*, m_b^*)$} (9)
+                (3t) edge node{$\mathrm{ID}_i' \neq \mathrm{ID}^*$} (4t)
+                (6t) edge[swap] node{$d_{\mathrm{ID}_i'}$} (5t)
+                (5t) edge[bend left] node {$\poly(\lambda)$}(3t)
+                (11) edge[near start] node{$b' \in \{0,1\}$} (12)
+                ;
+        \end{tikzpicture}
+
+        \caption{Graphical representation of $\mathrm{Game}_{\Pi, A}^{\text{ID-CPA}}(\lambda, b)$ for identity-based encryption.}
+    \end{figure}
+
+    The next step is defining a secure IDE scheme. In particular, the scheme will satisfy \underline{Selective} ID-CPA security, a weaker version of ID-CPA security where $\mathrm{ID}^*$ is chosen by the attacker \textit{before} $mpk$ is sent by the challenger. Proving that Sel-ID-CPA is weaker than ID-CPA -- meaning that the latter implies the former, but the converse isn't true -- is left as an exercise. Our construction is based on \textbf{bilinear groups}.
+
+    \begin{frameddefn}{Bilinear group}
+        A bilinear group is a triple $(\G, \G_T, \hat e)$ such that:
+        \begin{enumerate}
+            \item $\G$ a cyclic group of order $q$ generated by $g$, referred to as the source group
+            \item $\G_T$ a cyclic group of order $q$ generated by $\hat e(g,g)$, referred to as the target group
+            \item $\hat e : \G \times \G \to \G_T$ is bilinear, meaning that  that $\forall g,h \in \G$ and $\forall a,b \in \Z_q$ it holds that $\hat e(g^a, h^b) = \hat e(g,h)^{ab}$
+        \end{enumerate}
+    \end{frameddefn}
+
+    There are known bilinear groups based on elliptic curves with an efficiently computable bilinear function, but we wont dive into them. For our purposes, we can just assume that they exist. It's easy to see that the Decisional Diffie-Hellman (DDH) assumption doesn't hold in bilinear groups. Given $X = g^x$, $Y = g^y$ and $Z \in \{g^{xy}, g^z\}$, with $x,y,z \in_R \Z_q$, when $Z = g^{xy}$ it holds that:
+    \[\hat e (g, Z) = \hat e (g, g^{xy}) = \hat e (g, g)^{xy} = \hat e(g^x, g^y) = \hat e (X, Y)\]
+
+    Therefore, we can just check if $\hat e(g,Z) = \hat e (X,Y)$ in order to win the DDH game with non-negligible probability. Nonetheless, bilinear groups are believed to be sufficiently secure for the outputs of $\hat e$. In particular, the application of $\hat e$ onto three different elements of $\G$ is believed to be indistinguishable from a truly random element of $\G_T$. This is known as the \textbf{Decisional Bilinear Diffie-Hellman (DBDH)} assumption.
+
+    \begin{framedass}{DBDH assumption}
+        Given a quintuple $(\G,\G^T,g,q, \hat e)$ where $(\G, \G_T, \hat e)$ is a bilinear group, $g \in \G$ is a generator and $q$ is the order of $g$ in $\G$, the DBDH assumption states that:
+        \[(\G,g,q,g^a,g^b,g^c, \hat e(g,g)^{abc}) \approx_c (\G,g,q,g^a,g^b,g^c, T)\]
+        with $a,b,c \in_R \Z_q$ and $T \in_R \G_T$, for all PPT adversaries $A$ and for a chosen value $\lambda > 0$
+    \end{framedass}
+
+    This assumption can be used to construct a Selective ID-CPA secure IDE scheme known as the \textbf{Boneh-Franklin scheme}.
+
+    \begin{framedalgo}{Boneh-Franklin IDE scheme}
+        The Boneh-Franklin IDE scheme $\Pi_{\text{BF}} = (\mathrm{Setup}, \mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ is defined as follows:
+        \begin{itemize}
+            \item $\mathrm{Setup}(1^\lambda) = (mpk, msk)$ where $mpk = (\G, \G_T, g, q, g_1, g_2, h)$ and $msk = g_2^\alpha$, with $(\G,\G_T, g,q,\hat e)$ being a bilinear group, $h \in_R \G$, $g_2 \in_R \G$ and $g_1 = g^\alpha$ for some $\alpha \in_R \Z_q$ 
+            \item $\mathrm{KGen}(msk, ID) = (d_0, d_1)$ where $d_0 = msk \cdot F(\mathrm{ID})^r$ and $d_1 = g^r$, with $r \in_R \Z_q$ and $F : \Z_q \to \G$ being a pre-chosen common function such that $F(\mathrm{ID}) = g_1^{\mathrm{ID}} \cdot h$
+            \item $\mathrm{Enc}(mpk, ID, m) = (u,v,w)$ where $u = \hat e(g_1, g_2)^\gamma \cdot m$, $v = g^\gamma$ and $w = F(\mathrm{ID})^\gamma$, with $\gamma \in_R \Z_q$
+            \item $\mathrm{Dec}((d_0, d_1), (u,v,w)) = \dfrac{u \cdot \hat e (d_1, w)}{\hat e (v, d_0)}$
+        \end{itemize}
+    \end{framedalgo}
+
+    The correctness of the decryption process is given by:
+    \[\begin{split}
+        \frac{u \cdot \hat e (d_1, w)}{\hat e (v, d_0)} &= \hat e(g_1, g_2)^\gamma \cdot m \cdot \frac{\hat e (g^r, F(\mathrm{ID})^\gamma)}{\hat e (g^\gamma, g_2^\alpha \cdot F(\mathrm{ID})^r)} \\
+        &=  \hat e(g^\alpha, g_2)^\gamma \cdot m \cdot \frac{\hat e (g, F(\mathrm{ID}))^{r\gamma}}{\hat e (g^\gamma, g_2^\alpha) \cdot \hat e(g^\gamma, F(\mathrm{ID})^r)} \\
+        &=  \hat e(g, g_2)^{\gamma\alpha} \cdot m \cdot \frac{\hat e (g, F(\mathrm{ID}))^{r\gamma}}{\hat e (g, g_2)^{\gamma\alpha} \cdot \hat e(g, F(\mathrm{ID}))^{r\gamma}} \\
+        &= m
+    \end{split}\]
+
+
+    \begin{framedthm}{}
+        The Boneh-Franklin IDE scheme is Selective ID-CPA secure under the DBDH assumption.
+    \end{framedthm}
+    
+    \begin{proof}
+        Let $\Pi := \Pi_{\mathrm{BF}}$. By way of contradiction, suppose that there is an adversary $A$ breaking Selective ID-CPA security for $\Pi$. We define a new adversary $A'$ for the DBDH game:
+        \begin{enumerate}
+            \item The challenger $C$ sends $(\G,\G_T,g,q, \hat e, X, Y, Z, T)$ to $A'$, with  and $T$ being either $\hat e(g,g)^{\alpha\beta\gamma}$ or $g^w$ for some $w \in_R \Z_q$ (recall that $A$ doesn't know that $X=g^\alpha, Y = g^{\beta}, Z = g^{\gamma}$).
+            
+            \item $A$ selects $\mathrm{ID}^*$ and sends it to $A'$
+            \item $A'$ sends $mpk = (\G, \G_T, g, q, X, Y, h)$ to $A$ with $g_1 = X, g_2 = Y$ and $h = X^{-\mathrm{ID}^*} \cdot g^{a}$ for some $a \in_R \Z_q$
+            \item $A$ makes $q = \poly(\lambda)$ extraction queries to $A'$. For each $\mathrm{ID}_i \neq \mathrm{ID}^*$ queried by $A$, $A'$ answers with $d_{\mathrm{ID}_i} = (d_0^{(i)}, d_1^{(i)})$, where $d_0^{(i)} = Y^{-a/(\mathrm{ID}_i-\mathrm{ID}^*)} \cdot F(\mathrm{ID})^{r_i}$ and $d_1^{(i)} = \dfrac{g^{r_i}}{Y^{1/(\mathrm{ID}_i-\mathrm{ID}^*)}}$ for some $r_i \in_R \Z_q$
+            \item $A'$ sends the challenge messages $m_0^*, m_1^*$ to $A'$, who then answers with $c^* = (u,v,w)$ such that $u = T \cdot m_b^*, v =Z$ and $w = Z^{a}$
+            \item $A$ makes some more extraction queries in the same fashion as before.
+            \item $A$ sends $b'$ to $A'$, who then forwards it to $C$
+        \end{enumerate}
+
+        Even thought it looks complex, this reduction is actually perfect. The argument follows in a natural way just by extending computations. First of all, observe that $mpk$ is perfectively simulated since $h$ is uniform due to $a$ being also uniformly chosen. Next, we focus on the challenge ciphertext. When $T = \hat e(g,g)^{\alpha\beta\gamma}$, we have that:
+        \begin{itemize}
+            \item $u = T \cdot m_b^* = \hat e(g,g)^{\alpha\beta\gamma} \cdot m_b^* = \hat e(X,Y)^{\gamma} \cdot m_b^*$
+            \item $v = Z = g^{\gamma}$
+            \item $w = Z^a = {g^a}^{\gamma} = (X^{\mathrm{ID}^*} \cdot X^{\mathrm{ID}^* \cdot g^a})^{\gamma} = (X^{\mathrm{ID}^*} \cdot h)^{\gamma} = F(\mathrm{ID}^*)^{\gamma}$ 
+        \end{itemize}
+        meaning that the challenge ciphertext is correctly formatted. To conclude, we focus on extraction queries. For each $i \in [q]$, let $\tilde{r_i} = r_i - \frac{\beta}{\mathrm{ID}_i - \mathrm{ID}^*}$. Notice that $d_1^{(i)} = g^{\tilde{r_i}}$ and that $\tilde{r_i}$ is uniform due to $r_i$ being uniformly chosen. Moreover, we also have that $d_0^{(i)} = msk \cdot F(\mathrm{ID}_i)^{\tilde{r_i}}$:
+        \[\begin{split}
+            d_0^{(i)} &= Y^{-a/(\mathrm{ID}_i - \mathrm{ID}^*)} \cdot F(\mathrm{ID}_i)^{r_i} \\
+            &= Y^{-a/(\mathrm{ID}_i - \mathrm{ID}^*)} \cdot (X^{\mathrm{ID}_i} \cdot h)^{r_i} \\
+            &= Y^{-a/(\mathrm{ID}_i - \mathrm{ID}^*)} \cdot (X^{\mathrm{ID}_i} \cdot X^{-\mathrm{ID}_i} \cdot g^a)^{r_i} \\
+            &= Y^{-a/(\mathrm{ID}_i - \mathrm{ID}^*)} \cdot (X^{\mathrm{ID}_i-\mathrm{ID}^*} \cdot g^a)^{r_i} \cdot \frac{(X^{\mathrm{ID}_i - \mathrm{ID}^*} \cdot g^a)^{\beta/(\mathrm{ID}_i - \mathrm{ID}^*)}}{(X^{\mathrm{ID}_i-\mathrm{ID}^*} \cdot g^a)^{\beta/(\mathrm{ID}_i - \mathrm{ID}^*)}}\\
+            &= g^{-a\beta/(\mathrm{ID}_i - \mathrm{ID}^*)} \cdot (X^{\mathrm{ID}_i-\mathrm{ID}^*} \cdot g^a)^{r_i} \cdot \frac{X^{\beta} \cdot g^{a\beta/(\mathrm{ID}_i - \mathrm{ID}^*)}}{(X^{\mathrm{ID}_i - \mathrm{ID}^*} \cdot g^a)^{\beta/(\mathrm{ID}_i - \mathrm{ID}^*)}}\\
+            &= X^{\beta} \cdot (X^{\mathrm{ID}_i-\mathrm{ID}^*} \cdot g^a)^{\tilde{r_i}}\\
+            &= Y^{\alpha} \cdot F(\mathrm{ID}_i)^{\tilde{r_i}}\\
+            &= msk \cdot F(\mathrm{ID}_i)^{\tilde{r_i}}\\
+        \end{split}\]
+    \end{proof}
+    
+    \section{Applications of IBE schemes}
+
+    Other than being an alternative to public-key infrastructures, IBE schemes can also be used to derive less complex secure types of cryptography. For instance, we can combine a ID-CPA-secure IBE with a UFCMA-secure digital signature to get a CCA-secure public-key encryption scheme. But wait, we already saw that this can be achieved through a CPA-secure PKE scheme instead of a CPA-secure IBE scheme\dots how can this be of our interest? Surprisingly, for IBE schemes Selective ID-CPA security is sufficient when combined with UFCMA-security.
+
+    Consider an IBE scheme $\Pi = (\mathrm{Setup}, \mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ and a digital signature scheme $\Pi' = (\mathrm{KGen}', \mathrm{Sign}, \mathrm{Vrfy})$. We define a PKE scheme $\Pi'' = (\mathrm{KGen}'', \mathrm{Enc}'', \mathrm{Dec}'')$ where:
+    \begin{itemize}
+        \item $\mathrm{KGen}''(1^{\lambda}) = (ek, dk)$ with $(ek,dk) = (mpk, msk)$, where $(mpk, msk) \in_R \mathrm{Setup}(1^{\lambda})$
+        \item $\mathrm{Enc}''(ek, m) = (c,vk,\sigma)$ with $c = \mathrm{Enc}(ek, vk, m)$ and $\sigma = \mathrm{Sign}(sk, c)$, where $(vk, sk) \in_R \mathrm{KGen}'(1^{\lambda})$
+        \item $\mathrm{Dec}''(dk, (c,vk,\sigma)) = \bot$ when $\mathrm{Vrfy}(vk, c, \sigma) = 1$, otherwise $\mathrm{Dec}''(dk, (c,vk,\sigma)) = \mathrm{Dec}(mpk, d_{vk}, c)$, with $d_{vk} \in_R \mathrm{KGen}(msk, vk)$
+    \end{itemize}
+    
+    This PKE scheme can be proven to be CCA-secure when the initial schemes are Selective ID-CPA secure and UFCMA-secure. 
+
+    \begin{framedthm}{}
+        Let $\Pi$ be a Selective ID-CPA secure scheme and let $\Pi'$ be a UFCMA-secure scheme. Then, the PKE scheme $\Pi''$ of the above construction is CCA-secure.
+    \end{framedthm}
+
+    \begin{proof}
+        TODO.
+    \end{proof}
+
+    Moreover, secure digital signatures themselves are implied by IBE schemes -- again, under some constraints. We start by observing that Selective ID-CPA sc
+
+    \begin{framedthm}{}
+        Any IBE scheme $\Pi$ that is $(t,q,\varepsilon)$-Selective ID-CPA secure is also $(t,q,N\varepsilon)$ ID-CPA secure, with $N = \abs{\mathcal{ID}}$ and $\mathcal{ID}$ being the set of all possible IDs of $\Pi$
+
+        \textit{Note}: $(s,p,\delta)$-security means that any PPT adversary running in time $s$ with $p$ extraction queries has an advantage of at most $\delta$
+    \end{framedthm}
+
+    \begin{proof}
+        Omitted (the two games are identical when the extraction queries never ask for the initially selected ID)
+    \end{proof}
+
+    As long as $N = \poly(\lambda)$ and $\varepsilon = \mathrm{negl}(\lambda)$, the above theorem implies that Selective ID-CPA secure IBE schemes are also ID-CPA secure (notice that the converse is always true, making the two concepts equivalent under these constraints).
+
+    Now, consider the following new notion of security dubbed \textbf{One-way ID-CPA security (OF-ID-CPA)}, describing the idea of an encryption function being hard to invert.
+
+    \begin{figure}[H]
+        \centering
+
+        \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=1cm,thick,main node/.style={scale=0.8,circle,draw,font=\sffamily\normalsize}]
+            \node[] (1) []{$A$};
+            \node[] (2) [left of = 1, xshift = 225]{$C$};
+
+            \node[] (1t) [below of = 1]{};
+            \node[] (2t) [below of = 2]{};
+
+            \node[] (3) [below of = 1t]{};
+            \node[] (4) [below of = 2t]{};
+
+            \node[] (5) [below of = 3]{};
+            \node[] (6) [below of = 4]{};
+
+            \node[] (7) [below of = 5]{};
+            \node[] (8) [below of = 6]{};
+
+            \node[] (9) [below of = 7]{};
+            \node[] (10) [below of = 8]{};
+
+            \node[] (3t) [below of = 9]{};
+            \node[] (4t) [below of = 10]{};
+
+            \node[] (5t) [below of = 3t]{};
+            \node[] (6t) [below of = 4t]{};
+
+            \node[] (11) [below of = 5t]{};
+            \node[] (12) [below of = 6t]{};
+
+            \path[every node/.style={font=\sffamily\small}]
+                (2t) edge[swap, near start] node{$mpk$} (1t)
+                (3) edge node{$\mathrm{ID}_i$} (4)
+                (6) edge[swap] node{$d_{\mathrm{ID}_i}$} (5)
+                (5) edge[bend left] node {$\poly(\lambda)$}(3)
+                (7) edge[near start] node{$\mathrm{ID}^*$} (8)
+                (10) edge[swap, near start] node{$c^* = \mathrm{Enc}_\Pi(mpk,\mathrm{ID}^*, \mu^*)$ with $\mu^* \in_R \mathcal{M}$} (9)
+                (3t) edge node{$\mathrm{ID}_i' \neq \mathrm{ID}^*$} (4t)
+                (6t) edge[swap] node{$d_{\mathrm{ID}_i'}$} (5t)
+                (5t) edge[bend left] node {$\poly(\lambda)$}(3t)
+                (11) edge[near start] node{$b' \in \{0,1\}$} (12)
+                ;
+        \end{tikzpicture}
+
+        \caption{Graphical representation of $\mathrm{Game}_{\Pi, A}^{\text{OF-ID-CPA}}(\lambda, b)$ for identity-based encryption.}
+    \end{figure}
+
+    When the message space of the IBE is large enough, the above digital signature is OW-ID-CPA secure.
+
+    \begin{framedthm}{}
+        Let $\Pi$ be a ID-CPA secure scheme with $\frac{1}{\abs{\mathcal{M}}} = \mathrm{negl}(\lambda)$. Then, $\Pi$ is also OW-ID-CPA secure.
+    \end{framedthm}
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+
+    This new security concept can be used to get a secure digital signature. Again, let $\Pi = (\mathrm{Setup}, \mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ be an IDE scheme. We define a digital signature $\Pi^* = (\mathrm{KGen}^*, \mathrm{Sign}^*, \mathrm{Vrfy}^*)$, where:
+    \begin{itemize}
+        \item $\mathrm{KGen}^*(1^\lambda) = (vk, sk)$ with $(vk,sk) = (mpk, msk)$, where $(mpk, msk) \in_R \mathrm{Setup}(1^{\lambda})$
+        \item $\mathrm{Sign}^*(sk, m) = d_m$ with $d_m \in_R \mathrm{KGen}(msk, m)$
+        \item $\mathrm{Vrfy}^*(vk, m, \sigma) = \1[\mathrm{Dec}(d_{m}, c) = \mu]$ with $\mu \in_R \mathcal{M}$ and $c \in_R \mathrm{Enc}(mpk, m, \mu)$
+    \end{itemize}
+
+    When the message space of the initial IBE is large enough, the above digital signature is OW-ID-CPA secure.
+
+    \begin{framedthm}{}
+        Let $\Pi$ be a OF-ID-CPA secure scheme. Then, the digital signature scheme $\Pi^*$ of the above construction is UFCMA-secure.
+    \end{framedthm}
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+
+    All the above theorems can be combined to get a CCA-secure PKE scheme starting from a Selective CPA-secure IBE with $\frac{1}{\abs{\mathcal{M}}} = \mathrm{negl}(\lambda)$ and $\abs{\mathcal{ID}} = \poly(\lambda)$.
 \end{document}

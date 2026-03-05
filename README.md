@@ -106,7 +106,7 @@ Disclaimers ⚠️
 | ----- | :----: | :-----------: |
 | [Advanced Algorithms](../../raw/main/Master/Advanced%20Algorithms/Advanced%20Algorithms.pdf) | Completed | 30/09/2025 |
 | [Computational Complexity](../../raw/main/Master/Computational%20Complexity/Computational%20Complexity.pdf) | Completed | 17/02/2025 |
-| [Cryptography](../../raw/main/Master/Cryptography/Cryptography.pdf) | Last chapter missing | 18/02/2026 |
+| [Cryptography](../../raw/main/Master/Cryptography/Cryptography.pdf) | Completed | 05/03/2026 |
 | [Graph Theory](../../raw/main/Master/Graph%20Theory/Graph%20Theory.pdf) | Completed | 16/10/2025 |
 | [Mathematical Logic for Computer Science](../../raw/main/Master/Mathematical%20Logic%20for%20Computer%20Science/Mathematical%20Logic%20for%20Computer%20Science.pdf) | Completed | 25/06/2025 |
 | Models of Computation [ !! ] | - | - |
@@ -114,8 +114,8 @@ Disclaimers ⚠️
 | [Network Algorithms](https://raw.githubusercontent.com/aflaag-notes/network-algs/main/src/Network%20Algorithms.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 | [Autonomous Networking](https://raw.githubusercontent.com/loresaba/scritti-di-informatica/refs/heads/master/master/first%20year/autonomous_networking/autonomous_netwoking.pdf) | Written by [@loresaba](https://github.com/loresaba) | - |
 | [Computer Network Performance](../../raw/main/Master/Computer%20Network%20Performance/Computer%20Network%20Performance.pdf) | Completed | 05/12/2025 |
-| Internet of Things | - | - |
-| [Distributed Systems](../../raw/main/Master/Distributed%20Systems/Distributed%20Systems.pdf) | Only exercises | 13/11/2025 |
+| Deep Learning | - | - |
+| [Distributed Systems](../../raw/main/Master/Distributed%20Systems/Distributed%20Systems.pdf) | Only some exercises | 13/11/2025 |
 | [Machine Learning](../../raw/main/Master/Machine%20Learning/Machine%20Learning.pdf) | Completed | 10/03/2025 |
 </details>
 </div>

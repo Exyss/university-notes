@@ -3993,7 +3993,6 @@
         \[\begin{split}
             d_0^{(i)} &= Y^{-a/(\mathrm{ID}_i - \mathrm{ID}^*)} \cdot F(\mathrm{ID}_i)^{r_i} \\
             &= Y^{-a/(\mathrm{ID}_i - \mathrm{ID}^*)} \cdot (X^{\mathrm{ID}_i} \cdot h)^{r_i} \\
-            &= Y^{-a/(\mathrm{ID}_i - \mathrm{ID}^*)} \cdot (X^{\mathrm{ID}_i} \cdot X^{-\mathrm{ID}_i} \cdot g^a)^{r_i} \\
             &= Y^{-a/(\mathrm{ID}_i - \mathrm{ID}^*)} \cdot (X^{\mathrm{ID}_i-\mathrm{ID}^*} \cdot g^a)^{r_i} \cdot \frac{(X^{\mathrm{ID}_i - \mathrm{ID}^*} \cdot g^a)^{\beta/(\mathrm{ID}_i - \mathrm{ID}^*)}}{(X^{\mathrm{ID}_i-\mathrm{ID}^*} \cdot g^a)^{\beta/(\mathrm{ID}_i - \mathrm{ID}^*)}}\\
             &= g^{-a\beta/(\mathrm{ID}_i - \mathrm{ID}^*)} \cdot (X^{\mathrm{ID}_i-\mathrm{ID}^*} \cdot g^a)^{r_i} \cdot \frac{X^{\beta} \cdot g^{a\beta/(\mathrm{ID}_i - \mathrm{ID}^*)}}{(X^{\mathrm{ID}_i - \mathrm{ID}^*} \cdot g^a)^{\beta/(\mathrm{ID}_i - \mathrm{ID}^*)}}\\
             &= X^{\beta} \cdot (X^{\mathrm{ID}_i-\mathrm{ID}^*} \cdot g^a)^{\tilde{r_i}}\\
@@ -4020,7 +4019,7 @@
     \end{framedthm}
 
     \begin{proof}
-        TODO.
+        Omitted (very similar to the case of SKE schemes.)
     \end{proof}
 
     Moreover, secure digital signatures themselves are implied by IBE schemes -- again, under some constraints. We start by observing that Selective ID-CPA sc
@@ -4087,14 +4086,12 @@
         \caption{Graphical representation of $\mathrm{Game}_{\Pi, A}^{\text{OF-ID-CPA}}(\lambda, b)$ for identity-based encryption.}
     \end{figure}
 
-    When the message space of the IBE is large enough, the above digital signature is OW-ID-CPA secure.
-
-    \begin{framedthm}{}
+    \begin{framedprop}{}
         Let $\Pi$ be a ID-CPA secure scheme with $\frac{1}{\abs{\mathcal{M}}} = \mathrm{negl}(\lambda)$. Then, $\Pi$ is also OW-ID-CPA secure.
-    \end{framedthm}
+    \end{framedprop}
 
     \begin{proof}
-        Omitted.
+        Omitted (a statistical difference argument suffices).
     \end{proof}
 
     This new security concept can be used to get a secure digital signature. Again, let $\Pi = (\mathrm{Setup}, \mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ be an IDE scheme. We define a digital signature $\Pi^* = (\mathrm{KGen}^*, \mathrm{Sign}^*, \mathrm{Vrfy}^*)$, where:
@@ -4104,15 +4101,12 @@
         \item $\mathrm{Vrfy}^*(vk, m, \sigma) = \1[\mathrm{Dec}(d_{m}, c) = \mu]$ with $\mu \in_R \mathcal{M}$ and $c \in_R \mathrm{Enc}(mpk, m, \mu)$
     \end{itemize}
 
-    When the message space of the initial IBE is large enough, the above digital signature is OW-ID-CPA secure.
-
     \begin{framedthm}{}
         Let $\Pi$ be a OF-ID-CPA secure scheme. Then, the digital signature scheme $\Pi^*$ of the above construction is UFCMA-secure.
     \end{framedthm}
 
     \begin{proof}
-        Omitted.
+        Omitted (immediate reduction).
     \end{proof}
 
-    All the above theorems can be combined to get a CCA-secure PKE scheme starting from a Selective CPA-secure IBE with $\frac{1}{\abs{\mathcal{M}}} = \mathrm{negl}(\lambda)$ and $\abs{\mathcal{ID}} = \poly(\lambda)$.
 \end{document}

@@ -1128,14 +1128,14 @@
     
     \begin{frameddefn}{Polinomio di Taylor}
         Siano $[a,b] \subseteq \R$, $\func{f}{[a,b]}{\R}$ e $x_0 \in (a,b)$. Definiamo il \textbf{polinomio di Taylor di ordine $n$ di $f$ centrato in $x_0$}, indicato come $T_n(f, x_0)$, come il polinomio:
-        \[T_n(x;x_0) = f(x_0) + f'(x_0) (x-x_0) + \frac{f''(x_0)}{k!}(x-x_0)^2 + \ldots + \frac{f^{(n)}(x_0)}{n!} (x-x_0)^{n}\]
+        \[T_n(x;x_0) = f(x_0) + f'(x_0) (x-x_0) + \frac{f''(x_0)}{2!}(x-x_0)^2 + \ldots + \frac{f^{(n)}(x_0)}{n!} (x-x_0)^{n}\]
         dove $f^{(k)}$ indica la derivata di ordine $k$ della funzione $f$
     \end{frameddefn}
 
     Volendo esprimere il polinomio di Taylor in forma contratta, possiamo descriverlo tramite la seguente sommatoria:
     \[T_n(x;x_0) = \sum_{k = 0}^n \frac{f^{(k)}(x_0)}{k!} (x-x_0)^{k} \]
     
-    Il polinomio di Taylor risulta fondamentale per lo studio di funzioni più complesse. Difatti, il \textbf{teorema di Taylor} afferma che, al crescere dell'ordine del polinomio di Taylor utilizzato, l'approssimazione tra la funzione $f(x)$ e il polinomio $T_n(x;x_0)$ tenda ad essere trascurabile per valori di $x$ molto vicini al centro $x_0$ (in particolare, $f(x_0) = T_n(x; x_0)(x_0)$ in quanto ogni termine ogni termine del polinomio si annullerà eccetto il primo). In altre parole, possiamo approssimare una funzione tramite un polinomio di Taylor di ordine sufficientemente alto, ma solo per valori vicini al centro.
+    Il polinomio di Taylor risulta fondamentale per lo studio di funzioni più complesse. Difatti, il \textbf{teorema di Taylor} afferma che, al crescere dell'ordine del polinomio di Taylor utilizzato, l'approssimazione tra la funzione $f(x)$ e il polinomio $T_n(x;x_0)$ tenda ad essere trascurabile per valori di $x$ molto vicini al centro $x_0$ (in particolare, $f(x_0) = T_n(x; x_0)(x_0)$ in quanto ogni termine del polinomio si annullerà eccetto il primo). In altre parole, possiamo approssimare una funzione tramite un polinomio di Taylor di ordine sufficientemente alto, ma solo per valori vicini al centro.
 
     \begin{framedthm}{Teorema di Taylor}
         Siano $[a,b] \subseteq \R$, $\func{f}{[a,b]}{\R}$ e $x_0 \in (a,b)$. Esiste sempre una funzione $R_n(x)$ detta \textbf{resto infinitesimale} per cui si abbia che:

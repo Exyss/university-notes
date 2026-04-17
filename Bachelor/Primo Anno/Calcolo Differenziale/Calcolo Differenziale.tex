@@ -123,11 +123,11 @@
     Per comprendere meglio l'uso di tali simboli, consideriamo la seguente affermazione: \textit{"Per ogni elemento $x$ dell'insieme $S$, esiste un elemento $y$ dello stesso insieme che sia il doppio di $x$"}. Volendo tradurre tale affermazione in simboli matematici, otteniamo la seguente stringa di simboli:
     \[\forall x \in S \;\; \exists y \in S \;\; y = 2x\]
 
-    Altri due importanti simboli matematici riguardano le \textbf{implicazioni logiche}. Ogni qualvolta sia necessario tradurre in simboli un'affermazione del tipo \textit{"se si verifica $x$ allora $y$ è vero"}, viene utilizzata la simbologia $x \to y$. È importante porre attenzione sul significato rigoroso di tali implicazioni logiche: dire che $x \implies y$ equivale a dire che ogni qualvolta $x$ sia vero allora anche $y$ deve esserlo, ma che se $x$ è falso allora anche $y$ lo sia oppure che se $y$ sia vero anche $x$ lo sia. 
+    Altri due importanti simboli matematici riguardano le \textbf{implicazioni logiche}. Ogni qualvolta sia necessario tradurre in simboli un'affermazione del tipo \textit{"se si verifica $x$ allora $y$ è vero"}, viene utilizzata la simbologia $x \to y$. È importante porre attenzione sul significato rigoroso di tali implicazioni logiche: dire che $x \implies y$ equivale a dire che ogni qualvolta $x$ sia vero allora anche $y$ deve esserlo, ma che se $x$ è falso, non è detto che $y$ lo sia, così come se $y$ è vero, non è detto che $x$ lo sia. 
 
     Ad esempio, affermare che \textit{"se $x$ appartiene ad $S$ allora $x$ appartiene anche a $R$"}, in simboli $x \in S \implies x \in R$, ci dice che tutti gli elementi di $S$ siano anche elementi di $R$, ma non ci dice che se un elemento non sia in $S$ allora non sia neanche in $R$ oppure che se un elemento è in $R$ allora esso sia anche in $S$. Difatti, tali due ultime affermazioni vengono descritte dall'affermazione $x \notin S \implies x \notin R$ e dall'affermazione $x \in R \implies x \in S$.
 
-    Quanto due affermazioni si \textbf{"implicano a vicenda"}, ossia l'una è implicazione logica dell'altra e viceversa, viene utilizzato il simbolo $\iff$, letto come \textit{"se e solo se"}. Ad esempio, se volessimo affermare che \textit{"un elemento è in $S$ se e solo se è in $R$}, in simboli scriveremmo che $x \in S \iff x \in R$. Trattandosi di una doppia implicazione, in tal caso abbiamo che se $x$ appartiene ad $S$ allora $x$ deve appartenere anche ad $R$ e viceversa che se $y$ appartiene ad $R$ allora $y$ appartiene ad $S$.
+    Quando due affermazioni si \textbf{"implicano a vicenda"}, ossia l'una è implicazione logica dell'altra e viceversa, viene utilizzato il simbolo $\iff$, letto come \textit{"se e solo se"}. Ad esempio, se volessimo affermare che \textit{"un elemento è in $S$ se e solo se è in $R$}, in simboli scriveremmo che $x \in S \iff x \in R$. Trattandosi di una doppia implicazione, in tal caso abbiamo che se $x$ appartiene ad $S$ allora $x$ deve appartenere anche ad $R$ e viceversa che se $x$ appartiene ad $R$ allora $x$ appartiene ad $S$.
 
     In particolare, notiamo un'equivalenza tra alcune affermazioni: dire che $x \implies y$ è equivalente a dire che $\lnot y \implies \lnot x$, dove il simbolo $\lnot$ indica la negazione dell'affermazione. In altre parole, dire che \textit{"se $x$ allora $y$"} è equivalente a dire che \textit{"se non $y$ allora non $x$"}. Analogamente, dire che $x \iff y$ è equivalente a dire che $\lnot x \iff \lnot y$.
 
@@ -224,7 +224,7 @@
 
     Formalmente, dati due numeri razionali $\frac{a}{b}$ e $\frac{c}{d}$, diciamo che $\frac{a}{b} = \frac{c}{d}$ se e solo se $ad = cd$. Ad esempio, i numeri $\frac{4}{5}$ e $\frac{20}{25}$ sono uguali poiché $4 \cdot 25 = 5 \cdot 20$.
 
-    Tale proprietà implica a sua volta la proprietà di \textit{riduzione ai minimi termini} di un numero razionale: dato un numero razionale $\frac{p}{q}$, la sua riduzione ai minimi termini equivale al numero razionale $\frac{a}{b}$ tale che $\frac{p}{q} = \frac{a}{b}$ e tale che $\nexists c \in \Primes$ per cui $\frac{a}{c}, \frac{b}{c} \in \N$. Ad esempio, il numero $\frac{4}{5}$ è ridotto ai minimi termini, mentre $\frac{6}{15}$ no. Ovviamente, ogni numero razionale possiede una riduzione ai minimi termini, la quale nel eventualmente può coincidere col numero stesso.
+    Tale proprietà implica a sua volta la proprietà di \textit{riduzione ai minimi termini} di un numero razionale: dato un numero razionale $\frac{p}{q}$, la sua riduzione ai minimi termini equivale al numero razionale $\frac{a}{b}$ tale che $\frac{p}{q} = \frac{a}{b}$ e tale che $\nexists c \in \Primes$ per cui $\frac{a}{c}, \frac{b}{c} \in \N$. Ad esempio, il numero $\frac{4}{5}$ è ridotto ai minimi termini, mentre $\frac{6}{15}$ no. Ovviamente, ogni numero razionale possiede una riduzione ai minimi termini, la quale eventualmente può coincidere col numero stesso.
 
     Inoltre, bisogna specificare che la rappresentazione $\frac{p}{q}$ sia anch'essa impropria. Volendo essere rigorosi, dovremmo rappresentare un numero razionale come una \textit{coppia di numeri}, ossia $(p,q)$, in modo che il loro insieme possa essere definito come un sottoinsieme di un prodotto cartesiano.
 
@@ -241,7 +241,7 @@
 
     Quando invece il numero di cifre decimali è infinito ma le ultime cifre si ripetono all'infinito, tale allineamento è detto \textit{periodico} e viene espresso nella forma contratta data da $n.\alpha_1 \alpha_2 \ldots \alpha_k \overline{\beta_1 \beta_2 \ldots \beta_h}$, dove le cifre sopralineate sono quelle ripetute infinite volte. Ad esempio, il numero $\frac{212408}{9900}$ può essere espresso come $21.4553535353\ldots$ o in forma contratta come $21.45\overline{53}$.
     
-    Tuttavia, nonostante la maggior parte dei numeri di uso comune rientri nei razionali, esistono dei numeri che non siano esprimibili come frazione. Esempio tipico risulta essere il numero $x$ tale che $x^2 = 2$, il quale viene solitamente comunemente come $\sqrt{2}$.
+    Tuttavia, nonostante la maggior parte dei numeri di uso comune rientri nei razionali, esistono dei numeri che non sono esprimibili come frazione. Esempio tipico risulta essere il numero $x$ tale che $x^2 = 2$, il quale viene solitamente indicato come $\sqrt{2}$.
 
     \begin{framedlem}{Irrazionalità di $\sqrt{2}$}
         Dato $\sqrt{2}$, si ha che $\sqrt{2} \notin \Q$.
@@ -377,7 +377,7 @@
     Una volta definito tutto ciò che riguarda gli insiemi numerici, siamo pronti per affrontare i principali \textit{operatori elementari}. Abbiamo visto come l'operazione di addizione sia definita tramite l'operatore di successore e come la moltiplicazione risulta definibile  tramite l'addizione. Procedendo analogamente, definiamo l'operatore di \textbf{potenza} ricorsivamente tramite la moltiplicazione:
     \[x^a = \soe{ll}{
         1 & \text{se } a = 0 \\
-        a \cdot x^{a-1} &\text{se a > 0} \\
+        x \cdot x^{a-1} &\text{se a > 0} \\
         \rbk{\frac{1}{x}}^{-a} &\text{se a < 0} \\
     }\]
 
@@ -738,7 +738,7 @@
         \includegraphics[scale=0.6]{images/trig2.png}
     \end{center} 
 
-    Notiamo facilmente che tale segmento induca la presenza di un triangolo retto su tale circonferenza, ossia il triangolo $\overline{OAP}$, dove $A$ è il punto che interseca l'asse delle ascisse e la retta perpendicolare ad essa passante per $P$:
+    Notiamo facilmente che tale segmento induca la presenza di un triangolo retto su tale circonferenza, ossia il triangolo $\overline{OAP}$, dove $A$ è il punto che interseca l'asse delle ascisse e la retta perpendicolare ad esso passante per $P$:
     \begin{center}
         \includegraphics[scale=0.6]{images/trig3.png}
     \end{center}
@@ -845,7 +845,7 @@
     \textbf{Risolvere} un'equazione definita su $n$ variabili significa determinare quali siano i valori assumibili da tali variabili affinché l'equazione sia vera. Tale processo può essere visto come un cercare di semplificare l'equazione stessa ai termini minimi possibili, solitamente attraverso l'affermazione di equazioni intermedie che derivino dalla precedente che mantengano inalterati le \textit{soluzioni} dell'equazione, ossia i valori che la rendono vera. Un'equazione può avere un \textbf{insieme di soluzioni} finito, infinito o vuoto.
 
     Ad esempio, consideriamo la seguente equazione:
-    \[5x+6y = 18x^2-6y + 7\]
+    \[5x+6y = 18x-6y + 7\]
 
     Per trovare le coppie di valori di $x,y$ che soddisfano tale equazione, procediamo nel seguente modo:
     \begin{enumerate}
@@ -1082,7 +1082,7 @@
             \includegraphics[scale=0.575]{images/sign3.png}
         \end{center}
 
-        \item Per tanto, concludiamo che la disequazione $x(x-1)(x+3) \geq 0$ abbia come soluzioni $\{x \in \R \mid -3 \leq x \leq -1 \lor x \geq 1\}$
+        \item Per tanto, concludiamo che la disequazione $x(x-1)(x+3) \geq 0$ abbia come soluzioni $\{x \in \R \mid -3 \leq x \leq 0 \lor x \geq 1\}$
     \end{enumerate}
 
     \newpage
@@ -1723,8 +1723,8 @@
         Per tanto, il campo di esistenza corrisponde a $\R - \cbk{\frac{1}{3}}$
 
         \item Per via della frazione abbiamo la condizione di esistenza $\sin x -1 \neq 0$, la quale implica che:
-        \[\sin x -1 \neq 0 \implies \sin x \neq 1 \implies x \neq k\pi \;\; \forall k \in \Z\]
-        Per tanto, il campo di esistenza corrisponde a $\R - \{x \in \R \mid x \neq k\pi, k \in \Z\}$
+        \[\sin x -1 \neq 0 \implies \sin x \neq 1 \implies x \neq \frac{\pi}{2} + 2k\pi \;\; \forall k \in \Z\]
+        Per tanto, il campo di esistenza corrisponde a $\R - \{x \in \R \mid x \neq \frac{\pi}{2} + 2k\pi, k \in \Z\}$
 
         \item Per via della frazione abbiamo le condizioni di esistenza $\log_2(3x) +1 \neq 0$, mentre per via del logaritmo abbiamo la condizione di esistenza $3x > 0$. La prima implica che:
         \[\log_2(3x) +1 \neq 0 \implies \log_2(3x) \neq -1 \implies 2^{\log_2(3x)} \neq 2^{-1} \implies 3x \neq \frac{1}{2} \implies x \neq \frac{1}{6}\]
@@ -2029,7 +2029,7 @@
     \end{frameddefn}
 
     \begin{framedobs}{}
-        Dato un intervallo $I \subseteq \R$, sia $f : I \to \R$. Dato un punto di accumulazione $x_0 \in I$, se per l'intervallo $I$ si ha che $f(x) \to \ell$ quando $x \to x_0$, allora ciò vale anche per ogni intervallo $J$ tale che $I \subseteq J \subseteq \R$.
+        Dato un intervallo $I \subseteq \R$, sia $f : I \to \R$. Dato un punto di accumulazione $x_0 \in I$, se per l'intervallo $I$ si ha che $f(x) \to \ell$ quando $x \to x_0$, allora ciò vale anche per ogni intervallo $J$ tale che $J \subseteq I \subseteq \R$.
     \end{framedobs}
 
     L'ultima osservazione ci permette di stabilire che non sia importante quale intervallo venga scelto, l'importante è che esista almeno un intervallo per cui il punto $x_0$ sia un punto di accumulazione scelto
@@ -2142,10 +2142,10 @@
         \[\lim_{x \to x_0^-} f(x) \neq \lim_{x \to x_0^+} f(x) \implies \lim_{x \to x_0} f(x) = \nexists\]
     \end{framedobs}
 
-    In alcuni casi, inoltre, una delle due direzioni potrebbe \textbf{non essere è ben definita} poiché i valori da considerare sono al di fuori dal campo di esistenza. In tal caso, viene considerata solo la direzione ben definita. Ad esempio, per la funzione $f(x) = \ln x$ il limite sinistro per $x \to 0^-$ non è ben definito poiché il campo di esistenza di $f(x)$ è $\{x \in \R \mid x > 0\}$, dunque il calcolo del limite $x \to 0$ è equivalente al calcolo del limite $x \to 0^+$.
+    In alcuni casi, inoltre, una delle due direzioni potrebbe \textbf{non essere ben definita} poiché i valori da considerare sono al di fuori dal campo di esistenza. In tal caso, viene considerata solo la direzione ben definita. Ad esempio, per la funzione $f(x) = \ln x$ il limite sinistro per $x \to 0^-$ non è ben definito poiché il campo di esistenza di $f(x)$ è $\{x \in \R \mid x > 0\}$, dunque il calcolo del limite $x \to 0$ è equivalente al calcolo del limite $x \to 0^+$.
     \[\lim_{x \to 0} \ln x = \lim_{x \to 0^+} \ln x\]
 
-    All'avvicinarsi verso un punto di accumulazione $x_0$, alcune funzioni potrebbero persino \textbf{non convergere} ad un limite $\ell$, bensì potrebbero \textbf{divergere}, ossia minore è la distanza tra $x$ e $x_0$ maggiore (o minore) sarà il valore di $f(x)$. In altre parole, per ogni intorno valore $M \in \R$ possiamo definire un intorno $I_\delta(x_0)$ per cui si abbia che $x \in I_\delta(x_0) \implies f(x) > M$ (o $f(x) < M$). 
+    All'avvicinarsi verso un punto di accumulazione $x_0$, alcune funzioni potrebbero persino \textbf{non convergere} ad un limite $\ell$, bensì potrebbero \textbf{divergere}, ossia minore è la distanza tra $x$ e $x_0$ maggiore (o minore) sarà il valore di $f(x)$. In altre parole, per ogni valore $M \in \R$ possiamo definire un intorno $I_\delta(x_0)$ per cui si abbia che $x \in I_\delta(x_0) \implies f(x) > M$ (o $f(x) < M$). 
 
     \begin{frameddefn}{Limite a $+\infty$ per valori tendenti a $x_0$}
         Dato un intervallo $I \subseteq \R$, sia $f : I \to \R$. Dato un punto di accumulazione $x_0 \in I$, diciamo che per valori di $x$ che \textit{tendono} a $x_0$ il \textbf{limite} della funzione $f(x)$ \textbf{diverge positivamente} se si verifica che:
@@ -2466,17 +2466,17 @@
     \[\lim_{x \to +\infty} \frac{x^2}{x} = \lim_{x \to +\infty} x = +\infty\]
 
     Ricapitolando, dunque, le forme indeterminate risultano essere:
-    \[+\infty - \infty \qquad\qquad 0 \cdot \infty \qquad\qquad \frac{0}{\infty} \qquad\qquad \frac{0}{0}\]
+    \[+\infty - \infty \qquad\qquad 0 \cdot \infty \qquad\qquad \frac{\infty}{\infty} \qquad\qquad \frac{0}{0}\]
 
     Tali forme vanno studiate attentamente, mentre ogni altra forma risulta risolvibile in modo diretto. Per valutare le forme indeterminate, è spesso sufficiente utilizzare qualche \textbf{trucchetto algebrico} che ci permette di semplificare il calcolo. Ad esempio, il seguente limite:
     \[\lim_{x \to +\infty} \frac{x^2-x-1}{3x^3+2x-7}\]
 
     Di primo occhio, questa risulta essere una forma duplicemente indeterminata poiché abbiamo che $\frac{+\infty - \infty}{\infty}$. Raggruppando il termine di grado più alto sia al numeratore che al denominatore, notiamo che:
-    \[\lim_{x \to +\infty} \frac{x^2-x-1}{3x^3+2x-7} = \lim_{x \to +\infty} \frac{x^2 \rbk{1-\frac{1}{x}-\frac{1}{x^2}}}{3x^3 \rbk{1+\frac{2}{x^2}-\frac{7}{x^3}}}\]
+    \[\lim_{x \to +\infty} \frac{x^2-x-1}{3x^3+2x-7} = \lim_{x \to +\infty} \frac{x^2 \rbk{1-\frac{1}{x}-\frac{1}{x^2}}}{x^3 \rbk{3+\frac{2}{x^2}-\frac{7}{x^3}}}\]
 
     A questo punto, per $x \to \infty$ sappiamo che $\frac{1}{x}, \frac{1}{x^2}, \frac{1}{x^3} \to 0$, implicando allora che:
     \[\lim_{x \to +\infty} \frac{x^2-x-1}{3x^3+2x-7} = \lim_{x \to +\infty} \frac{x^2 \rbk{1-\frac{1}{x}-\frac{1}{x^2}}}{3x^3 \rbk{1+\frac{2}{x^2}-\frac{7}{x^3}}} \]
-    \[= \lim_{x \to +\infty} \frac{x^2 \rbk{1-0-0}}{3x^3 \rbk{1+0-0}} = \lim_{x \to +\infty} \frac{x^2}{3x^3} = \lim_{x \to +\infty} \frac{1}{3x} = 0\]
+    \[= \lim_{x \to +\infty} \frac{x^2 \rbk{1-0-0}}{x^3 \rbk{3+0-0}} = \lim_{x \to +\infty} \frac{x^2}{3x^3} = \lim_{x \to +\infty} \frac{1}{3x} = 0\]
 
     concludiamo quindi che per $x \to +\infty$ la funzione tenda a 0. Vediamo ora un altro esempio:
     \[\lim_{x \to -3} \frac{x^3 - 7 x + 6}{x^2 + 9 x + 18}\]
@@ -2625,7 +2625,7 @@
         Date due funzioni $f,g : I \to \R$, dato $\ell \in \R-\{0\}$:
         \[\lim_{x \to *} f(x) = \lim_{x \to *} g(x) = \ell \implies f(x) \sim_{x \to *} g(x)\]
 
-        mentre dato $m \in \R$ che:
+        mentre dato $m \in \R$:
         \[\soe{l}{
             f(x) \sim_{x \to *} g(x) \\
             \lim\limits_{x \to *} f(x) = m
@@ -2638,12 +2638,12 @@
     \end{framedobs}
 
     Ad esempio, consideriamo la funzione $f(x) = e^{x^3+5x}$. Notiamo che:
-    \[\lim_{x \to +\infty} \frac{x^3+5x}{x^3} = \lim_{x \to 0} \frac{x^3\rbk{1+\frac{5}{x^2}}}{x^3} = \lim_{x \to +\infty} \frac{x^3}{x^3} = 1 \implies x^3+5x \sim x^3\]
+    \[\lim_{x \to +\infty} \frac{x^3+5x}{x^3} = \lim_{x \to +\infty} \frac{x^3\rbk{1+\frac{5}{x^2}}}{x^3} = \lim_{x \to +\infty} \frac{x^3}{x^3} = 1 \implies x^3+5x \sim x^3\]
     
     Tuttavia, abbiamo che:
-    \[\lim_{x \to +\infty} \frac{e^{x^3+5x}}{e^{x^3}} = \lim_{x \to +\infty} \frac{e^{x^3\cdot e^{5x}}}{e^{x^3}} = \lim_{x \to +\infty} e^{5x} = +\infty \implies e^{x^3+5x} \not\sim e^{x^3}\]
+    \[\lim_{x \to +\infty} \frac{e^{x^3+5x}}{e^{x^3}} = \lim_{x \to +\infty} \frac{e^{x^3} \cdot e^{5x}}{e^{x^3}} = \lim_{x \to +\infty} e^{5x} = +\infty \implies e^{x^3+5x} \not\sim e^{x^3}\]
     
-    Per tale motivo, è necessario porre \underline{estrema} quando si lavora con funzioni simili in quanto non è sufficiente sostituire una funzione con l'altra.
+    Per tale motivo, è necessario porre \underline{estrema} attenzione quando si lavora con funzioni simili in quanto non è sufficiente sostituire una funzione con l'altra.
 
     \begin{frameddefn}{Notazione o-piccolo}
         Date due funzioni $f,g : I \to \R$ e diciamo che $f$ è in \textbf{o-piccolo} di $g$ per $x \to *$, indicato con $f(x) = o_{x \to *}(g(x))$ o  direttamente $f(x) = o(g(x))$ quando chiaro dal contesto, se si verifica che:
@@ -2665,7 +2665,7 @@
     Ad esempio, risulta evidente che $x = o(x^2)$ e che $x^2 = o(x^3)$, ma anche che $x = o(x^3)$. La particolare utilità della notazione o-piccolo sta nella possibilità di definire delle operazioni algebriche molto semplici (ovviamente, devono essere definiti per lo stesso $x \to *$):
     \begin{enumerate}
         \item Eliminazione delle costanti:
-        \[\forall k \in \R \text{ vale } o(k g(x)) = o(g(x)) \text{ e } k(o(g)) = o(g(x))\]
+        \[\forall k \in \R \text{ vale } o(k g(x)) = o(g(x)) \text{ e } k(o(g(x))) = o(g(x))\]
 
         \item Potenza di una funzione:
         \[f(x) = o(g(x)) \implies \forall \alpha \in \R \;\; f(x)^{\alpha} \implies o(g(x)^\alpha)\]
@@ -2753,10 +2753,10 @@
     \[\lim_{x \to +\infty} \log_\alpha(x) = +\infty\]
 
     Di conseguenza, ponendo $y = \log_\alpha(x)$, abbiamo che:
-    \[\lim_{x \to +\infty} \frac{\log_{\alpha}^\gamma (x)}{x^{\beta}} = \lim_{x \to +\infty} \frac{y^\gamma}{\alpha^{\beta y}} = 0^+\]
+    \[\lim_{x \to +\infty} \frac{\log_{\alpha}^\gamma (x)}{x^{\beta}} = \lim_{y \to +\infty} \frac{y^\gamma}{\alpha^{\beta y}} = 0^+\]
 
     Come prima, da questo risultato deriva automaticamente il risultato opposto:
-    \[\lim_{x \to +\infty} \frac{x^{\beta}}{\log_{\alpha}^\gamma (x)} = \lim_{x \to +\infty} \frac{1}{\frac{\log_{\alpha}^\gamma (x)}{x^{\beta}}} = \lim_{x \to 0^+} \frac{1}{y} = +\infty\]
+    \[\lim_{x \to +\infty} \frac{x^{\beta}}{\log_{\alpha}^\gamma (x)} = \lim_{x \to +\infty} \frac{1}{\frac{\log_{\alpha}^\gamma (x)}{x^{\beta}}} = \lim_{y \to 0^+} \frac{1}{y} = +\infty\]
     
     dove $y = \frac{\log_{\alpha}^\gamma (x)}{x^{\beta}}$. In altre parole, \textbf{ogni potenza vince su ogni logaritmo}. Vediamo ora cosa succede confrontando esponenziali e fattoriali. Dati $\alpha > 0$, consideriamo il seguente limite:
     \[\lim_{x \to +\infty} \frac{\alpha^{\gamma x}}{x!} \]
@@ -2891,8 +2891,8 @@
 
     Data una successione $a_n : \N \to \R$, diciamo che tale successione è:
     \begin{itemize}
-        \item \textbf{Limitata superiormente} se $\exists M \geq 0$ tale che $a_n \leq M$ per ogni $n \in \N$. 
-        \item \textbf{Limitata inferiormente} se $\exists M \geq 0$ tale che $a_n \geq M$ per ogni $n \in \N$. 
+        \item \textbf{Limitata superiormente} se $\exists M \in \R$ tale che $a_n \leq M$ per ogni $n \in \N$. 
+        \item \textbf{Limitata inferiormente} se $\exists M \in \R$ tale che $a_n \geq M$ per ogni $n \in \N$. 
         \item \textbf{Limitata} se $\exists M \geq 0$ tale che $\abs{a_n} \leq M$ per ogni $n \in \N$. 
         \item \textbf{Crescente} se $a_n \leq a_{n+1}$ per ogni $n \in \N$ (o \textit{strettamente crescente} se $a_n < a_{n+1}$)
         \item \textbf{Decrescente} se $a_n \geq a_{n+1}$ per ogni $n \in \N$ (o \textit{strettamente decrescente} se $a_n > a_{n+1}$)
@@ -2951,7 +2951,7 @@
     Vediamo ora il cosiddetto \textbf{teorema ponte}, il quale mette in stretta relazione il mondo dei limiti di funzione e il mondo dei limiti di successione (da cui il nome del teorema, una sorta di ponte tra i due mondi). Tale teorema può essere utilizzato per dare una \textit{seconda definizione} di limite di funzione tramite il concetto di limiti di successioni.
 
     \begin{framedthm}{Teorema ponte}
-        Sia $f : I \to \R$ e un sia $x_0$ un punto di accumulazione in $I$ (oppure $\pm \infty$). Si verifica che:
+        Sia $f : I \to \R$ e sia $x_0$ un punto di accumulazione in $I$ (oppure $\pm \infty$). Si verifica che:
         \[\lim_{x \to x_0} f(x) = \ell \text{ (oppure $\pm \infty$)}\]
         se e solo se per ogni successione $a_n : \N \to \R$ tale che $a_n \to x_0$ quando $n \to +\infty$ si ha anche che:
         \[\lim_{n \to +\infty} f(a_n) = \ell \text{ (oppure $\pm \infty$)}\]
@@ -3000,7 +3000,7 @@
     Notiamo quindi che per $x \to 2$ la funzione $f(x)$ tende ad avvicinarsi alla retta $x = 2$, senza mai toccarla (poiché ovviamente $2 \notin \mathrm{Dom}(f)$). Quando la funzione assume tale comportamento, tale retta viene detta \textbf{asintoto verticale} di $f$.
 
     \begin{frameddefn}{Asintoto verticale}
-        Data la funzione $f : I \to \R$ e un punto di accumulazione $x_0 \in I$, diciamo che la retta $x = x_0$ è un \textbf{asintoto verticale} di $f$ se di verifica che:
+        Data la funzione $f : I \to \R$ e un punto di accumulazione $x_0 \in I$, diciamo che la retta $x = x_0$ è un \textbf{asintoto verticale} di $f$ se si verifica che:
         \[\lim_{x \to x_0^+} f(x) = \pm \infty \text{\quad oppure \quad} \lim_{x \to x_0^-} f(x) = \pm \infty\]
     \end{frameddefn}
 
@@ -3016,7 +3016,7 @@
     
 
     \begin{frameddefn}{Asintoto orizzontale}
-        Data la funzione $f : I \to \R$ e un valore $\ell \in \R$, diciamo che la retta $y = \ell$ è un \textbf{asintoto orizzontale} di $f$ se di verifica che:
+        Data la funzione $f : I \to \R$ e un valore $\ell \in \R$, diciamo che la retta $y = \ell$ è un \textbf{asintoto orizzontale} di $f$ se si verifica che:
         \[\lim_{x \to +\infty} f(x) = \ell \text{ oppure } \lim_{x \to -\infty} f(x) = \ell\]
     \end{frameddefn}
 
@@ -3060,7 +3060,7 @@
     \[\lim_{x \to \pm\infty} f(x) - (mx+q) = 0\]
 
     \begin{frameddefn}{Asintoto obliquo}
-        Data la funzione $f : I \to \R$ e due valori $m,q \in \R$, diciamo che la retta $mx+q$  è un \textbf{asintoto obliquo} di $f$ se di verifica che:
+        Data la funzione $f : I \to \R$ e due valori $m,q \in \R$, diciamo che la retta $mx+q$  è un \textbf{asintoto obliquo} di $f$ se si verifica che:
         \[\lim_{x \to \pm\infty} f(x) - (mx+q) = 0\]
     \end{frameddefn}
 

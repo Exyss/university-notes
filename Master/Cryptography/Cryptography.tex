@@ -226,7 +226,7 @@
     Shannon proved that such definition is achievable by some cryptosystems, but it comes with inheritent practical limitations. Suprisingly, even a simple SKE as the \textbf{One Time Pad (OTP)} system has perfect secrecy. In this system we assume that everything is a binary string of the same length, i.e. that $\mathcal{M} = \mathcal{K} = \mathcal{C} = \{0,1\}^n$ for some $n \in \N$. The encryption and decryption functions are defined as follows:
     \[\mathrm{Enc}(K, m) = K \oplus m \qquad\qquad \mathrm{Dec}(K,c) = K \oplus c\]
     
-    By properties of the bit-wise XOR function, it's easy to see that OTP is complete:
+    By properties of the bit-wise XOR function, it's easy to see that OTP is correct:
     \[\mathrm{Dec}(K,\mathrm{Enc}(K,m)) = K \oplus (K \oplus m) = m\]
 
     In order to prove that OTP has perfect secrecy, we start by proving two equivalent definitions of perfect secrecy. In particular, states that for every pair of messages every ciphertext has the same probability of being the output of the encoding function when applied of both messages. 
@@ -261,14 +261,14 @@
             Proceding in the same way with $\mathrm{Enc}(K,m')$, we conclude that:
             \[\Pr_{K \in_R \mathcal{K}}[\mathrm{Enc}(K,m) = c] = \Pr_{K \in_R \mathcal{K}}[\mathrm{Enc}(K,m') = c]\]
 
-            \item[3. $\implies$ 1.] Assume the third statement holds. Fix $m \in \mathcal{C}$ and $c \in \mathcal{C}$.
+            \item[3. $\implies$ 1.] Assume the third statement holds. Fix $m \in \mathcal{M}$ and $c \in \mathcal{C}$.
             
             \textbf{Claim}: $\Pr[C = c] = \Pr[C = c \mid M = m]$
 
             \begin{proof}[Proof of the claim]
                 Through the probability sum principle, we get that:
                 \[\begin{split}
-                    \Pr[C = c] &= \sum_{m' \in \mathcal{M}} \Pr[C = c, M = m] \\
+                    \Pr[C = c] &= \sum_{m' \in \mathcal{M}} \Pr[C = c, M = m'] \\
                     &= \sum_{m' \in \mathcal{M}} \Pr[C = c \mid M = m'] \cdot \Pr[M = m'] \\
                     &= \sum_{m' \in \mathcal{M}} \Pr[\mathrm{Enc}(K,M') = c \mid M = m'] \cdot \Pr[M = m'] \\
                     &= \sum_{m' \in \mathcal{M}} \Pr[\mathrm{Enc}(K,m') = c] \cdot \Pr[M = m'] \\
@@ -317,7 +317,7 @@
     \begin{proof}
         Suppose that $\Pi$ is a non-trivial perfectly secret. Fix any $c \in \mathcal{C}$ such that $\Pr[C = c] > 0$ (this is where non-triviality is required). Let $\mathcal{M}'$ be the set of possible decryptions over $c$, i.e. $\mathcal{M}' = \{\mathrm{Dec}(K,c) \mid K \in \mathcal{K}\}$. We observe that $\mathcal{M}'$ contains at most one decryption for each key (some keys may yield the same decryption). By way of contradiction, suppose that $\abs{\mathcal{K}} < \abs{\mathcal{M}}$. Then, we get that $\abs{\mathcal{M}'} \leq \abs{\mathcal{K}} < \abs{\mathcal{M}}$.
 
-        This implies that $\exists m \in \mathcal{M} - \mathcal{M}'$. Thus, there is a message that cannot be the result of applying the decryption function on $c$, meaning that $\Pr[M = m \mid C = c] = 0$. However, we know that, when no additional information is given, every message is uniform, hence $\Pr[M = m] = \frac{1}{\mathcal{M}}$, contradicting the fact that $\Pi$ has perfect secrecy.
+        This implies that $\exists m \in \mathcal{M} - \mathcal{M}'$. Thus, there is a message that cannot be the result of applying the decryption function on $c$, meaning that $\Pr[M = m \mid C = c] = 0$. However, we know that, when no additional information is given, every message is uniform, hence $\Pr[M = m] = \frac{1}{\abs{\mathcal{M}}}$, contradicting the fact that $\Pi$ has perfect secrecy.
     \end{proof}
 
     \section{Message authentication codes}
@@ -422,7 +422,7 @@
 
     \section{Randomness extraction}
 
-    We discussed how randomness can be used to generate secret keys over a probability distribution, but how a random value be generated? As we will discuss later, randomness is a \underline{crucial} concept for secure cryptography. Clearly, there is no such concept as \textit{real randomness}: even if the whole universe may appear chaotic, everything is technically deterministic. The process of generating a random-enough value is called \textbf{randomness extraction} and it is typically achieved by measuring physical quantities (noise, air humidity, \dots) in order to produce a short unpredictable sequence of bits (e.g. 256 bits), which is expensive to generate and not necessarly uniform. This short \curlyquotes{truly random} sequence gets usually expanded to any desired length -- as long as it is polynomial with respect to the original lenght -- through the use of a \textbf{pseudorandom generator (PRG)}. However, this process requires some strict computational assumptions, which we'll discuss later.
+    We discussed how randomness can be used to generate secret keys over a probability distribution, but how can a random value be generated? As we will discuss later, randomness is a \underline{crucial} concept for secure cryptography. Clearly, there is no such concept as \textit{real randomness}: even if the whole universe may appear chaotic, everything is technically deterministic. The process of generating a random-enough value is called \textbf{randomness extraction} and it is typically achieved by measuring physical quantities (noise, air humidity, \dots) in order to produce a short unpredictable sequence of bits (e.g. 256 bits), which is expensive to generate and not necessarily uniform. This short \curlyquotes{truly random} sequence gets usually expanded to any desired length -- as long as it is polynomial with respect to the original length -- through the use of a \textbf{pseudorandom generator (PRG)}. However, this process requires some strict computational assumptions, which we'll discuss later.
     
     For now, we'll focus on understanding how to extract randomness from an unpredictable secure variable $X$. The first \textbf{extractor} that sparked the idea is Von Neumann's Extractor, which yields a fair random coin from an unpredictable unfair one. Let $B \in \{0,1\}$ be the random variable describing the unpredictable unfair coin, where $\Pr[B = 0] = p < \frac{1}{2}$. Let $Y \in \{0,1\}$ be the random variable describing our new coin. The value of $Y$ is determined by the following procedure. Sample two values $b_1, b_2$ from $B$ at different times. If $b_1 = b_2$, $Y$ assumes no value (marked as $Y = ?$) and we repeat the sampling process. If not, $Y = 1$ if $b_1 = 0$ and $b_2 = 1$, otherwise $Y = 0$ if $b_1 = 1$ and $b_2 = 0$.
 
@@ -431,7 +431,7 @@
 
     As $m$ grows to infinity, the latter probability goes to 0, making it negligible. Tihis implies that both $\Pr[Y=0]$ and $\Pr[Y = 1]$ tend to be $\frac{1}{2}$ due to them having the same probability and them being the only two outcomes. This makes $Y$ a fair enough coin.
 
-    Our goal is to generalize this concept to any desider value, i.e. design an extractor $\mathrm{Ext}$ that uses a random variable $X$ to output any desided uniform distribution $\mathrm{Ext}(X)$. A good eye may recognize that this is clearly impossible to achieve unless the source is already truly unpredictable, which makes the extractor useless since we already have a truly random source. As for many computational and probabilistic concepts, we can only hope to achieve something that is good-enough for our purposes. This goodness is measured through a concept known as \textbf{min-entropy}, that being the largest value $m$ having the property that each observation of $X$ provides at least $m$ bits of information.
+    Our goal is to generalize this concept to any desired value, i.e. design an extractor $\mathrm{Ext}$ that uses a random variable $X$ to output any desired uniform distribution $\mathrm{Ext}(X)$. A good eye may recognize that this is clearly impossible to achieve unless the source is already truly unpredictable, which makes the extractor useless since we already have a truly random source. As for many computational and probabilistic concepts, we can only hope to achieve something that is good-enough for our purposes. This goodness is measured through a concept known as \textbf{min-entropy}, that being the largest value $m$ having the property that each observation of $X$ provides at least $m$ bits of information.
 
     \begin{frameddefn}{Min-entropy}
         Given a random variable $X$, we define the min-entropy of $X$ as:
@@ -458,7 +458,7 @@
 
     \begin{proof}
         Let $\mathrm{Ext} : \{0,1\}^n \to \{0,1\}$ be any extractor and let $b \in \{0,1\}$ be the output maximizing the cardinality of the preimage of the extractor, i.e. the set of inputs for which the extractor outputs $b$.
-        \[b = \argmax_{b' \in \{0,1\}} \abs{\mathrm{Ext}^{-1}(b)}\]
+        \[b = \argmax_{b' \in \{0,1\}} \abs{\mathrm{Ext}^{-1}(b')}\]
 
         By the pidgeonhole principle, we have that $\abs{\mathrm{Ext}^{-1}(b)} \geq \frac{\abs{\{0,1\}^n}}{2} = 2^{n-1}$. Let $X$ be a random variable uniform over $\mathrm{Ext}^{-1}(b)$. Since $X$ is uniform, we have that $H_{\infty}(X) \geq n-1$. However, we know that $\mathrm{Ext}(X)$ isn't uniform due to the output being always $b$. This concludes that any extractor has always a bad input uniform random variable $X$ that returns a non-uniform distribution $\mathrm{Ext}(X)$.
     \end{proof}
@@ -495,32 +495,32 @@
 
     \begin{proof}
         We start by observing that:
-        \[\mathrm{SD}(Y; U) = \frac{1}{2} \sum_{y \in \mathcal{Y}} \abs{\Pr[Y = y] - \Pr[U = y]} = \frac{1}{2} \sum_{y \in \mathcal{Y}} \abs{\Pr[Y = y] - \frac{1}{\mathcal{Y}}}\]
+        \[\mathrm{SD}(Y; U) = \frac{1}{2} \sum_{y \in \mathcal{Y}} \abs{\Pr[Y = y] - \Pr[U = y]} = \frac{1}{2} \sum_{y \in \mathcal{Y}} \abs{\Pr[Y = y] - \frac{1}{\abs{\mathcal{Y}}}}\]
 
-        For each $y \in \mathcal{Y}$, fix $q_y = \Pr[Y = y] - \frac{1}{\abs{Y}}$ and $s_y = \mathrm{sign}(q_y)$. Let $\vec q = \smat{q_{y_1} & \cdots & q_{y_{\abs{Y}}}}$ and  $\vec s = \smat{s_{y_1} & \cdots & s_{y_{\abs{Y}}}}$. We notice that:
-        \[\mathrm{SD} = \frac{1}{2} \sum_{y \in \mathcal{Y}} \abs{\Pr[Y = y] - \frac{1}{\mathcal{Y}}} = \frac{1}{2} \sum_{y \in \mathcal{Y}} q_y s_y = \frac{1}{2} \abk{\vec q, \vec s}\]
+        For each $y \in \mathcal{Y}$, fix $q_y = \Pr[Y = y] - \frac{1}{\abs{\mathcal{Y}}}$ and $s_y = \mathrm{sign}(q_y)$. Let $\vec q = \smat{q_{y_1} & \cdots & q_{y_{\abs{\mathcal{Y}}}}}$ and  $\vec s = \smat{s_{y_1} & \cdots & s_{y_{\abs{Y}}}}$. We notice that:
+        \[\mathrm{SD}(Y; U) = \frac{1}{2} \sum_{y \in \mathcal{Y}} \abs{\Pr[Y = y] - \frac{1}{\abs{\mathcal{Y}}}} = \frac{1}{2} \sum_{y \in \mathcal{Y}} q_y s_y = \frac{1}{2} \abk{\vec q, \vec s}\]
 
-        By the \textit{Cauchy-Swartz inequality} (which we won't prove), we get that:
+        By the \textit{Cauchy-Schwarz inequality} (which we won't prove), we get that:
         \[\mathrm{SD}(Y; U) = \frac{1}{2} \abk{\vec q, \vec s} \leq \frac{1}{2} \sqrt{\abk{\vec q, \vec q} \abk{\vec s, \vec s}} = \frac{1}{2} \sqrt{\rbk{\sum_{y \in \mathcal{Y}} q_y^2} \abs{\mathcal{Y}}}\]
 
-        \textbf{Claim}: $\displaystyle \sum_{y \in \mathcal{Y}} q_y^2 \leq \frac{4\varepsilon^2}{\abs{Y}}$
+        \textbf{Claim}: $\displaystyle \sum_{y \in \mathcal{Y}} q_y^2 \leq \frac{4\varepsilon^2}{\abs{\mathcal{Y}}}$
 
         \begin{proof}[Proof of the claim]
             Through algebraic manipulation we get that:
             \[\begin{split}
-                \sum_{y \in \mathcal{Y}} q_y^2 &= \sum_{y \in \mathcal{Y}} \rbk{\Pr[Y = y] - \frac{1}{\mathcal{Y}}}^2 \\
+                \sum_{y \in \mathcal{Y}} q_y^2 &= \sum_{y \in \mathcal{Y}} \rbk{\Pr[Y = y] - \frac{1}{\abs{\mathcal{Y}}}}^2 \\
                 &= \sum_{y \in \mathcal{Y}} \rbk{\Pr[Y = y]^2 - \frac{2}{\abs{\mathcal{Y}}} \Pr[Y = y] + \frac{1}{\abs{\mathcal{Y}}^2}} \\
                 &= \sum_{y \in \mathcal{Y}} \Pr[Y = y]^2 - \sum_{y \in \mathcal{Y}} \frac{2}{\abs{\mathcal{Y}}} \Pr[Y = y] + \sum_{y \in \mathcal{Y}} \frac{1}{\abs{\mathcal{Y}}^2} \\
                 &= \sum_{y \in \mathcal{Y}} \Pr[Y = y]^2 - \frac{2}{\abs{\mathcal{Y}}} + \frac{1}{\abs{\mathcal{Y}}} \\
-                &= \mathrm{Col}(Y) - \frac{1}{\mathcal{Y}}
+                &= \mathrm{Col}(Y) - \frac{1}{\abs{\mathcal{Y}}}
             \end{split}\]
 
             By hypothesis, we know that the collision probability of $Y$ is bounded, concluding that:
-            \[\sum_{y \in \mathcal{Y}} q_y^2 = \mathrm{Col}(Y) - \frac{1}{\mathcal{Y}} \leq \frac{1}{\abs{\mathcal{Y}}}(1+4\varepsilon^2) - \frac{1}{\mathcal{Y}} = \frac{4\varepsilon^2}{\abs{\mathcal{Y}}}\]
+            \[\sum_{y \in \mathcal{Y}} q_y^2 = \mathrm{Col}(Y) - \frac{1}{\abs{\mathcal{Y}}} \leq \frac{1}{\abs{\mathcal{Y}}}(1+4\varepsilon^2) - \frac{1}{\abs{\mathcal{Y}}} = \frac{4\varepsilon^2}{\abs{\mathcal{Y}}}\] 
         \end{proof}
 
         Through the claim we directly conclude that:
-        \[\mathrm{SD}(Y;U) = \frac{1}{2} \sqrt{\rbk{\sum_{y \in \mathcal{Y}} q_y^2} \abs{\mathcal{Y}}} \leq \frac{1}{2} \sqrt{\frac{4\varepsilon^2}{\abs{\mathcal{Y}}} \abs{Y}} = \varepsilon\]
+        \[\mathrm{SD}(Y;U) = \frac{1}{2} \sqrt{\rbk{\sum_{y \in \mathcal{Y}} q_y^2} \abs{\mathcal{Y}}} \leq \frac{1}{2} \sqrt{\frac{4\varepsilon^2}{\abs{\mathcal{Y}}} \abs{\mathcal{Y}}} = \varepsilon\]
     \end{proof}
 
     \begin{framedlem}{Left-over hash lemma}
@@ -535,7 +535,7 @@
             &= \Pr[S = S', h_S(X) = h_{S'}(X')]
         \end{split}\]
 
-        Since $S$ and $S'$ are independend from $X$ and $X'$, we get that:
+        Since $S$ and $S'$ are independent from $X$ and $X'$, we get that:
         \[\begin{split}
             \mathrm{Col}(Y) &= \Pr[S = S', h_S(X) = h_{S'}(X')] \\
             &= \Pr[S = S', h_S(X) = h_S(X')] \\
@@ -549,11 +549,11 @@
         By hypothesis, we know that $H_{\infty}(X) \geq k$. This implies that $\Pr[X = X'] \leq 2^{-k}$ since an adversary cannot guess whether a sample comes from $X$ or $X'$ with probability greater than $2^{-k}$.
         \[\begin{split}
             \mathrm{Col}(Y) &= 2^{-d} \cdot (\Pr[X = X'] + 2^{-\ell})\\
-            &= 2^{-d} \cdot (2^{-k} + 2^{-\ell})\\
+            &\leq 2^{-d} \cdot (2^{-k} + 2^{-\ell})\\
             &= \frac{1}{2^{d+\ell}}(2^{\ell-k} + 1)
         \end{split}\]
 
-        Finally, by hypothesis we have conclude that:
+        Finally, by hypothesis we conclude that:
         \[\mathrm{Col}(Y) \leq \frac{1}{2^{d+\ell}}(2^{\ell-k} + 1) \leq \frac{1}{2^{d+\ell}}\rbk{2^{2-2\log \rbk{\frac{1}{\varepsilon}}} + 1} = \frac{4\varepsilon^2 + 1}{\abs{\mathcal{Y}}}\]
     \end{proof}
 

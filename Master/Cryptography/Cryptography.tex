@@ -748,7 +748,7 @@
                 \item Set $s$ and $b$ as the values such that $w = s \concat b$, where $s \in \{0,1\}^n$ and $b \in \{0,1\}$.
                 \item Compute $f_{i+1}(s) = b_1 \concat \ldots \concat b_\ell \concat s_\ell$.
                 \item Set $z' = b_1 \concat \ldots \concat b_{i-1} \concat \, b\,  \concat b_{i+1} \concat \ldots \concat b_\ell \concat s_\ell$.
-                \item Return $D_i(z_w)$."
+                \item Return $D_i(z')$."
             \end{enumerate}
 
             We observe that $H_i$ and $H_{i+1}$ differ from each other only by one bit: in $f_i$, the bit $b_i$ is the last bit of $G(s_{i-1})$, while in $f_{i+1}$ it is a truly random bit. Hence, when $D$ is given an input $w \in G(\mathcal{U}_n)$, the last bit of $w$ is generated through $G$, making the string $z'$ built by $D$ an input sampled from $H_i$. Vice versa, when $D$ is given an input $w \in_R \mathcal{U}_{n+1}$, the last bit of $w$ is truly random, making the string $z'$ built by $D$ an in input sampled from $H_{i+1}$. Therefore, we get that:

@@ -652,7 +652,7 @@
 
     In the previous chapter we discussed how, without computational assumptions, symmetric encryption and random generation can be achieved with some strong limitations. For privacy and integrity, we saw how the message length and the key length must be at least equal in order to guarantee a 1-time security (no guarantees for $t$-time security with $t > 1$). For randomness, instead, we saw how we can't extract more than $k$ bits when the min-entropy is $k$.
 
-    Our next objective is to overcome all these limitation (or at least reduce them). This can be achieved at the price of two very strong assumptions:
+    Our next objective is to overcome all these limitations (or at least reduce them). This can be achieved at the price of two very strong assumptions:
     \begin{enumerate}
         \item The adversary is \textit{computationally bounded}, i.e. it has limited resources
         \item There are \textit{hard} problems
@@ -660,9 +660,9 @@
     
     In other words, we'll prove results of the following form. \curlyquotes{if problem $X$ is hard against efficient solvers then cryptosystem $\Pi$ is secure against efficient adversary}. The direct consequence of these results is their contrapositive: if the system $\Pi$ were ever to be proved insecure, there would be an efficient solution for problem $X$. Depending on the \curlyquotes{level of hardness} of problem $X$, this would have groundbreaking consequences (e.g. $X$ could be a problem that implies $\mathsf{P} = \mathsf{NP}$, factoring is easy, discrete-log is easy, \dots).
 
-    Someone may ask \curlyquotes{can't we just assume that $\mathsf{P} \neq \mathsf{NP}$ and prevent all of this?} The answer is \textit{yes}, we could, but this assumption would be \textit{too weak} for our necessities. In fact, to achieve \underline{good security} we require something that isn't directly implied by $\mathsf{P} \neq \mathsf{NP}$: the existence of \textbf{one-way functions (OWF)}. In simple terms, a functions $f : \{0,1\}^n \to \{0,1\}^m$ is said to be \textit{one-way} when it can be efficiently computed but hard to invert (meaning that $f^{-1}$ cannot be efficiently computed).
+    Someone may ask \curlyquotes{can't we just assume that $\mathsf{P} \neq \mathsf{NP}$ and prevent all of this?} The answer is \textit{yes}, we could, but this assumption would be \textit{too weak} for our necessities. In fact, to achieve \underline{good security} we require something that isn't directly implied by $\mathsf{P} \neq \mathsf{NP}$: the existence of \textbf{one-way functions (OWF)}. In simple terms, a functions $f : \{0,1\}^n \to \{0,1\}^m$ is said to be \textit{one-way} when it can be efficiently computed but is hard to invert (meaning that $f^{-1}$ cannot be efficiently computed).
     
-    It's easy to see that assuming the existence of OWFs implies that $\mathsf{P} \neq \mathsf{NP}$. This is due to the contrapositive statement: if $\mathsf{P} = \mathsf{NP}$ then OTWs cannot exist since for each function $f$ we can efficiently verify if $f(x) = y$ in order to compute $f^{-1}(y) = x$. However, the converse statement doesn't hold: assuming $\mathsf{P} \neq \mathsf{NP}$ could still imply that OWFs don't exist. In the article \href{https://dx.doi.org/10.1109/SCT.1995.514853}{A Personal View of Average-Case Complexity} presented at the 1995 Complexity Conference, Russell Impagliazzo describes \textbf{five possible worlds} that we may be living in and their implications to computer science:
+    It's easy to see that assuming the existence of OWFs implies that $\mathsf{P} \neq \mathsf{NP}$. This is due to the contrapositive statement: if $\mathsf{P} = \mathsf{NP}$ then OWFs cannot exist since for each function $f$ we can efficiently verify if $f(x) = y$ in order to compute $f^{-1}(y) = x$. However, the converse statement doesn't hold: assuming $\mathsf{P} \neq \mathsf{NP}$ could still imply that OWFs don't exist. In the article \href{https://dx.doi.org/10.1109/SCT.1995.514853}{A Personal View of Average-Case Complexity} presented at the 1995 Complexity Conference, Russell Impagliazzo describes \textbf{five possible worlds} that we may be living in and their implications to computer science:
     \begin{itemize}
         \item \textit{Algorithmica}: there are no hard problems ($\mathsf{P} = \mathsf{NP}$) and OWFs cannot exist.
         \item \textit{Heuristica}: there are hard problems ($\mathsf{P} \neq \mathsf{NP}$) but can they solved efficiently on average
@@ -675,7 +675,7 @@
 
     All the results will be discussed with respect to a fixed standard computational model: the \textit{Turing machine} (TM). From now on, \textit{efficient computation} will refer to a computation made under a polynomial amount of steps with respect to the input size, i.e. if the input $x$ has length $n$ then $\poly(n)$-time referres to at most $n^{c}$ steps, for some $c \in \N$.
     
-    As mentioned before, the adversary we'll also assume that the adversary has limited resources. However, we'll be generous with them: the adversary is allowed to use a $\poly(n)$ amount of time and a $\poly(n)$ amount of \textit{random bits}. This implies that their computational model is a \textit{probabilistic polynomial time (PPT)} TM. To formally define the concept of OWFs, we'll use \textbf{negligible functions}, i.e. functions $\varepsilon : \N \to \R$ such that $\forall c \in \N$ there is a value $\lambda_0 \in \N$ for which $\forall \lambda > \lambda_0$ it holds that
+    As mentioned before, we'll also assume that the adversary has limited resources. However, we'll be generous with them: the adversary is allowed to use a $\poly(n)$ amount of time and a $\poly(n)$ amount of \textit{random bits}. This implies that their computational model is a \textit{probabilistic polynomial time (PPT)} TM. To formally define the concept of OWFs, we'll use \textbf{negligible functions}, i.e. functions $\varepsilon : \N \to \R$ such that $\forall c \in \N$ there is a value $\lambda_0 \in \N$ for which $\forall \lambda > \lambda_0$ it holds that
     \[\varepsilon(\lambda) < \frac{1}{\lambda^c}\]
 
     \begin{frameddefn}{One-way functions}
@@ -691,7 +691,7 @@
 
     \section{Pseudorandom generators}
 
-    In the previous chapter we discussed how randomness is essential for good cryptography, even though true randomness cannot be achieved. To get a good enough approximation of true randomness, modern systems use \textbf{pseudo-randomness}, i.e. efficient deterministic algorithms that generate a sequence of bits that look unpredictable but aren't truly random. By definition, if enough time and resources are permitted an adversary is clearly able to learn how a pseudorandom algorithm work through bruteforce. Hence, we'll restrict that our adversary doesn't have such time and resources, i.e. their computation must also be efficient.
+    In the previous chapter we discussed how randomness is essential for good cryptography, even though true randomness cannot be achieved. To get a good enough approximation of true randomness, modern systems use \textbf{pseudo-randomness}, i.e. efficient deterministic algorithms that generate a sequence of bits that look unpredictable but aren't truly random. By definition, if enough time and resources are permitted, an adversary is clearly able to learn how a pseudorandom algorithm works through bruteforce. Hence, we'll restrict that our adversary doesn't have such time and resources, i.e. their computation must also be efficient.
     
     The idea behind pseudo-randomness is to generate a \curlyquotes{non-random} probability distribution (this doesn't really mean anything, but you get the idea) that is \textbf{computationally indistinguishable} from a truly random probability distribution. The formal definition of computational indistinguishability refers to \textit{probability ensembles}, i.e. infinite sequences of probability distributions $\mathcal{X} = \{X_n\}_{n \in \N}$, where each $X_n$ is a distribution over $\{0,1\}^n$. This multi-length definition takes into account the fact that the distribution may change over the input length.
 
@@ -734,7 +734,7 @@
             \item Return $b_1 \mid\mid \ldots \mid\mid b_\ell \mid\mid s_\ell$.
         \end{enumerate}
 
-        It's easy to see that each $i \in [0,\ell]$ the function $f_i$ is PPT-computable since $G$ is a PPT algorithm by hypothesis and $\ell = \poly(n)$. Moreover, $f_0$ is deterministic since it doesn't generate random bits. Let $H_0, \ldots, H_\ell$ be the distributions over the outputs of the functions $f_0, \ldots, f_\ell$. We observe that $H_\ell = \mathcal{U}_{n+\ell}$ since every bit is truly random in $f_\ell$. Hence, by letting $G^\ell = f_0$ we get that $H_0 = G^\ell(\mathcal{U}_n)$ and $H_\ell = \mathcal{U}_{n+\ell}$.
+        It's easy to see that for each $i \in [0,\ell]$ the function $f_i$ is PPT-computable since $G$ is a PPT algorithm by hypothesis and $\ell = \poly(n)$. Moreover, $f_0$ is deterministic since it doesn't generate random bits. Let $H_0, \ldots, H_\ell$ be the distributions over the outputs of the functions $f_0, \ldots, f_\ell$. We observe that $H_\ell = \mathcal{U}_{n+\ell}$ since every bit is truly random in $f_\ell$. Hence, by letting $G^\ell = f_0$ we get that $H_0 = G^\ell(\mathcal{U}_n)$ and $H_\ell = \mathcal{U}_{n+\ell}$.
 
         \textbf{Claim:} For each $i \in [0,\ell-1]$ it holds that $H_i \approx_c H_{i+1}$.
 
@@ -879,7 +879,7 @@
         contradicting the assumption of $G$ being a PRG.
     \end{proof}
 
-    To prove that the implication also holds from right to left, thus that OWF imply PRGs, we need a fundamental theoretical concept called \textbf{hard-code bits}. Given a function $f$, these bits contain information about an input $x$ that is hard to obtain from the output $f(x)$, meaning that any adversary $A$ cannot do better than guessing with 50\% chance -- up to some negligible error -- if the bit comes from $x$ or not. Hard-core bits are given by a function $h$ -- called \textit{predicate} -- that extract an hard-core bit from any input $x$.
+    To prove that the implication also holds from right to left, thus that OWF imply PRGs, we need a fundamental theoretical concept called \textbf{hard-core bits}. Given a function $f$, these bits contain information about an input $x$ that is hard to obtain from the output $f(x)$, meaning that any adversary $A$ cannot do better than guessing with 50\% chance -- up to some negligible error -- if the bit comes from $x$ or not. Hard-core bits are given by a function $h$ -- called \textit{predicate} -- that extract an hard-core bit from any input $x$.
 
     \begin{frameddefn}{Hard-core predicate}
         Let $f : \{0,1\}^n \to \{0,1\}^m$ be a PPT-computable function. We say that a function $h : \{0,1\}^n \to \{0,1\}$ is a hard-core predicate for $f$ if for every PPT adversary $A$ it holds that:

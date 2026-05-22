@@ -424,12 +424,12 @@
 
     We discussed how randomness can be used to generate secret keys over a probability distribution, but how can a random value be generated? As we will discuss later, randomness is a \underline{crucial} concept for secure cryptography. Clearly, there is no such concept as \textit{real randomness}: even if the whole universe may appear chaotic, everything is technically deterministic. The process of generating a random-enough value is called \textbf{randomness extraction} and it is typically achieved by measuring physical quantities (noise, air humidity, \dots) in order to produce a short unpredictable sequence of bits (e.g. 256 bits), which is expensive to generate and not necessarily uniform. This short \curlyquotes{truly random} sequence gets usually expanded to any desired length -- as long as it is polynomial with respect to the original length -- through the use of a \textbf{pseudorandom generator (PRG)}. However, this process requires some strict computational assumptions, which we'll discuss later.
     
-    For now, we'll focus on understanding how to extract randomness from an unpredictable secure variable $X$. The first \textbf{extractor} that sparked the idea is Von Neumann's Extractor, which yields a fair random coin from an unpredictable unfair one. Let $B \in \{0,1\}$ be the random variable describing the unpredictable unfair coin, where $\Pr[B = 0] = p < \frac{1}{2}$. Let $Y \in \{0,1\}$ be the random variable describing our new coin. The value of $Y$ is determined by the following procedure. Sample two values $b_1, b_2$ from $B$ at different times. If $b_1 = b_2$, $Y$ assumes no value (marked as $Y = ?$) and we repeat the sampling process. If not, $Y = 1$ if $b_1 = 0$ and $b_2 = 1$, otherwise $Y = 0$ if $b_1 = 1$ and $b_2 = 0$.
+    For now, we'll focus on understanding how to extract randomness from an unpredictable secure variable $X$. The first \textbf{extractor} that sparked the idea is Von Neumann's Extractor, which yields a fair random coin from an unpredictable unfair one. Let $B \in \{0,1\}$ be the random variable describing the unpredictable unfair coin, where $\Pr[B = 0] = p < \frac{1}{2}$. Let $Y \in \{0,1\}$ be the random variable describing our new coin. The value of $Y$ is determined by the following procedure. Sample two values $b_1, b_2$ from $B$ at different times. If $b_1 = b_2$, $Y$ assumes no value (marked as $Y = \,?$) and we repeat the sampling process. If not, $Y = 1$ if $b_1 = 0$ and $b_2 = 1$, otherwise $Y = 0$ if $b_1 = 1$ and $b_2 = 0$.
 
     If the sampling process succeeds, i.e. $Y$ assumes a value, we have that $\Pr[Y = 0] = p(1-p)$ and $\Pr[Y = 1] = (1-p)p$, thus $\Pr[Y = 0] = \Pr[Y = 1]$. Moreover, we observe that the probability of $Y= = \, ?$ being true for $m$ consecutive tries is at most:
-    \[\Pr[Y = ? \text{ for $m$ tries}] = (\Pr[Y= = \, ?])^m = (1-\Pr[Y = 0 \cup Y = 1])^m \leq (1-2p(1-p))^m\] 
+    \[\Pr[Y = \,? \text{ for $m$ tries}] = (\Pr[Y= \, ?])^m = (1-\Pr[Y = 0 \cup Y = 1])^m \leq (1-2p(1-p))^m\] 
 
-    As $m$ grows to infinity, the latter probability goes to 0, making it negligible. Tihis implies that both $\Pr[Y=0]$ and $\Pr[Y = 1]$ tend to be $\frac{1}{2}$ due to them having the same probability and them being the only two outcomes. This makes $Y$ a fair enough coin.
+    As $m$ grows to infinity, the latter probability goes to 0, making it negligible. This implies that both $\Pr[Y=0]$ and $\Pr[Y = 1]$ tend to be $\frac{1}{2}$ due to them having the same probability and them being the only two outcomes. This makes $Y$ a fair enough coin.
 
     Our goal is to generalize this concept to any desired value, i.e. design an extractor $\mathrm{Ext}$ that uses a random variable $X$ to output any desired uniform distribution $\mathrm{Ext}(X)$. A good eye may recognize that this is clearly impossible to achieve unless the source is already truly unpredictable, which makes the extractor useless since we already have a truly random source. As for many computational and probabilistic concepts, we can only hope to achieve something that is good-enough for our purposes. This goodness is measured through a concept known as \textbf{min-entropy}, that being the largest value $m$ having the property that each observation of $X$ provides at least $m$ bits of information.
 
@@ -1580,7 +1580,7 @@
             If $b = 0$, $C$ will use a pseudorandom function to compute the outputs, thus $A$ will recognize that we're playing $G(\lambda, b)$, outputting $0$. If $b = 1$, $C$ will use a truly random function to compute the outputs, thus $A$ will recognize that we're playing $H(\lambda, b)$, outputting $1$. Therefore, $A'$ distinguishes $F_K$ from $R$ with non-negligible probability, contradicting the fact that $\mathcal{F}$ is a PRF.
         \end{proof}
 
-        Now, show that both $H(\lambda,0)$ and $H(\lambda, 1)$ are indistinguishable from $\mathcal{U}_{n(d^*+1)}$, concluding the proof of the theorem through transitivity of $\approx_c$.
+        Now, let $H'(\lambda, b)$ be the hybrid equivalent to $H(\lambda, b)$ where applications of $R(\cdot)$ is replaced with truly random strings. It's easy to see that $H'(\lambda, 0) \equiv H'(\lambda, 1)$.
 
         \textbf{Claim 2}: $H(\lambda, b) \approx_c \mathcal{U}_{n(d^*+1)}$ for $b \in \{0,1\}$
 
@@ -1610,7 +1610,7 @@
             thus $H(\lambda, b) \approx_c \mathcal{U}_{n(d^*+1)}$.
         \end{proof}
 
-        The two claims conclude that $G(\lambda,0) \approx_c H(\lambda, 0) \approx_c \mathcal{U}_(n(d^*+1)) \approx H(\lambda, 1) \approx_c G(\lambda, 1)$.
+        The two claims conclude that $G(\lambda,0) \approx_c H(\lambda, 0) \approx_c H'(\lambda, 0) \equiv H'(\lambda, 1) \approx_c H(\lambda, 1) \approx_c G(\lambda, 1)$.
     \end{proof}
 
     \section{UFCMA-security and universal hash families}
@@ -2082,12 +2082,12 @@
         \caption{A 3-layer Feistel network.}
     \end{figure}
 
-    Is a 2-layer Feistel network enough over independent PRFs to get a PRP? The answer is still no, but they almost suffice. Consider two keys $K_1, K_2 \in \{0,1\}^\lambda$. Then, for any two pairs $(x,y), (x',y) \in \{0,1\}^{2n}$ we have that:
+    Is a 2-layer Feistel network enough over independent PRFs to get a PRP? The answer is still no, but they almost suffice. Consider two keys $K_1, K_2 \in \{0,1\}^\lambda$. Then, for any two pairs $(x,y), (x',y') \in \{0,1\}^{2n}$ with $y = y'$ we have that:
     \[\begin{split}
-        &\psi_{F_{K_2}, F_{K_1}}(x,y) \oplus \psi_{F_{K_2}, F_{K_1}}(x',y) \\
-        =& \psi_{F_{K_2}}(y, x \oplus F_{K_1}(y)) \oplus \psi_{F_{K_2}}(y, x' \oplus F_{K_1}(y)) \\
-        =& (x \oplus F_{K_1}(y), y \oplus F_{K_2}(x \oplus F_{K_1}(y))) \oplus (x' \oplus F_{K_1}(y), y \oplus F_{K_2}(x' \oplus F_{K_1}(y))) \\
-        =& (x \oplus x', F_{K_2}(x \oplus F_{K_1}(y)) \oplus F_{K_2}(x' \oplus F_{K_1}(y)))
+        &\psi_{F_{K_2}, F_{K_1}}(x,y) \oplus \psi_{F_{K_2}, F_{K_1}}(x',y') \\
+        =& \psi_{F_{K_2}}(y, x \oplus F_{K_1}(y)) \oplus \psi_{F_{K_2}}(y', x' \oplus F_{K_1}(y')) \\
+        =& (x \oplus F_{K_1}(y), y \oplus F_{K_2}(x \oplus F_{K_1}(y))) \oplus (x' \oplus F_{K_1}(y'), y' \oplus F_{K_2}(x' \oplus F_{K_1}(y'))) \\
+        =& (x \oplus x', F_{K_2}(x \oplus F_{K_1}(y)) \oplus F_{K_2}(x' \oplus F_{K_1}(y')))
     \end{split}\]
 
     implying that an attacker can just query $(x,y), (x',y)$ and then check if the first half of the output is $x \oplus x'$ to easily distinguish $\psi_{F_{K_2}, F_{K_1}}$ from a truly random function. Hence, we strictly require \textit{at least} 3 applications: after three applications, both halves of the output will be XORed with a PRF, making them hard to distinguish (recall that the adversary doesn't have access to the key $(K_1, K_2, K_3) \in \{0,1\}^{3\lambda}$ used by the challenger). To formally prove this result, the following lemma is required, for which we omit the proof.
@@ -2587,9 +2587,9 @@
 
     Number theory is the field of algebraic mathematics that studies prime numbers and modular arithmetic, i.e. the sets $\Z_n = \{0, 1, \ldots, n-1\}$ with $n \in \N$. In particular, the field studies algebraic structures such as groups (e.g. $(\Z_n, \cdot)$), rings (e.g. $(\Z_n, +, \cdot)$) and fields (e.g. $(\Z_p, +, \cdot)$ with $p \in \Primes$). We recall that:
     \begin{itemize}
-        \item $(\G, +)$ is a group if $+$ satisfies aassociativity, the existence of a neutral element and the existence of an inverse element 
-        \item $(\G, +, \cdot)$ is a ring if $(\G, +)$ is a group and $\cdot$ satisfies aassociativity and the existence of a neutral element
-        \item $(\G, +, \cdot)$ is a field if $(\G, +)$ is a group and $\cdot$ satisfies aassociativity, the existence of a neutral element and the existence of an inverse element (except for the neutral element of $+$).
+        \item $(\G, +)$ is a group if $+$ satisfies associativity, the existence of a neutral element and the existence of an inverse element 
+        \item $(\G, +, \cdot)$ is a ring if $(\G, +)$ is a group and $\cdot$ satisfies associativity, the existence of a neutral element and distributivity
+        \item $(\G, +, \cdot)$ is a field if $(\G, +)$ is a group and $\cdot$ satisfies associativity, the existence of a neutral element, distributivity and the existence of an inverse element (except for the neutral element of $+$).
     \end{itemize}
     where $+ : \G \times \G \to \G$ and $\cdot : \G \times \G \to \G$ are two binary operations (here we'll always assume that they are the standard addition and multiplication). We also recall that in modular arithmetic we have that $a \equiv b \pmod n$ when $a = b+kn$ for some $k \in \Z$. In this section we'll state and proof a list of basic number theory results that will be used in the following sections.
 
@@ -2738,15 +2738,15 @@
     \end{framedprop}
 
     \begin{proof}
-        Consider the group $\mathbb{QR}_p$ of quadratic residues over $p$, defined as $\mathbb{QR}_p = \{y \in \Z_p^* \mid \exists x \in \Z_p^* \; y \equiv x^2 \pmod p\}$. Equivalently, we have that $\mathbb{QR}_p = \{y \in \Z_p^* \mid \exists k \in \Z \; y \equiv g^{2k} \pmod p\}$ 
+        Consider the group $\mathbb{QR}_p$ of quadratic residues over $p$, defined as $\mathbb{QR}_p = \{y \in \Z_p^* \mid \exists x \in \Z_p^* \; y \equiv x^2 \pmod p\}$. Equivalently, we have that $\mathbb{QR}_p = \{y \in \Z_p^* \mid \exists k \in \Z \; y \equiv g^{2k} \pmod p\}$, i.e. that $\mathbb{QR}_p$ is the set of invertible numbers generated by an even exponent.
 
-        \textbf{Claim}: $y \in \mathbb{QP}_p$ if and only if $y^{\frac{p-1}{2}} \equiv 1 \pmod p$
+        \textbf{Claim}: $y \in \mathbb{QR}_p$ if and only if $y^{\frac{p-1}{2}} \equiv 1 \pmod p$
 
         \begin{proof}
-            Suppose that $y \in \mathbb{QP}_p$, meaning that $y \equiv g^{2k} \pmod p$ for some $k \in \Z$. Then, we have that:
+            Suppose that $y \in \mathbb{QR}_p$, meaning that $y \equiv g^{2k} \pmod p$ for some $k \in \Z$. Then, we have that:
             \[y^{\frac{p-1}{2}} \equiv (g^{2k})^{\frac{p-1}{2}} \equiv (g^{p-1})^k \equiv 1 \pmod p\]
 
-            Vice versa, suppose that $y \notin \mathbb{QP}_p$, meaning that $y \equiv g^{2k'+1} \pmod p$ for some $k' \in \Z$. Then, we have that:
+            Vice versa, suppose that $y \notin \mathbb{QR}_p$, meaning that $y \equiv g^{2k'+1} \pmod p$ for some $k' \in \Z$. Then, we have that:
             \[y^{\frac{p-1}{2}} \equiv (g^{2k'+1})^{\frac{p-1}{2}} \equiv (g^{p-1})^k g^{\frac{p-1}{2}} \equiv g^{\frac{p-1}{2}} \not\equiv 1 \pmod p\]
             since $p-1$ is the order of $g$ in $\Z_p^*$.
         \end{proof}
@@ -2754,7 +2754,7 @@
         The above claim easily gives us a distinguisher for the DDH condition. When $Z = g^z$ with $z \in_R \Z_p^*$ then $Z \in \mathbb{QR}_p$ with probability $1/2$. When $Z = g^{xy}$ with $x,y \in_R \Z_p^*$, instead, we have that $Z \in \mathbb{QR}_p$ with probability $3/4$: either $g^x \in \mathbb{QR}_p$ or $g^y \in \mathbb{QR}_p$ or both. Therefore, we can build an attacker that distinguishes the DDH condition with probability $3/4 - 1/2 = 1/4$.
     \end{proof}
 
-    The above implies that we require a new type of cyclic group for which the DDH assumption is believed to hold. Luckily, there are many groups for which this is true. The easiest fix is to set $\G = \mathbb{QP}_{p}$ where $p = 2q+1$ and $p,q \in \Primes$ to break the previous proposition. Another very popular choice is \textit{elliptic curve groups}. An elliptic curve is composed of solutions to an equation $y = x^3 + ax^2+bx+c$, for some coefficients $a,b,c \in \R$. The elliptic curve group modulo $p \in \Primes$ is a group whose elements are the points of an elliptic curve with coordinates modulo $p$.
+    The above implies that we require a new type of cyclic group for which the DDH assumption is believed to hold. Luckily, there are many groups for which this is true. The easiest fix is to set $\G = \mathbb{QR}_{p}$ where $p = 2q+1$ and $p,q \in \Primes$ to break the previous proposition. Another very popular choice is \textit{elliptic curve groups}. An elliptic curve is composed of solutions to an equation $y = x^3 + ax^2+bx+c$, for some coefficients $a,b,c \in \R$. The elliptic curve group modulo $p \in \Primes$ is a group whose elements are the points of an elliptic curve with coordinates modulo $p$.
 
     What about active security? It's easy to see that even the DDH assumption is not enough. A third party Eve could intercept the message $X = g^x$ sent by Alice and replace it with $X' = g^{x'}$, sending it to Bob. Then, Eve intercepts $Y = g^y$ from Bob and sends $Y' = g^{y'}$ to Alice. Now, Alice will use the key $K_{AE} = Y'^{x} = g^{xy'}$ and Bob will use the key $K_{EB} = X'^{y} = g^{x'y}$, while Eve can compute both keys.
 

@@ -2698,7 +2698,7 @@
 
     We recall that a \textit{generator} $g$ for a cyclic group $\G$ is a value $g \in \G$ such that $\G = \{g^{0}, g^1, g^2, \ldots, g^{o(g)}\}$, where $o(g)$ is the \textit{order} of $g$, i.e. the smallest value such that $g^{o(g)} = 1$ in $\G$.
 
-    The protocol clearly requires some hardness assumptions to hold, otherwise an attacker could intercept the messages $(g,p), X, Y$ and derive the values of $x,y$ from them, computing the key $K = g^{xy}$. This is usually referred to as a \textbf{passive attack} since the thid party eavesdrops without changing the messages. The protocol may also suffer from another type of attack, called \textbf{active attack}, where the third party also changes the messages (also referred to as \textit{man-in-the-middle attack}).
+    The protocol clearly requires some hardness assumptions to hold, otherwise an attacker could intercept the messages $(g,p), X, Y$ and derive the values of $x,y$ from them, computing the key $K = g^{xy}$. This is usually referred to as a \textbf{passive attack} since the third party eavesdrops without changing the messages. The protocol may also suffer from another type of attack, called \textbf{active attack}, where the third party also changes the messages (also referred to as \textit{man-in-the-middle attack}).
     
     We start by analyzing passive security. To \curlyquotes{fix} this issue, we have to assume that the key is hard to compute without knowing the values of $x$ and $y$. Consider the following generalization of the DH key exchange to any cyclic group:
     \begin{enumerate}
@@ -2709,10 +2709,10 @@
         \item Both parties will use $K$ as the key
     \end{enumerate}
 
-    Currently, it is not known if the DL assumption suffices to make it hard to compute the key for passive attackers. This motivates a new assumption, the \textbf{Computatational Diffie-Hellman (CDH)} assumption.
+    Currently, it is not known if the DL assumption suffices to make it hard to compute the key for passive attackers. This motivates a new assumption, the \textbf{Computational Diffie-Hellman (CDH)} assumption.
 
     \begin{framedass}{CDH assumption}
-        Given a triple $(\G,g,q)$ where $\G$ is a cyclig group, $g \in \G$ is a generator and $q$ is the order of $g$ in $\G$, the CDH assumption states that:
+        Given a triple $(\G,g,q)$ where $\G$ is a cyclic group, $g \in \G$ is a generator and $q$ is the order of $g$ in $\G$, the CDH assumption states that:
         \[\Pr[A(\G,g,q,g^x,g^y) = g^{xy} : x,y \in_R \Z_q] \leq \mathrm{negl}(\lambda)\]
         for all PPT adversaries $A$ and for a chosen value $\lambda > 0$
     \end{framedass}
@@ -2722,7 +2722,7 @@
     We observe that the CDH assumption is not enough to fix the issue of passive security: an attacker may still infer information about the key without inverting $X$ and $Y$ but simply by analyzing them. What we really need is for the key to be indistinguishable from a value chosen uniformly-at-random over $\G$. This is called the \textbf{Decisional Diffie-Hellman (DDH)} assumption.
 
     \begin{framedass}{DDH assumption}
-        Given a triple $(\G,g,q)$ where $\G$ is a cyclig group, $g \in \G$ is a generator and $q$ is the order of $g$ in $\G$, the DDH assumption states that:
+        Given a triple $(\G,g,q)$ where $\G$ is a cyclic group, $g \in \G$ is a generator and $q$ is the order of $g$ in $\G$, the DDH assumption states that:
         \[(\G,g,q,g^x,g^y, g^{xy}) \approx_c (\G,g,q,g^x,g^y, g^{z})\]
         with $x,y,z \in_R \Z_q$, for all PPT adversaries $A$ and for a chosen value $\lambda > 0$
     \end{framedass}
@@ -2811,7 +2811,7 @@
     \addtocontents{toc}{\protect\newpage}
     \chapter{Public-key encryption}
 
-    \section{The aymmetric key paradigm}
+    \section{The asymmetric key paradigm}
 
     In the previous chapter we introduced key exchange, a basic concept of public-key cryptography. Differently from symmetric-key encryption, in \textbf{public-key encryption (PKE)} the two parties use a pair of keys $(pk, sk)$, where $pk$ is the \textit{public key} and it is used for encryption, while $sk$ is the \textit{secret key} (or \textit{private key}) and it is used for decryption.  
 
@@ -2846,7 +2846,7 @@
     Since we're working with two keys and one must act as the tool to invert the other, in PKE schemes the \textbf{keygen} (\textit{key generation}) algorithm must be explicitily stated (we can't just say \curlyquotes{let $(pk, sk)$ be a public-secret key pair}). Therefore, PKE schemes are formally considered as a triple $\Pi = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$. 
 
     \begin{frameddefn}{Public-key Encryption (PKE) schemes}
-        Given three functions $\mathrm{KGen} : \{1\}^* \to \mathcal{K}_{\mathrm{pub}} \times \mathcal{K}_\mathrm{Sec}$, $\mathrm{Enc} : \mathcal{K}_{\mathrm{pub}} \times \mathcal{M} \to \mathcal{C}$ and $\mathrm{Dec} : \mathcal{K}_{\mathrm{sec}} \times \mathcal{C} \to \mathcal{M}$, we say that $\Pi = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ is a correct Public-key Encryption (SKE) scheme when:
+        Given three functions $\mathrm{KGen} : \{1\}^* \to \mathcal{K}_{\mathrm{pub}} \times \mathcal{K}_\mathrm{Sec}$, $\mathrm{Enc} : \mathcal{K}_{\mathrm{pub}} \times \mathcal{M} \to \mathcal{C}$ and $\mathrm{Dec} : \mathcal{K}_{\mathrm{sec}} \times \mathcal{C} \to \mathcal{M}$, we say that $\Pi = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ is a correct Public-key Encryption (PKE) scheme when:
         \[\forall m \in \mathcal{M}, \forall n \in \N, \forall (pk,sk) \in_R \mathrm{KGen}(1^n) \qquad \mathrm{Dec}(sk, \mathrm{Enc}(pk, m)) = m\]
     \end{frameddefn}
 
@@ -2940,7 +2940,7 @@
     Thanks to our theoretical background with SKEs, we can jump straight away into constructing PKE schemes using the above two games. Our first PKE scheme is the \textbf{ElGamal scheme}.
 
     \begin{framedalgo}{ElGamal PKE scheme}
-        Given a triple $(\G,g,q)$ where $\G$ is a cyclig group, $g \in \G$ is a generator and $q$ is the order of $g$ in $\G$, the ElGamal PKE scheme $\Pi_{ElGamal} = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ is defined as follows:
+        Given a triple $(\G,g,q)$ where $\G$ is a cyclic group, $g \in \G$ is a generator and $q$ is the order of $g$ in $\G$, the ElGamal PKE scheme $\Pi_{ElGamal} = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ is defined as follows:
         \begin{itemize}
             \item $\mathrm{KGen}(g,q) = (pk, sk)$ where $pk = g^x$ and $sk = x$, for some  $x \in_R \Z_q$
             \item $\mathrm{Enc}(pk, m) = (c_1, c_2)$ where $c_1 = g^r$ and $c_2 = pk^r\cdot m$, for some $r \in_R \Z_q$
@@ -3032,11 +3032,11 @@
 
     We also observe that PKE CPA-secure schemes for one bit can be extended to a polynomial amount of bits. Therefore, the RSA assumption and the above TDP construction implies that we can achieve CPA-secure public-key encryption. But what about CCA-security? The PKCS \#2.0 uses a different encoding to achieve this in \textbf{Optimal Asymmetric Encryption Padding (OAEP)}. The idea is very similar to a 2-layer Feistel network using two different hash functions $H, H'$ on $m\mid\mid r$, with $r$ is chosen uniform-at-random. The CCA-security of this scheme can be proven only under the RSA assumption and in the \textit{Random Oracle Model (ROM)}: $H,H'$ are assumed to be truly random hash functions and they can be computed \underline{only} by querying an oracle.
 
-    \begin{framedalgo}{OAEP PKE scheme}
+    \begin{framedalgo}{OAEP PKE scheme} 
         Let $\Pi_{\text{RSA}}= (\mathrm{KGen}', \mathrm{Enc}', \mathrm{Dec}')$ be the RSA PKE and $H,H'$ be two hash functions. The OAEP PKE scheme $\Pi_{\text{OAEP}} = (\mathrm{KGen}, \mathrm{Enc}, \mathrm{Dec})$ is defined as follows:
         \begin{itemize}
             \item Fix $\lambda_1, \lambda_2 \in \N$ and sample $r \in_R \{0,1\}^\lambda$
-            \item Let $s = m \mid\mid 0^{\lambda_1} \oplus H(r)$ and $t = r \mid\mid H'(s)$
+            \item Let $s = m \mid\mid 0^{\lambda_1} \oplus H(r)$ and $t = r \oplus H'(s)$
             \item $\mathrm{Enc}(pk, m) = (s \mid\mid t)^e$, with $pk = (n,e)$ being the RSA public key
         \end{itemize}
     \end{framedalgo}
@@ -3089,7 +3089,7 @@
 
     \begin{frameddefn}{Digital Signature (DS) schemes}
         Given three functions $\mathrm{KGen} : \{1\}^* \to \mathcal{K}_{\mathrm{pub}} \times \mathcal{K}_\mathrm{Sec}$, $\mathrm{Sign} : \mathcal{K}_{\mathrm{sec}} \times \mathcal{M} \to \mathcal{T}$ and $\mathrm{Vrfy} : \mathcal{K}_{\mathrm{pub}} \times \mathcal{M} \times \mathcal{T} \to \{0,1\}$, we say that $\Pi = (\mathrm{KGen}, \mathrm{Sign}, \mathrm{Vrfy})$ is a correct Digital Signature (DS) scheme when:
-        \[\forall m \in \mathcal{M}, \forall \sigma \in \mathcal{T}, \forall n \in \N, \forall (pk,sk) \in_R \mathrm{KGen}(1^n) \qquad \mathrm{Vrfy}(pk, m, \sigma) = \1[\sigma = \mathrm{Sign}(sk, m)]\]
+        \[\forall m \in \mathcal{M}, \forall \sigma \in \mathcal{T}, \forall n \in \N, \forall (pk,sk) \in_R \mathrm{KGen}(1^n)\] \[\mathrm{Vrfy}(pk, m, \sigma) = \1[\sigma = \mathrm{Sign}(sk, m)]\]
     \end{frameddefn}
 
     Just like MACs, digital signatures are used to authenticate a message to guarantee its integrity. Moreover, the asymmetric paradigm allows us to form some sort of hierarchy of authentications. If Alice wants to know Bob's public key without being subject of a man-in-the-middle attack, they can ask the key to the \textit{Certificate Authority (CA)} to which Bob previously sent his key in an authenticated manner. The idea here is that the CA is also authenticated by another CA of \curlyquotes{higher grade}, which is also authenticated by a CA of higher grade and so on and so forth, until we reach a final CA with the highest grade of authority (usually, a physical entity subject to very strict regulations). This is known as the Public Key Infrastructure (PKI).
@@ -3164,7 +3164,7 @@
             \item $A$ will substitute the oracle for $H$, answering $A^H$ RO queries.
             \item The challenger $C$ sends the pair $(pk, y)$ to $A$, who then forwards $pk$ to $A^H$
             \item $A^H$ tells $A$ that they will make $q = \poly(\lambda)$ RO queries. 
-            \item $A$ samples $j \in_R [q]$ and sets $H'$ as the function such that $H'(m_i) = y$ when $i = j$ and $H(m_i) = f(pk, x_i)$, for $x_i \in_R \mathcal{U}_n$, when $i \neq j$
+            \item $A$ samples $j \in_R [q]$ and sets $H'$ as the function such that $H'(m_i) = y$ when $i = j$ and $H'(m_i) = f(pk, x_i)$, for $x_i \in_R \mathcal{U}_n$, when $i \neq j$
             \item $A^H$ starts the RO queries. For each query $m_i$, $A$ will answer with $y_i = H'(m_i)$. One of these RO queries will be for the future challenge message $m^*$, meaning that $m^* = m_{i^*}$ for some $i^* \in [q]$, but $A$ doesn't know which one 
             \item $A^H$ starts the sign queries. For each previously queried $m_i$ such that $m_i \neq m^*$, $A^H$ queries the signature of $m_i$ to $A$, which replies with $x_i$ if $i \neq j$ and with ABORT when $i = j$.
             \item After receiving the ABORT message, $A^H$ sends the challenge pair $(m^*, \sigma^*)$ to $A$, who then forwards $\sigma^*$ to $C$
@@ -3518,10 +3518,10 @@
     \end{framedprop}
 
     \begin{proof}
-        Consider $\Sigma_{\text{Schnorr}} = (\mathrm{KGen}, P, V)$. By way of contradiction, suppose that there is a distinguisher $A$ for the SS of $\Sigma_{\text{Schnorr}}$. Suppose that $A$ finds two transcripts $\tau = (\alpha, \beta, \gamma)$ and $\tau' = (\alpha, \beta', \gamma')$ such that $\beta \neq \beta'$ and $V_2(p_k, \alpha, \beta, \gamma) = V_2(p_k, \alpha, \beta', \gamma') = 1$. Then, we have that:
-        \[g^{\gamma-\gamma'} = \alpha(pk)^{\beta} \alpha^{-1} (pk)^{-\beta'} \iff g^{\gamma-\gamma'} = (g^x)^{\beta- \beta} \iff g^x = g^{(\gamma-\gamma')(\beta-\beta')^{-1}}\]
+        Consider $\Sigma_{\text{Schnorr}} = (\mathrm{KGen}, P, V)$. By way of contradiction, suppose that there is an attacker $A$ for the SS of $\Sigma_{\text{Schnorr}}$. Suppose that $A$ finds two transcripts $\tau = (\alpha, \beta, \gamma)$ and $\tau' = (\alpha, \beta', \gamma')$ such that $\beta \neq \beta'$ and $V_2(p_k, \alpha, \beta, \gamma) = V_2(p_k, \alpha, \beta', \gamma') = 1$. Then, we have that:
+        \[g^{\gamma-\gamma'} = \alpha(pk)^{\beta} \alpha^{-1} (pk)^{-\beta'} \iff g^{\gamma-\gamma'} = (g^x)^{\beta - \beta'} \iff g^x = g^{(\gamma-\gamma')(\beta-\beta')^{-1}}\]
 
-        Therefore, we can build a new distinguisher $A'$ through $A$ that computes $x$ from $g^x$ with non-negligible probability.
+        Therefore, we can build a new attacker $A'$ through $A$ that computes $x$ from $g^x$ with non-negligible probability.
     \end{proof}
 
     \begin{framedthm}{HVZK$+$SS implies passive security}
@@ -3571,7 +3571,8 @@
             \[\begin{split}
                 \Pr[\mathrm{Game}_{\Sigma, B'}^{SS}(\lambda) = 1] &\geq \Pr[G = 1] \Pr[\mathrm{Game}_{\Sigma, B'}^{SS}(\lambda) = 1 \mid G = 1] \\
                 &= \rbk{1- \frac{1}{\abs{\mathcal{B}_{\lambda, pk}}}} \Pr[\mathrm{Game}_{\Sigma, B'}^{SS}(\lambda) = 1 \mid G = 1] \\
-                &= \Pr[\mathrm{Game}_{\Sigma, B'}^{SS}(\lambda) = 1 \mid G = 1] - \frac{1}{\abs{\mathcal{B}_{\lambda, pk}}} \\
+                &= \Pr[\mathrm{Game}_{\Sigma, B'}^{SS}(\lambda) = 1 \mid G = 1] - \frac{\Pr[\mathrm{Game}_{\Sigma, B'}^{SS}(\lambda) = 1 \mid G = 1]}{\abs{\mathcal{B}_{\lambda, pk}}} \\
+                &\geq \Pr[\mathrm{Game}_{\Sigma, B'}^{SS}(\lambda) = 1 \mid G = 1] - \frac{1}{\abs{\mathcal{B}_{\lambda, pk}}} \\
                 &\geq \rbk{\sum_{z \in \{0,1\}^*} \Pr[Z = z] \delta_z \delta_z} - \frac{1}{2^{\omega(\log \lambda)}} \\
                 &= \Exp[\delta_z^2] - \frac{1}{2^{\omega(\log \lambda)}} \\
             \end{split}\]
@@ -3595,7 +3596,7 @@
         Let $\Sigma = (\mathrm{KGen}, P, V)$ be a $\Sigma$-protocol and let $H$ be an hash function. We define the Fiat-Shamir transform as the digital signature $\Pi_{\Sigma, H} = (\mathrm{KGen}, \mathrm{Sign}, \mathrm{Vrfy})$ constructed as follows:
         \begin{itemize}
             \item $\mathrm{Sign}(sk, m) = (\alpha, \gamma)$, where $\alpha \in_R P_1(pk,sk)$, $\beta = H(\alpha, m)$ and $\gamma \in_R P_2(pk,sk,\alpha,$ $\beta)$
-            \item $\mathrm{Vrfy}(pk, (\alpha, \gamma), m) = V(pk, \alpha, H(\alpha, m), \gamma)$
+            \item $\mathrm{Vrfy}(pk, (\alpha, \gamma), m) = V_2(pk, \alpha, H(\alpha, m), \gamma)$
         \end{itemize}
     \end{frameddefn}
 
@@ -3637,7 +3638,7 @@
 
     After concluding our exploration of SKEs, PKEs and IDSs with standard computers, we explore the challenges provided by the advent of quantum computers. Currently, Quantum Turing Machines (QTMs) have proven to be more powerful than standard Turing Machines due to their capability of efficiently solving some problems that are believed to be hard for TMs. In particular, Shor's quantum algorithm solves the factoring problem in polynomial time and it can be adapted to also solve the discrete logarithm problem. As we have seen, almost everything in modern theoretical cryptography is based on the DL and FACTORING assumptions, meaning that \underline{everything} that we have seen up until now doesn't work for quantum computers.
 
-    Even tought real-world quantum computers are far from being able to properly compute Shor's algorithm (it requires a huge number of qbits and quantum gates compared to what we can currently build), cryptologists believe it is just a matter of time. Back in 2017, the National Institute of Standards and Technology (NIST) started the standardization program for \textbf{post-quantum cryptography}.
+    Even though real-world quantum computers are far from being able to properly compute Shor's algorithm (it requires a huge number of qubits and quantum gates compared to what we can currently build), cryptologists believe it is just a matter of time. Back in 2017, the National Institute of Standards and Technology (NIST) started the standardization program for \textbf{post-quantum cryptography}.
 
     Post-quantum cryptography means that the two parties Alice and Bob still use classic non-quantum computers, while attackers may use quantum ones. The minimal requirement for this model are problems that are believed to be hard even for quantum computers. Luckily, there are many problems with this characteristic, such as lattices and isogenies over elliptic curves. In partiucular, we'll focus on the first problem.
 
@@ -3648,7 +3649,7 @@
 
     We start by observing that a lattice is not uniquely defined by a basis. Given a basis $B$, for any \textit{unimodular matrix} $U \in \Z^{n \times n}$ (meaning that $\mathrm{det}(U) = \pm 1$) it holds that $\mathcal{L}(B) = \mathcal{L}(BU)$.
     
-    Given a lattice $\mathcal{L}$, we denote with $\lambda_i(\mathcal{L})$ the $i$-th successive minima of $\mathcal{L}$, that being the smallest value $r$ such that $\mathcal{L}$ has $i$ linearnly independent vectors of length at most $r$. Typically, we're interested in the value $\lambda_1(\mathcal{L})$,  since it represents the length $\lambda_1(\mathcal{L})$ of the shortest non-zero vector in $\mathcal{L}$. In particular, we have that:
+    Given a lattice $\mathcal{L}$, we denote with $\lambda_i(\mathcal{L})$ the $i$-th successive minima of $\mathcal{L}$, that being the smallest value $r$ such that $\mathcal{L}$ has $i$ linearly independent vectors of length at most $r$. Typically, we're interested in the value $\lambda_1(\mathcal{L})$,  since it represents the length $\lambda_1(\mathcal{L})$ of the shortest non-zero vector in $\mathcal{L}$. In particular, we have that:
     \[\lambda_1(\mathcal{L}) = \min_{v \in \mathcal{L} - \{\vec 0\}} \norm{v}\]
     where $\norm{\cdot}$ is the euclidean-norm.
 
@@ -3664,7 +3665,7 @@
     We give some remarks on the SIS problem:
     \begin{itemize}
         \item The problem is easy without the constraint on $\norm{z}$ or when $\beta = q$
-        \item Any solution $A$ can be converted to a solution $[A \mid A']$ by expanding zeroes
+        \item Any solution for $A$ can be converted to a solution for $[A \mid A']$ by expanding zeroes
         \item The values $\beta$ and $m$ must be large enough for a solution to exist (in particular $\beta \geq \sqrt{k}$ and $m \geq k$, where $k = \ceil{n \log q}$)
         \item It can be proven that $h_A(z) = Az$ is collision resistant
     \end{itemize}
@@ -3679,7 +3680,7 @@
     \begin{itemize}
         \item The problem is easy without introducing the randomly sampled noise value $e \in_R \mathcal{X}$
         \item The error distribution $\mathcal{X}$ is such that $\Pr[\abs{e} > \alpha q : e \in_R \mathcal{X}] \leq \mathrm{negl}(\lambda)$, with $\alpha << 1$
-        \item $Z_q = \{\floor{-q/2}, \floor{-q/2} + 1, \ldots, 0, \ldots, \floor{q/2}-1, \floor{q/2}\}$
+        \item $\Z_q = \{\floor{-q/2}, \floor{-q/2} + 1, \ldots, 0, \ldots, \floor{q/2}-1, \floor{q/2}\}$
         \item The $m$ samples can be combined into a pair $(A,\vec b)$ such that $A \in_R \Z_q^{m \times n}$ and $\vec b = \vec s A + \vec e \pmod q$, where $e \in_R \mathcal{X}^m$
         \item The decisional version $\mathrm{LWE}_{n,q,\mathcal{X},m}$ asks to distinguish a given $(A, \vec b)$ from $(X, \vec y) \in_R \Z_q^{m \times (n+1)}$.
         \item LWE is as hard as GapSPV
@@ -3730,15 +3731,15 @@
         \begin{enumerate}
             \item $P_1(pk,sk) = \vec \alpha$ such that $\vec \alpha = A \vec y$ for some $\vec y \in_R \Z_q^m$
             \item $V_1(pk, \vec \alpha) = \beta$ such that $\beta \in_R \Z_q$
-            \item $P_2(pk,sk,\alpha, \beta) = \vec \gamma$ such that $\gamma = \beta \vec x + \vec y$
-            \item $V_2(pk, \vec \alpha, \beta, \vec \gamma) = 1$ if $A \vec y = \vec \alpha + \beta \vec u$ and $\vec y$ is \curlyquotes{short}, meaning that its coefficients are sufficiently small, i.e. they require few bits. Otherwise, return $0$.
+            \item $P_2(pk,sk,\vec \alpha, \beta) = \vec \gamma$ such that $\vec\gamma = \beta \vec x + \vec y$
+            \item $V_2(pk, \vec \alpha, \beta, \vec \gamma) = 1$ if $A \vec \gamma = \beta A \vec x + A \vec y =\beta \vec u + \vec \alpha$ and $\vec y$ is \curlyquotes{short}, meaning that its coefficients are sufficiently small, i.e. they require few bits. Otherwise, return $0$.
         \end{enumerate}
     \end{itemize}
 
-    Observe that this protocol is very similar to Schnorr's protocol. In fact, it's not hard to see that it has both HVZZ security and SS security under the LWE assumption:
+    Observe that this protocol is very similar to Schnorr's protocol. In fact, it's not hard to see that it has both HVZK security and SS security under the LWE assumption:
     \begin{itemize}
-        \item \textit{HVZZ security}: the simulator $\mathrm{Sim}(pk)$ samples $\beta \in_R \Z_q$, $\vec \gamma \in_R \Z_q^m$ and sets $\vec \alpha = A \vec y - \beta \vec u$, outputting $(\vec \alpha, \beta, \vec y)$.
-        \item \textit{SS security}: given $(\vec \alpha, \beta, \vec \gamma)$ and $(\vec \alpha. \beta', \vec{\gamma '})$, we get that $A(\vec \gamma - \vec{\gamma'}) = (\beta - \beta') \vec u$, therefore $\vec x = (\vec \gamma - \vec{\gamma'})(\beta - \beta')^{-1}$
+        \item \textit{HVZK security}: the simulator $\mathrm{Sim}(pk)$ samples $\beta \in_R \Z_q$, $\vec \gamma \in_R \Z_q^m$ and sets $\vec \alpha = A \vec y - \beta \vec u$, outputting $(\vec \alpha, \beta, \vec y)$.
+        \item \textit{SS security}: given $(\vec \alpha, \beta, \vec \gamma)$ and $(\vec \alpha, \beta', \vec{\gamma '})$, we get that $A(\vec \gamma - \vec{\gamma'}) = (\beta - \beta') \vec u$, therefore $\vec x = (\vec \gamma - \vec{\gamma'})(\beta - \beta')^{-1}$
     \end{itemize}
 
     It's easy to see that the argument for the latter property tries to break the LWE assumption. However, this argument works \underline{only} assuming that $\vec x$ is also short. To fix this, it suffices to make $\vec y$ and $\beta$ short by forcing them to have a fixed number of bits.
@@ -3748,7 +3749,7 @@
             \item $P_1(pk,sk) = \vec \alpha$ such that $\vec \alpha = A \vec y$ for some $\vec y \in_R \{0,1\}^m$
             \item $V_1(pk, \vec \alpha) = \beta$ such that $\beta \in_R \{0,1\}$
             \item $P_2(pk,sk,\alpha, \beta) = \vec\gamma$ such that $\gamma = \beta \vec x + \vec y$
-            \item $V_2(pk, \vec\alpha, \beta, \vec\gamma) = 1$ if $A \vec y = \vec \alpha + \beta \vec u$ and $\vec y$ is \curlyquotes{short}.Otherwise, return $0$.
+            \item $V_2(pk, \vec\alpha, \beta, \vec\gamma) = 1$ if $A \vec \gamma = \vec \alpha + \beta \vec u$ and $\vec y$ is \curlyquotes{short}.Otherwise, return $0$.
         \end{enumerate}
     \end{itemize}
 
@@ -3765,7 +3766,7 @@
                 \item $P_1(pk,sk) = \vec \alpha$ such that $\vec \alpha = A \vec y$ for some $\vec y \in_R \{0,\ldots, 5m-1\}^m$
                 \item $V_1(pk, \vec\alpha) = \beta$ such that $\beta \in_R \{0,1\}$
                 \item $P_2(pk,sk,\vec\alpha, \beta) = \vec \gamma$ such that $\gamma = \beta \vec x + \vec y$
-                \item $V_2(pk, \vec\alpha, \beta, \vec \gamma) = 1$ if $A \vec y = \vec \alpha + \beta \vec u$ and $\vec y$ is \curlyquotes{short}
+                \item $V_2(pk, \vec\alpha, \beta, \vec \gamma) = 1$ if $A \vec \gamma = \vec \alpha + \beta \vec u$ and $\vec y$ is \curlyquotes{short}
             \end{enumerate}
             \item Whenever $\vec \gamma$ is such that $\exists i \in [m]$ with $\vec \gamma_i \in \{0, 5m-1\}$, ABORT and restart the protocol
         \end{itemize}
@@ -3818,7 +3819,7 @@
 
     \section{Encryption with a central authority} 
     
-    \textbf{Identity-based encryptyon (IDE)} is a generalization of the concept of public-key encryption. Briefly explained, IBE schemes are PKE schemes where each public key can be any arbitrary string uniquely associated with the identity of its owner. In other words, Bob can send an encrypted message to Alice only by knowing her unique secure ID.
+    \textbf{Identity-based encryption (IDE)} is a generalization of the concept of public-key encryption. Briefly explained, IBE schemes are PKE schemes where each public key can be any arbitrary string uniquely associated with the identity of its owner. In other words, Bob can send an encrypted message to Alice only by knowing her unique secure ID.
 
     Similar to what we've seen for PKE applications (certificates, public key distribution, \dots), we require a central authority from which IDs can be securely retrieved. The central authority acts as an intermediate user between Alice and Bob that generates new decryption keys starting from their IDs and their master keys. The master keys $(mpk, msk)$, respectively the public master key and the private master key, are previosuly generated by Alice and Bob.
     
@@ -3967,9 +3968,9 @@
     \end{framedthm}
     
     \begin{proof}
-        Let $\Pi := \Pi_{\mathrm{BF}}$. By way of contradiction, suppose that there is an adversary $A$ breaking Selective ID-CPA security for $\Pi$. We define a new adversary $A'$ for the DBDH game:
+        Let $\Pi := \Pi_{\mathrm{BF}}$, $G := \mathrm{Game}^{\text{Sel-ID-CPA}}_{\Pi, A}(\lambda, b)$ and $H(\lambda)$ be the hybrid game where $u$ is chosen uniformly at random in $\G_T$. Since the message is not used in $H$, no $b$ parameter is required. By way of contradiction, suppose that there is an adversary $A$ capable of distinguishing $G(\lambda, b)$ from $H(\lambda)$ with non negligible probability. We define a new adversary $A'$ for the DBDH game:
         \begin{enumerate}
-            \item The challenger $C$ sends $(\G,\G_T,g,q, \hat e, X, Y, Z, T)$ to $A'$, with  and $T$ being either $\hat e(g,g)^{\alpha\beta\gamma}$ or $g^w$ for some $w \in_R \Z_q$ (recall that $A$ doesn't know that $X=g^\alpha, Y = g^{\beta}, Z = g^{\gamma}$).
+            \item The challenger $C$ sends $(\G,\G_T,g,q, \hat e, X, Y, Z, T)$ to $A'$, with  and $T$ being either $\hat e(g,g)^{\alpha\beta\gamma}$ or $\hat e(g, g)^w$ for some $w \in_R \Z_q$ (recall that $A$ doesn't know that $X=g^\alpha, Y = g^{\beta}, Z = g^{\gamma}$).
             
             \item $A$ selects $\mathrm{ID}^*$ and sends it to $A'$
             \item $A'$ sends $mpk = (\G, \G_T, g, q, X, Y, h)$ to $A$ with $g_1 = X, g_2 = Y$ and $h = X^{-\mathrm{ID}^*} \cdot g^{a}$ for some $a \in_R \Z_q$
@@ -3979,11 +3980,11 @@
             \item $A$ sends $b'$ to $A'$, who then forwards it to $C$
         \end{enumerate}
 
-        Even thought it looks complex, this reduction is actually perfect. The argument follows in a natural way just by extending computations. First of all, observe that $mpk$ is perfectively simulated since $h$ is uniform due to $a$ being also uniformly chosen. Next, we focus on the challenge ciphertext. When $T = \hat e(g,g)^{\alpha\beta\gamma}$, we have that:
+        Even though it looks complex, this reduction is actually perfect. The argument follows in a natural way just by extending computations. First of all, observe that $mpk$ is perfectively simulated since $h$ is uniform due to $a$ being also uniformly chosen. Next, we focus on the challenge ciphertext. When $T = \hat e(g,g)^{\alpha\beta\gamma}$, we have that:
         \begin{itemize}
             \item $u = T \cdot m_b^* = \hat e(g,g)^{\alpha\beta\gamma} \cdot m_b^* = \hat e(X,Y)^{\gamma} \cdot m_b^*$
             \item $v = Z = g^{\gamma}$
-            \item $w = Z^a = {g^a}^{\gamma} = (X^{\mathrm{ID}^*} \cdot X^{\mathrm{ID}^* \cdot g^a})^{\gamma} = (X^{\mathrm{ID}^*} \cdot h)^{\gamma} = F(\mathrm{ID}^*)^{\gamma}$ 
+            \item $w = Z^a = {g^a}^{\gamma} = (X^{\mathrm{ID}^*} \cdot X^{-\mathrm{ID}^*} \cdot g^a)^{\gamma} = (g_1^{\mathrm{ID}^*} \cdot h)^{\gamma} = F(\mathrm{ID}^*)^{\gamma}$ 
         \end{itemize}
         meaning that the challenge ciphertext is correctly formatted. To conclude, we focus on extraction queries. For each $i \in [q]$, let $\tilde{r_i} = r_i - \frac{\beta}{\mathrm{ID}_i - \mathrm{ID}^*}$. Notice that $d_1^{(i)} = g^{\tilde{r_i}}$ and that $\tilde{r_i}$ is uniform due to $r_i$ being uniformly chosen. Moreover, we also have that $d_0^{(i)} = msk \cdot F(\mathrm{ID}_i)^{\tilde{r_i}}$:
         \[\begin{split}
@@ -3995,6 +3996,10 @@
             &= Y^{\alpha} \cdot F(\mathrm{ID}_i)^{\tilde{r_i}}\\
             &= msk \cdot F(\mathrm{ID}_i)^{\tilde{r_i}}\\
         \end{split}\]
+        Notice that $T$ and $m^*_b$ are only used in the definition of $u$. If $T = \hat e(g,g)^w$, we have that $u = m_b^*\hat e(g, g)^w$, i.e. $u \in_R \G_T$, we simulate $H(\lambda)$ instead, thus if $A$ distinguishes correctly, then $A'$ can break the DBDH assumption.
+
+        This shows that $G(\lambda, 0) \approx_c H(\lambda) \approx_c G(\lambda, 1)$
+
     \end{proof}
     
     \section{Applications of IBE schemes}

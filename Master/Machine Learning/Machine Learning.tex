@@ -661,8 +661,8 @@
                 \Else
                     \State Let $A$ be the \textit{best decision attribute} in $L$ for $D$
                     \State Label the root with $A$
-                    \For{$v \in \mathrm{Values}(A)$}
-                        \State Let $D_a$ be the subset of $D$ whose tuples have $A$ set to $v$
+                    \For{$a \in \mathrm{Values}(A)$}
+                        \State Let $D_a$ be the subset of $D$ whose tuples have $A$ set to $a$
                         \If{$D_a = \varnothing$}
                             \State Create a leaf node labeled with the most common value for $A$ in $D$
                             \State Add an edge labeled with $A = v$ from the root to the leaf node
@@ -1313,35 +1313,50 @@
         \widehat p = \dfrac{N_1}{N} &\qquad\qquad& \widehat \Sigma = \dfrac{N_1}{N} S_1 + \dfrac{N_2}{N} S_2
     \end{array}\]
 
-    where $S_j = \frac{1}{N_j} \sum_{i \in C_j} (x_i - \widehat \mu_j)(x_i - \widehat \mu_j)^T$.
+    where $S_j = \frac{1}{N_j} \sum_{i \in C_j} (x_i - \widehat \mu_j)(x_i - \widehat \mu_j)^T$. Notice that as a byproduct of this process, we have found the parameters describing the Gaussian distributions of the samples of each class. This implies that we're now also able to generate new samples for each class!
 
     More generally, when $Y = \{C_1, \ldots, C_k\}$, the dataset is formalized as $D = \{(x_i, t_i) \mid i \in [N]\}$, where $t_i$ is a one-hot indicator vector with $t_{i,j} = 1$ if and only if $x_i$ is in class $C_j$. In this case, the estimate is given by:
     \[\Pr[C_j \mid x] = \frac{\Pr[x \mid C_j,D] \cdot \Pr[C_j,D]}{\sum_{h = 1}^k \Pr[x \mid C_h,D] \cdot \Pr[C_h \mid D]} = \frac{e^{\alpha_j}}{\sum_{h = 1}^k e^{\alpha_h}}\]
 
-    where $\alpha_h = \ln \Pr[x \mid C_h] \Pr[C_h]$. This model is called \textbf{Gaussian Naïve Bayes classification}, where $\forall j \in [k]$ we have: 
+    where $\alpha_h = \ln \Pr[x \mid C_h] \Pr[C_h]$. The solutions are:
     \[\begin{array}{ccc}
         \widehat \Pr[C_j \mid D] = \widehat p_j = \dfrac{N_j}{N} &\qquad\qquad& \Pr[x \mid C_j,D] = \mathcal{N}(x; \mu_j, \Sigma)\\\\
         \widehat \mu_j = \dfrac{1}{N_j} \sum\limits_{i = 1}^N t_{i,j} x_i &\qquad\qquad& \widehat \Sigma = \sum\limits_{j = 1}^k \dfrac{N_j}{N} S_j
     \end{array}\]
 
-    where $S_j = \frac{1}{N_j} \sum_{i \in C_j} (x_i - \widehat \mu_j)(x_i - \widehat \mu_j)^T$. The use of matrix-like computation can be further extended by also modeling other elements as matrices. For instance, given a problem $f : \R^d \to Y$, a dataset $D = \{(x_i, t_i) \mid i \in [N]\}$ can also be represented as $\abk{X,t}$, where $X$ is an $N \times d$ matrix of input values and $t$ is a vector of $N$ output values.
+    where $S_j = \frac{1}{N_j} \sum_{i = 1}^N t_{i,j}(x_i - \widehat \mu_j)(x_i - \widehat \mu_j)^T$. After computing the values of the parameters, the prediction of a new sample $x \in X-X_D$ can be computed through the maximum likelihood:
+    \[C^* \in \argmax_{C_j \in \mathcal{Y}} \frac{e^{\alpha_j}}{\sum_{h = 1}^k e^{\alpha_h}}\]
+    where $\alpha_h = \pi_h \mathcal{N}(x; \mu_h, \Sigma)$. The use of matrix-like computation can be further extended by also modeling other elements as matrices. For instance, given a problem $f : \R^d \to Y$, a dataset $D = \{(x_i, t_i) \mid i \in [N]\}$ can also be represented as $\abk{X,t}$, where $X$ is an $N \times d$ matrix of input values and $t$ is a vector of $N$ output values.
 
-    To make notation more compact, we set $\widetilde{w} = \smat{w_0 \\ w}$ and $\widetilde{x} = \smat{1 \\ x}$ in order to get:
-    \[a_h = w^Tx + w_0 = \widetilde{w}^T\widetilde{x}\]
-
-    The maximum-likelihood solution for a parametric model $M_\Theta$ of dataset $D = \abk{X, t}$ with $\Pr[t \mid \Theta, X]$ is thus given by:
+    For all class-conditional distributions in the exponential family (e.g. Gaussian distributions) it is always possible to write $\alpha_j$ as $\alpha_j = w^Tx + w_0$ for some parameters $w, w_0$. In these parametric models, the maximum-likelihood solution for a $M_\Theta$ of dataset $D = \abk{X, t}$ with $\Pr[t \mid \Theta, X]$ is thus given by:
     \[\Theta^* \in \argmax_{\Theta} \ln \Pr[t \mid \Theta, X]\]
     
     When $M_\Theta$ belongs to the exponential family, the probability $\Pr[t \mid \theta, X]$ can be expressed in the form $\Pr[t \mid \widetilde{w}, X]$
-    \[\Theta^* \in \argmax_{\widetilde{w}} \ln \Pr[t \mid \widetilde{w}, X]\]
+    \[\widetilde{w^*} \in \argmax_{\widetilde{w}} \ln \Pr[t \mid \widetilde{w}, X]\]
+
+    A more specific type of probabilistic generative model is the \textbf{Gaussian Naïve Bayes}, where we use the same naive assumption of the Naïve Bayes Classifier. In particular, we have that:
+    \[\Pr[x \mid C, D] = \prod_{j = 1}^n \Pr[a_j \mid C,D]\]
+    where $x = (a_1, \ldots, a_n)$. With this assumption, we can model each attribute with its personal Gaussian, instead of single Gaussian that has to work with all of them:
+    \[\Pr[C_i] = \pi_i \qquad \Pr[a_j \mid C_i, D] = \mathcal{N}(a_j; \mu_{j,i}, \sigma_{j,i})\]
+    with $\pi_i, \mu_{j,i}, \sigma_{j,i}$ for all $i, j$. Now, the maximum likelihood solution becomes:
+    \[\begin{array}{ccc}
+        \widehat \Pr[C_i \mid D] = \pi_i = \dfrac{N_i}{N} \\
+        \widehat \mu_{j,i} = \dfrac{1}{N_i} \sum\limits_{h = 1}^N t_{h,i} a_{j,h} \\ \widehat \sigma_{j,i} = \sum\limits_{h = 1}^N t_{h,i} (a_{j,h} - \mu_{j,i})^2 \
+    \end{array}\]
+
+    This assumptions allows us to get a smaller model that still performs well. For instance, consider a classification problem $f : \R^8 \to \{C_1, \ldots, C_4\}$. We want to compute the size of two models: 1) a probabilistic generative model with Gaussian distributions and different covariance matrices, 2) a Gaussian Naïve Bayes model.
+    \begin{enumerate}
+        \item We have a total of $3+32+144 = 179$ parameters, where $3$ parameters come from $\pi_1, \pi_2, \pi_3$ ($\pi_4$ can be computed by $\pi_4 = 1 - \pi_1 - \pi_2 - \pi_3$), $32$ parameters come from $\mu_1, \ldots, \mu_4$ ($4 \cdot 8$ parameters) and $144$ parameters come from $\Sigma_1, \ldots, \Sigma_4$ ($4 \cdot \frac{8(8+1)}{2}$)
+        \item We have a total of $3+64= 68$ parameters, where $3$ parameters come from $\pi_1, \pi_2, \pi_3$ and $64$ parameters come from each $\mu_{j,k}$ and each $\sigma_{j,k}$ ($2 \cdot 4 \cdot 8$ parameters)
+    \end{enumerate}
 
     \subsection{Probabilistic discriminative models}
 
     Consider a classification problem $f : \R^d \to Y$ where $X \subseteq \R^d$ and a dataset $D = \abk{X,t} = \{(x_i,t_i) \mid i \in [N]\}$, with $t_i \in \{0,1\}$.
-    Differently from generative models, in \textbf{probabilistic discriminative models}, to estimate $\Pr[C \mid x, D]$ for a new instance $x \in X-X_D$ and a class $C \in Y$, we directly estimate the probability:
+    Differently from generative models, in \textbf{probabilistic discriminative models} to estimate $\Pr[C \mid x, D]$ for a new instance $x \in X-X_D$ and a class $C \in Y$, we directly estimate the probability:
     \[\Pr[C_j \mid \widetilde{x}, D] = \frac{e^{\alpha_j}}{\sum_{h = 1}^k e^{\alpha_h}}\]
-    without using Bayes' rule, where $\alpha_h = \widetilde{w}^T \widetilde{x}$. In this case, the maximum-likelihood is still given by:
-    \[\Theta^* \in \argmax_{\widetilde{w}} \ln \Pr[t \mid \widetilde{w}, X]\]
+    without using Bayes' rule, where $\alpha_h = \widetilde{w}^T \widetilde{x}$ (this implies that we won't be able to generate new samples). In this case, the maximum-likelihood is still given by:
+    \[\widetilde{w^*} \in \argmax_{\widetilde{w}} \ln \Pr[t \mid \widetilde{w}, X]\]
 
     The typical example of discriminative model is \textbf{logistic regression}. Suppose that we are working with only two classes. The probability $\Pr[t \mid \widetilde{w},X]$ -- recall that $D = \abk{X,t}$ -- is given by:
     \[\Pr[t \mid \widetilde{w}, X] = \prod_{i = 1}^N p_i^{t_i} (1-p_i)^{1-t_i}\]
@@ -1471,13 +1486,16 @@
         \caption{A linearly separable dataset (left) and a non-linearly separable one (right)}
     \end{figure}
 
-    The functions describing such hyperplanes are called \textbf{linear discriminant functions}. Suppose that $Y = \{C_1, \ldots, C_k\}$. We define $k$ linear functions:
-    \[y_1(x) = w_1^Tx + w_{1_0} = \widetilde{w_1}^T \widetilde{x} \qquad \cdots \qquad y_k(x) = w_k^T x + w_{k_0} = \widetilde{w_k}^T \widetilde{x}\]
+    The functions describing such hyperplanes are called \textbf{linear discriminant functions}. Suppose that we had only two classes $C_1, C_2$. Then, the linear discriminant between these two classes is an hyperplane $y(x) = w^Tx + w_0 = \widetilde{w}^T \widetilde{x}$, where $\widetilde{w} = \smat{w \\ w_0}$ and $\widetilde{x} = \smat{x \\ 1}$, such that:
+    \[\mathrm{Class}(x) = \soe{ll}{
+        C_1 & \text{if } \widetilde{w}^T x \geq 0 \\
+        C_2 & \text{if } \widetilde{w}^T x < 0
+    }\]
     
-    where $\widetilde{w_h} = \smat{w_{h_0} \\ w_h}$ and $\widetilde{x} = \smat{1 \\ x}$. Each instance $x \in \R^d$ gets classified as $C_j$ if the $y_j(x)$ is the one with maximum value.
-    \[C_j \in \argmax_{C_h \in Y} y_h(x)\]
+    If we have more than two classes, more than one hyperplane is required in order to partition the whole space. There are two common approaches: \textbf{one-vs-one} and \textbf{one-vs-rest}. In the first approach, for each pair of classes $C_i, C_j$ we define an hyperplane separating $C_i$ from $C_j$. In the second approach, instead, for each class $C_i$ we define an hyperplane separating $C_i$ from all the other classes combined together. We'll focus on the second approach as it produces fewer hyperplanes ($k$ hyperplanes for $k$ classes instead of $\binom{k}{2}$ hyperplanes).
 
-    In particular, we observe that for each $C_j, C_{j'}$ the hyperplane $(\widetilde{w_j} - \widetilde{w_{j'}})^T \widetilde{x} = 0$ acts as a \textbf{decision boundary}, splitting the regions of points classified as either $C_j$ or $C_{j'}$. 
+    If we compare the hyperplanes of two classes $C_i, C_j$, the hyperplane $(\widetilde{w_i} - \widetilde{w_j})^T x = 0$ acts as the boundary between the two classes. This is given by the fact that class $C_i$ \curlyquotes{wins} over $C_j$ when $\widetilde{w_i}^T x \geq \widetilde{w_j}^Tx$. By extending this comparison to all classes, we conclude that a sample $x$ is assigned to class $C_i$ when $\widetilde{w_i}^T x \geq \widetilde{w_j}^Tx$ for all $j \in [k]$. In other words, the class of $x$ is the class $C_i$  maximizing the value of $y_i(x)$.
+    \[C^* \in \argmax_{C_j \in Y} y_j(x)\]
 
     \begin{figure}[H]
         \centering
@@ -1501,25 +1519,34 @@
         \caption{Example of how regions get partitioned by a $K$-class discriminant}
     \end{figure}
 
-    Given the following matrix:
-    \[y(x) = \smat{y_1(x) \\ \vdots \\ y_k(x)} = \smat{\widetilde{w_1}^T \\ \vdots \\ \widetilde{w_k}^T} \widetilde{x} = \widetilde{W}^T \widetilde{x}\]
+    Putting all the parameters of the hyperplanes together in a single matrix $\widetilde{W} = \smat{\widetilde{w_1} & \cdots & \widetilde{w_k}}$, learning a linear model is equivalent to estimating the matrix $\widetilde{W}$ for which $y(x) = \widetilde{W}^T \widetilde{x}$ defines the $K$-class discriminant.
 
-    where $\widetilde{W} = \smat{\widetilde{w_1} & \cdots & \widetilde{w_k}}$, learning a linear model is equivalent to estimating the matrix $\widetilde{W}$ for which $y(x) = \widetilde{W}^T \widetilde{x}$ defines the $K$-class discriminant.
-
-    In particular, we'll restrict our interest to models working directly on the samples $x$. All the results that we will discuss also hold if we consider a non-linear transformation of the inputs $\phi(x)$, called \textbf{basis functions}. The idea is to use these transformations to convert the feature space into a linearly separable one in order to apply the discussed methods. In particular, decision boundaries will be linear in the feature space $\phi(x)$ and non-linear in the original space $x$. Clearly, classes that are linearly separable in the feature space $\phi(x)$ may not be as easily separable in the input space $x$.
+    But what if the dataset is not linearly separable? In most cases, linear models can still be used for classification: the idea is to apply a non-linear transformation $\phi$ to the whole sample space that warps it into a linearly separable one. These linear transformations are called \textbf{basis functions}. After the samples spaces becomes linearly separable, linear models can be applied without problems. In other words, given a basis functions $\phi$, the linear model for the non-linearly separable dataset is given by the hyperplanes $y_i(x) = w_i^T \phi(x) + w_{i,0}$. The most common types of basis functions are:
+    \begin{itemize}
+        \item \textit{Linear}: $\phi(x) = \smat{x}^T$ with $x \in \R^d$
+        \item \textit{Polynomial}: 
+        \[\phi(\smat{x_1 & \cdots & x_n}^T) = \sbk{\begin{array}{cccccccccccc}
+            1 & x_1 & x_1^2 & \cdots & x_1^M & x_2 & x_2^2 & \cdots & x_2^M & \cdots & \cdots & x_n^M
+        \end{array}}^T\]
+        with $x \in \R^d$ and for some $M \in \N$
+        \item \textit{Radial Basis Function (RBF)}:
+        \[\phi(x) = \smat{\exp(-\gamma \norm{x - \mu_1}^2) & \cdots & \exp(-\gamma \norm{x - \mu_M}^2)}^T\]
+        for $x \in \R^d$, $\gamma \in \R$ and where $\mu_1, \ldots, \mu_M$ are $M$ cluster centers
+    \end{itemize}
 
     \begin{figure}[H]
         \centering
         \includegraphics[scale=0.75]{images/basis_func.png}
-        \caption{Example of a basis function being applied on a non-linearly separable feature space, making the property hold on the basis feature space.}
+        \caption{Example of a RBF with two cluster centers being applied to a non-linearly separable feature space.}
     \end{figure}
 
+    Of course, the application of a basis function may (and this is usually the case) make us lose some information: there may be two original samples with different characteristics being mapped to a single sample that represents both. 
 
     \subsection{Least squares method}
 
-    The first method that we'll discuss is the \textbf{least squares method}. Consider problem $f : \R^d \to Y$ a dataset $D = \{(x_i, t_i) \mid i \in [N]\}$, where each $t$ is a 1-of-$K$ encoding, meaning that $t_{i,j} = 1$ if $x_i \in C_j$, otherwise $t_{i,j} = 0$. We want to find the linear discriminant $y(x) = \widetilde{W}^T\widetilde{x}$. Let $\widetilde{X} = \smat{\widetilde{x_1} & \cdots & \widetilde{x_N}}^T$ and let $T = \smat{t_1 & \cdots & t_N}$. We notice that each row of the product $\widetilde{X} \widetilde{W}$ contains the predicted class for the associated input, while the matrix $T$ contains the real class for the input. When the two matrices are equal, the model is perfect. Hence, we want to minimize the difference between such matrices. To do so, we minimize the \textbf{sum-of-squares error function}.
+    The first method that we'll discuss is the \textbf{least squares method}. Consider problem $f : \R^d \to Y$ a dataset $D = \{(x_i, t_i) \mid i \in [N]\}$, where each $t$ is a 1-of-$K$ encoding, meaning that $t_{i,j} = 1$ if $x_i \in C_j$, otherwise $t_{i,j} = 0$. We want to find the linear discriminant $y(x) = \widetilde{W}^T\widetilde{x}$. Let $\widetilde{X} = \smat{\widetilde{x_1} & \cdots & \widetilde{x_N}}^T$ and let $T = \smat{t_1 & \cdots & t_N}$. We notice that each row of the product $\widetilde{X} \widetilde{W}$ contains the predicted class for the associated input, while the matrix $T$ contains the real class for the input. When the two matrices are equal, the model is perfect. Hence, we want to minimize the difference between such matrices. To do so, we minimize the \textbf{sum-of-squares error function (SSE)}.
 
-    \begin{frameddefn}{Sum-of-squares error function}
+    \begin{frameddefn}{Sum-of-squares error (SSE) function}
         Given a linearly separable classification problem $f : \R^d \to Y$ and a dataset $D =  \{(x_i, t_i) \mid i \in [N]\}$, the \textbf{sum-of-squares error function} is defined as:
         \[E(\widetilde{W}) = \frac{1}{2} \tr \rbk{(\widetilde{X}\widetilde{W} - T)^T(\widetilde{X}\widetilde{W} - T)}\]
     \end{frameddefn}
@@ -1542,48 +1569,47 @@
 
     \subsection{Perceptron}
 
-    Consider a linear classification problem $f : \R^d \to \{-1, +1\}$. A \textbf{perceptron} is a binary classifier that assigns one of two classes to a real-valued input vector. Let $w = \smat{w_0 & w_1 & \cdots & w_d}^T$ be a weight vector and let $x \in \R^{d+1}$ where $x_0 = 1$ -- from now on we'll drop the $\widetilde{w}, \widetilde{x}$ notation. A perceptron is a function $o(x)$ that can be defined in two ways: \textbf{tresholded} or \textbf{untresholded}. In the untresholded case, we have that $o(x) =  w^T{x}$, while in the tresholded case we have that $o(x) = \mathrm{sign}( w^T{x})$, where:
-    The perceptron $o(x)$ given by $ w$ is defined as:
-    \[\mathrm{sign}( w^T{x}) = \soe{ll}{
-        +1 & \text{if } w_0 + w_1x_1 + \ldots + w_dx_d > 0 \\
+    A \textbf{perceptron} is a simple linear binary classifier that assigns one of two classes to a real-valued input vector. In future sections, we'll see that the perceptron is actually the basis of modern neural networks. For now, we'll just focus on binary classification.
+    
+    Consider a linear binary classification problem $f : \R^d \to \{-1, +1\}$.  Let $w = \smat{w_0 & w_1 & \cdots & w_d}^T$ be a weight vector and let $x \in \R^{d+1}$ where $x_0 = 1$ -- from now on we'll drop the $\widetilde{w}, \widetilde{x}$ notation. The perceptron for $w$ is just the approximation function $o(x) : \R^d \to \{-1,+1\}$ defined as:
+    \[o(x) = \mathrm{sign}(w^Tx) = \soe{ll}{
+        +1 & \text{if } w_0 + w_1x_1 + \ldots w_dx_d \geq 0 \\
         -1 & \text{otherwise}
     }\]
-
+    
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=1.2]{images/perceptron.eps} %
-        \caption{A tresholded perceptron}
+        \includegraphics[scale=0.9]{images/perceptron.eps} %
+        \caption{Graphical representation of a perceptron.}
     \end{figure}
-    
-    In both cases, to learn $w$ from a dataset $D = \{(x_i, t_i) \mid i \in [N]\}$, we want to minimize the squared error (\textit{loss function}):
-    \[E(w) = \frac{1}{2} \sum_{i = 1}^N (t_i - o(x_i))^2 \]
 
-    Since we're working with real values, the minimization problem can be solved through derivatives and an iterative approach. This is called the \textbf{perceptron training rule}.
-    \begin{enumerate}
-        \item First, compute the derivative of  a variant\footnote{
-            since the sign function is not differentiable, we consider a variant of the error function without the filtering term.
-        } of $E(w)$ with respect to each component $w_j$ of $ w$
-        \[\frac{\partial  E}{\partial  w_j} = \sum_{i = 1}^N (t_i - w^Tx_i)(-x_{j,i})\]
-    
-        \item Update each component $w_j$ by setting $ w_j := w_j + \Delta w_j$, where:
-        \[\Delta w_j = - \eta \frac{\partial  E}{\partial  w_j} = \eta \sum_{i = 1}^N (t_i - w^Tx_i)x_{j,i}\]
-        with $\eta$ being a small constant called \textit{learning rate}
+    We observe that this is nothing different from what we have already discussed for a generic linear binary classification: $w^Tx \geq 0$ we assign $x$ to class $+1$, otherwise we assign $x$ to class $-1$. We're just simplifying things by associating the two classes with the sign of the dot product. Therefore, we can just focus on the training rule of this model.
 
-        \item Repeat until a certain improvement treshold is reached (or after a fixed number of iterations)
-    \end{enumerate}
-    
-    The choice of $\eta$ is \underline{critical}: if $\eta$ is small then each iteration will only slightly move the previous linear discriminant, while if $\eta$ is large each iteration may significantly move the discriminant.
-    
+    Let $D = \{(x_i, t_i) \mid i \in [N]\}$ be our dataset. Consider the \underline{untresholded} variant of the perceptron model, i.e. the linear combination $w^Tx$ without the sign function applied to it. To derive a training rule for $o(x)$, we'll first derive a training rule for $w^Tx$ and then convert it into a training rule for the thresholded function. As done in the previous section, we want to minimize the SSE function (this time expressed in standard form instead of a matrix-trace form).
+    \[E(w) = \frac{1}{2} \sum_{i = 1}^N (t_i - w^Tx)^2 \]
 
-    Moreover, when $\eta$ is small, the final solution will either be very close to the samples of the first class or very close to the samples of the second class. In other words, the solution \underline{cannot lie in the middle} of the two sample groups. It can be proven that this procedure will converge if the training data is linearly separable and $\eta$ is sufficiently small. However, convergence doesn't imply termination, hence the terminating condition.
+    Since we're working with real values, the minimization problem can be solved iteratively through \textbf{gradient descent}, i.e. the idea of iteratively moving towards the local minimum value. With some algebraic manipulation, we can find out that the partial derivative of each component of $E(w)$ is given by:
+    \[\frac{\partial E}{\partial w_j} = \sum_{i = 1}^N (t_i - w^Tx_i)(-x_{j,i})\] 
 
-    After learning the optimal $ w$, the predicted class of a new instance $x \in \R^d-\R^d_D$ is -- in both tresholded and untresholded perceptrons -- given by $\mathrm{sign}({w}^T{x})$.
+    Consider some $\eta > 0$. Let $\Delta w_j = -\eta \frac{\partial E}{\partial w_j}$. The \underline{untresholded} perceptron training rule is simply given by iteratively applying the following instruction:
+    \[w_j \gets w_j + \Delta w_j = w_j + \eta \sum_{i = 1}^N (t_i - w^Tx_i)x_{j,i}\]
+    for a fixed number of iterations or until the value of $w_j$ doesn't change too much (say, until it doesn't change by a value below some $\varepsilon > 0$).
+
+    Since this is nothing more than a standard gradient descent approach, this process is guaranteed to eventually reach a local minimum for the function $E(w)$.
+
+    To get the \textbf{perceptron training rule}, we substitute the value of $w^Tx_i$ inside the untresholded training rule with the value of $\mathrm{sign}(w^Tx_i)$. 
+    \[w_j \gets w_j + \Delta w_j = w_j + \eta \sum_{i = 1}^N (t_i - \mathrm{sign}(w^Tx_i))x_{j,i}\]
+
+    We observe that what we obtain \underline{is not} a valid gradient descent procedure, but just thresholded version of the real gradient descent. In fact, it is impossible to get a gradient descent when using the thresholded perceptron due to the sign function being \textit{undifferentiable}. Nonetheless, this little modification suffices to achieve good enough results.
     
+    Let's now focus of the value $\eta$. Notice that the choice of $\eta$ is \underline{critical}: if $\eta$ is small then each iteration will only slightly move the previous linear discriminant, while if $\eta$ is large each iteration may significantly move the discriminant. For this reason, the value $\nu$ is referred to as the \textbf{learning rate} of the model and it is considered an \textbf{hyperparameter}, i.e. a parameter chosen by the user that dictates how the learning process is achieved.
+
+    It can be proven that the above procedure will always converge if the training data is linearly separable and if $\eta$ is sufficiently small. However, \underline{convergence doesn't imply termination}, hence the necessity of the terminating condition. Moreover, when $\eta$ is small, the final solution will either be very close to the samples of the first class or very close to the samples of the second class. In other words, the solution \textbf{cannot lie in the middle} of the two sample groups.  
 
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.9]{images/perceptron_2.png}
-        \caption{Two iterations of the perceptron training rule with a small $\eta$ value. The vector $w$ is represented by the black arrow, while the vector $\delta w$ is represented by the red arrow. The green-circled samples circled are misclassified, hence their feature vector is considered for the next iteration.}
+        \includegraphics[scale=0.8]{images/perceptron_2.png}
+        \caption{Two iterations of the perceptron training rule with a small $\eta$ value. The vector $w$ is represented by the black arrow, while the vector $\Delta w$ is represented by the red arrow. Red samples that lie on the half-plane marked by the direction of the black arrow are correctly classified, while the green-circled samples are misclassified.}
     \end{figure}
 
     \newpage
@@ -1672,7 +1698,7 @@
 
     \subsection{Support Vector Machines}
 
-    After discussing how Fisher's discriminant is (on average) better than perceptrons due to how the generated discriminant has a good margin of error from both sample groups, hence lower probability of misclassifying samples, we can build a new model based on this idea. \textbf{Support Vector Machines (SVM)} aims at maximizing such margin, providing better accuracy.
+    After discussing how Fisher's discriminant is (on average) better than perceptrons due to how the generated discriminant has a good margin of error from both sample groups, hence lower probability of misclassifying samples, we can build a new model based on this idea. \textbf{Support Vector Machines (SVM)} aim at maximizing such margin, providing better accuracy.
 
     \begin{figure}[H]
         \centering
@@ -1680,8 +1706,7 @@
         \caption{General idea behind SVMs}
     \end{figure}
 
-    Consider a binary classification problem $f : \R^d \to \{+1, -1\}$ and a linearly separable dataset $D = \{(x_i,t_i) \mid i \in [N]\}$ where $t_i \in \{+1, -1\}$. Then, there is a function $y(x) = w^Tx + w_0$ such that forall $i \in [N]$ it holds that $y(x_i) > 0$ if $t_i = +1$ and $y(x_i) < 0$ if $t_i = -1$, implying that:
-    \[\forall i \in [N] \;\; t_i y(x_i) > 0\]
+    Consider a binary classification problem $f : \R^d \to \{+1, -1\}$ and a linearly separable dataset $D = \{(x_i,t_i) \mid i \in [N]\}$ where $t_i \in \{+1, -1\}$. Then, there is a function $y(x) = w^Tx + w_0$ such that forall $i \in [N]$ it holds that $y(x_i) > 0$ if $t_i = +1$ and $y(x_i) < 0$ if $t_i = -1$, implying that $\abs{y(x_i)} = t_i y(x_i)$ for all $i \in [N]$.
 
     Let $x_k$ be the point of $D$ closest to the affine hyperplane $h :  w^Tx + w_0 = 0$. Then, the margin is the smallest distance from $x_k$ and $h$, which is equal to $\frac{\abs{y(x_k)}}{\norm{w}}$. Using the fact that $\abs{y(x_i)} = t_i y(x_i)$, we can compute the margin by minimizing such distance:
     \[\min_{i \in [N]} \frac{\abs{y(x_i)}}{\norm{w}} = \frac{1}{\norm{w}} \min_{i \in [N]} t_i(w^Tx + w_0)\]
@@ -1691,12 +1716,18 @@
     
     After the maximum margin hyperplane $h^* : w^{*^T}x+w_0^*$ is found, there will be at least two closest points $x_k^{\oplus}$ and $x_k^{\ominus}$, one for each class.
 
-    We also notice that, since this doesn't affect the solution, we can also rescale all the points in such a way that the closest have unitary length. Hence, we consider the canonical representation where $t_i(w^Tx + w_0) \geq 1$ for all $i \in [N]$. In this setup, the optimal solution is given by:
+    We also notice that, since this doesn't affect the solution, we can also rescale all the points in such a way that the closest have unitary length, i.e. $\abs{y(x_i)} = 1$. Hence, we consider the canonical representation where $t_i(w^Tx + w_0) \geq 1$ for all $i \in [N]$. In this setup, the optimal solution is given by:
     \[w^*, w_0^* \in \argmax_{w, w_0} \frac{1}{\norm{w}} \min_{i \in [N]} t_i(w^Tx + w_0) = \argmax_{w, w_0} \frac{1}{\norm{w}} = \argmin_{w, w_0} \frac{1}{2} \norm{w}^2\]
-    subject to $t_i(w^Tx + w_0) \geq 1$ for all $i \in [N]$. Hence, we get a quadratic programming optimization problem, which can be solved through the Lagrangian method. For our interest, we won't dive into how this problem is solved, considering directly its solution:
+
+    In other words, the problem is now equivalent to the following:
+    \[w^*, w_0^* \in \argmin_{w, w_0} \frac{1}{2} \norm{w}^2\]
+    subject to:
+    \[t_i y(x_i) \geq 1 \qquad \forall i \in [N]\]
+    
+    This is a quadratic programming optimization problem, which can be solved through the Lagrangian method. For our interest, we won't dive into how this problem is solved. We care only about the fact that the solution is given by:
     \[w^* = \sum_{i = 1}^{N} a_i^* t_i x_i\]
 
-    where each $a_i^*$ is a Lagrangian multiplier, a byproduct of the following Lagrangian optimization problem:
+    where each $a_i^*$ is a \textit{Lagrangian multiplier}, a byproduct of the following Lagrangian optimization problem:
     \[{L}(a) = \sum_{i = 1}^N a_i - \frac{1}{2} \sum_{i = 1}^N \sum_{j = 1}^N a_i a_j t_i t_j x_i^T x_j\]
     subject to:
     \[a_i \geq 0\qquad \forall i \in [N]\]
@@ -1809,7 +1840,7 @@
 
     where:
     \[{t} = \smat{t_1 \\ \vdots \\ t_N} \qquad\qquad \Phi = \smat{\phi(x_1)_0 & \phi(x_1)_1 & \cdots & \phi(x_1)_M \\
-    \phi(x_2)_0 & \phi(x_1)_1 & \cdots & \phi(x_1)_M \\
+    \phi(x_2)_0 & \phi(x_2)_1 & \cdots & \phi(x_2)_M \\
     \vdots & \vdots & \ddots & \vdots \\
     \phi(x_N)_0 & \phi(x_N)_1 & \cdots & \phi(x_N)_M \\}\]
     
@@ -1919,13 +1950,13 @@
     k(x_1,x_n) & \cdots & k(x_N,x_N)}\]
 
     The kernel trick comes in handy mostly in Support Vector Machines (SVM). We saw how in this model the optimal solution has the form:
-    \[{w^*} = \sum_{i = 1}^N \alpha_i x_i\]
+    \[{w^*} = \sum_{i = 1}^N \alpha_i t_i x_i\]
     
     The linear discriminant can thus be expressed as:
-    \[y({x}; \alpha) = \mathrm{sign}\rbk{w_0 + \sum_{i = 1}^N \alpha_i x_i^T x}\]
+    \[y({x}; \alpha) = \mathrm{sign}\rbk{w_0 + \sum_{i = 1}^N \alpha_i t_i x_i^T x}\]
 
     Applying the kernel trick we get that:
-    \[y({x}; \alpha) = \mathrm{sign}\rbk{w_0 + \sum_{i = 1}^N \alpha_i k(x_i,x)}\]
+    \[y({x}; \alpha) = \mathrm{sign}\rbk{w_0 + \sum_{i = 1}^N \alpha_i t_i k(x_i,x)}\]
 
     with:
     \[w_0^* = \frac{1}{\abs{SV}} \sum_{x_k \in SV} \rbk{t_k - \sum_{x_i \in SV} a_i^* t_i k(x_k, x_i)}\]
@@ -2014,7 +2045,7 @@
     \end{figure}
 
     A commonly used distance function is $\mathrm{dist}(x,x') = \norm{x-x'}^2$. In fact, this distance function can be easily kernelized with a kernel function $k$:
-    \[\norm{x-x'}^2 = x^T x + {x'}^Tx' - 2x^Tx' = k(x,x) + k(x',x') - 2 k(x,x')\]
+    \[\norm{x-x'}^2 = x^T x + {x'}^Tx' - 2x^Tx' \to k(x,x) + k(x',x') - 2 k(x,x')\]
 
     The K-NN algorithm can also be used to compute a \textbf{locally weighted regression}, a regression model formulated on the $K$-nearest neighbors of a query sample. The union of more locally weighted regressions can be used to estimate a rough regression model for the feature space.
 
@@ -2143,6 +2174,23 @@
     we get that:
     \[Y_M(x) = \mathrm{sign}\rbk{\sum_{j = 1}^M \alpha_j y_j(x)}\]
     proving that AdaBoost minimizes such error function. The AdaBoost algorithm is very fast, simple and easy to program. Moreover, no prior knowledge about the base learners is required and no parameters have to be tuned (except for the number $M$ of learners), yielding theoretical guarantees given sufficient data and base learners with moderate accuracy. However, the performance strictly depends on data (noise sensitive) and which base learners are used (it can fail with insufficient data or when base learners are too weak).
+
+    A way to evaluate the complexity of an ensamble model is the \textbf{Bias-Variance Decomposition}. Let $y(x)$ be some observations over the learning problem, i.e. $y(x) = f(x) + \varepsilon$ for some small $\varepsilon \in \R$. Let $\widehat{f}(x; D)$ be the prediction of the model when trained on dataset $D$. Let also $S = \{(x_i, y_i)_{i}\}$ be the training set used. Recall that the MSE of the model is defined by:
+    \[\mathrm{MSE} = \Exp_{(x_i, y_i) \in S}[(y_i - \widehat{f}(x_i; D))^2]\]
+    
+    This formula can be decomposed into three main components: \textit{bias}, \textit{variance} and \textit{noise}:
+    \[\mathrm{MSE} = \mathrm{Bias}^2 + \mathrm{Variance} + \mathrm{Noise}\]
+
+    where:
+    \begin{itemize}
+        \item $\mathrm{Bias} = \Exp_{(x_i, y_i) \in S}[\widehat{f}(x_i; D)] - f(x)$
+        \item $\mathrm{Variance} = \Exp_{(x_i, y_i) \in S}[\widehat{f}(x_i; D) - \Exp_{(x_i, y_i) \in S}[(\widehat{f}(x_i; D)])^2] =$
+        \item $\mathrm{Noise} = \Exp_{(x_i, y_i) \in S}[(y-f(x))^2]$
+    \end{itemize}
+
+    If the model has \textbf{high bias}, it must be that the model is making a lot of errors even on training data, i.e. it is underfitting the problem. If it has \textbf{high variance}, instead, the model may be highly able to perfectly adapt to the dataset, i.e. it will likely overfit the problem. If it has \textbf{high noise}, instead, the problem is too hard to approximate for the model.
+    
+    In other words, if a model has low complexity then it will have high bias due to it being too simplistic, while the variance will be huge if a model has high complexity. In general, it is impossible to minimize both bias and variance, requiring a \textit{tradeoff}. In ensemble methods, \textit{bagging} reduces variance, while \textit{boosting} reduce bias.
 
     \chapter{Artificial Neural Networks}
 
@@ -2426,7 +2474,7 @@
         \frac{\partial J(\theta)}{\partial \alpha_1^(1)} \cdot 1 \\ \frac{\partial J(\theta)}{\partial \alpha_2^(1)} \cdot 1
     } = (y-t) (W^{(2)})^T \odot \mathrm{step}(\alpha^{(1)})\]
 
-    \[\nabla_{W^{1}} J(\theta) = \smat{
+    \[\nabla_{W^(1)} J(\theta) = \smat{
         \frac{\partial J(\theta)}{\partial \alpha_1^(1)} \frac{\partial \alpha_1^{(1)}}{\partial w_{1,2}^{(1)}} & \frac{\partial J(\theta)}{\partial \alpha_1^(1)} \frac{\partial \alpha_2^{(1)}}{\partial w_{2,2}^{(1)}} \\
         \frac{\partial J(\theta)}{\partial \alpha_1^(1)} \frac{\partial \alpha_1^{(1)}}{\partial w_{1,2}^{(1)}} & \frac{\partial J(\theta)}{\partial \alpha_2^(1)} \frac{\partial \alpha_2^{(1)}}{\partial w_{2,2}^{(1)}} 
     } = \smat{
@@ -2469,7 +2517,7 @@
         Given a dataset $D$, a learning rate $\eta \geq 0$, a momentum $\mu \in [0,1)$ and the initial parameters $\theta^{(1)}$, the algorithm computes the gradient descent using the backpropagation and random sampling.
 
         \begin{algorithmic}
-            \Function{SDG\_Momentum}{$\eta, \theta^{(1)}$}
+            \Function{SDG\_Momentum}{$\eta, \mu, \theta^{(1)}$}
                 \State{$k = 1$}
                 \State{$v^{(1)} = 0$}
                 \Comment{$v$ acts as \curlyquotes{velocity}}

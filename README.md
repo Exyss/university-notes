@@ -109,14 +109,14 @@ Disclaimers ⚠️
 | [Cryptography](../../raw/main/Master/Cryptography/Cryptography.pdf) | Completed | 05/03/2026 |
 | [Graph Theory](../../raw/main/Master/Graph%20Theory/Graph%20Theory.pdf) | Completed | 16/10/2025 |
 | [Mathematical Logic for Computer Science](../../raw/main/Master/Mathematical%20Logic%20for%20Computer%20Science/Mathematical%20Logic%20for%20Computer%20Science.pdf) <br/> (now called Logic and Reasoning) | Completed | 25/06/2025 |
-| Models of Computation [ !! ] | - | - |
 | [Quantum Computing](https://raw.githubusercontent.com/aflaag-notes/quantum-computing/main/src/QuantumComputing.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 | [Network Algorithms](https://raw.githubusercontent.com/aflaag-notes/network-algs/main/src/Network%20Algorithms.pdf) | Written by [@aflaag](https://github.com/aflaag) | - |
 | [Autonomous Networking](https://raw.githubusercontent.com/loresaba/scritti-di-informatica/refs/heads/master/master/first%20year/autonomous_networking/autonomous_netwoking.pdf) | Written by [@loresaba](https://github.com/loresaba) | - |
 | [Computer Network Performance](../../raw/main/Master/Computer%20Network%20Performance/Computer%20Network%20Performance.pdf) | Completed | 05/12/2025 |
-| Internet of Things | - | - |
-| Distributed Systems [ !! ] | - | - |
 | [Machine Learning](../../raw/main/Master/Machine%20Learning/Machine%20Learning.pdf) | Completed | 10/03/2025 |
+| Models of Computation [ !! ] | - | - |
+| Internet of Things [ !! ]| - | - |
+| Distributed Systems [ !! ] | - | - |
 </details>
 </div>
 
